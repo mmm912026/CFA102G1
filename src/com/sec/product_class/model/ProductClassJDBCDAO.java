@@ -153,6 +153,13 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -198,6 +205,13 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -239,7 +253,7 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 
 //		//測試FIND_BY_PK(OK).........................................
 //		ProductClassJDBCDAO dao = new ProductClassJDBCDAO();
-//		ProductClassVO pclass = dao.findByPK(8);
+//		ProductClassVO pclass = dao.findByPK(6);
 //		System.out.println(pclass.getSpc_no() + ",");
 //		System.out.println(pclass.getSpc_name());
 
