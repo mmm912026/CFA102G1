@@ -15,7 +15,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"insert into MEMBER values (?,?,?,?,?,?,?,?,?,?)";
+			"INSERT INTO MEMBER (MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA)VALUES(NULL,?,?,?,?,?,?,?,?,?)";    
 	private static final String UPDATE_SQL = 
 			"UPDATE MEMBER SET  MEM_NAME = ?, MEM_GENDER = ?, MEM_PHONE = ?, MEM_EMAIL = ?, MEM_ADDRESS = ?, MEM_ACCOUNT = ?, MEM_PASSWORD = ?, MEM_BIRTH = ?,MEM_STA = ? WHERE MEM_NO = ?";
 	private static final String DELETE_SQL = 
@@ -47,16 +47,15 @@ public class MemberJDBCDAO implements I_MemberDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_SQL);
 			
-			pstmt.setInt(1, member.getMEM_NO());
-			pstmt.setString(2,member.getMEM_NAME());
-			pstmt.setString(3, member.getMEM_GENDER());
-			pstmt.setInt(4, member.getMEM_PHONE());
-			pstmt.setString(5, member.getMEM_EMAIL());
-			pstmt.setString(6, member.getMEM_ADDRESS());
-			pstmt.setString(7, member.getMEM_ACCOUNT());
-			pstmt.setString(8, member.getMEM_PASSWORD());
-			pstmt.setString(9, member.getMEM_BIRTH());
-			pstmt.setString(10, member.getMEM_STA());
+			pstmt.setString(1,member.getMEM_NAME());
+			pstmt.setString(2, member.getMEM_GENDER());
+			pstmt.setInt(3, member.getMEM_PHONE());
+			pstmt.setString(4, member.getMEM_EMAIL());
+			pstmt.setString(5, member.getMEM_ADDRESS());
+			pstmt.setString(6, member.getMEM_ACCOUNT());
+			pstmt.setString(7, member.getMEM_PASSWORD());
+			pstmt.setString(8, member.getMEM_BIRTH());
+			pstmt.setString(9, member.getMEM_STA());
 			
 			pstmt.executeUpdate();
 			
@@ -404,15 +403,14 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		//新增會員資料
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		MemberVO member = new MemberVO();
-//		member.setMEM_NO(4);
-//		member.setMEM_NAME("haruto");
-//		member.setMEM_GENDER("男");
-//		member.setMEM_PHONE(964821355);
-//		member.setMEM_EMAIL("hisdf1122@gmail.com");
-//		member.setMEM_ADDRESS("桃園市新屋區中山東路一段77號");
-//		member.setMEM_ACCOUNT("ttyy5566");
-//		member.setMEM_PASSWORD("rrtfs33665");
-//		member.setMEM_BIRTH("1999.02.29");
+//		member.setMEM_NAME("kano");
+//		member.setMEM_GENDER("女");
+//		member.setMEM_PHONE(933669205);
+//		member.setMEM_EMAIL("hi99051sdf1122@gmail.com");
+//		member.setMEM_ADDRESS("桃園市中壢區民權路一段77號");
+//		member.setMEM_ACCOUNT("tt99662yy5566");
+//		member.setMEM_PASSWORD("rasdfe665");
+//		member.setMEM_BIRTH("1999.02.02");
 //		member.setMEM_STA("正常");
 //		dao.insert(member);
 //		
