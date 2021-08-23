@@ -15,19 +15,19 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"INSERT INTO MEMBER (MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA)VALUES(NULL,?,?,?,?,?,?,?,?,?)";    
+			"INSERT INTO CFA102G1.MEMBER (MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA)VALUES(?,?,?,?,?,?,?,?,?)";    
 	private static final String UPDATE_SQL = 
-			"UPDATE MEMBER SET  MEM_NAME = ?, MEM_GENDER = ?, MEM_PHONE = ?, MEM_EMAIL = ?, MEM_ADDRESS = ?, MEM_ACCOUNT = ?, MEM_PASSWORD = ?, MEM_BIRTH = ?,MEM_STA = ? WHERE MEM_NO = ?";
+			"UPDATE CFA102G1.MEMBER SET  MEM_NAME = ?, MEM_GENDER = ?, MEM_PHONE = ?, MEM_EMAIL = ?, MEM_ADDRESS = ?, MEM_ACCOUNT = ?, MEM_PASSWORD = ?, MEM_BIRTH = ?,MEM_STA = ? WHERE MEM_NO = ?";
 	private static final String DELETE_SQL = 
-			"DELETE FROM MEMBER where MEM_NO = ?";
+			"DELETE FROM CFA102G1.MEMBER where MEM_NO = ?";
 	private static final String FIND_BY_MEM_NO_SQL = 
-			"SELECT * FROM MEMBER WHERE MEM_NO = ?";
+			"SELECT * FROM CFA102G1.MEMBER WHERE MEM_NO = ?";
 	private static final String FIND_BY_MEM_NAME_SQL =
-			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM MEMBER WHERE UPPER(MEM_NAME) LIKE UPPER(?)";
+			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM CFA102G1.MEMBER WHERE UPPER(MEM_NAME) LIKE UPPER(?)";
 	private static final String FIND_BY_MEM_PHONE_SQL =
-			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM MEMBER WHERE UPPER(MEM_PHONE) LIKE UPPER(?)";
+			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM CFA102G1.MEMBER WHERE UPPER(MEM_PHONE) LIKE UPPER(?)";
 	private static final String GET_ALL =
-			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM MEMBER";
+			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM CFA102G1.MEMBER";
 	
 	static {
 		try {
@@ -125,7 +125,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public void delete(int MEM_NO) {
+	public void delete(Integer MEM_NO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -159,7 +159,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public MemberVO findByMem_no(int MEM_NO) {
+	public MemberVO findByMem_no(Integer MEM_NO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -279,7 +279,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public List<MemberVO> findByMem_phone(int MEM_PHONE) {
+	public List<MemberVO> findByMem_phone(Integer MEM_PHONE) {
 		List<MemberVO> list = new ArrayList<MemberVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -404,7 +404,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		MemberVO member = new MemberVO();
 //		member.setMEM_NAME("kano");
-//		member.setMEM_GENDER("女");
+//		member.setMEM_GENDER("男");
 //		member.setMEM_PHONE(933669205);
 //		member.setMEM_EMAIL("hi99051sdf1122@gmail.com");
 //		member.setMEM_ADDRESS("桃園市中壢區民權路一段77號");
