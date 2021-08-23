@@ -16,7 +16,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"insert into STAFF values (?,?,?,?,?,?,?,?,?)";
+			"INSERT INTO STAFF (STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA)VALUES(NULL,?,?,?,?,?,?,?,?)"; 
 	private static final String UPDATE_SQL = 
 			"UPDATE STAFF SET  STAFF_NAME = ?, STAFF_GENDER = ?, STAFF_PHONE = ?, STAFF_EMAIL = ?, STAFF_ADDRESS = ?, STAFF_ACCOUNT = ?, STAFF_PASSWORD = ?,STAFF_STA = ? WHERE STAFF_NO = ?";
 	private static final String DELETE_SQL = 
@@ -48,15 +48,14 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_SQL);
 			
-			pstmt.setInt(1, staff.getSTAFF_NO());
-			pstmt.setString(2,staff.getSTAFF_NAME());
-			pstmt.setString(3, staff.getSTAFF_GENDER());
-			pstmt.setInt(4, staff.getSTAFF_PHONE());
-			pstmt.setString(5, staff.getSTAFF_EMAIL());
-			pstmt.setString(6, staff.getSTAFF_ADDRESS());
-			pstmt.setString(7, staff.getSTAFF_ACCOUNT());
-			pstmt.setString(8, staff.getSTAFF_PASSWORD());
-			pstmt.setString(9, staff.getSTAFF_STA());
+			pstmt.setString(1,staff.getSTAFF_NAME());
+			pstmt.setString(2, staff.getSTAFF_GENDER());
+			pstmt.setInt(3, staff.getSTAFF_PHONE());
+			pstmt.setString(4, staff.getSTAFF_EMAIL());
+			pstmt.setString(5, staff.getSTAFF_ADDRESS());
+			pstmt.setString(6, staff.getSTAFF_ACCOUNT());
+			pstmt.setString(7, staff.getSTAFF_PASSWORD());
+			pstmt.setString(8, staff.getSTAFF_STA());
 			
 			pstmt.executeUpdate();
 			
@@ -396,18 +395,18 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			//新增員工資料
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO staff = new StaffVO();
-//			staff.setSTAFF_NO(7003);
-//			staff.setSTAFF_NAME("ono");
+//
+//			staff.setSTAFF_NAME("TOYA");
 //			staff.setSTAFF_GENDER("男");
-//			staff.setSTAFF_PHONE(955512255);
-//			staff.setSTAFF_EMAIL("hi234122@gmail.com");
-//			staff.setSTAFF_ADDRESS("桃園市新屋區中山東路2段7號");
-//			staff.setSTAFF_ACCOUNT("t00116");
-//			staff.setSTAFF_PASSWORD("r997455");
+//			staff.setSTAFF_PHONE(959991255);
+//			staff.setSTAFF_EMAIL("dasfe22@gmail.com");
+//			staff.setSTAFF_ADDRESS("桃園市中壢區央中路2段110號");
+//			staff.setSTAFF_ACCOUNT("sadf6");
+//			staff.setSTAFF_PASSWORD("vbdfge55");
 //			staff.setSTAFF_STA("正常");
 //			dao.insert(staff);
 //			
-			
+//			
 			//System.out.println("---------------------------------------------------");
 			//用員工編號查詢
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
