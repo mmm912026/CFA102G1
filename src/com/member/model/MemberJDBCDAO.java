@@ -398,10 +398,11 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		
 		return list;
 	}
-   //測試開始
+//測試開始
 	public static void main(String[] args) {
-		MemberJDBCDAO dao = new MemberJDBCDAO();
+		
 		//新增會員資料
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		MemberVO member = new MemberVO();
 //		member.setMEM_NO(4);
 //		member.setMEM_NAME("haruto");
@@ -418,22 +419,23 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		
 		//System.out.println("---------------------------------------------------");
 		//用會員編號查詢
-		
-		MemberVO list1 = dao.findByMem_no(3);
-		System.out.print(list1.getMEM_NO()+"\t");
-		System.out.print(list1.getMEM_NAME()+"\t");
-		System.out.print(list1.getMEM_GENDER()+"\t");
-		System.out.print(list1.getMEM_PHONE()+"\t");
-		System.out.print(list1.getMEM_EMAIL()+"\t");
-		System.out.print(list1.getMEM_ADDRESS()+"\t");
-		System.out.print(list1.getMEM_ACCOUNT()+"\t");
-		System.out.print(list1.getMEM_PASSWORD()+"\t");
-		System.out.print(list1.getMEM_BIRTH()+"\t");
-		System.out.print(list1.getMEM_STA()+"\t");
-		System.out.println();
-	
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
+//		MemberVO list1 = dao.findByMem_no(3);
+//		    System.out.print(list1.getMEM_NO()+"\t");
+//		    System.out.print(list1.getMEM_NAME()+"\t");
+//		    System.out.print(list1.getMEM_GENDER()+"\t");
+//		    System.out.print(list1.getMEM_PHONE()+"\t");
+//		    System.out.print(list1.getMEM_EMAIL()+"\t");
+//		    System.out.print(list1.getMEM_ADDRESS()+"\t");
+//		    System.out.print(list1.getMEM_ACCOUNT()+"\t");
+//		    System.out.print(list1.getMEM_PASSWORD()+"\t");
+//		  	System.out.print(list1.getMEM_BIRTH()+"\t");
+//		  	System.out.print(list1.getMEM_STA()+"\t");
+//		  	System.out.println();
+//	
 		//System.out.println("---------------------------------------------------");
 		//用名字查詢
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> nameList = dao.findByMem_name("Akito");
 //		for (MemberVO memberVOName : nameList) {
 //			
@@ -451,27 +453,27 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //		}
 		//System.out.println("---------------------------------------------------");
 		//搜尋全部
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> list = dao.getAll();
-//		for (MemberVO memberVO : list ) {
-//			
-//		System.out.print(memberVO.getMEM_NO()+"\t");
-//		System.out.print(memberVO.getMEM_NAME()+"\t");
-//		System.out.print(memberVO.getMEM_GENDER()+"\t");
-//		System.out.print(memberVO.getMEM_PHONE()+"\t");
-//		System.out.print(memberVO.getMEM_EMAIL()+"\t");
-//		System.out.print(memberVO.getMEM_ADDRESS()+"\t");
-//		System.out.print(memberVO.getMEM_ACCOUNT()+"\t");
-//		System.out.print(memberVO.getMEM_PASSWORD()+"\t");
-//		System.out.print(memberVO.getMEM_BIRTH()+"\t");
-//		System.out.print(memberVO.getMEM_STA()+"\t");
-//		System.out.println();
+//		for (MemberVO memberVO : list ) {			
+//		    System.out.print(memberVO.getMEM_NO()+"\t");
+//	     	System.out.print(memberVO.getMEM_NAME()+"\t");
+//		    System.out.print(memberVO.getMEM_GENDER()+"\t");
+//		    System.out.print(memberVO.getMEM_PHONE()+"\t");
+//		    System.out.print(memberVO.getMEM_EMAIL()+"\t");
+//		    System.out.print(memberVO.getMEM_ADDRESS()+"\t");
+//		    System.out.print(memberVO.getMEM_ACCOUNT()+"\t");
+//		    System.out.print(memberVO.getMEM_PASSWORD()+"\t");
+//		    System.out.print(memberVO.getMEM_BIRTH()+"\t");
+//		    System.out.print(memberVO.getMEM_STA()+"\t");
+//		    System.out.println();
 //		}
 //		System.out.println("-------------------------------------------");
 		
 		//用手機號麻搜尋
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> list = dao.findByMem_phone(988648216);
 //		for (MemberVO memberphone : list) {
-//			
 //			System.out.print(memberphone.getMEM_NO()+"\t");
 //			System.out.print(memberphone.getMEM_NAME()+"\t");
 //			System.out.print(memberphone.getMEM_GENDER()+"\t");
@@ -505,8 +507,8 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //	}
 	//System.out.println("---------------------------------------------------");
 //		dao.delete(4);
-//		System.out.println("已刪除");
-//		System.out.println("-------------------------------------------");
+//		   System.out.println("已刪除");
+//		   System.out.println("-------------------------------------------");
 //	
 //	
 	}
