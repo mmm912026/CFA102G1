@@ -168,8 +168,9 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 	}
 	//測試開始
 	public static void main(String[] args) {
-		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
+		
 		//新增功能
+//		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
 //		Staff_AuthorityVO staff_authouity = new Staff_AuthorityVO();
 //		staff_authouity.setSTAFF_NO(997765);
 //		staff_authouity.setAUTHORITY_NO(953421);
@@ -178,22 +179,25 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 ////		
 		//System.out.println("---------------------------------------------------");
 		//用功能編號查詢
+//		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
 //		Staff_AuthorityVO list1 = dao.findByStaff_no(997765);
-//		System.out.print(list1.getSTAFF_NO()+"\t");
-//		System.out.print(list1.getAUTHORITY_NO()+"\t"); 
+//		   System.out.print(list1.getSTAFF_NO()+"\t");
+//		   System.out.print(list1.getAUTHORITY_NO()+"\t"); 
 //	
 //	    System.out.println();
 		
 		//System.out.println("---------------------------------------------------");
 		//搜尋全部
-		List<Staff_AuthorityVO> list = dao.getAll();
-		for (Staff_AuthorityVO authouityVO : list ) {
-			
-		System.out.print(authouityVO.getSTAFF_NO()+"\t");
-		System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
-	
-		System.out.println();
-		}
+//		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
+//		List<Staff_AuthorityVO> list = dao.getAll();
+//		for (Staff_AuthorityVO authouityVO : list ) {
+//			
+//		   System.out.print(authouityVO.getSTAFF_NO()+"\t");
+//		   System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
+//	
+//		   System.out.println();
+		
+//		}
 //		System.out.println("-------------------------------------------");
 		
    }
