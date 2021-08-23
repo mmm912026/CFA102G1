@@ -249,11 +249,12 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	}
 	//測試開始
 			public static void main(String[] args) {
-				AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
+				
 				//新增功能
-//				AuthorityVO authouity = new AuthorityVO();
-//				authouity.setAUTHORITY_NO(997765);
-//				authouity.setAUTHORITY_NAME("封鎖");
+//			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
+//			AuthorityVO authouity = new AuthorityVO();
+//			authouity.setAUTHORITY_NO(997765);
+//			authouity.setAUTHORITY_NAME("封鎖");
 //
 //				dao.insert(authouity);
 //				
@@ -262,19 +263,21 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 //	}
 			//System.out.println("---------------------------------------------------");
 			//用功能編號查詢
-//				AuthorityVO list1 = dao.findByAuthority_no(998874);
-//			System.out.print(list1.getAUTHORITY_NO()+"\t");
-//			System.out.print(list1.getAUTHORITY_NAME()+"\t"); 
+//			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
+//			AuthorityVO list1 = dao.findByAuthority_no(998874);
+//			    System.out.print(list1.getAUTHORITY_NO()+"\t");
+//			    System.out.print(list1.getAUTHORITY_NAME()+"\t"); 
 //		
-//		    System.out.println();
+//		         System.out.println();
 			
 			//System.out.println("---------------------------------------------------");
 		    
 		  //修改
-//				AuthorityVO authouity = new AuthorityVO();
+//			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
+//			AuthorityVO authouity = new AuthorityVO();
 //			
-//				authouity.setAUTHORITY_NAME("刪除");
-//				authouity.setAUTHORITY_NO(995584);
+//			authouity.setAUTHORITY_NAME("刪除");
+//			authouity.setAUTHORITY_NO(995584);
 //			
 //			dao.update(authouity);
 //			
@@ -282,19 +285,21 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 		//System.out.println("---------------------------------------------------");
 			
 			//搜尋全部
+//			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
 //			List<AuthorityVO> list = dao.getAll();
 //			for (AuthorityVO authouityVO : list ) {
 //				
-//			System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
-//			System.out.print(authouityVO.getAUTHORITY_NAME()+"\t");
+//			    System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
+//			    System.out.print(authouityVO.getAUTHORITY_NAME()+"\t");
 //		
-//			System.out.println();
+//			    System.out.println();
 //			}
 //			System.out.println("-------------------------------------------");
 			//刪除
-			dao.delete(998874);
-			System.out.println("已刪除");
-			System.out.println("-------------------------------------------");
+//			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
+//			dao.delete(998874);
+//			    System.out.println("已刪除");
+//			System.out.println("-------------------------------------------");
 //		
   }
 }
