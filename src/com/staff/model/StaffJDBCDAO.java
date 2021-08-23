@@ -392,8 +392,9 @@ public class StaffJDBCDAO implements I_StaffDAO{
 
 	//測試開始
 		public static void main(String[] args) {
-			StaffJDBCDAO dao = new StaffJDBCDAO();
+			
 			//新增員工資料
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO staff = new StaffVO();
 //			staff.setSTAFF_NO(7003);
 //			staff.setSTAFF_NAME("ono");
@@ -409,21 +410,22 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			
 			//System.out.println("---------------------------------------------------");
 			//用員工編號查詢
-			
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO list1 = dao.findByStaff_no(2);
-//			System.out.print(list1.getSTAFF_NO()+"\t");
-//			System.out.print(list1.getSTAFF_NAME()+"\t");
-//			System.out.print(list1.getSTAFF_GENDER()+"\t");
-//			System.out.print(list1.getSTAFF_PHONE()+"\t");
-//			System.out.print(list1.getSTAFF_EMAIL()+"\t");
-//			System.out.print(list1.getSTAFF_ADDRESS()+"\t");
-//			System.out.print(list1.getSTAFF_ACCOUNT()+"\t");
-//			System.out.print(list1.getSTAFF_PASSWORD()+"\t");
-//			System.out.print(list1.getSTAFF_STA()+"\t");
-//			System.out.println();
+//			    System.out.print(list1.getSTAFF_NO()+"\t");
+//			    System.out.print(list1.getSTAFF_NAME()+"\t");
+//			    System.out.print(list1.getSTAFF_GENDER()+"\t");
+//			    System.out.print(list1.getSTAFF_PHONE()+"\t");
+//			    System.out.print(list1.getSTAFF_EMAIL()+"\t");
+//			    System.out.print(list1.getSTAFF_ADDRESS()+"\t");
+//			    System.out.print(list1.getSTAFF_ACCOUNT()+"\t");
+//			    System.out.print(list1.getSTAFF_PASSWORD()+"\t");
+//			    System.out.print(list1.getSTAFF_STA()+"\t");
+//			    System.out.println();
 			
 			//System.out.println("---------------------------------------------------");
 			//用名字查詢
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			List<StaffVO> nameList = dao.findByStaff_name("nami");
 //			for (StaffVO staffVOName : nameList) {
 //				
@@ -440,23 +442,25 @@ public class StaffJDBCDAO implements I_StaffDAO{
 //			}
 			//System.out.println("---------------------------------------------------");
 			//搜尋全部
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			List<StaffVO> list = dao.getAll();
 //			for (StaffVO staffVO : list ) {
 //				
-//			System.out.print(staffVO.getSTAFF_NO()+"\t");
-//			System.out.print(staffVO.getSTAFF_NAME()+"\t");
-//			System.out.print(staffVO.getSTAFF_GENDER()+"\t");
-//			System.out.print(staffVO.getSTAFF_PHONE()+"\t");
-//			System.out.print(staffVO.getSTAFF_EMAIL()+"\t");
-//			System.out.print(staffVO.getSTAFF_ADDRESS()+"\t");
-//			System.out.print(staffVO.getSTAFF_ACCOUNT()+"\t");
-//			System.out.print(staffVO.getSTAFF_PASSWORD()+"\t");
-//			System.out.print(staffVO.getSTAFF_STA()+"\t");
-//			System.out.println();
+//			    System.out.print(staffVO.getSTAFF_NO()+"\t");
+//			    System.out.print(staffVO.getSTAFF_NAME()+"\t");
+//			    System.out.print(staffVO.getSTAFF_GENDER()+"\t");
+//			    System.out.print(staffVO.getSTAFF_PHONE()+"\t");
+//			    System.out.print(staffVO.getSTAFF_EMAIL()+"\t");
+//			    System.out.print(staffVO.getSTAFF_ADDRESS()+"\t");
+//			    System.out.print(staffVO.getSTAFF_ACCOUNT()+"\t");
+//			    System.out.print(staffVO.getSTAFF_PASSWORD()+"\t");
+//			    System.out.print(staffVO.getSTAFF_STA()+"\t");
+//			    System.out.println();
 //			}
 //			System.out.println("-------------------------------------------");
 			
 			//用手機號麻搜尋
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			List<StaffVO> list = dao.findByStaff_phone(988648216);
 //			for (StaffVO staffphone : list) {
 //				
@@ -474,6 +478,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			//System.out.println("---------------------------------------------------");
 			
 			//修改
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO staff = new StaffVO();
 //			
 //			staff.setSTAFF_NAME("minako");
@@ -491,9 +496,10 @@ public class StaffJDBCDAO implements I_StaffDAO{
 //		}
 		//System.out.println("---------------------------------------------------");
 			//刪除
-			dao.delete(3);
-			System.out.println("已刪除");
-			System.out.println("-------------------------------------------");
+//			StaffJDBCDAO dao = new StaffJDBCDAO();
+//			dao.delete(3);
+//			    System.out.println("已刪除");
+//			System.out.println("-------------------------------------------");
 //		
 //		
 		}
