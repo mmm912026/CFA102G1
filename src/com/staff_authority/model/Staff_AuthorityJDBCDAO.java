@@ -19,11 +19,11 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"insert into STAFF_AUTHORITY values (?,?)";
+			"INSERT INTO CFA102G1.STAFF_AUTHORITY(STAFF_NO,AUTHORITY_NO) VALUES (?,?)";
 	private static final String FIND_BY_STAFF_NO_SQL = 
-			"SELECT * FROM STAFF_AUTHORITY WHERE STAFF_NO = ?";
+			"SELECT * FROM CFA102G1.STAFF_AUTHORITY WHERE STAFF_NO = ?";
 	private static final String GET_ALL =
-			"SELECT * FROM STAFF_AUTHORITY";
+			"SELECT * FROM CFA102G1.STAFF_AUTHORITY";
 
 	@Override
 	public void insert(Staff_AuthorityVO staff_authouity) {
@@ -62,7 +62,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 
 
 	@Override
-	public Staff_AuthorityVO findByStaff_no(int STAFF_NO) {
+	public Staff_AuthorityVO findByStaff_no(Integer STAFF_NO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -172,8 +172,8 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		//新增功能
 //		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
 //		Staff_AuthorityVO staff_authouity = new Staff_AuthorityVO();
-//		staff_authouity.setSTAFF_NO(997765);
-//		staff_authouity.setAUTHORITY_NO(953421);
+//		staff_authouity.setSTAFF_NO(005);
+//		staff_authouity.setAUTHORITY_NO(99921);
 //
 //		dao.insert(staff_authouity);
 ////		
