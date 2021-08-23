@@ -18,15 +18,15 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"insert into AUTHORITY values (?,?)";
+			"INSERT INTO CFA102G1.AUTHORITY(AUTHORITY_NO,AUTHORITY_NAME) VALUES (?,?)";
 	private static final String UPDATE_SQL = 
-			"UPDATE AUTHORITY SET AUTHORITY_NAME = ? WHERE AUTHORITY_NO = ?";
+			"UPDATE CFA102G1.AUTHORITY SET AUTHORITY_NAME = ? WHERE AUTHORITY_NO = ?";
 	private static final String DELETE_SQL = 
-			"DELETE FROM AUTHORITY where AUTHORITY_NO = ?";
+			"DELETE FROM CFA102G1.AUTHORITY where AUTHORITY_NO = ?";
 	private static final String FIND_BY_AUTHORITY_NO_SQL = 
-			"SELECT * FROM AUTHORITY WHERE AUTHORITY_NO = ?";
+			"SELECT * FROM CFA102G1.AUTHORITY WHERE AUTHORITY_NO = ?";
 	private static final String GET_ALL =
-			"SELECT AUTHORITY_NO,AUTHORITY_NAME FROM AUTHORITY";
+			"SELECT AUTHORITY_NO,AUTHORITY_NAME FROM CFA102G1.AUTHORITY";
 	
 	static {
 		try {
@@ -73,7 +73,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	}
 
 	@Override
-	public void delete(int AUTHORITY_NO) {
+	public void delete(Integer AUTHORITY_NO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -143,7 +143,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 
 
 	@Override
-	public AuthorityVO findByAuthority_no(int AUTHORITY_NO) {
+	public AuthorityVO findByAuthority_no(Integer AUTHORITY_NO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -253,8 +253,8 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 				//新增功能
 //			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
 //			AuthorityVO authouity = new AuthorityVO();
-//			authouity.setAUTHORITY_NO(997765);
-//			authouity.setAUTHORITY_NAME("封鎖");
+//			authouity.setAUTHORITY_NO(99965);
+//			authouity.setAUTHORITY_NAME("未知");
 //
 //				dao.insert(authouity);
 //				
