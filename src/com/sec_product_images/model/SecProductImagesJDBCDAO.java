@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,29 +31,28 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.SEC_PRODUCT_IMAGES";
 	
 	@Override
-	public void insert(SecProductImagesVO secProductImages) {
+	public SecProductImagesVO insert(SecProductImagesVO secProductImages) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, secProductImages.getSpi_no());
 			pstmt.setBytes(2, secProductImages.getSpim_img());
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				secProductImages.setSpim_no(rs.getInt(1));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -61,6 +61,7 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 				}
 			}
 		}
+		return secProductImages;
 	}
 	
 	@Override
@@ -82,13 +83,6 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -115,13 +109,6 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -157,20 +144,6 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -208,20 +181,6 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -231,7 +190,7 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 			}
 		}
 		return lsitSecProductImages;
-	}
+	}              
 	
 	
 //測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -241,9 +200,9 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 //				SecProductImagesJDBCDAO dao = new SecProductImagesJDBCDAO();
 //				SecProductImagesVO secProductImages = new SecProductImagesVO();
 //				secProductImages.setSpi_no(2);
-//				secProductImages.setSpim_img(getPictureByteArray("C:\\CFA102G1\\CFA102G1\\Test_IMG\\宏碁電腦_1.jpg"));
-//				dao.insert(secProductImages);
-//				System.out.println("OK!!");
+//				secProductImages.setSpim_img(getPictureByteArray("Test_IMG\\123.PNG"));
+//				secProductImages = dao.insert(secProductImages);
+//				System.out.println(secProductImages.getSpim_no());
 //				
 //				//測試UPDATE(OK).........................................
 //				SecProductImagesJDBCDAO dao = new SecProductImagesJDBCDAO();
@@ -301,7 +260,7 @@ public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 //			public static void readPicture(byte[] bytes){
 //				FileOutputStream fos;
 //				try {
-//					fos = new FileOutputStream("C:\\CFA102G1\\CFA102G1\\Test_IMG\\out.png");
+//					fos = new FileOutputStream("C:\\CFA102G1\\CFA102G1_TEST\\Test_IMG\\out.png");
 //					fos.write(bytes);
 //					fos.flush();
 //					fos.close();
