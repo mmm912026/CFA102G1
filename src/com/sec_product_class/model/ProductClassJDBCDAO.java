@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,29 +25,28 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.SEC_PRODUCT_CLASS";
 	
 	@Override
-	public void insert(ProductClassVO productClassVO) {
+	public ProductClassVO insert(ProductClassVO productClassVO) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, productClassVO.getSpc_name());
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				productClassVO.setSpc_no(rs.getInt(1));
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -55,6 +55,7 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 				}
 			}
 		}
+		return productClassVO;
 	}
 
 	@Override
@@ -76,13 +77,6 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -110,13 +104,6 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -153,20 +140,6 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -205,20 +178,6 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -237,8 +196,9 @@ public class ProductClassJDBCDAO implements I_ProductClassDAO{
 //		//測試INSERT(OK).........................................
 //		ProductClassJDBCDAO dao = new ProductClassJDBCDAO();
 //		ProductClassVO pclass = new ProductClassVO();
-//		pclass.setSpc_name("資訊周邊");
-//		dao.insert(pclass);
+//		pclass.setSpc_name("隨便周邊");
+//		pclass = dao.insert(pclass);
+//		System.out.println(pclass.getSpc_no() + " : " + pclass.getSpc_name());
 		
 //		//測試DELETE(OK).........................................
 //		ProductClassJDBCDAO dao = new ProductClassJDBCDAO();
