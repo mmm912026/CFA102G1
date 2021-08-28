@@ -29,7 +29,7 @@ public class SecOrderListService{
 		secOrderListVO.setSpi_no(spi_no);
 		secOrderListVO.setSol_proamot(sol_proamot);
 		secOrderListVO.setSol_pri(sol_pri);
-		secOrderListVO = dao.insert(secOrderListVO);
+		dao.update(secOrderListVO);
 		
 		return secOrderListVO;
 	}
