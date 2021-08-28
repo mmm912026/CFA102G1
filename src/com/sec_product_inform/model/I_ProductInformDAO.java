@@ -3,7 +3,7 @@ package com.sec_product_inform.model;
 import java.util.List;
 
 public interface I_ProductInformDAO {
-	public void insert(ProductInformVO productInformVO);
+	public ProductInformVO insert(ProductInformVO productInformVO);
 	public void update(ProductInformVO productInformVO);
 	public void delete(Integer spi_no);
 	public ProductInformVO findByPK(Integer spi_no);

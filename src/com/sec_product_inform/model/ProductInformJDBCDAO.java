@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +26,15 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.SEC_PRODUCT_INFORMATION";
 	
 	@Override
-	public void insert(ProductInformVO productInformVO) {
+	public ProductInformVO insert(ProductInformVO productInformVO) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, productInformVO.getSpi_name());
 			pstmt.setInt(2, productInformVO.getSpc_no());
 			pstmt.setString(3, productInformVO.getSpi_content());
@@ -41,18 +43,16 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 			pstmt.setString(6, productInformVO.getSpi_sta());
 			pstmt.executeUpdate();
 			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				productInformVO.setSpi_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -61,6 +61,7 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 				}
 			}
 		}
+		return productInformVO;
 	}
 
 	@Override
@@ -86,13 +87,6 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -121,13 +115,6 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -168,20 +155,6 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -223,20 +196,6 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -279,20 +238,6 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -306,19 +251,20 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 	
 	
 	//測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
-		public static void main (String[] args) {
-			
+//		public static void main (String[] args) {
+//			
 //			//測試INSERT(OK).........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			ProductInformVO productInform = new ProductInformVO();
 //			productInform.setSpi_name("宏碁電腦");
-//			productInform.setSpc_no(9);
+//			productInform.setSpc_no(1);
 //			productInform.setSpi_content("超強宏碁電腦啦!!!!!超強宏碁電腦啦!!!!!超強宏碁電腦啦!!!!!超強宏碁電腦啦!!!!!");
 //			productInform.setSpi_pri(20000);
 //			productInform.setSpi_stock(1);
 //			productInform.setSpi_sta("上架");
-//			dao.insert(productInform);
-			
+//			productInform = dao.insert(productInform);
+//			System.out.println(productInform.getSpi_no());
+//			
 //			//測試UPDATE(OK).........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			ProductInformVO productInform = new ProductInformVO();
@@ -330,11 +276,11 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 //			productInform.setSpi_stock(0);
 //			productInform.setSpi_sta("下架");
 //			dao.update(productInform);
-			
+//			
 //			//測試DELETE(OK).........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			dao.delete(3);
-
+//
 //			//測試FIND_BY_PK(OK).........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			ProductInformVO productInform = dao.findByPK(2);
@@ -345,7 +291,7 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 //			System.out.println(productInform.getSpi_pri() + ",");
 //			System.out.println(productInform.getSpi_stock() + ",");
 //			System.out.println(productInform.getSpi_sta() + ".");
-			
+//			
 //			//測試FIND_BY_NAME().........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			ProductInformVO productInform = dao.findBySPI_Name("華碩電腦");
@@ -356,7 +302,7 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 //			System.out.println(productInform.getSpi_pri() + ",");
 //			System.out.println(productInform.getSpi_stock() + ",");
 //			System.out.println(productInform.getSpi_sta() + ".");
-
+//
 //			//測試GET_ALL().........................................
 //			ProductInformJDBCDAO dao = new ProductInformJDBCDAO();
 //			List<ProductInformVO> list = dao.getAll();
@@ -371,5 +317,5 @@ public class ProductInformJDBCDAO implements I_ProductInformDAO{
 //				System.out.println(".............................................");
 //			}
 	//<<<<<<<<<<<<<<<<<<<<<<<<<測試驗證
-		}
+//		}
 }
