@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,30 +27,30 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.PROMOTIONS";
 	
 	@Override
-	public void insert(PromotionVO promotionVO) {
+	public PromotionVO insert(PromotionVO promotionVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, promotionVO.getPromotion_name());
 			pstmt.setTimestamp(2, promotionVO.getPromotion_start_date());
 			pstmt.setTimestamp(3, promotionVO.getPromotion_end_date());
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				promotionVO.setPromotion_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -58,8 +59,7 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 				}
 			}
 		}
-		
-		
+		return promotionVO;
 	}
 
 	@Override
@@ -81,13 +81,6 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -115,13 +108,6 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -158,20 +144,6 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -210,20 +182,6 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -236,16 +194,17 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 	}
 	
 //測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
-		public static void main (String[] args) {
-			
+//		public static void main (String[] args) {
+//			
 //			//測試INSERT(OK).........................................
 //			PromotionJDBCDAO dao = new PromotionJDBCDAO();
 //			PromotionVO promotion = new PromotionVO();
-//			promotion.setPromotion_name("快來買買買!!!");
+//			promotion.setPromotion_name("快來賣賣賣!!!");
 //			promotion.setPromotion_start_date(new Timestamp(System.currentTimeMillis()));
 //			promotion.setPromotion_end_date(new Timestamp(System.currentTimeMillis()));
-//			dao.insert(promotion);
-			
+//			promotion = dao.insert(promotion);
+//			System.out.println(promotion.getPromotion_no());
+//			
 //			//測試UPDATE(OK).........................................
 //			PromotionJDBCDAO dao = new PromotionJDBCDAO();
 //			PromotionVO promotion = new PromotionVO();
@@ -279,8 +238,8 @@ public class PromotionJDBCDAO implements I_PromotionDAO{
 //						promotion.getPromotion_end_date() +".");
 //			}
 //<<<<<<<<<<<<<<<<<<<<<<<<<測試驗證
-
-		}
+//
+//		}
 	
 
 }
