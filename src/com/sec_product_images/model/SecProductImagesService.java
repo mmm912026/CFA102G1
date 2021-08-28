@@ -3,7 +3,7 @@ package com.sec_product_images.model;
 import java.util.List;
 
 public class SecProductImagesService {
-	I_SecProductImagesDAO dao = null;
+	private I_SecProductImagesDAO dao;
 	
 	public SecProductImagesService() {
 		dao = new SecProductImagesJDBCDAO();
@@ -34,7 +34,7 @@ public class SecProductImagesService {
 		dao.delete(spim_no);
 	}
 
-	public SecProductImagesVO findByPkSecProductImages(Integer spim_no) {
+	public SecProductImagesVO getOneSecProductImages(Integer spim_no) {
 		return dao.findByPk(spim_no);
 	}
 
