@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,15 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.SEC_ORDER";
 
 	@Override
-	public void insert(SecOrderVO secOrder) {
+	public SecOrderVO insert(SecOrderVO secOrder) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setTimestamp(1, secOrder.getSo_purtime());
 			pstmt.setInt(2, secOrder.getMem_no());
 			pstmt.setString(3, secOrder.getSo_sta());
@@ -55,18 +57,16 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 			pstmt.setInt(13, secOrder.getSo_discount_price());
 			pstmt.executeUpdate();
 			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				secOrder.setSo_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -75,6 +75,7 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 				}
 			}
 		}
+		return secOrder;
 	}
 
 	@Override
@@ -107,13 +108,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -142,13 +136,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -196,20 +183,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -260,20 +233,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -323,20 +282,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -349,13 +294,13 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 	}
 	
 	//測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
-	public static void main (String[] args) {
-		
+//	public static void main (String[] args) {
+//		
 //		//測試INSERT(OK).........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		SecOrderVO secOrder = new SecOrderVO();
 //		secOrder.setSo_purtime(new Timestamp(System.currentTimeMillis()));
-//		secOrder.setMem_no(4);
+//		secOrder.setMem_no(1);
 //		secOrder.setSo_sta("完成訂單");
 //		secOrder.setSo_pay_sta("已付款");
 //		secOrder.setSo_ship_sta("已出貨");
@@ -367,8 +312,9 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 //		secOrder.setSo_shipdate(new Timestamp(System.currentTimeMillis()));
 //		secOrder.setSo_delcost(60);
 //		secOrder.setSo_discount_price(9000);
-//		dao.insert(secOrder);
-		
+//		secOrder = dao.insert(secOrder);
+//		System.out.println(secOrder.getSo_no());
+//		
 //		//測試UPDATE(OK).........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		SecOrderVO secOrder = new SecOrderVO();
@@ -387,11 +333,11 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 //		secOrder.setSo_delcost(60);
 //		secOrder.setSo_discount_price(9000);	
 //		dao.update(secOrder);
-		
+//		
 //		//測試DELETE(OK).........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		dao.delete(4);
-
+//
 //		//測試FIND_BY_PK(OK).........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		SecOrderVO secOrder = dao.findByPK(3);
@@ -409,9 +355,7 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 //		System.out.println(secOrder.getSo_shipdate() + ",");
 //		System.out.println(secOrder.getSo_delcost() + ",");
 //		System.out.println(secOrder.getSo_discount_price() + ".");
-
-		
-		
+//
 //		//測試FIND_BY_NAME(OK).........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		List<SecOrderVO> list = dao.findByMem_NO(4);
@@ -432,7 +376,7 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 //			System.out.println(secOrder.getSo_discount_price() + ".");
 //			System.out.println(".............................................");
 //		}
-
+//
 //		//測試GET_ALL().........................................
 //		SecOrderJDBCDAO dao = new SecOrderJDBCDAO();
 //		List<SecOrderVO> list = dao.getAll();
@@ -454,6 +398,6 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 //			System.out.println(".............................................");
 //		}
 //<<<<<<<<<<<<<<<<<<<<<<<<<測試驗證
-	}
+//	}
 
 }
