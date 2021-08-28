@@ -29,7 +29,7 @@ public class ProductClassService{
 		dao.delete(spc_no);
 	}
 
-	public ProductClassVO findByPKProductClass(Integer spc_no) {
+	public ProductClassVO getOneProductClass(Integer spc_no) {
 		return dao.findByPK(spc_no);
 	}
 
