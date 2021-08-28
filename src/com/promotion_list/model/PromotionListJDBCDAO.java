@@ -78,13 +78,6 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -114,13 +107,6 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -158,20 +144,6 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -210,20 +182,6 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -237,8 +195,8 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 	
 
 //測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
-	public static void main (String[] args) {
-		
+//	public static void main (String[] args) {
+//		
 //		//測試INSERT(OK).........................................
 //		PromotionListJDBCDAO dao = new PromotionListJDBCDAO();
 //		PromotionListVO promotionList = new PromotionListVO();
@@ -246,7 +204,7 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 //		promotionList.setSpi_no(4);
 //		promotionList.setSpi_price(15000);
 //		dao.insert(promotionList);
-		
+//		
 //		//測試UPDATE(OK).........................................
 //		PromotionListJDBCDAO dao = new PromotionListJDBCDAO();
 //		PromotionListVO promotionList = new PromotionListVO();
@@ -254,19 +212,19 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 //		promotionList.setSpi_no(4);
 //		promotionList.setSpi_price(17000);
 //		dao.update(promotionList);
-		
+//		
 //		//測試DELETE(OK).........................................
 //		PromotionListJDBCDAO dao = new PromotionListJDBCDAO();
 //		dao.delete(1,4);
-
+//
 //		//測試FIND_BY_PK(OK).........................................
 //		PromotionListJDBCDAO dao = new PromotionListJDBCDAO();
 //		PromotionListVO promotionList = dao.findByPK(1, 2);
 //		System.out.println(promotionList.getPromotions_no() + ",");
 //		System.out.println(promotionList.getSpi_no() + ",");
 //		System.out.println(promotionList.getSpi_price() + ".");
-
-
+//
+//
 //		//測試GET_ALL(OK).........................................
 //		PromotionListJDBCDAO dao = new PromotionListJDBCDAO();
 //		List<PromotionListVO> list = dao.getAll();
@@ -277,6 +235,6 @@ public class PromotionListJDBCDAO implements I_PromotionListDAO{
 //			System.out.println(".............................................");
 //		}
 //<<<<<<<<<<<<<<<<<<<<<<<<<測試驗證
-	}
+//	}
 
 }
