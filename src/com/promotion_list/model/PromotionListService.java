@@ -25,7 +25,7 @@ public class PromotionListService{
 		promotionListVO.setPromotions_no(promotions_no);
 		promotionListVO.setSpi_no(spi_no);
 		promotionListVO.setSpi_price(spi_price);
-		dao.insert(promotionListVO);
+		dao.update(promotionListVO);
 		return promotionListVO;
 	}
 
