@@ -13,8 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.promotion.model.PromotionVO;
-
 public class SecProductImagesJDBCDAO implements I_SecProductImagesDAO{
 	String DRIVER = "com.mysql.cj.jdbc.Driver";
 	String URL = 
