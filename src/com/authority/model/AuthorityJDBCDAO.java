@@ -19,7 +19,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	public static final String PASSWORD = "123456";
 	
 	private static final String INSERT_SQL = 
-			"INSERT INTO CFA102G1.AUTHORITY(AUTHORITY_NO,AUTHORITY_NAME) VALUES (?,?)";
+			"INSERT INTO CFA102G1.AUTHORITY(AUTHORITY_NAME) VALUES (?)";
 	private static final String UPDATE_SQL = 
 			"UPDATE CFA102G1.AUTHORITY SET AUTHORITY_NAME = ? WHERE AUTHORITY_NO = ?";
 	private static final String DELETE_SQL = 
@@ -39,19 +39,24 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	
 
 	@Override
-	public AuthorityVO insert(AuthorityVO authouity) {
+	public AuthorityVO insert(AuthorityVO authority) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs =null ;
 		
 		try {
 			
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setInt(1, authouity.getAuthority_no());
-			pstmt.setString(2,authouity.getAuthority_name());
+			pstmt.setString(1,authority.getAuthority_name());
 			
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				authority.setAuthority_no(rs.getInt(1));
+			}
 			
 			}catch (SQLException se) {
 			se.printStackTrace();
@@ -64,7 +69,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 				}
 			}
 		}
-		return authouity;
+		return authority;
 	}
 
 	@Override
@@ -94,7 +99,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 	}
 
 	@Override
-	public void update(AuthorityVO authouity) {
+	public void update(AuthorityVO authority) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -104,8 +109,8 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 			pstmt = con.prepareStatement(UPDATE_SQL);
 			
 			
-			pstmt.setString(1,authouity.getAuthority_name());
-			pstmt.setInt(2, authouity.getAuthority_no());
+			pstmt.setString(1,authority.getAuthority_name());
+			pstmt.setInt(2, authority.getAuthority_no());
 			
 			pstmt.executeUpdate();
 			
@@ -128,7 +133,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		AuthorityVO authouity = null;
+		AuthorityVO authority = null;
 		
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
@@ -137,9 +142,9 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				authouity = new AuthorityVO();
-				authouity.setAuthority_no(authority_no);
-				authouity.setAuthority_name(rs.getString("AUTHORITY_NAME"));
+				authority = new AuthorityVO();
+				authority.setAuthority_no(authority_no);
+				authority.setAuthority_name(rs.getString("AUTHORITY_NAME"));
 				
 				
 			}
@@ -156,7 +161,7 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 			}
 		}
 		
-		return authouity;
+		return authority;
 	}	
 
 	@Override
@@ -165,20 +170,20 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<AuthorityVO> list = new ArrayList<AuthorityVO>();
-		AuthorityVO authouityVO = null;
+		AuthorityVO authorityVO = null;
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				authouityVO = new AuthorityVO();
+				authorityVO = new AuthorityVO();
 				
-				authouityVO.setAuthority_no(rs.getInt("AUTHORITY_NO"));
-				authouityVO.setAuthority_name(rs.getString("AUTHORITY_NAME"));
+				authorityVO.setAuthority_no(rs.getInt("AUTHORITY_NO"));
+				authorityVO.setAuthority_name(rs.getString("AUTHORITY_NAME"));
 				
 				
-				list.add(authouityVO);
+				list.add(authorityVO);
 				
 			}
 			
@@ -201,11 +206,11 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 				
 				//新增功能
 //			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
-//			AuthorityVO authouity = new AuthorityVO();
-//			authouity.setAUTHORITY_NO(99965);
-//			authouity.setAUTHORITY_NAME("未知");
+//			AuthorityVO authority = new AuthorityVO();
+//			authority.setAuthority_name("未知");
 //
-//				dao.insert(authouity);
+//			authority = dao.insert(authority);
+//			System.out.println(authority.getAuthority_no());
 //				
 
    
@@ -213,9 +218,9 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 			//System.out.println("---------------------------------------------------");
 			//用功能編號查詢
 //			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
-//			AuthorityVO list1 = dao.findByAuthority_no(998874);
-//			    System.out.print(list1.getAUTHORITY_NO()+"\t");
-//			    System.out.print(list1.getAUTHORITY_NAME()+"\t"); 
+//			AuthorityVO list1 = dao.findByAuthority_no(997765);
+//			    System.out.print(list1.getAuthority_no()+"\t");
+//			    System.out.print(list1.getAuthority_name()+"\t"); 
 //		
 //		         System.out.println();
 			
@@ -225,11 +230,11 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 //			AuthorityJDBCDAO dao = new AuthorityJDBCDAO();
 //			AuthorityVO authouity = new AuthorityVO();
 //			
-//			authouity.setAUTHORITY_NAME("刪除");
-//			authouity.setAUTHORITY_NO(995584);
+//			authouity.setAuthority_name("刪除");
+//			authouity.setAuthority_no(997766);
 //			
 //			dao.update(authouity);
-//			
+			
 //		}
 		//System.out.println("---------------------------------------------------");
 			
@@ -238,8 +243,8 @@ public class AuthorityJDBCDAO implements I_AuthorityDAO {
 //			List<AuthorityVO> list = dao.getAll();
 //			for (AuthorityVO authouityVO : list ) {
 //				
-//			    System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
-//			    System.out.print(authouityVO.getAUTHORITY_NAME()+"\t");
+//			    System.out.print(authouityVO.getAuthority_no()+"\t");
+//			    System.out.print(authouityVO.getAuthority_name()+"\t");
 //		
 //			    System.out.println();
 //			}
