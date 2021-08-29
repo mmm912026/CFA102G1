@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,33 +32,32 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.PERSON_MESSAGE";
 	
 	@Override
-	public void insert(Person_MsgVO person_msgvo) {
+	public Person_MsgVO insert(Person_MsgVO person_msgvo) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			
 			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1,person_msgvo.getMem_no());
 			pstmt.setTimestamp(2,person_msgvo.getPm_date());
 			pstmt.setString(3,person_msgvo.getPm_content());
 			pstmt.setString(4,person_msgvo.getPm_status());	
 			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				person_msgvo.setPm_no(rs.getInt(1));
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -66,6 +66,7 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 				}
 			}
 		}
+		return person_msgvo;
 		
 	}
 
@@ -91,13 +92,6 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -126,13 +120,6 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -172,13 +159,6 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -228,13 +208,6 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -284,13 +257,6 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -310,7 +276,7 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 	}
 	
 //驗證功能----------------------------------------------------------------------
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 	    //驗證INSERT OK
 //		Person_MsgJDBCDAO pmo = new Person_MsgJDBCDAO();
@@ -319,8 +285,8 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 //		pmv.setPm_date(new Timestamp(System.currentTimeMillis()));
 //		pmv.setPm_content("您的付帳成功");
 //		pmv.setPm_status("未讀");			
-//		pmo.insert(pmv);
-//		System.out.println("更新成功");
+//		pmv=pmo.insert(pmv);
+//		System.out.println(pmv.getPm_no());
 		
 		//驗證UPDATE OK
 //		Person_MsgJDBCDAO pmo = new Person_MsgJDBCDAO();
@@ -373,4 +339,4 @@ public class Person_MsgJDBCDAO implements I_Person_MsgDAO {
 //		}
 	}
 //驗證功能----------------------------------------------------------------------
-}
+//}
