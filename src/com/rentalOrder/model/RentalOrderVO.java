@@ -31,6 +31,39 @@ public class RentalOrderVO implements Serializable{
 	private Integer	ro_delay_days;
 	private Integer	ro_return_deposit;
 
+	public RentalOrderVO(Integer ro_no, Integer mem_no, Integer rpl_no, String ro_status, String ro_pay_status,
+			String ro_pay_method, String ro_ship_method, String ro_ship_status, String ro_ship_addrs,
+			Timestamp ro_starttime, Timestamp ro_endtime, Timestamp ro_oncerentendtime, Timestamp ro_return_date,
+			Integer ro_day, Integer ro_price, Integer ro_totalprice, Integer ro_deposit, String ro_deposit_status,
+			String ro_return_status, String ro_return_method, String ro_product_status, Integer ro_repaircost,
+			Integer ro_delay_days, Integer ro_return_deposit) {
+		super();
+		this.ro_no = ro_no;
+		this.mem_no = mem_no;
+		this.rpl_no = rpl_no;
+		this.ro_status = ro_status;
+		this.ro_pay_status = ro_pay_status;
+		this.ro_pay_method = ro_pay_method;
+		this.ro_ship_method = ro_ship_method;
+		this.ro_ship_status = ro_ship_status;
+		this.ro_ship_addrs = ro_ship_addrs;
+		this.ro_starttime = ro_starttime;
+		this.ro_endtime = ro_endtime;
+		this.ro_oncerentendtime = ro_oncerentendtime;
+		this.ro_return_date = ro_return_date;
+		this.ro_day = ro_day;
+		this.ro_price = ro_price;
+		this.ro_totalprice = ro_totalprice;
+		this.ro_deposit = ro_deposit;
+		this.ro_deposit_status = ro_deposit_status;
+		this.ro_return_status = ro_return_status;
+		this.ro_return_method = ro_return_method;
+		this.ro_product_status = ro_product_status;
+		this.ro_repaircost = ro_repaircost;
+		this.ro_delay_days = ro_delay_days;
+		this.ro_return_deposit = ro_return_deposit;
+	}
+
 	public RentalOrderVO() {
 		
 	}
