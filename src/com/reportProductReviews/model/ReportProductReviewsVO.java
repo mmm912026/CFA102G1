@@ -16,6 +16,19 @@ public class ReportProductReviewsVO implements Serializable{
 	public ReportProductReviewsVO() {
 		
 	}
+	
+	public ReportProductReviewsVO(Integer rep_no, Integer pr_no, Integer mem_no, String report_content,
+			String rep_status, Timestamp rep_date) {
+		super();
+		this.rep_no = rep_no;
+		this.pr_no = pr_no;
+		this.mem_no = mem_no;
+		this.report_content = report_content;
+		this.rep_status = rep_status;
+		this.rep_date = rep_date;
+	}
+
+
 
 	public Integer getRep_no() {
 		return rep_no;
