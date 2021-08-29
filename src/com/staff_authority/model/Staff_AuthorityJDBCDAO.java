@@ -35,21 +35,14 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_SQL);
 			
-			pstmt.setInt(1, staff_authouity.getSTAFF_NO());
-			pstmt.setInt(2,staff_authouity.getAUTHORITY_NO());
+			pstmt.setInt(1, staff_authouity.getStaff_no());
+			pstmt.setInt(2,staff_authouity.getAuthority_no());
 			
 			pstmt.executeUpdate();
 			
 			}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					 se.printStackTrace();
-				}
-			}
 			if(con !=null) {
 				try {
 					con.close();
@@ -62,7 +55,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 
 
 	@Override
-	public Staff_AuthorityVO findByStaff_no(Integer STAFF_NO) {
+	public Staff_AuthorityVO findByStaff_no(Integer staff_no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -71,13 +64,13 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_STAFF_NO_SQL);
-			pstmt.setInt(1,STAFF_NO );
+			pstmt.setInt(1,staff_no );
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				staff_authouity = new Staff_AuthorityVO();
-				staff_authouity.setSTAFF_NO(STAFF_NO);
-				staff_authouity.setAUTHORITY_NO(rs.getInt("AUTHORITY_NO"));
+				staff_authouity.setStaff_no(staff_no);
+				staff_authouity.setAuthority_no(rs.getInt("AUTHORITY_NO"));
 				
 				
 			}
@@ -85,22 +78,6 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
 			if(con != null) {
 				try {
 					con.close();
@@ -128,8 +105,8 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			while (rs.next()) {
 				staff_authouity = new Staff_AuthorityVO();
 				
-				staff_authouity.setSTAFF_NO(rs.getInt("STAFF_NO"));
-				staff_authouity.setAUTHORITY_NO(rs.getInt("AUTHORITY_NO"));
+				staff_authouity.setStaff_no(rs.getInt("STAFF_NO"));
+				staff_authouity.setAuthority_no(rs.getInt("AUTHORITY_NO"));
 				
 				
 				list.add(staff_authouity);
@@ -138,23 +115,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			
 		}catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
+		}finally {	
 			if(con != null) {
 				try {
 					con.close();
@@ -167,7 +128,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		return list;
 	}
 	//測試開始
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 		//新增功能
 //		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
@@ -200,5 +161,5 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 //		}
 //		System.out.println("-------------------------------------------");
 		
-   }
+//   }
 }
