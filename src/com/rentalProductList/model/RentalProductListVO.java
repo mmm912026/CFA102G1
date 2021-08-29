@@ -18,6 +18,20 @@ public class RentalProductListVO implements Serializable{
 		
 	}
 
+	public RentalProductListVO(Integer rpl_no, Integer rc_no, String rpl_serialnum, String rpl_note, String rpl_status,
+			Integer rpl_rentcount, Timestamp rpl_jointtime) {
+		super();
+		this.rpl_no = rpl_no;
+		this.rc_no = rc_no;
+		this.rpl_serialnum = rpl_serialnum;
+		this.rpl_note = rpl_note;
+		this.rpl_status = rpl_status;
+		this.rpl_rentcount = rpl_rentcount;
+		this.rpl_jointtime = rpl_jointtime;
+	}
+
+
+
 	public Integer getRpl_no() {
 		return rpl_no;
 	}

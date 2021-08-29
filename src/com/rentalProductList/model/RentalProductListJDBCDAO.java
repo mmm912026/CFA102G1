@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +17,8 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 	String USER = "David";
 	String PASSWORD = "123456";
 	
-	
-
-	
 	private static final String INSERT_STMT = 
-			"INSERT INTO RENTAL_PRODUCT_LIST (rc_no,rpl_serialnum,rpl_note,rpl_status) VALUES(?,?,?,?)";
+			"INSERT INTO RENTAL_PRODUCT_LIST (rc_no,rpl_serialnum,rpl_note) VALUES(?,?,?)";
 	private static final String UPDATE_STMT = 
 			"UPDATE RENTAL_PRODUCT_LIST set rc_no=?,rpl_serialnum=?,rpl_note=?,rpl_status=?,rpl_rentcount=?,rpl_jointtime=? where rpl_no = ?";
 	private static final String DELETE_STMT = 
@@ -30,24 +28,28 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_PRODUCT_LIST";
 	
-	@Override
-	public void insert(RentalProductListVO RentalProductListVO) {
+	public RentalProductListVO insert(RentalProductListVO rentalProductListVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 
-			pstmt.setInt(1, RentalProductListVO.getRc_no());
-			pstmt.setString(2, RentalProductListVO.getRpl_serialnum());
-			pstmt.setString(3, RentalProductListVO.getRpl_note());
-			pstmt.setString(4, RentalProductListVO.getRpl_status());
+			pstmt.setInt(1, rentalProductListVO.getRc_no());
+			pstmt.setString(2, rentalProductListVO.getRpl_serialnum());
+			pstmt.setString(3, rentalProductListVO.getRpl_note());
 			
 			pstmt.executeUpdate();
 
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				rentalProductListVO.setRpl_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
@@ -70,9 +72,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				}
 			}
 		}
+		return rentalProductListVO;
 	}
 	
-	public void update(RentalProductListVO RentalProductListVO) {
+	public void update(RentalProductListVO rentalProductListVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -82,13 +85,13 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setInt(1, RentalProductListVO.getRc_no());
-			pstmt.setString(2, RentalProductListVO.getRpl_serialnum());
-			pstmt.setString(3, RentalProductListVO.getRpl_note());
-			pstmt.setString(4, RentalProductListVO.getRpl_status());
-			pstmt.setInt(5, RentalProductListVO.getRpl_rentcount());
-			pstmt.setTimestamp(6, RentalProductListVO.getRpl_jointtime());
-			pstmt.setInt(7, RentalProductListVO.getRpl_no());
+			pstmt.setInt(1, rentalProductListVO.getRc_no());
+			pstmt.setString(2, rentalProductListVO.getRpl_serialnum());
+			pstmt.setString(3, rentalProductListVO.getRpl_note());
+			pstmt.setString(4, rentalProductListVO.getRpl_status());
+			pstmt.setInt(5, rentalProductListVO.getRpl_rentcount());
+			pstmt.setTimestamp(6, rentalProductListVO.getRpl_jointtime());
+			pstmt.setInt(7, rentalProductListVO.getRpl_no());
 			
 			pstmt.executeUpdate();
 
@@ -155,7 +158,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 	}
 
 	public RentalProductListVO findByPK(Integer rpl_no) {
-		RentalProductListVO RentalProductListVO = null;
+		RentalProductListVO rentalProductListVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -171,14 +174,14 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			rs = pstmt.executeQuery();
 		
 			while (rs.next()) {
-				RentalProductListVO = new RentalProductListVO();		
-				RentalProductListVO.setRpl_no(rs.getInt("rpl_no"));
-				RentalProductListVO.setRc_no(rs.getInt("rc_no"));
-				RentalProductListVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
-				RentalProductListVO.setRpl_note(rs.getString("rpl_note"));
-				RentalProductListVO.setRpl_status(rs.getString("rpl_status"));
-				RentalProductListVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
-				RentalProductListVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));			
+				rentalProductListVO = new RentalProductListVO();		
+				rentalProductListVO.setRpl_no(rs.getInt("rpl_no"));
+				rentalProductListVO.setRc_no(rs.getInt("rc_no"));
+				rentalProductListVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
+				rentalProductListVO.setRpl_note(rs.getString("rpl_note"));
+				rentalProductListVO.setRpl_status(rs.getString("rpl_status"));
+				rentalProductListVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
+				rentalProductListVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));			
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -210,12 +213,12 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				}
 			}
 		}
-		return RentalProductListVO;
+		return rentalProductListVO;
 	}
 
 	public List<RentalProductListVO> getAll() {
 		List<RentalProductListVO> list = new ArrayList<RentalProductListVO>();
-		RentalProductListVO RentalProductListVO = null;
+		RentalProductListVO rentalProductListVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -229,16 +232,16 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				RentalProductListVO = new RentalProductListVO();		
-				RentalProductListVO.setRpl_no(rs.getInt("rpl_no"));
-				RentalProductListVO.setRc_no(rs.getInt("rc_no"));
-				RentalProductListVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
-				RentalProductListVO.setRpl_note(rs.getString("rpl_note"));
-				RentalProductListVO.setRpl_status(rs.getString("rpl_status"));
-				RentalProductListVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
-				RentalProductListVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));	
+				rentalProductListVO = new RentalProductListVO();		
+				rentalProductListVO.setRpl_no(rs.getInt("rpl_no"));
+				rentalProductListVO.setRc_no(rs.getInt("rc_no"));
+				rentalProductListVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
+				rentalProductListVO.setRpl_note(rs.getString("rpl_note"));
+				rentalProductListVO.setRpl_status(rs.getString("rpl_status"));
+				rentalProductListVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
+				rentalProductListVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));	
 				
-				list.add(RentalProductListVO); // Store the row in the vector
+				list.add(rentalProductListVO); // Store the row in the vector
 			}
 
 		} catch (ClassNotFoundException e) {

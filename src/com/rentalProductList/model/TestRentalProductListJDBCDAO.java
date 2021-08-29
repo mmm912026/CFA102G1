@@ -8,12 +8,13 @@ public class TestRentalProductListJDBCDAO {
 		I_RentalProductListDAO dao = new RentalProductListJDBCDAO();
 		
 		//新增
-//		RentalProductListVO rpl1 = new RentalProductListVO();
-//		rpl1.setRc_no(3);
-//		rpl1.setRpl_serialnum("testserialnum1");
-//		rpl1.setRpl_note("done");
-//		rpl1.setRpl_status("下架");
-//		dao.insert(rpl1);
+		RentalProductListVO rpl1 = new RentalProductListVO();
+		rpl1.setRc_no(6);
+		rpl1.setRpl_serialnum("testserialnum1");
+		rpl1.setRpl_note("done");
+		rpl1.setRpl_status("下架");
+		rpl1 = dao.insert(rpl1);
+		System.out.println(rpl1.getRpl_no());
 		
 		//修改
 //		RentalProductListVO rpl1 = new RentalProductListVO();
@@ -35,9 +36,9 @@ public class TestRentalProductListJDBCDAO {
 //		System.out.println(rpl1.getRpl_jointtime());
 		
 		//查詢全部
-		List<RentalProductListVO> list = dao.getAll();
-		for(RentalProductListVO item:list)
-			System.out.println(item.getRpl_serialnum());
+//		List<RentalProductListVO> list = dao.getAll();
+//		for(RentalProductListVO item:list)
+//			System.out.println(item.getRpl_serialnum());
 		
 		
 	}
