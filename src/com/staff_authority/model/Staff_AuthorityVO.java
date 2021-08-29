@@ -3,29 +3,30 @@ package com.staff_authority.model;
 
 //Table Name : STAFF_AUTHORITY(員工權限)
 public class Staff_AuthorityVO implements java.io.Serializable{
-	   private Integer STAFF_NO;
-	   private Integer AUTHORITY_NO;
+	   private Integer staff_no;
+	   private Integer authority_no;
 	public Staff_AuthorityVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Staff_AuthorityVO(Integer sTAFF_NO, Integer aUTHORITY_NO) {
+	public Staff_AuthorityVO(Integer staff_no, Integer authority_no) {
 		super();
-		this.STAFF_NO = sTAFF_NO;
-		this.AUTHORITY_NO = aUTHORITY_NO;
+		this.staff_no = staff_no;
+		this.authority_no = authority_no;
 	}
-	public Integer getSTAFF_NO() {
-		return STAFF_NO;
+	public Integer getStaff_no() {
+		return staff_no;
 	}
-	public void setSTAFF_NO(Integer sTAFF_NO) {
-		this.STAFF_NO = sTAFF_NO;
+	public void setStaff_no(Integer staff_no) {
+		this.staff_no = staff_no;
 	}
-	public Integer getAUTHORITY_NO() {
-		return AUTHORITY_NO;
+	public Integer getAuthority_no() {
+		return authority_no;
 	}
-	public void setAUTHORITY_NO(Integer aUTHORITY_NO) {
-		this.AUTHORITY_NO = aUTHORITY_NO;
+	public void setAuthority_no(Integer authority_no) {
+		this.authority_no = authority_no;
 	}
+	
 	   
 	}
 
