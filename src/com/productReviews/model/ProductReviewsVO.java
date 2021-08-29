@@ -17,6 +17,21 @@ public class ProductReviewsVO implements Serializable{
 		
 	}
 
+	
+	
+	public ProductReviewsVO(Integer pr_no, Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
+			Integer pr_score, String pr_status) {
+		this.pr_no = pr_no;
+		this.rc_no = rc_no;
+		this.ro_no = ro_no;
+		this.pr_content = pr_content;
+		this.pr_images = pr_images;
+		this.pr_score = pr_score;
+		this.pr_status = pr_status;
+	}
+
+
+
 	public Integer getPr_no() {
 		return pr_no;
 	}
