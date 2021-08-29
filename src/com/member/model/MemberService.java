@@ -25,7 +25,7 @@ public class MemberService {
 		member.setMem_birth(mem_birth);
 		member.setMem_sta(mem_sta);
 		
-		dao.insert(member);
+		member = dao.insert(member);
 		return member;
 	}
 public MemberVO updateMember(
