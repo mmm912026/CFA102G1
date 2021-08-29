@@ -16,7 +16,7 @@ public class AuthorityService {
 		
 		authority.setAuthority_no(authority_no);
 		authority.setAuthority_name(authority_name);
-		dao.insert(authority);
+		authority = dao.insert(authority);
 		return authority;
 	}
 	public AuthorityVO updateAuthority(
