@@ -19,16 +19,13 @@ public class RentalClassVO implements Serializable{
 	public RentalClassVO() {
 	}
 
-	public RentalClassVO(String rc_name, String rc_item, String rc_detail, Integer rc_deposit, Integer rc_price,
-			 Integer rc_storage, String rc_status) {
+	public RentalClassVO(String rc_name, String rc_item, String rc_detail, Integer rc_deposit, Integer rc_price) {
 		super();
 		this.rc_name = rc_name;
 		this.rc_item = rc_item;
 		this.rc_detail = rc_detail;
 		this.rc_deposit = rc_deposit;
 		this.rc_price = rc_price;
-		this.rc_storage = rc_storage;
-		this.rc_status = rc_status;
 	}
 
 

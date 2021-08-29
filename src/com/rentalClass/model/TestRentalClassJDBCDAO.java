@@ -7,9 +7,10 @@ public class TestRentalClassJDBCDAO {
 		I_RentalClassDAO dao = new RentalClassJDBCDAO();
 		
 		//新增
-//		RentalClassVO rc1 = new RentalClassVO("Apple Mac Mini 2022","MINIPC","",15000,150,10,"下架");
-//		RentalClassVO rc2 = new RentalClassVO("Apple Mac Mini 2016","MINIPC","",30000,300,0,0,10,"下架");
-//		dao.insert(rc1);
+		RentalClassVO rc1 = new RentalClassVO("Apple Mac Mini 2022","MINIPC","",15000,150);
+//		RentalClassVO rc2 = new RentalClassVO("Apple Mac Mini 2016","MINIPC","",30000,300);
+		rc1 = dao.insert(rc1);
+		System.out.println(rc1.getRc_no());
 //		dao.insert(rc2);
 
 		//修改
@@ -26,8 +27,8 @@ public class TestRentalClassJDBCDAO {
 //		System.out.println(rc1.getRc_deposit());
 		
 		//查詢全部
-		List<RentalClassVO> list = dao.getAll();
-		for(RentalClassVO item:list)
-			System.out.println(item.getRc_name());
+//		List<RentalClassVO> list = dao.getAll();
+//		for(RentalClassVO item:list)
+//			System.out.println(item.getRc_name());
 	}
 }
