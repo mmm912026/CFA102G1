@@ -43,7 +43,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 	public StaffVO insert(StaffVO staff) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+		ResultSet rs =null ;
 		
 		try {
 			
@@ -60,6 +60,11 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			pstmt.setString(8, staff.getStaff_sta());
 			
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				staff.setStaff_no(rs.getInt(1));
+			}
 			
 					}catch (SQLException se) {
 			se.printStackTrace();
@@ -310,52 +315,53 @@ public class StaffJDBCDAO implements I_StaffDAO{
 
 	//測試開始
 //		public static void main(String[] args) {
-			
-			//新增員工資料
+//			
+//			//新增員工資料
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO staff = new StaffVO();
 //
-//			staff.setSTAFF_NAME("TOYA");
-//			staff.setSTAFF_GENDER("男");
-//			staff.setSTAFF_PHONE(959991255);
-//			staff.setSTAFF_EMAIL("dasfe22@gmail.com");
-//			staff.setSTAFF_ADDRESS("桃園市中壢區央中路2段110號");
-//			staff.setSTAFF_ACCOUNT("sadf6");
-//			staff.setSTAFF_PASSWORD("vbdfge55");
-//			staff.setSTAFF_STA("正常");
-//			dao.insert(staff);
+//			staff.setStaff_name("TOYA1111");
+//			staff.setStaff_gender("男");
+//			staff.setStaff_phone(959991255);
+//			staff.setStaff_email("dasfe22@gmail.com");
+//			staff.setStaff_address("桃園市中壢區央中路2段110號");
+//			staff.setStaff_account("sadf6");
+//			staff.setStaff_password("vbdfge55");
+//			staff.setStaff_sta("正常");
+//			staff = dao.insert(staff);
+//			System.out.println(staff.getStaff_no());
 //			
 //			
 			//System.out.println("---------------------------------------------------");
 			//用員工編號查詢
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			StaffVO list1 = dao.findByStaff_no(2);
-//			    System.out.print(list1.getSTAFF_NO()+"\t");
-//			    System.out.print(list1.getSTAFF_NAME()+"\t");
-//			    System.out.print(list1.getSTAFF_GENDER()+"\t");
-//			    System.out.print(list1.getSTAFF_PHONE()+"\t");
-//			    System.out.print(list1.getSTAFF_EMAIL()+"\t");
-//			    System.out.print(list1.getSTAFF_ADDRESS()+"\t");
-//			    System.out.print(list1.getSTAFF_ACCOUNT()+"\t");
-//			    System.out.print(list1.getSTAFF_PASSWORD()+"\t");
-//			    System.out.print(list1.getSTAFF_STA()+"\t");
+//			StaffVO list1 = dao.findByStaff_no(7002);
+//			    System.out.print(list1.getStaff_no()+"\t");
+//			    System.out.print(list1.getStaff_name()+"\t");
+//			    System.out.print(list1.getStaff_gender()+"\t");
+//			    System.out.print(list1.getStaff_phone()+"\t");
+//			    System.out.print(list1.getStaff_email()+"\t");
+//			    System.out.print(list1.getStaff_address()+"\t");
+//			    System.out.print(list1.getStaff_account()+"\t");
+//			    System.out.print(list1.getStaff_password()+"\t");
+//			    System.out.print(list1.getStaff_sta()+"\t");
 //			    System.out.println();
-			
+//			
 			//System.out.println("---------------------------------------------------");
 			//用名字查詢
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			List<StaffVO> nameList = dao.findByStaff_name("nami");
 //			for (StaffVO staffVOName : nameList) {
 //				
-//				System.out.print(staffVOName.getSTAFF_NO()+"\t");
-//				System.out.print(staffVOName.getSTAFF_NAME()+"\t");
-//				System.out.print(staffVOName.getSTAFF_GENDER()+"\t");
-//				System.out.print(staffVOName.getSTAFF_PHONE()+"\t");
-//				System.out.print(staffVOName.getSTAFF_EMAIL()+"\t");
-//				System.out.print(staffVOName.getSTAFF_ADDRESS()+"\t");
-//				System.out.print(staffVOName.getSTAFF_ACCOUNT()+"\t");
-//				System.out.print(staffVOName.getSTAFF_PASSWORD()+"\t");
-//				System.out.print(staffVOName.getSTAFF_STA()+"\t");
+//				System.out.print(staffVOName.getStaff_no()+"\t");
+//				System.out.print(staffVOName.getStaff_name()+"\t");
+//				System.out.print(staffVOName.getStaff_gender()+"\t");
+//				System.out.print(staffVOName.getStaff_phone()+"\t");
+//				System.out.print(staffVOName.getStaff_email()+"\t");
+//				System.out.print(staffVOName.getStaff_address()+"\t");
+//				System.out.print(staffVOName.getStaff_account()+"\t");
+//				System.out.print(staffVOName.getStaff_password()+"\t");
+//				System.out.print(staffVOName.getStaff_sta()+"\t");
 //				System.out.println();
 //			}
 			//System.out.println("---------------------------------------------------");
@@ -364,33 +370,33 @@ public class StaffJDBCDAO implements I_StaffDAO{
 //			List<StaffVO> list = dao.getAll();
 //			for (StaffVO staffVO : list ) {
 //				
-//			    System.out.print(staffVO.getSTAFF_NO()+"\t");
-//			    System.out.print(staffVO.getSTAFF_NAME()+"\t");
-//			    System.out.print(staffVO.getSTAFF_GENDER()+"\t");
-//			    System.out.print(staffVO.getSTAFF_PHONE()+"\t");
-//			    System.out.print(staffVO.getSTAFF_EMAIL()+"\t");
-//			    System.out.print(staffVO.getSTAFF_ADDRESS()+"\t");
-//			    System.out.print(staffVO.getSTAFF_ACCOUNT()+"\t");
-//			    System.out.print(staffVO.getSTAFF_PASSWORD()+"\t");
-//			    System.out.print(staffVO.getSTAFF_STA()+"\t");
+//			    System.out.print(staffVO.getStaff_no()+"\t");
+//			    System.out.print(staffVO.getStaff_name()+"\t");
+//			    System.out.print(staffVO.getStaff_gender()+"\t");
+//			    System.out.print(staffVO.getStaff_phone()+"\t");
+//			    System.out.print(staffVO.getStaff_email()+"\t");
+//			    System.out.print(staffVO.getStaff_address()+"\t");
+//			    System.out.print(staffVO.getStaff_account()+"\t");
+//			    System.out.print(staffVO.getStaff_password()+"\t");
+//			    System.out.print(staffVO.getStaff_sta()+"\t");
 //			    System.out.println();
 //			}
 //			System.out.println("-------------------------------------------");
 			
 			//用手機號麻搜尋
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			List<StaffVO> list = dao.findByStaff_phone(988648216);
+//			List<StaffVO> list = dao.findByStaff_phone(999667150);
 //			for (StaffVO staffphone : list) {
 //				
-//				System.out.print(staffphone.getSTAFF_NO()+"\t");
-//				System.out.print(staffphone.getSTAFF_NAME()+"\t");
-//				System.out.print(staffphone.getSTAFF_GENDER()+"\t");
-//				System.out.print(staffphone.getSTAFF_PHONE()+"\t");
-//				System.out.print(staffphone.getSTAFF_EMAIL()+"\t");
-//				System.out.print(staffphone.getSTAFF_ADDRESS()+"\t");
-//				System.out.print(staffphone.getSTAFF_ACCOUNT()+"\t");
-//				System.out.print(staffphone.getSTAFF_PASSWORD()+"\t");
-//				System.out.print(staffphone.getSTAFF_STA()+"\t");
+//				System.out.print(staffphone.getStaff_no()+"\t");
+//				System.out.print(staffphone.getStaff_name()+"\t");
+//				System.out.print(staffphone.getStaff_gender()+"\t");
+//				System.out.print(staffphone.getStaff_phone()+"\t");
+//				System.out.print(staffphone.getStaff_email()+"\t");
+//				System.out.print(staffphone.getStaff_address()+"\t");
+//				System.out.print(staffphone.getStaff_account()+"\t");
+//				System.out.print(staffphone.getStaff_password()+"\t");
+//				System.out.print(staffphone.getStaff_sta()+"\t");
 //				System.out.println();
 //			}
 			//System.out.println("---------------------------------------------------");
@@ -399,18 +405,18 @@ public class StaffJDBCDAO implements I_StaffDAO{
 //			StaffJDBCDAO dao = new StaffJDBCDAO();
 //			StaffVO staff = new StaffVO();
 //			
-//			staff.setSTAFF_NAME("minako");
-//			staff.setSTAFF_GENDER("女");
-//			staff.setSTAFF_PHONE(974455553);	
-//			staff.setSTAFF_EMAIL("msdfw223@gmail.com");
-//			staff.setSTAFF_ADDRESS("桃園市新屋區中正路777號");
-//			staff.setSTAFF_ACCOUNT("t05sdf");
-//			staff.setSTAFF_PASSWORD("rass35");
-//			staff.setSTAFF_STA("正常");
-//			staff.setSTAFF_NO(3);
+//			staff.setStaff_name("minako");
+//			staff.setStaff_gender("女");
+//			staff.setStaff_phone(974455553);	
+//			staff.setStaff_email("msdfw223@gmail.com");
+//			staff.setStaff_address("桃園市新屋區中正路777號");
+//			staff.setStaff_account("t05sdf");
+//			staff.setStaff_password("rass35");
+//			staff.setStaff_sta("正常");
+//			staff.setStaff_no(3);
 //			
 //			dao.update(staff);
-//			
+			
 //		}
 		//System.out.println("---------------------------------------------------");
 			//刪除
