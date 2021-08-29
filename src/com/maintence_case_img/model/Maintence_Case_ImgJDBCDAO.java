@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,30 +32,31 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.MAINTENANCE_CASE_IMAGES";
 	
 	@Override
-	public void insert(Maintence_Case_ImgVO maintenceCaseimgvo) {
+	public Maintence_Case_ImgVO insert(Maintence_Case_ImgVO maintenceCaseimgvo) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, maintenceCaseimgvo.getMca_no());
 			pstmt.setBytes(2,maintenceCaseimgvo.getMci_before_img());
 			pstmt.setBytes(3, maintenceCaseimgvo.getMci_after_img());
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				maintenceCaseimgvo.setMci_no(rs.getInt(1));
+			}
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -63,7 +65,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 				}
 			}
 		}
-		
+		return maintenceCaseimgvo;
 	}
 	
 	@Override
@@ -86,13 +88,6 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -119,13 +114,6 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -162,13 +150,6 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -213,13 +194,6 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -242,17 +216,19 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 	
 	//驗證功能----------------------------------------------------------------------
 
-	public static void main (String[] args) {
-		
-		
-	//測試INSERT OK
+//	public static void main (String[] args) {
+//		
+//		
+//	//測試INSERT OK
 //	Maintence_Case_ImgJDBCDAO dao = new Maintence_Case_ImgJDBCDAO();
 //	Maintence_Case_ImgVO mciv= new Maintence_Case_ImgVO();
 //	mciv.setMca_no(2);
 //	mciv.setMci_before_img(getPictureByteArray("C:\\CFA102_G1專題\\CFA102G1\\testimg\\lenovo1.jpg"));
 //	mciv.setMci_after_img(getPictureByteArray("C:\\\\CFA102_G1專題\\\\CFA102G1\\\\testimg\\\\lenovo1.jpg"));
-//	dao.insert(mciv);
-//	System.out.println("INSERT成功");
+//	mciv=dao.insert(mciv);
+//	System.out.println(mciv.getMci_no());
+
+
 		
 	//測試UPDATE(OK).........................................
 //	Maintence_Case_ImgJDBCDAO dao = new Maintence_Case_ImgJDBCDAO();
@@ -289,7 +265,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 //	System.out.println(mciv.getMca_no());
 //	System.out.println("----------------------------------------------");
 //	}	
-}
+//}
 
 	
 	// 使用byte[]方式將照片存入BLOB
