@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface I_Maintence_CaseDAO {
 	
-	public void insert (Maintence_CaseVO maintence_casevo);
+	public Maintence_CaseVO insert (Maintence_CaseVO maintence_casevo);
 	public void update (Maintence_CaseVO maintence_casevo);
 	public void delete (Integer mca_no);
     public Maintence_CaseVO findByPK(Integer mca_no);

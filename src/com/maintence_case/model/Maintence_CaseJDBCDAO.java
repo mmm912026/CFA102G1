@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,17 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.MAINTENANCE_CASE";
 	
 	@Override
-	public void insert(Maintence_CaseVO maintence_casevo) {
+	public Maintence_CaseVO insert(Maintence_CaseVO  maintence_casevo) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
+			
 			pstmt.setInt(1,maintence_casevo.getMem_no());
 			pstmt.setString(2,maintence_casevo.getMca_itm_id());
 			pstmt.setInt(3,maintence_casevo.getMcl_no());
@@ -60,18 +63,16 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 			
 			pstmt.executeUpdate();
 			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				maintence_casevo.setMca_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -80,7 +81,7 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 				}
 			}
 		}
-		
+		return maintence_casevo;
 	}
 	
 	@Override
@@ -118,13 +119,6 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -152,13 +146,6 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -209,13 +196,6 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -277,13 +257,6 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -345,13 +318,6 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -371,10 +337,10 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 	}
 	
 //驗證功能----------------------------------------------------------------------
-	
-	public static void main(String[] args) {
-		
-	    //驗證INSERT OK
+//	
+//	public static void main(String[] args) {
+//		
+//	    //驗證INSERT OK
 //		Maintence_CaseJDBCDAO dao = new Maintence_CaseJDBCDAO();
 //		Maintence_CaseVO mcv = new Maintence_CaseVO();
 //		
@@ -394,7 +360,9 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 //		mcv.setMca_cod("自取");
 //		mcv.setMca_adrs("台北市大安路1號");
 //		mcv.setMca_context("已更換cpu");
-//		dao.insert(mcv);
+//		
+//		mcv=dao.insert(mcv);
+//		System.out.println(mcv.getMca_no() + " : " + mcv.getMca_itm_id());
 		
 		//驗證UPDATE OK
 //		Maintence_CaseJDBCDAO dao = new Maintence_CaseJDBCDAO();
@@ -499,4 +467,4 @@ public class Maintence_CaseJDBCDAO implements I_Maintence_CaseDAO {
 //驗證功能----------------------------------------------------------------------
 
 
-}
+//}
