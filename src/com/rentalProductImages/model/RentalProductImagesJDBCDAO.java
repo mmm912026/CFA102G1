@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,21 +28,27 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES";
 	
-	public void insert(RentalProductImagesVO RentalProductImagesVO) {
+	public RentalProductImagesVO insert(RentalProductImagesVO rentalProductImagesVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 
-			pstmt.setInt(1, RentalProductImagesVO.getRc_no());
-			pstmt.setBytes(2, RentalProductImagesVO.getRpi_img());
+			pstmt.setInt(1, rentalProductImagesVO.getRc_no());
+			pstmt.setBytes(2, rentalProductImagesVO.getRpi_img());
 			
 			pstmt.executeUpdate();
 
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				rentalProductImagesVO.setRpi_no(rs.getInt(1));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
@@ -64,10 +71,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				}
 			}
 		}	
-		
+		return rentalProductImagesVO;
 	}
 
-	public void update(RentalProductImagesVO RentalProductImagesVO) {
+	public void update(RentalProductImagesVO rentalProductImagesVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -77,9 +84,9 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setInt(1, RentalProductImagesVO.getRc_no());
-			pstmt.setBytes(2, RentalProductImagesVO.getRpi_img());
-			pstmt.setInt(3, RentalProductImagesVO.getRpi_no());
+			pstmt.setInt(1, rentalProductImagesVO.getRc_no());
+			pstmt.setBytes(2, rentalProductImagesVO.getRpi_img());
+			pstmt.setInt(3, rentalProductImagesVO.getRpi_no());
 			
 			pstmt.executeUpdate();
 
@@ -146,7 +153,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 	}
 
 	public RentalProductImagesVO findByPK(Integer rpi_no) {
-		RentalProductImagesVO RentalProductImagesVO = null;
+		RentalProductImagesVO rentalProductImagesVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -162,10 +169,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				RentalProductImagesVO = new RentalProductImagesVO();		
-				RentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
-				RentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
-				RentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));			
+				rentalProductImagesVO = new RentalProductImagesVO();		
+				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
+				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
+				rentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));			
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -197,13 +204,12 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				}
 			}
 		}
-		return RentalProductImagesVO;
+		return rentalProductImagesVO;
 	}
 
-	@Override
 	public List<RentalProductImagesVO> getAll() {
 		List<RentalProductImagesVO> list = new ArrayList<RentalProductImagesVO>();
-		RentalProductImagesVO RentalProductImagesVO = null;
+		RentalProductImagesVO rentalProductImagesVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -217,11 +223,11 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				RentalProductImagesVO = new RentalProductImagesVO();		
-				RentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
-				RentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
-				RentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));
-				list.add(RentalProductImagesVO);
+				rentalProductImagesVO = new RentalProductImagesVO();		
+				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
+				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
+				rentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));
+				list.add(rentalProductImagesVO);
 			}
 
 		} catch (ClassNotFoundException e) {

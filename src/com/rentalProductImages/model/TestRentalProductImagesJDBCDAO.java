@@ -9,11 +9,12 @@ public class TestRentalProductImagesJDBCDAO {
 		I_RentalProductImagesDAO dao = new RentalProductImagesJDBCDAO();
 		
 		//新增
-//		RentalProductImagesVO rpi1 = new RentalProductImagesVO();
-//		rpi1.setRc_no(6);
-//		byte[] pic = getPictureByteArray("C:/images/1.jpg");
-//		rpi1.setRpi_img(pic);
-//		dao.insert(rpi1);
+		RentalProductImagesVO rpi1 = new RentalProductImagesVO();
+		rpi1.setRc_no(6);
+		byte[] pic = getPictureByteArray("C:/images/1.jpg");
+		rpi1.setRpi_img(pic);
+		rpi1 = dao.insert(rpi1);
+		System.out.println(rpi1.getRpi_no());
 		
 		//修改
 //		RentalProductImagesVO rpi1 = new RentalProductImagesVO();

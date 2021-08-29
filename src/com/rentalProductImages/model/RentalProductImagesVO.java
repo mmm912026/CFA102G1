@@ -12,6 +12,13 @@ public class RentalProductImagesVO implements Serializable{
 	public RentalProductImagesVO(){
 		
 	}
+	
+	public RentalProductImagesVO(Integer rpi_no, Integer rc_no, byte[] rpi_img) {
+		super();
+		this.rpi_no = rpi_no;
+		this.rc_no = rc_no;
+		this.rpi_img = rpi_img;
+	}
 
 	public Integer getRpi_no() {
 		return rpi_no;
