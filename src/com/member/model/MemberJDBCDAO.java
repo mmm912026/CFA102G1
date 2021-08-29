@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,37 +39,31 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public void insert(MemberVO member) {
+	public MemberVO insert(MemberVO member) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		
 		
 		try {
 			
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_SQL);
+			pstmt = con.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1,member.getMEM_NAME());
-			pstmt.setString(2, member.getMEM_GENDER());
-			pstmt.setInt(3, member.getMEM_PHONE());
-			pstmt.setString(4, member.getMEM_EMAIL());
-			pstmt.setString(5, member.getMEM_ADDRESS());
-			pstmt.setString(6, member.getMEM_ACCOUNT());
-			pstmt.setString(7, member.getMEM_PASSWORD());
-			pstmt.setString(8, member.getMEM_BIRTH());
-			pstmt.setString(9, member.getMEM_STA());
+			pstmt.setString(1,member.getMem_name());
+			pstmt.setString(2, member.getMem_gender());
+			pstmt.setInt(3, member.getMem_phone());
+			pstmt.setString(4, member.getMem_email());
+			pstmt.setString(5, member.getMem_address());
+			pstmt.setString(6, member.getMem_account());
+			pstmt.setString(7, member.getMem_password());
+			pstmt.setString(8, member.getMem_birth());
+			pstmt.setString(9, member.getMem_sta());
 			
 			pstmt.executeUpdate();
 			
 					}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					 se.printStackTrace();
-				}
-			}
 			if(con !=null) {
 				try {
 					con.close();
@@ -77,6 +72,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 				}
 			}
 		}
+		return member;
 	}
 
 	@Override
@@ -85,35 +81,29 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
+		
 		try {
 			
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_SQL);
 			
 			
-			pstmt.setString(1,member.getMEM_NAME());
-			pstmt.setString(2, member.getMEM_GENDER());
-			pstmt.setInt(3, member.getMEM_PHONE());
-			pstmt.setString(4, member.getMEM_EMAIL());
-			pstmt.setString(5, member.getMEM_ADDRESS());
-			pstmt.setString(6, member.getMEM_ACCOUNT());
-			pstmt.setString(7, member.getMEM_PASSWORD());
-			pstmt.setString(8, member.getMEM_BIRTH());
-			pstmt.setString(9, member.getMEM_STA());
-			pstmt.setInt(10, member.getMEM_NO());
+			pstmt.setString(1,member.getMem_name());
+			pstmt.setString(2, member.getMem_gender());
+			pstmt.setInt(3, member.getMem_phone());
+			pstmt.setString(4, member.getMem_email());
+			pstmt.setString(5, member.getMem_address());
+			pstmt.setString(6, member.getMem_account());
+			pstmt.setString(7, member.getMem_password());
+			pstmt.setString(8, member.getMem_birth());
+			pstmt.setString(9, member.getMem_sta());
+			pstmt.setInt(10, member.getMem_no());
 			
 			pstmt.executeUpdate();
 			
 					}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					 se.printStackTrace();
-				}
-			}
 			if(con !=null) {
 				try {
 					con.close();
@@ -125,29 +115,23 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public void delete(Integer MEM_NO) {
+	public void delete(Integer mem_no) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		
 
 		try {
 
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(DELETE_SQL);
 
-			pstmt.setInt(1, MEM_NO);			
+			pstmt.setInt(1, mem_no);			
 			
 			pstmt.executeUpdate();
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					 se.printStackTrace();
-				}
-			}
 			if(con !=null) {
 				try {
 					con.close();
@@ -159,7 +143,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public MemberVO findByMem_no(Integer MEM_NO) {
+	public MemberVO findByMem_no(Integer mem_no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -168,43 +152,27 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_MEM_NO_SQL);
-			pstmt.setInt(1,MEM_NO );
+			pstmt.setInt(1,mem_no );
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				member = new MemberVO();
-				member.setMEM_NO(MEM_NO);
-				member.setMEM_NAME(rs.getString("MEM_NAME"));
-				member.setMEM_GENDER(rs.getString("MEM_GENDER"));
-				member.setMEM_PHONE(rs.getInt("MEM_PHONE"));
-				member.setMEM_EMAIL(rs.getString("MEM_EMAIL"));
-				member.setMEM_ADDRESS(rs.getString("MEM_ADDRESS"));
-				member.setMEM_ACCOUNT(rs.getString("MEM_ACCOUNT"));
-				member.setMEM_PASSWORD(rs.getString("MEM_PASSWORD"));
-				member.setMEM_BIRTH(rs.getString("MEM_BIRTH"));
-				member.setMEM_STA(rs.getString("MEM_STA"));
+				member.setMem_no(mem_no);
+				member.setMem_name(rs.getString("MEM_NAME"));
+				member.setMem_gender(rs.getString("MEM_GENDER"));
+				member.setMem_phone(rs.getInt("MEM_PHONE"));
+				member.setMem_email(rs.getString("MEM_EMAIL"));
+				member.setMem_address(rs.getString("MEM_ADDRESS"));
+				member.setMem_account(rs.getString("MEM_ACCOUNT"));
+				member.setMem_password(rs.getString("MEM_PASSWORD"));
+				member.setMem_birth(rs.getString("MEM_BIRTH"));
+				member.setMem_sta(rs.getString("MEM_STA"));
 				
 			}
 			
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
 			if(con != null) {
 				try {
 					con.close();
@@ -220,7 +188,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		
 
 	@Override
-	public List<MemberVO> findByMem_name(String MEM_NAME) {
+	public List<MemberVO> findByMem_name(String mem_name) {
 		List<MemberVO> list = new ArrayList<MemberVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -230,43 +198,27 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_MEM_NAME_SQL);
-			pstmt.setString(1,MEM_NAME);
+			pstmt.setString(1,mem_name);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				member = new MemberVO();
-				member.setMEM_NO(rs.getInt("MEM_NO"));
-				member.setMEM_NAME(rs.getString("MEM_NAME"));
-				member.setMEM_GENDER(rs.getString("MEM_GENDER"));
-				member.setMEM_PHONE(rs.getInt("MEM_PHONE"));
-				member.setMEM_EMAIL(rs.getString("MEM_EMAIL"));
-				member.setMEM_ADDRESS(rs.getString("MEM_ADDRESS"));
-				member.setMEM_ACCOUNT(rs.getString("MEM_ACCOUNT"));
-				member.setMEM_PASSWORD(rs.getString("MEM_PASSWORD"));
-				member.setMEM_BIRTH(rs.getString("MEM_BIRTH"));
-				member.setMEM_STA(rs.getString("MEM_STA"));
+				member.setMem_no(rs.getInt("MEM_NO"));
+				member.setMem_name(rs.getString("MEM_NAME"));
+				member.setMem_gender(rs.getString("MEM_GENDER"));
+				member.setMem_phone(rs.getInt("MEM_PHONE"));
+				member.setMem_email(rs.getString("MEM_EMAIL"));
+				member.setMem_address(rs.getString("MEM_ADDRESS"));
+				member.setMem_account(rs.getString("MEM_ACCOUNT"));
+				member.setMem_password(rs.getString("MEM_PASSWORD"));
+				member.setMem_birth(rs.getString("MEM_BIRTH"));
+				member.setMem_sta(rs.getString("MEM_STA"));
 				list.add(member);
 				
 			}
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
 			if(con != null) {
 				try {
 					con.close();
@@ -279,7 +231,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public List<MemberVO> findByMem_phone(Integer MEM_PHONE) {
+	public List<MemberVO> findByMem_phone(Integer mem_phone) {
 		List<MemberVO> list = new ArrayList<MemberVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -289,43 +241,27 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_MEM_PHONE_SQL);
-			pstmt.setInt(1,MEM_PHONE);
+			pstmt.setInt(1,mem_phone);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				member = new MemberVO();
-				member.setMEM_NO(rs.getInt("MEM_NO"));
-				member.setMEM_NAME(rs.getString("MEM_NAME"));
-				member.setMEM_GENDER(rs.getString("MEM_GENDER"));
-				member.setMEM_PHONE(rs.getInt("MEM_PHONE"));
-				member.setMEM_EMAIL(rs.getString("MEM_EMAIL"));
-				member.setMEM_ADDRESS(rs.getString("MEM_ADDRESS"));
-				member.setMEM_ACCOUNT(rs.getString("MEM_ACCOUNT"));
-				member.setMEM_PASSWORD(rs.getString("MEM_PASSWORD"));
-				member.setMEM_BIRTH(rs.getString("MEM_BIRTH"));
-				member.setMEM_STA(rs.getString("MEM_STA"));
+				member.setMem_no(rs.getInt("MEM_NO"));
+				member.setMem_name(rs.getString("MEM_NAME"));
+				member.setMem_gender(rs.getString("MEM_GENDER"));
+				member.setMem_phone(rs.getInt("MEM_PHONE"));
+				member.setMem_email(rs.getString("MEM_EMAIL"));
+				member.setMem_address(rs.getString("MEM_ADDRESS"));
+				member.setMem_account(rs.getString("MEM_ACCOUNT"));
+				member.setMem_password(rs.getString("MEM_PASSWORD"));
+				member.setMem_birth(rs.getString("MEM_BIRTH"));
+				member.setMem_sta(rs.getString("MEM_STA"));
 				list.add(member);
 				
 			}
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
 			if(con != null) {
 				try {
 					con.close();
@@ -352,16 +288,16 @@ public class MemberJDBCDAO implements I_MemberDAO{
 			while (rs.next()) {
 				memberVO = new MemberVO();
 				
-				memberVO.setMEM_NO(rs.getInt("MEM_NO"));
-				memberVO.setMEM_NAME(rs.getString("MEM_NAME"));
-				memberVO.setMEM_GENDER(rs.getString("MEM_GENDER"));
-				memberVO.setMEM_PHONE(rs.getInt("MEM_PHONE"));
-				memberVO.setMEM_EMAIL(rs.getString("MEM_EMAIL"));
-				memberVO.setMEM_ADDRESS(rs.getString("MEM_ADDRESS"));
-				memberVO.setMEM_ACCOUNT(rs.getString("MEM_ACCOUNT"));
-				memberVO.setMEM_PASSWORD(rs.getString("MEM_PASSWORD"));
-				memberVO.setMEM_BIRTH(rs.getString("MEM_BIRTH"));
-				memberVO.setMEM_STA(rs.getString("MEM_STA"));
+				memberVO.setMem_no(rs.getInt("MEM_NO"));
+				memberVO.setMem_name(rs.getString("MEM_NAME"));
+				memberVO.setMem_gender(rs.getString("MEM_GENDER"));
+				memberVO.setMem_phone(rs.getInt("MEM_PHONE"));
+				memberVO.setMem_email(rs.getString("MEM_EMAIL"));
+				memberVO.setMem_address(rs.getString("MEM_ADDRESS"));
+				memberVO.setMem_account(rs.getString("MEM_ACCOUNT"));
+				memberVO.setMem_password(rs.getString("MEM_PASSWORD"));
+				memberVO.setMem_birth(rs.getString("MEM_BIRTH"));
+				memberVO.setMem_sta(rs.getString("MEM_STA"));
 				
 				list.add(memberVO);
 				
@@ -370,22 +306,6 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				}catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}
-			
 			if(con != null) {
 				try {
 					con.close();
@@ -398,7 +318,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		return list;
 	}
 //測試開始
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 		//新增會員資料
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
@@ -509,5 +429,5 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //		   System.out.println("-------------------------------------------");
 //	
 //	
-	}
+//	}
 }
