@@ -9,7 +9,7 @@ public class ProductReviewsService {
 		dao = new ProductReviewsJDBCDAO();
 	}
 	
-	public ProductReviewsVO insertRentalClass(Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
+	public ProductReviewsVO insertProductReviews(Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
 			Integer pr_score, String pr_status) {
 		
 		ProductReviewsVO productReviewsVO = new ProductReviewsVO();
@@ -26,7 +26,7 @@ public class ProductReviewsService {
 		return productReviewsVO;
 	}
 	
-	public ProductReviewsVO updateRentalClass(Integer pr_no, Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
+	public ProductReviewsVO updateProductReviews(Integer pr_no, Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
 			Integer pr_score, String pr_status) {
 
 		ProductReviewsVO productReviewsVO = new ProductReviewsVO();
@@ -44,11 +44,11 @@ public class ProductReviewsService {
 		return productReviewsVO;
 	}
 
-	public void deleteRentalClass(Integer pr_no) {
+	public void deleteProductReviews(Integer pr_no) {
 		dao.delete(pr_no);
 	}
 
-	public ProductReviewsVO getOneRentalClass(Integer pr_no) {
+	public ProductReviewsVO getOneProductReviews(Integer pr_no) {
 		return dao.findByPK(pr_no);
 	}
 

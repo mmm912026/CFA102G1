@@ -10,7 +10,7 @@ public class RentalOrderService {
 		dao = new RentalOrderJDBCDAO();
 	}
 	
-	public RentalOrderVO insertRentalClass(Integer mem_no, Integer rpl_no, String ro_pay_status, String ro_pay_method,
+	public RentalOrderVO insertRentalOrder(Integer mem_no, Integer rpl_no, String ro_pay_status, String ro_pay_method,
 			String ro_ship_method, String ro_ship_status, String ro_ship_addrs, Timestamp ro_starttime,
 			Timestamp ro_endtime, Timestamp ro_oncerentendtime, Timestamp ro_return_date, Integer ro_day,
 			Integer ro_price, Integer ro_totalprice, Integer ro_deposit, String ro_deposit_status,
@@ -47,7 +47,7 @@ public class RentalOrderService {
 		return rentalOrderVO;
 	}
 	
-	public RentalOrderVO updateRentalClass(Integer ro_no, Integer mem_no, Integer rpl_no, String ro_status, String ro_pay_status, String ro_pay_method,
+	public RentalOrderVO updateRentalOrder(Integer ro_no, Integer mem_no, Integer rpl_no, String ro_status, String ro_pay_status, String ro_pay_method,
 			String ro_ship_method, String ro_ship_status, String ro_ship_addrs, Timestamp ro_starttime,
 			Timestamp ro_endtime, Timestamp ro_oncerentendtime, Timestamp ro_return_date, Integer ro_day,
 			Integer ro_price, Integer ro_totalprice, Integer ro_deposit, String ro_deposit_status,
@@ -86,11 +86,11 @@ public class RentalOrderService {
 		return rentalOrderVO;
 	}
 
-	public void deleteRentalClass(Integer ro_no) {
+	public void deleteRentalOrder(Integer ro_no) {
 		dao.delete(ro_no);
 	}
 
-	public RentalOrderVO getOneRentalClass(Integer ro_no) {
+	public RentalOrderVO getOneRentalOrder(Integer ro_no) {
 		return dao.findByPK(ro_no);
 	}
 

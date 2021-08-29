@@ -10,7 +10,7 @@ public class RentalProductListService {
 		dao = new RentalProductListJDBCDAO();
 	}
 	
-	public RentalProductListVO insertRentalClass(Integer rc_no, String rpl_serialnum,String rpl_note) {
+	public RentalProductListVO insertRentalProductList(Integer rc_no, String rpl_serialnum,String rpl_note) {
 		
 		RentalProductListVO rentalProductListVO = new RentalProductListVO();
 		
@@ -22,7 +22,7 @@ public class RentalProductListService {
 		return rentalProductListVO;
 	}
 	
-	public RentalProductListVO updateRentalClass(Integer rpl_no, Integer rc_no, String rpl_serialnum, String rpl_note, String rpl_status,
+	public RentalProductListVO updateRentalProductList(Integer rpl_no, Integer rc_no, String rpl_serialnum, String rpl_note, String rpl_status,
 			Integer rpl_rentcount, Timestamp rpl_jointtime) {
 
 		RentalProductListVO rentalProductListVO = new RentalProductListVO();
@@ -39,11 +39,11 @@ public class RentalProductListService {
 		return rentalProductListVO;
 	}
 
-	public void deleteRentalClass(Integer rpl_no) {
+	public void deleteRentalProductList(Integer rpl_no) {
 		dao.delete(rpl_no);
 	}
 
-	public RentalProductListVO getOneRentalClass(Integer rpl_no) {
+	public RentalProductListVO getOneRentalProductList(Integer rpl_no) {
 		return dao.findByPK(rpl_no);
 	}
 

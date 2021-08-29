@@ -10,7 +10,7 @@ public class ReportProductReviewsService {
 		dao = new ReportProductReviewsJDBCDAO();
 	}
 	
-	public ReportProductReviewsVO insertRentalClass(Integer pr_no, Integer mem_no, String report_content
+	public ReportProductReviewsVO insertReportProductReviews(Integer pr_no, Integer mem_no, String report_content
 			) {
 		
 		ReportProductReviewsVO reportProductReviewsVO = new ReportProductReviewsVO();
@@ -24,7 +24,7 @@ public class ReportProductReviewsService {
 		return reportProductReviewsVO;
 	}
 	
-	public ReportProductReviewsVO updateRentalClass(Integer rep_no, Integer pr_no, Integer mem_no, String report_content,
+	public ReportProductReviewsVO updateReportProductReviews(Integer rep_no, Integer pr_no, Integer mem_no, String report_content,
 			String rep_status, Timestamp rep_date) {
 
 		ReportProductReviewsVO reportProductReviewsVO = new ReportProductReviewsVO();
@@ -41,11 +41,11 @@ public class ReportProductReviewsService {
 		return reportProductReviewsVO;
 	}
 
-	public void deleteRentalClass(Integer rep_no) {
+	public void deleteReportProductReviews(Integer rep_no) {
 		dao.delete(rep_no);
 	}
 
-	public ReportProductReviewsVO getOneRentalClass(Integer rep_no) {
+	public ReportProductReviewsVO getOneReportProductReviews(Integer rep_no) {
 		return dao.findByPK(rep_no);
 	}
 

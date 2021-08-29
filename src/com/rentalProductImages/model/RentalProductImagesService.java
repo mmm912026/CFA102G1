@@ -9,7 +9,7 @@ public class RentalProductImagesService {
 		dao = new RentalProductImagesJDBCDAO();
 	}
 	
-	public RentalProductImagesVO insertRentalClass(Integer rc_no, byte[] rpi_img) {
+	public RentalProductImagesVO insertRentalProductImages(Integer rc_no, byte[] rpi_img) {
 		
 		RentalProductImagesVO rentalProductImagesVO = new RentalProductImagesVO();
 		
@@ -21,7 +21,7 @@ public class RentalProductImagesService {
 		return rentalProductImagesVO;
 	}
 	
-	public RentalProductImagesVO updateRentalClass(Integer rpi_no, Integer rc_no, byte[] rpi_img) {
+	public RentalProductImagesVO updateRentalProductImages(Integer rpi_no, Integer rc_no, byte[] rpi_img) {
 
 		RentalProductImagesVO rentalProductImagesVO = new RentalProductImagesVO();
 
@@ -33,11 +33,11 @@ public class RentalProductImagesService {
 		return rentalProductImagesVO;
 	}
 
-	public void deleteRentalClass(Integer rpi_no) {
+	public void deleteRentalProductImages(Integer rpi_no) {
 		dao.delete(rpi_no);
 	}
 
-	public RentalProductImagesVO getOneRentalClass(Integer rpi_no) {
+	public RentalProductImagesVO getOneRentalProductImages(Integer rpi_no) {
 		return dao.findByPK(rpi_no);
 	}
 
