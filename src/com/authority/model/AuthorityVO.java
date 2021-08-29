@@ -3,28 +3,28 @@ package com.authority.model;
 //Table Name : AUTHORITY(功能)
 
 public class AuthorityVO implements java.io.Serializable{
-	private Integer AUTHORITY_NO;
-	private String AUTHORITY_NAME;
+	private Integer authority_no;
+	private String authority_name;
 	public AuthorityVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public AuthorityVO(Integer aUTHORITY_NO, String aUTHORITY_NAME) {
+	public AuthorityVO(Integer authority_no, String authority_name) {
 		super();
-		this.AUTHORITY_NO = aUTHORITY_NO;
-		this.AUTHORITY_NAME = aUTHORITY_NAME;
+		this.authority_no = authority_no;
+		this.authority_name = authority_name;
 	}
-	public Integer getAUTHORITY_NO() {
-		return AUTHORITY_NO;
+	public Integer getAuthority_no() {
+		return authority_no;
 	}
-	public void setAUTHORITY_NO(Integer aUTHORITY_NO) {
-		this.AUTHORITY_NO = aUTHORITY_NO;
+	public void setAuthority_no(Integer authority_no) {
+		this.authority_no = authority_no;
 	}
-	public String getAUTHORITY_NAME() {
-		return AUTHORITY_NAME;
+	public String getAuthority_name() {
+		return authority_name;
 	}
-	public void setAUTHORITY_NAME(String aUTHORITY_NAME) {
-		this.AUTHORITY_NAME = aUTHORITY_NAME;
+	public void setAuthority_name(String authority_name) {
+		this.authority_name = authority_name;
 	}
 	
 }
