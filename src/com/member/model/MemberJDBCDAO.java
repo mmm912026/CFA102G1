@@ -42,7 +42,7 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	public MemberVO insert(MemberVO member) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+		ResultSet rs =null ;
 		
 		try {
 			
@@ -61,6 +61,10 @@ public class MemberJDBCDAO implements I_MemberDAO{
 			
 			pstmt.executeUpdate();
 			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				member.setMem_no(rs.getInt(1));
+			}
 					}catch (SQLException se) {
 			se.printStackTrace();
 		}finally {
@@ -81,7 +85,6 @@ public class MemberJDBCDAO implements I_MemberDAO{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		
 		try {
 			
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -100,6 +103,8 @@ public class MemberJDBCDAO implements I_MemberDAO{
 			pstmt.setInt(10, member.getMem_no());
 			
 			pstmt.executeUpdate();
+			
+
 			
 					}catch (SQLException se) {
 			se.printStackTrace();
@@ -319,54 +324,55 @@ public class MemberJDBCDAO implements I_MemberDAO{
 	}
 //測試開始
 //	public static void main(String[] args) {
-		
-		//新增會員資料
+//		
+//		//新增會員資料
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		MemberVO member = new MemberVO();
-//		member.setMEM_NAME("kano");
-//		member.setMEM_GENDER("男");
-//		member.setMEM_PHONE(933669205);
-//		member.setMEM_EMAIL("hi99051sdf1122@gmail.com");
-//		member.setMEM_ADDRESS("桃園市中壢區民權路一段77號");
-//		member.setMEM_ACCOUNT("tt99662yy5566");
-//		member.setMEM_PASSWORD("rasdfe665");
-//		member.setMEM_BIRTH("1999.02.02");
-//		member.setMEM_STA("正常");
-//		dao.insert(member);
+//		member.setMem_name("ima55555555i");
+//		member.setMem_gender("男");
+//		member.setMem_phone(985612236);
+//		member.setMem_email("9977885@gmail.com");
+//		member.setMem_address("台北市士林區中山路一段7號");
+//		member.setMem_account("000555tyy5566");
+//		member.setMem_password("r564815");
+//		member.setMem_birth("2004.01.02");
+//		member.setMem_sta("正常");
+//		member = dao.insert(member);
+//		System.out.println(member.getMem_no());
 //		
 		
 		//System.out.println("---------------------------------------------------");
 		//用會員編號查詢
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		MemberVO list1 = dao.findByMem_no(3);
-//		    System.out.print(list1.getMEM_NO()+"\t");
-//		    System.out.print(list1.getMEM_NAME()+"\t");
-//		    System.out.print(list1.getMEM_GENDER()+"\t");
-//		    System.out.print(list1.getMEM_PHONE()+"\t");
-//		    System.out.print(list1.getMEM_EMAIL()+"\t");
-//		    System.out.print(list1.getMEM_ADDRESS()+"\t");
-//		    System.out.print(list1.getMEM_ACCOUNT()+"\t");
-//		    System.out.print(list1.getMEM_PASSWORD()+"\t");
-//		  	System.out.print(list1.getMEM_BIRTH()+"\t");
-//		  	System.out.print(list1.getMEM_STA()+"\t");
+//		    System.out.print(list1.getMem_no()+"\t");
+//		    System.out.print(list1.getMem_name()+"\t");
+//		    System.out.print(list1.getMem_gender()+"\t");
+//		    System.out.print(list1.getMem_phone()+"\t");
+//		    System.out.print(list1.getMem_email()+"\t");
+//		    System.out.print(list1.getMem_address()+"\t");
+//		    System.out.print(list1.getMem_account()+"\t");
+//		    System.out.print(list1.getMem_password()+"\t");
+//		  	System.out.print(list1.getMem_birth()+"\t");
+//		  	System.out.print(list1.getMem_sta()+"\t");
 //		  	System.out.println();
-//	
+	
 		//System.out.println("---------------------------------------------------");
 		//用名字查詢
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> nameList = dao.findByMem_name("Akito");
 //		for (MemberVO memberVOName : nameList) {
 //			
-//			System.out.print(memberVOName.getMEM_NO()+"\t");
-//			System.out.print(memberVOName.getMEM_NAME()+"\t");
-//			System.out.print(memberVOName.getMEM_GENDER()+"\t");
-//			System.out.print(memberVOName.getMEM_PHONE()+"\t");
-//			System.out.print(memberVOName.getMEM_EMAIL()+"\t");
-//			System.out.print(memberVOName.getMEM_ADDRESS()+"\t");
-//			System.out.print(memberVOName.getMEM_ACCOUNT()+"\t");
-//			System.out.print(memberVOName.getMEM_PASSWORD()+"\t");
-//			System.out.print(memberVOName.getMEM_BIRTH()+"\t");
-//			System.out.print(memberVOName.getMEM_STA()+"\t");
+//			System.out.print(memberVOName.getMem_no()+"\t");
+//			System.out.print(memberVOName.getMem_name()+"\t");
+//			System.out.print(memberVOName.getMem_gender()+"\t");
+//			System.out.print(memberVOName.getMem_phone()+"\t");
+//			System.out.print(memberVOName.getMem_email()+"\t");
+//			System.out.print(memberVOName.getMem_address()+"\t");
+//			System.out.print(memberVOName.getMem_account()+"\t");
+//			System.out.print(memberVOName.getMem_password()+"\t");
+//			System.out.print(memberVOName.getMem_birth()+"\t");
+//			System.out.print(memberVOName.getMem_sta()+"\t");
 //			System.out.println();
 //		}
 		//System.out.println("---------------------------------------------------");
@@ -374,16 +380,16 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> list = dao.getAll();
 //		for (MemberVO memberVO : list ) {			
-//		    System.out.print(memberVO.getMEM_NO()+"\t");
-//	     	System.out.print(memberVO.getMEM_NAME()+"\t");
-//		    System.out.print(memberVO.getMEM_GENDER()+"\t");
-//		    System.out.print(memberVO.getMEM_PHONE()+"\t");
-//		    System.out.print(memberVO.getMEM_EMAIL()+"\t");
-//		    System.out.print(memberVO.getMEM_ADDRESS()+"\t");
-//		    System.out.print(memberVO.getMEM_ACCOUNT()+"\t");
-//		    System.out.print(memberVO.getMEM_PASSWORD()+"\t");
-//		    System.out.print(memberVO.getMEM_BIRTH()+"\t");
-//		    System.out.print(memberVO.getMEM_STA()+"\t");
+//		    System.out.print(memberVO.getMem_no()+"\t");
+//	     	System.out.print(memberVO.getMem_name()+"\t");
+//		    System.out.print(memberVO.getMem_gender()+"\t");
+//		    System.out.print(memberVO.getMem_phone()+"\t");
+//		    System.out.print(memberVO.getMem_email()+"\t");
+//		    System.out.print(memberVO.getMem_address()+"\t");
+//		    System.out.print(memberVO.getMem_account()+"\t");
+//		    System.out.print(memberVO.getMem_password()+"\t");
+//		    System.out.print(memberVO.getMem_birth()+"\t");
+//		    System.out.print(memberVO.getMem_sta()+"\t");
 //		    System.out.println();
 //		}
 //		System.out.println("-------------------------------------------");
@@ -392,38 +398,39 @@ public class MemberJDBCDAO implements I_MemberDAO{
 //		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		List<MemberVO> list = dao.findByMem_phone(988648216);
 //		for (MemberVO memberphone : list) {
-//			System.out.print(memberphone.getMEM_NO()+"\t");
-//			System.out.print(memberphone.getMEM_NAME()+"\t");
-//			System.out.print(memberphone.getMEM_GENDER()+"\t");
-//			System.out.print(memberphone.getMEM_PHONE()+"\t");
-//			System.out.print(memberphone.getMEM_EMAIL()+"\t");
-//			System.out.print(memberphone.getMEM_ADDRESS()+"\t");
-//			System.out.print(memberphone.getMEM_ACCOUNT()+"\t");
-//			System.out.print(memberphone.getMEM_PASSWORD()+"\t");
-//			System.out.print(memberphone.getMEM_BIRTH()+"\t");
-//			System.out.print(memberphone.getMEM_STA()+"\t");
+//			System.out.print(memberphone.getMem_no()+"\t");
+//			System.out.print(memberphone.getMem_name()+"\t");
+//			System.out.print(memberphone.getMem_gender()+"\t");
+//			System.out.print(memberphone.getMem_phone()+"\t");
+//			System.out.print(memberphone.getMem_email()+"\t");
+//			System.out.print(memberphone.getMem_address()+"\t");
+//			System.out.print(memberphone.getMem_account()+"\t");
+//			System.out.print(memberphone.getMem_password()+"\t");
+//			System.out.print(memberphone.getMem_birth()+"\t");
+//			System.out.print(memberphone.getMem_sta()+"\t");
 //			System.out.println();
 //		}
 		//System.out.println("---------------------------------------------------");
 		
 		//修改
 //		MemberVO member = new MemberVO();
-//		
-//		member.setMEM_NAME("kaido");
-//		member.setMEM_GENDER("男");
-//		member.setMEM_PHONE(978991553);	
-//		member.setMEM_EMAIL("mmmbb223@gmail.com");
-//		member.setMEM_ADDRESS("桃園市新屋區中正路一段87號");
-//		member.setMEM_ACCOUNT("t05sdf5566");
-//		member.setMEM_PASSWORD("rasdfs38165");
-//		member.setMEM_BIRTH("1999.04.29");
-//		member.setMEM_STA("停權");
-//		member.setMEM_NO(4);
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
+//		member.setMem_name("kaido");
+//		member.setMem_gender("男");
+//		member.setMem_phone(978991553);	
+//		member.setMem_email("mmmbb223@gmail.com");
+//		member.setMem_address("桃園市新屋區中正路一段87號");
+//		member.setMem_account("t05sdf5566");
+//		member.setMem_password("rasdfs38165");
+//		member.setMem_birth("1999.04.29");
+//		member.setMem_sta("停權");
+//		member.setMem_no(4);
 //		
 //		dao.update(member);
 //		
 //	}
 	//System.out.println("---------------------------------------------------");
+//		MemberJDBCDAO dao = new MemberJDBCDAO();
 //		dao.delete(4);
 //		   System.out.println("已刪除");
 //		   System.out.println("-------------------------------------------");
