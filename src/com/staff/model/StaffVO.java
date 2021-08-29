@@ -3,90 +3,109 @@ package com.staff.model;
 //Table Name : STAFF(員工)
 
 public class StaffVO implements java.io.Serializable{
-	private Integer STAFF_NO;
-	private String STAFF_NAME;
-	private String STAFF_GENDER;
-	private Integer STAFF_PHONE;
-	private String STAFF_EMAIL;
-	private String STAFF_ADDRESS;
-	private String STAFF_ACCOUNT;
-	private String STAFF_PASSWORD;
-	private String STAFF_STA;
+	private Integer staff_no;
+	private String staff_name;
+	private String staff_gender;
+	private Integer staff_phone;
+	private String staff_email;
+	private String staff_address;
+	private String staff_account;
+	private String staff_password;
+	private String staff_sta;
 	
 	public StaffVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public StaffVO(Integer sTAFF_NO, String sTAFF_NAME, String sTAFF_GENDER, Integer sTAFF_PHONE, String sTAFF_EMAIL,
-			String sTAFF_ADDRESS, String sTAFF_ACCOUNT, String sTAFF_PASSWORD, String sTAFF_STA) {
+
+	public StaffVO(Integer staff_no, String staff_name, String staff_gender, Integer staff_phone, String staff_email,
+			String staff_address, String staff_account, String staff_password, String staff_sta) {
 		super();
-		this.STAFF_NO = sTAFF_NO;
-		this.STAFF_NAME = sTAFF_NAME;
-		this.STAFF_GENDER = sTAFF_GENDER;
-		this.STAFF_PHONE = sTAFF_PHONE;
-		this.STAFF_EMAIL = sTAFF_EMAIL;
-		this.STAFF_ADDRESS = sTAFF_ADDRESS;
-		this.STAFF_ACCOUNT = sTAFF_ACCOUNT;
-		this.STAFF_PASSWORD = sTAFF_PASSWORD;
-		this.STAFF_STA = sTAFF_STA;
-	}
-	public Integer getSTAFF_NO() {
-		return STAFF_NO;
-	}
-	public void setSTAFF_NO(Integer sTAFF_NO) {
-		this.STAFF_NO = sTAFF_NO;
-	}
-	public String getSTAFF_NAME() {
-		return STAFF_NAME;
-	}
-	public void setSTAFF_NAME(String sTAFF_NAME) {
-		this.STAFF_NAME = sTAFF_NAME;
-	}
-	public String getSTAFF_GENDER() {
-		return STAFF_GENDER;
-	}
-	public void setSTAFF_GENDER(String sTAFF_GENDER) {
-		this.STAFF_GENDER = sTAFF_GENDER;
-	}
-	public Integer getSTAFF_PHONE() {
-		return STAFF_PHONE;
-	}
-	public void setSTAFF_PHONE(Integer sTAFF_PHONE) {
-		this.STAFF_PHONE = sTAFF_PHONE;
-	}
-	public String getSTAFF_EMAIL() {
-		return STAFF_EMAIL;
-	}
-	public void setSTAFF_EMAIL(String sTAFF_EMAIL) {
-		this.STAFF_EMAIL = sTAFF_EMAIL;
-	}
-	public String getSTAFF_ADDRESS() {
-		return STAFF_ADDRESS;
-	}
-	public void setSTAFF_ADDRESS(String sTAFF_ADDRESS) {
-		this.STAFF_ADDRESS = sTAFF_ADDRESS;
-	}
-	public String getSTAFF_ACCOUNT() {
-		return STAFF_ACCOUNT;
-	}
-	public void setSTAFF_ACCOUNT(String sTAFF_ACCOUNT) {
-		this.STAFF_ACCOUNT = sTAFF_ACCOUNT;
-	}
-	public String getSTAFF_PASSWORD() {
-		return STAFF_PASSWORD;
-	}
-	public void setSTAFF_PASSWORD(String sTAFF_PASSWORD) {
-		this.STAFF_PASSWORD = sTAFF_PASSWORD;
-	}
-	public String getSTAFF_STA() {
-		return STAFF_STA;
-	}
-	public void setSTAFF_STA(String sTAFF_STA) {
-		this.STAFF_STA = sTAFF_STA;
+		this.staff_no = staff_no;
+		this.staff_name = staff_name;
+		this.staff_gender = staff_gender;
+		this.staff_phone = staff_phone;
+		this.staff_email = staff_email;
+		this.staff_address = staff_address;
+		this.staff_account = staff_account;
+		this.staff_password = staff_password;
+		this.staff_sta = staff_sta;
 	}
 
+	public Integer getStaff_no() {
+		return staff_no;
+	}
+
+	public void setStaff_no(Integer staff_no) {
+		this.staff_no = staff_no;
+	}
+
+	public String getStaff_name() {
+		return staff_name;
+	}
+
+	public void setStaff_name(String staff_name) {
+		this.staff_name = staff_name;
+	}
+
+	public String getStaff_gender() {
+		return staff_gender;
+	}
+
+	public void setStaff_gender(String staff_gender) {
+		this.staff_gender = staff_gender;
+	}
+
+	public Integer getStaff_phone() {
+		return staff_phone;
+	}
+
+	public void setStaff_phone(Integer staff_phone) {
+		this.staff_phone = staff_phone;
+	}
+
+	public String getStaff_email() {
+		return staff_email;
+	}
+
+	public void setStaff_email(String staff_email) {
+		this.staff_email = staff_email;
+	}
+
+	public String getStaff_address() {
+		return staff_address;
+	}
+
+	public void setStaff_address(String staff_address) {
+		this.staff_address = staff_address;
+	}
+
+	public String getStaff_account() {
+		return staff_account;
+	}
+
+	public void setStaff_account(String staff_account) {
+		this.staff_account = staff_account;
+	}
+
+	public String getStaff_password() {
+		return staff_password;
+	}
+
+	public void setStaff_password(String staff_password) {
+		this.staff_password = staff_password;
+	}
+
+	public String getStaff_sta() {
+		return staff_sta;
+	}
+
+	public void setStaff_sta(String staff_sta) {
+		this.staff_sta = staff_sta;
+	}
+	
+	
+	
 }
 
 
