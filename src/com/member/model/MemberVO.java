@@ -2,16 +2,16 @@ package com.member.model;
 
 //Table Name : MEMBER(會員)
 public class MemberVO implements java.io.Serializable{
-	private Integer MEM_NO;
-	private String MEM_NAME;
-	private String MEM_GENDER;
-	private Integer MEM_PHONE;
-	private String MEM_EMAIL;
-	private String MEM_ADDRESS;
-	private String MEM_ACCOUNT;
-	private String MEM_PASSWORD;
-	private String MEM_BIRTH;
-	private String MEM_STA;
+	private Integer mem_no;
+	private String mem_name;
+	private String mem_gender;
+	private Integer mem_phone;
+	private String mem_email;
+	private String mem_address;
+	private String mem_account;
+	private String mem_password;
+	private String mem_birth;
+	private String mem_sta;
 	
 	
 	
@@ -21,86 +21,169 @@ public class MemberVO implements java.io.Serializable{
 		// TODO Auto-generated constructor stub
 		
 	}
-	
-	
-	
-	public MemberVO(Integer mEM_NO, String mEM_NAME, String mEM_GENDER, Integer mEM_PHONE, String mEM_EMAIL,
-			String mEM_ADDRESS, String mEM_ACCOUNT, String mEM_PASSWORD, String mEM_BIRTH, String mEM_STA) {
+
+
+	public MemberVO(Integer mem_no, String mem_name, String mem_gender, Integer mem_phone, String mem_email,
+			String mem_address, String mem_account, String mem_password, String mem_birth, String mem_sta) {
 		super();
-		this.MEM_NO = mEM_NO;
-		this.MEM_NAME = mEM_NAME;
-		this.MEM_GENDER = mEM_GENDER;
-		this.MEM_PHONE = mEM_PHONE;
-		this.MEM_EMAIL = mEM_EMAIL;
-		this.MEM_ADDRESS = mEM_ADDRESS;
-		this.MEM_ACCOUNT = mEM_ACCOUNT;
-		this.MEM_PASSWORD = mEM_PASSWORD;
-		this.MEM_BIRTH = mEM_BIRTH;
-		this.MEM_STA = mEM_STA;
+		this.mem_no = mem_no;
+		this.mem_name = mem_name;
+		this.mem_gender = mem_gender;
+		this.mem_phone = mem_phone;
+		this.mem_email = mem_email;
+		this.mem_address = mem_address;
+		this.mem_account = mem_account;
+		this.mem_password = mem_password;
+		this.mem_birth = mem_birth;
+		this.mem_sta = mem_sta;
+	}
+
+	public Integer getMem_no() {
+		return mem_no;
 	}
 
 
 
-	public Integer getMEM_NO() {
-		return MEM_NO;
-	}
-	public void setMEM_NO(Integer mEM_NO) {
-		this.MEM_NO = mEM_NO;
-	}
-	public String getMEM_NAME() {
-		return MEM_NAME;
-	}
-	public void setMEM_NAME(String mEM_NAME) {
-		this.MEM_NAME = mEM_NAME;
-	}
-	public String getMEM_GENDER() {
-		return MEM_GENDER;
-	}
-	public void setMEM_GENDER(String mEM_GENDER) {
-		this.MEM_GENDER = mEM_GENDER;
-	}
-	public Integer getMEM_PHONE() {
-		return MEM_PHONE;
-	}
-	public void setMEM_PHONE(Integer mEM_PHONE) {
-		this.MEM_PHONE = mEM_PHONE;
-	}
-	public String getMEM_EMAIL() {
-		return MEM_EMAIL;
-	}
-	public void setMEM_EMAIL(String mEM_EMAIL) {
-		this.MEM_EMAIL = mEM_EMAIL;
-	}
-	public String getMEM_ADDRESS() {
-		return MEM_ADDRESS;
-	}
-	public void setMEM_ADDRESS(String mEM_ADDRESS) {
-		this.MEM_ADDRESS = mEM_ADDRESS;
-	}
-	public String getMEM_ACCOUNT() {
-		return MEM_ACCOUNT;
-	}
-	public void setMEM_ACCOUNT(String mEM_ACCOUNT) {
-		this.MEM_ACCOUNT = mEM_ACCOUNT;
-	}
-	public String getMEM_PASSWORD() {
-		return MEM_PASSWORD;
-	}
-	public void setMEM_PASSWORD(String mEM_PASSWORD) {
-		this.MEM_PASSWORD = mEM_PASSWORD;
-	}
-	public String getMEM_BIRTH() {
-		return MEM_BIRTH;
-	}
-	public void setMEM_BIRTH(String mEM_BIRTH) {
-		this.MEM_BIRTH = mEM_BIRTH;
-	}
-	public String getMEM_STA() {
-		return MEM_STA;
-	}
-	public void setMEM_STA(String mEM_STA) {
-		this.MEM_STA = mEM_STA;
+
+	public void setMem_no(Integer mem_no) {
+		this.mem_no = mem_no;
 	}
 
-}
+
+
+
+	public String getMem_name() {
+		return mem_name;
+	}
+
+
+
+
+	public void setMem_name(String mem_name) {
+		this.mem_name = mem_name;
+	}
+
+
+
+
+	public String getMem_gender() {
+		return mem_gender;
+	}
+
+
+
+
+	public void setMem_gender(String mem_gender) {
+		this.mem_gender = mem_gender;
+	}
+
+
+
+
+	public Integer getMem_phone() {
+		return mem_phone;
+	}
+
+
+
+
+	public void setMem_phone(Integer mem_phone) {
+		this.mem_phone = mem_phone;
+	}
+
+
+
+
+	public String getMem_email() {
+		return mem_email;
+	}
+
+
+
+
+	public void setMem_email(String mem_email) {
+		this.mem_email = mem_email;
+	}
+
+
+
+
+	public String getMem_address() {
+		return mem_address;
+	}
+
+
+
+
+	public void setMem_address(String mem_address) {
+		this.mem_address = mem_address;
+	}
+
+
+
+
+	public String getMem_account() {
+		return mem_account;
+	}
+
+
+
+
+	public void setMem_account(String mem_account) {
+		this.mem_account = mem_account;
+	}
+
+
+
+
+	public String getMem_password() {
+		return mem_password;
+	}
+
+
+
+
+	public void setMem_password(String mem_password) {
+		this.mem_password = mem_password;
+	}
+
+
+
+
+	public String getMem_birth() {
+		return mem_birth;
+	}
+
+
+
+
+	public void setMem_birth(String mem_birth) {
+		this.mem_birth = mem_birth;
+	}
+
+
+
+
+	public String getMem_sta() {
+		return mem_sta;
+	}
+
+
+
+
+	public void setMem_sta(String mem_sta) {
+		this.mem_sta = mem_sta;
+	}
+
+
+
+
+	
+	}
+	
+	
+	
+	
+
+
 
