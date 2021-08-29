@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface I_Maintence_ClassDAO {
 	
-	public void insert (Maintence_ClassVO maintence_classvo);
+	public Maintence_ClassVO insert (Maintence_ClassVO maintence_classvo);
 	public void update (Maintence_ClassVO maintence_classvo);
 	public void delete (Integer mcl_no);
     public Maintence_ClassVO findByPK(Integer mcl_no);	

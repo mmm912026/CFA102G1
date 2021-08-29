@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,31 +26,31 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.MAINTENANCE_CLASS";
 	
 	@Override
-	public void insert(Maintence_ClassVO maintence_classvo) {
+	public Maintence_ClassVO insert(Maintence_ClassVO maintence_classvo) {
 		Connection con = null; 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			
 			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1,maintence_classvo.getMcl_id());
 						
 			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				maintence_classvo.setMcl_no(rs.getInt(1));
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -58,6 +59,7 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 				}
 			}
 		}
+		return maintence_classvo;
 	}
 	
 	@Override
@@ -80,13 +82,6 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}finally {
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
 				if(con != null) {
 					try {
 						con.close();
@@ -113,13 +108,6 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(con != null) {
 				try {
 					con.close();
@@ -156,13 +144,6 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -207,13 +188,6 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -237,11 +211,13 @@ public class Maintence_ClassJDBCDAO implements I_Maintence_ClassDAO {
 	public static void main(String[] args) {
 			
 		//驗證INSERT OK
-//		Maintence_ClassJDBCDAO dao = new Maintence_ClassJDBCDAO();
-//		Maintence_ClassVO mcv = new Maintence_ClassVO();
-//			
-//	    mcv.setMcl_id("風扇故障");
-//		dao.insert(mcv);
+		Maintence_ClassJDBCDAO dao = new Maintence_ClassJDBCDAO();
+		Maintence_ClassVO mcv = new Maintence_ClassVO();
+			
+	    mcv.setMcl_id("風扇故障");
+		mcv=dao.insert(mcv);
+		System.out.println(mcv.getMcl_no());
+		
 		
 		//驗證UPDATE OK
 //		Maintence_ClassJDBCDAO dao = new Maintence_ClassJDBCDAO();
