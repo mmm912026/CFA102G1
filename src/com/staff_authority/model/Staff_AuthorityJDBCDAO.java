@@ -26,7 +26,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			"SELECT * FROM CFA102G1.STAFF_AUTHORITY";
 
 	@Override
-	public void insert(Staff_AuthorityVO staff_authouity) {
+	public void insert(Staff_AuthorityVO staff_authority) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -35,8 +35,8 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_SQL);
 			
-			pstmt.setInt(1, staff_authouity.getStaff_no());
-			pstmt.setInt(2,staff_authouity.getAuthority_no());
+			pstmt.setInt(1, staff_authority.getStaff_no());
+			pstmt.setInt(2,staff_authority.getAuthority_no());
 			
 			pstmt.executeUpdate();
 			
@@ -59,7 +59,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Staff_AuthorityVO staff_authouity = null;
+		Staff_AuthorityVO staff_authority = null;
 		
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
@@ -68,9 +68,9 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				staff_authouity = new Staff_AuthorityVO();
-				staff_authouity.setStaff_no(staff_no);
-				staff_authouity.setAuthority_no(rs.getInt("AUTHORITY_NO"));
+				staff_authority = new Staff_AuthorityVO();
+				staff_authority.setStaff_no(staff_no);
+				staff_authority.setAuthority_no(rs.getInt("AUTHORITY_NO"));
 				
 				
 			}
@@ -87,7 +87,7 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 			}
 		}
 		
-		return staff_authouity;
+		return staff_authority;
 	}	
 
 	@Override
@@ -96,20 +96,20 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Staff_AuthorityVO> list = new ArrayList<Staff_AuthorityVO>();
-		Staff_AuthorityVO staff_authouity = null;
+		Staff_AuthorityVO staff_authority = null;
 		try {
 			con = DriverManager.getConnection(URL,USER,PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				staff_authouity = new Staff_AuthorityVO();
+				staff_authority = new Staff_AuthorityVO();
 				
-				staff_authouity.setStaff_no(rs.getInt("STAFF_NO"));
-				staff_authouity.setAuthority_no(rs.getInt("AUTHORITY_NO"));
+				staff_authority.setStaff_no(rs.getInt("STAFF_NO"));
+				staff_authority.setAuthority_no(rs.getInt("AUTHORITY_NO"));
 				
 				
-				list.add(staff_authouity);
+				list.add(staff_authority);
 				
 			}
 			
@@ -132,18 +132,18 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 		
 		//新增功能
 //		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
-//		Staff_AuthorityVO staff_authouity = new Staff_AuthorityVO();
-//		staff_authouity.setSTAFF_NO(005);
-//		staff_authouity.setAUTHORITY_NO(99921);
+//		Staff_AuthorityVO staff_authority = new Staff_AuthorityVO();
+//		staff_authority.setStaff_no(006);
+//		staff_authority.setAuthority_no(8888);
 //
-//		dao.insert(staff_authouity);
-////		
+//		dao.insert(staff_authority);
+//		
 		//System.out.println("---------------------------------------------------");
 		//用功能編號查詢
 //		Staff_AuthorityJDBCDAO dao = new Staff_AuthorityJDBCDAO();
 //		Staff_AuthorityVO list1 = dao.findByStaff_no(997765);
-//		   System.out.print(list1.getSTAFF_NO()+"\t");
-//		   System.out.print(list1.getAUTHORITY_NO()+"\t"); 
+//		   System.out.print(list1.getStaff_no()+"\t");
+//		   System.out.print(list1.getAuthority_no()+"\t"); 
 //	
 //	    System.out.println();
 		
@@ -153,11 +153,11 @@ public class Staff_AuthorityJDBCDAO implements I_Staff_AuthorityDAO{
 //		List<Staff_AuthorityVO> list = dao.getAll();
 //		for (Staff_AuthorityVO authouityVO : list ) {
 //			
-//		   System.out.print(authouityVO.getSTAFF_NO()+"\t");
-//		   System.out.print(authouityVO.getAUTHORITY_NO()+"\t");
+//		   System.out.print(authouityVO.getStaff_no()+"\t");
+//		   System.out.print(authouityVO.getAuthority_no()+"\t");
 //	
 //		   System.out.println();
-		
+//		
 //		}
 //		System.out.println("-------------------------------------------");
 		
