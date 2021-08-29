@@ -4,11 +4,11 @@ import java.util.List;
 
 
 public interface I_StaffDAO {
-	public void insert(StaffVO staff);
+	public StaffVO insert(StaffVO staff);
 	public void update(StaffVO staff);
-	public void delete(Integer STAFF_NO);
-	public StaffVO findByStaff_no(Integer STAFF_NO);
-	public List<StaffVO> findByStaff_name(String STAFF_NAME);
-	public List<StaffVO> findByStaff_phone(Integer STAFF_PHONE);
+	public void delete(Integer stff_no);
+	public StaffVO findByStaff_no(Integer staff_no);
+	public List<StaffVO> findByStaff_name(String staff_name);
+	public List<StaffVO> findByStaff_phone(Integer staff_phone);
 	public List<StaffVO> getAll();
 }
