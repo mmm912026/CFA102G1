@@ -24,7 +24,7 @@ public StaffVO addStaff(
 	staff.setStaff_password(staff_password);
 	staff.setStaff_sta(staff_sta);
 	
-	dao.insert(staff);
+	staff = dao.insert(staff);
 	return staff;
 	};
 public StaffVO updateStaff(
