@@ -11,10 +11,10 @@ public class Maintence_CaseService {
 		dao = new Maintence_CaseJDBCDAO();
 	}
 	
-	public Maintence_CaseVO insertMaintenceCase(Integer mem_no, String mca_itm_id,Integer mcl_no, String mca_itm_spec,
-												Timestamp mca_date,String mca_itm_mode,Integer mca_first_p,Timestamp mca_recpt_date,Integer mca_final_p,
-												Timestamp mca_shipment_date,Timestamp mca_pickup_date,String mca_pay,Timestamp mca_comp_date,String mca_cod,
-												String mca_adrs,String mca_context) {
+	public Maintence_CaseVO insertMaintenceCase(Integer mem_no, String mca_itm_id,Integer mcl_no, String mca_itm_spec,Timestamp mca_date,
+		String mca_itm_mode,Integer mca_first_p,Timestamp mca_recpt_date,Integer mca_final_p,Timestamp mca_shipment_date,Timestamp mca_pickup_date,
+		String mca_pay,Timestamp mca_comp_date,String mca_cod,
+		String mca_adrs,String mca_context){
 		
 		Maintence_CaseVO maintenceCaseVO = new Maintence_CaseVO();
 		
@@ -39,9 +39,8 @@ public class Maintence_CaseService {
 	}
 
 	public Maintence_CaseVO updateMaintenceCase (Integer mca_no,Integer mem_no, String mca_itm_id,Integer mcl_no, String mca_itm_spec,
-												Timestamp mca_date,String mca_itm_mode,Integer mca_first_p,Timestamp mca_recpt_date,Integer mca_final_p,
-												Timestamp mca_shipment_date,Timestamp mca_pickup_date,String mca_pay,Timestamp mca_comp_date,String mca_cod,
-												String mca_adrs,String mca_context) {
+		Timestamp mca_date,String mca_itm_mode,Integer mca_first_p,Timestamp mca_recpt_date,Integer mca_final_p,Timestamp mca_shipment_date,
+		Timestamp mca_pickup_date,String mca_pay,Timestamp mca_comp_date,String mca_cod,String mca_adrs,String mca_context) {
 		
 		Maintence_CaseVO maintenceCaseVO = new Maintence_CaseVO();
 		
