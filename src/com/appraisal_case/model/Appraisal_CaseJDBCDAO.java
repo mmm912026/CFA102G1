@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,16 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.APPRAISAL_CASE";
 
 	@Override
-	public void insert(Appraisal_CaseVO appraisal_CaseVO) {
+	public Appraisal_CaseVO insert(Appraisal_CaseVO appraisal_CaseVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, appraisal_CaseVO.getMem_no());
 			pstmt.setString(2, appraisal_CaseVO.getAca_itm_id());
 			pstmt.setInt(3, appraisal_CaseVO.getAcl_no());
@@ -48,18 +50,16 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 			pstmt.setString(15, appraisal_CaseVO.getAca_adrs());
 
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				appraisal_CaseVO.setAca_no(rs.getInt(1));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -68,6 +68,7 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 				}
 			}
 		}
+		return appraisal_CaseVO;
 	}
 
 	@Override
@@ -103,13 +104,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -138,13 +132,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -194,13 +181,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -252,13 +232,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -270,7 +243,7 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		return appraisal_caseList;
 	}
 
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 
 //		測試insert
 //		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
@@ -279,36 +252,45 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 //		acvo.setAca_itm_id("電腦");
 //		acvo.setAcl_no(1);
 //		acvo.setAca_itm_spec("9成新");
-//		acvo.setAca_date(java.sql.Timestamp.valueOf("20220823 23:00:00"));
+//		acvo.setAca_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
 //		acvo.setAca_itm_mode("完成訂單");
 //		acvo.setAca_first_p(7000);
-//		acvo.setAca_recpt_date(java.sql.Timestamp.valueOf("20220823 23:00:00"));
+//		acvo.setAca_recpt_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
 //		acvo.setAca_final_p(6500);
-//		acvo.setAca_shipment_date(java.sql.Timestamp.valueOf("20220823 23:00:00"));
-//		acvo.setAca_pickup_date(java.sql.Timestamp.valueOf("20220823 23:00:00"));
+//		acvo.setAca_shipment_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_pickup_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
 //		acvo.setAca_pay("轉帳");
-//		acvo.setAca_comp_date(java.sql.Timestamp.valueOf("20220823 23:00:00"));
-//		acvo.setAca_cod("20220823 23:00:00");
-//		acvo.setAca_adrs("20220823 23:00:00");
+//		acvo.setAca_comp_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_cod("2022-08-23 23:00:00");
+//		acvo.setAca_adrs("2022-08-23 23:00:00");
 //		dao.insert(acvo);
+//		System.out.println(acvo.getAca_no()+":"+acvo.getAca_itm_mode());
 //		測試OK
 
 //		測試update
 //		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
 //		Appraisal_CaseVO acvo = new Appraisal_CaseVO();
-//		acvo.setAca_
-//		acvo.setAca_
-//		acvo.setAca_
-//		acvo.setAca_
-//		acvo.setAca_
-//		acvo.setAca_
-//		acvo.setAca_
+//		acvo.setMem_no(7001);
+//		acvo.setAca_itm_id("筆電");
+//		acvo.setAcl_no(1);
+//		acvo.setAca_itm_spec("9成新");
+//		acvo.setAca_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_itm_mode("完成訂單");
+//		acvo.setAca_first_p(7000);
+//		acvo.setAca_recpt_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_final_p(6500);
+//		acvo.setAca_shipment_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_pickup_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_pay("轉帳");
+//		acvo.setAca_comp_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
+//		acvo.setAca_cod("2022-08-23 23:00:00");
+//		acvo.setAca_adrs("2022-08-23 23:00:00");
 //		dao.update(acvo);
 //		測試OK
 
 //		測試delete
 //		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		dao.delete(2);
+//		dao.delete(5);
 //		測試OK
 
 //		測試findByPK
@@ -354,5 +336,5 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 //			System.out.println(acvo.getAca_adrs());
 //		}
 //		測試OK
-	}
+//	}
 }
