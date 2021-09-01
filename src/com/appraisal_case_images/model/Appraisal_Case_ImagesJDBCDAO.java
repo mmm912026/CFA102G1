@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,31 +25,30 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.APPRAISAL_CASE_IMAGES";
 
 	@Override
-	public void insert(Appraisal_Case_ImagesVO appraisal_Case_ImagesVO) {
+	public Appraisal_Case_ImagesVO insert(Appraisal_Case_ImagesVO appraisal_Case_ImagesVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		ResultSet rs = null;
+		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, appraisal_Case_ImagesVO.getAca_no());
 			pstmt.setBytes(2, appraisal_Case_ImagesVO.getAci_img());
 
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				appraisal_Case_ImagesVO.setAci_no(rs.getInt(1));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -57,6 +57,7 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 				}
 			}
 		}
+		return appraisal_Case_ImagesVO;
 	}
 
 	@Override
@@ -78,13 +79,6 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -113,13 +107,6 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -156,13 +143,6 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -201,13 +181,6 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -219,14 +192,15 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		return appraisal_case_imagesList;
 	}
 
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 
 //		測試insert
 //		Appraisal_Case_ImagesJDBCDAO dao = new Appraisal_Case_ImagesJDBCDAO();
 //		Appraisal_Case_ImagesVO acivo = new Appraisal_Case_ImagesVO();
-//		acivo.setAca_no(1);
-//		acivo.setAci_img(getPictureByteArray("images/popcat.jpg"));
+//		acivo.setAca_no(6);
+//		acivo.setAci_img(getPictureByteArray("D:\\Git\\GitSample\\CFA102\\images\\popcat.jpg"));
 //		dao.insert(acivo);
+//		System.out.println(acivo.getAci_no());
 //		測試OK
 
 //		測試update
@@ -258,7 +232,8 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 //			System.out.println(acivo.getAca_no());
 //		}
 //		測試OK
-	}
+//	}
+//	
 //	// 使用byte[]方式寫入資料庫
 //	public static byte[] getPictureByteArray(String path) {
 //		byte[] buffer = null;
