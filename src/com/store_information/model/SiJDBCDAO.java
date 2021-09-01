@@ -15,7 +15,7 @@ public class SiJDBCDAO implements I_SiDAO{
 	String PASSWORD = "123456";
 	
 	private static final String INSERT_STMT =
-		"INSERT INTO cfa102g1.store_information (si_address,si_open,si_phone,si_email,si_line) VALUES (?, ?, ?, ?, ?)";
+		"INSERT INTO cfa102g1.store_information (si_no, si_address,si_open,si_phone,si_email,si_line) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT =
 		"SELECT si_no,si_address,si_open,si_phone,si_email,si_line FROM cfa102g1.store_information";
 	private static final String GET_ONE_STMT =
@@ -34,12 +34,13 @@ public class SiJDBCDAO implements I_SiDAO{
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
-
-			pstmt.setString(1, siVO.getSi_address());
-			pstmt.setString(2, siVO.getSi_open());
-			pstmt.setString(3, siVO.getSi_phone());
-			pstmt.setString(4, siVO.getSi_email());
-			pstmt.setString(5, siVO.getSi_line());
+			
+			pstmt.setInt(1, siVO.getSi_no());
+			pstmt.setString(2, siVO.getSi_address());
+			pstmt.setString(3, siVO.getSi_open());
+			pstmt.setString(4, siVO.getSi_phone());
+			pstmt.setString(5, siVO.getSi_email());
+			pstmt.setString(6, siVO.getSi_line());
 
 			pstmt.executeUpdate();
 
@@ -292,17 +293,19 @@ public class SiJDBCDAO implements I_SiDAO{
 		
 		return list;
 	}
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 //		SiJDBCDAO dao = new SiJDBCDAO();
-		
-		//新增
+//		
+//		//新增
 //		SiVO SiVO1 = new SiVO();
+//		SiVO1.setSi_no(19);
 //		SiVO1.setSi_address("USA");
 //		SiVO1.setSi_open("10:00AM");
 //		SiVO1.setSi_phone("06487");
 //		SiVO1.setSi_email("1234567");
 //		SiVO1.setSi_line("777");
 //		dao.insert(SiVO1);
+//		System.out.println("ok");
 		
 		//修改
 //		SiVO SiVO2 = new SiVO();
@@ -341,5 +344,5 @@ public class SiJDBCDAO implements I_SiDAO{
 		
 		
 		
-	}
+//	}
 }
