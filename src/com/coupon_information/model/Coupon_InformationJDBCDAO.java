@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +22,16 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.COUPON_INFORMATION";
 
 	@Override
-	public void insert(Coupon_InformationVO coupon_InformationVO) {
+	public Coupon_InformationVO insert(Coupon_InformationVO coupon_InformationVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		ResultSet rs = null;
+		
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-			pstmt = con.prepareStatement(INSERT_STMT);
-
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, coupon_InformationVO.getCi_name());
 			pstmt.setString(2, coupon_InformationVO.getCi_code());
 			pstmt.setTimestamp(3, coupon_InformationVO.getCi_start_time());
@@ -39,18 +40,16 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 			pstmt.setString(6, coupon_InformationVO.getCi_content());
 
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				coupon_InformationVO.setCi_no(rs.getInt(1));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -59,6 +58,7 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 				}
 			}
 		}
+		return coupon_InformationVO;
 	}
 
 	@Override
@@ -85,13 +85,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -120,13 +113,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -166,13 +152,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -214,13 +193,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -233,18 +205,19 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 	}
 
 //	測試
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 
 //		測試insert
 //		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
 //		Coupon_InformationVO civo = new Coupon_InformationVO();
 //		civo.setCi_name("必勝客 消費滿 199 元現折 50 元");
 //		civo.setCi_code("PHAUG");
-//		civo.setCi_start_time(java.sql.Timestamp.valueOf("20220822 00:00:00"));
-//		civo.setCi_end_time(java.sql.Timestamp.valueOf("20220823 00:00:00"));
+//		civo.setCi_start_time(java.sql.Timestamp.valueOf("2022-08-22 00:00:00"));
+//		civo.setCi_end_time(java.sql.Timestamp.valueOf("2022-08-23 00:00:00"));
 //		civo.setDiscount(50);
 //		civo.setCi_content("必勝客 消費滿 199 元現折 50 元");
 //		dao.insert(civo);
+//		System.out.println(civo.getCi_no()+":"+civo.getCi_name());
 //		測試OK
 
 //		測試update
@@ -290,5 +263,5 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 //			System.out.println(civo.getCi_content());
 //		}
 //		測試OK
-	}
+//	}
 }

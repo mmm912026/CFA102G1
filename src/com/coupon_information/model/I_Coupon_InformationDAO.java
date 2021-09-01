@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface I_Coupon_InformationDAO {
 
-	public void insert(Coupon_InformationVO coupon_InformationVO);
+	public Coupon_InformationVO insert(Coupon_InformationVO coupon_InformationVO);
 	public void update(Coupon_InformationVO coupon_InformationVO);
 	public void delete(Integer ci_no);
 	public Coupon_InformationVO findByPK(Integer ci_no);
