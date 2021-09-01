@@ -21,7 +21,7 @@ public class Coupon_InformationService {
 		c_informationVO.setCi_end_time(ci_end_time);
 		c_informationVO.setDiscount(discount);
 		c_informationVO.setCi_content(ci_content);
-		dao.insert(c_informationVO);
+		c_informationVO = dao.insert(c_informationVO);
 
 		return c_informationVO;
 
