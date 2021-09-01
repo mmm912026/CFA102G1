@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface I_Appraisal_ClassDAO {
 
-	public void insert(Appraisal_ClassVO appraisal_ClassVO);
+	public Appraisal_ClassVO insert(Appraisal_ClassVO appraisal_ClassVO);
 	public void update(Appraisal_ClassVO appraisal_ClassVO);
 	public void delete(Integer acl_no);
 	public Appraisal_ClassVO findByPK(Integer acl_no);

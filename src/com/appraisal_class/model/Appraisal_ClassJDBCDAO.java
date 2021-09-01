@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,30 +22,29 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.APPRAISAL_CLASS";
 	
 	@Override
-	public void insert(Appraisal_ClassVO appraisal_ClassVO) {
+	public Appraisal_ClassVO insert(Appraisal_ClassVO appraisal_ClassVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1,appraisal_ClassVO.getAcl_id()); 
 
 			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				appraisal_ClassVO.setAcl_no(rs.getInt(1));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -53,6 +53,7 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 				}
 			}
 		}
+		return appraisal_ClassVO;
 	}
 
 	@Override
@@ -74,13 +75,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -109,13 +103,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -151,13 +138,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -195,13 +175,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -213,13 +186,14 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		return appraisal_caseList;
 	}
 
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 //		測試insert
 //		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
 //		Appraisal_ClassVO acvo = new Appraisal_ClassVO();
-//		acvo.setAcl_id("平板");
+//		acvo.setAcl_id("電腦");
 //		dao.insert(acvo);
+//		System.out.println(acvo.getAcl_no()+":"+acvo.getAcl_id());
 //		測試OK
 
 //		測試update
@@ -250,5 +224,5 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 //			System.out.println(acvo.getAcl_id());
 //		}
 //		測試OK
-	}
+//	}
 }
