@@ -5,34 +5,29 @@ import java.sql.*;
 
 public class ConsultJDBCDAO implements I_ConsultDAO {
 	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = 
-			"jdbc:mysql://localhost:3306/CFA102G1?"
-			+ "rewriteBatchedStatements=true&"
+	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" + "rewriteBatchedStatements=true&"
 			+ "serverTimezone=Asia/Taipei";
 	String USER = "David";
 	String PASSWORD = "123456";
-	
-	private static final String INSERT_STMT =
-			"INSERT INTO cfa102g1.consultation(consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta) VALUES (?, ?, ?, ?, ?, ?)";
-	private static final String GET_ALL_STMT =
-			"SELECT consult_no,consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta FROM cfa102g1.consultation";
-	private static final String GET_ONE_STMT =
-			"SELECT consult_no,consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta FROM cfa102g1.consultation where consult_no = ?";
-	private static final String DELETE =
-			"DELETE FROM cfa102g1.consultation where consult_no = ?";
-	private static final String UPDATE =
-			"UPDATE cfa102g1.consultation set consultant=?, consult_phone=?, consult_email=?, consult_content=?, staff_no=?, consult_sta=? where consult_no=?";
+
+	private static final String INSERT_STMT = "INSERT INTO cfa102g1.consultation(consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String GET_ALL_STMT = "SELECT consult_no,consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta FROM cfa102g1.consultation";
+	private static final String GET_ONE_STMT = "SELECT consult_no,consultant,consult_phone,consult_email,consult_content,staff_no,consult_sta FROM cfa102g1.consultation where consult_no = ?";
+	private static final String DELETE = "DELETE FROM cfa102g1.consultation where consult_no = ?";
+	private static final String UPDATE = "UPDATE cfa102g1.consultation set consultant=?, consult_phone=?, consult_email=?, consult_content=?, staff_no=?, consult_sta=? where consult_no=?";
+
 	@Override
-	public void insert(ConsultVO consultVO) {
+	public ConsultVO insert(ConsultVO consultVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+		ResultSet rs = null;
+
 		try {
 
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setString(1, consultVO.getConsultant());
 			pstmt.setInt(2, consultVO.getConsult_phone());
@@ -43,23 +38,16 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				consultVO.setConsult_no(rs.getInt(1));
 			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
 			if (con != null) {
 				try {
 					con.close();
@@ -68,14 +56,15 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 				}
 			}
 		}
+		return consultVO;
 	}
 
 	@Override
 	public void update(ConsultVO consultVO) {
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 
 			Class.forName(DRIVER);
@@ -94,21 +83,12 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -122,7 +102,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 	@Override
 	public void delete(Integer consult_no) {
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -138,21 +118,12 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -166,7 +137,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 	@Override
 	public ConsultVO findByPrimaryKey(Integer consult_no) {
-		
+
 		ConsultVO consultVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -185,7 +156,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 			while (rs.next()) {
 				// consultVo 也稱為 Domain objects
 				consultVO = new ConsultVO();
-				
+
 				consultVO.setConsult_no(rs.getInt("CONSULT_NO"));
 				consultVO.setConsultant(rs.getString("CONSULTANT"));
 				consultVO.setConsult_phone(rs.getInt("CONSULT_PHONE"));
@@ -197,28 +168,12 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -234,11 +189,11 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 	public List<ConsultVO> getAll() {
 		List<ConsultVO> list = new ArrayList<ConsultVO>();
 		ConsultVO consultVO = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 
 			Class.forName(DRIVER);
@@ -261,28 +216,12 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -291,25 +230,25 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 				}
 			}
 		}
-		
-		
+
 		return list;
 	}
-	
-	//測試驗證
-	public static void main (String[] args) {
+
+	// 測試驗證
+//	public static void main(String[] args) {
 //	ConsultJDBCDAO dao = new ConsultJDBCDAO();
-	//新增
+	// 新增
 //	ConsultVO consultVO1 = new ConsultVO();
 //	consultVO1.setConsultant("吉娃娃");
 //	consultVO1.setConsult_phone(03555555);
 //	consultVO1.setConsult_email("123");
 //	consultVO1.setConsult_content("1234564");
 //	consultVO1.setStaff_no(1);
-//	consultVO1.setConsult_sta("123");
-//	dao.insert(consultVO1);
-	
-	//修改
+//	consultVO1.setConsult_sta("12");
+//	consultVO1 = dao.insert(consultVO1);
+//	System.out.println(consultVO1.getConsult_no());
+
+		// 修改
 //	ConsultVO consultVO2 = new ConsultVO();
 //	consultVO2.setConsult_no(4);
 //	consultVO2.setConsultant("吉娃1");
@@ -319,11 +258,11 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 //	consultVO2.setStaff_no(1);
 //	consultVO2.setConsult_sta("已回覆");
 //	dao.update(consultVO2);
-	
-	//刪除
+
+		// 刪除
 //	dao.delete(3);
-	
-	//查詢
+
+		// 查詢
 //	ConsultVO consultVO3 = dao.findByPrimaryKey(1);
 //	System.out.print(consultVO3.getConsult_no()+",");
 //	System.out.print(consultVO3.getConsultant()+",");
@@ -333,8 +272,8 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 //	System.out.print(consultVO3.getStaff_no()+",");
 //	System.out.println(consultVO3.getConsult_sta());
 //	System.out.println("---------------------");
-	
-	//查詢
+
+		// 查詢
 //	List<ConsultVO> list = dao.getAll();
 //	for (ConsultVO consultVO1 : list) {
 //	System.out.print(consultVO1.getConsult_no()+",");
@@ -346,5 +285,5 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 //	System.out.print(consultVO1.getConsult_sta());
 //	System.out.println();
 //	}
-  }
+//	}
 }
