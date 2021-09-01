@@ -41,13 +41,6 @@ public class Coupon_ListJDBCDAO implements I_Coupon_ListDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -78,13 +71,6 @@ public class Coupon_ListJDBCDAO implements I_Coupon_ListDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -115,13 +101,6 @@ public class Coupon_ListJDBCDAO implements I_Coupon_ListDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -158,13 +137,6 @@ public class Coupon_ListJDBCDAO implements I_Coupon_ListDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -202,13 +174,6 @@ public class Coupon_ListJDBCDAO implements I_Coupon_ListDAO {
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
