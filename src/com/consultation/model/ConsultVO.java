@@ -8,7 +8,7 @@ import java.sql.*;
 public class ConsultVO implements Serializable{
 	private Integer consult_no;
 	private String consultant;
-	private Integer consult_phone;
+	private String consult_phone;
 	private String consult_email;
 	private String consult_content;
 	private Integer staff_no;
@@ -26,10 +26,10 @@ public class ConsultVO implements Serializable{
 	public void setConsultant(String consultant) {
 		this.consultant = consultant;
 	}
-	public Integer getConsult_phone() {
+	public String getConsult_phone() {
 		return consult_phone;
 	}
-	public void setConsult_phone(Integer consult_phone) {
+	public void setConsult_phone(String consult_phone) {
 		this.consult_phone = consult_phone;
 	}
 	public String getConsult_email() {

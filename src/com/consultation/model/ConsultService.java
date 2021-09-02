@@ -9,7 +9,7 @@ public class ConsultService {
 		dao = new ConsultJDBCDAO();
 	}
 
-	public ConsultVO addConsult(String consultant, Integer consult_phone, String consult_email, String consult_content,
+	public ConsultVO addConsult(String consultant, String consult_phone, String consult_email, String consult_content,
 			Integer staff_no, String consult_sta) {
 
 		ConsultVO consultVO = new ConsultVO();
@@ -25,7 +25,7 @@ public class ConsultService {
 		return consultVO;
 	}
 
-	public ConsultVO updateConsult(Integer consult_no, String consultant, Integer consult_phone, String consult_email, String consult_content,
+	public ConsultVO updateConsult(Integer consult_no, String consultant, String	 consult_phone, String consult_email, String consult_content,
 			Integer staff_no, String consult_sta) {
 
 		ConsultVO consultVO = new ConsultVO();

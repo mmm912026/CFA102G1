@@ -30,7 +30,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setString(1, consultVO.getConsultant());
-			pstmt.setInt(2, consultVO.getConsult_phone());
+			pstmt.setString(2, consultVO.getConsult_phone());
 			pstmt.setString(3, consultVO.getConsult_email());
 			pstmt.setString(4, consultVO.getConsult_content());
 			pstmt.setInt(5, consultVO.getStaff_no());
@@ -72,7 +72,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, consultVO.getConsultant());
-			pstmt.setInt(2, consultVO.getConsult_phone());
+			pstmt.setString(2, consultVO.getConsult_phone());
 			pstmt.setString(3, consultVO.getConsult_email());
 			pstmt.setString(4, consultVO.getConsult_content());
 			pstmt.setInt(5, consultVO.getStaff_no());
@@ -159,7 +159,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 
 				consultVO.setConsult_no(rs.getInt("CONSULT_NO"));
 				consultVO.setConsultant(rs.getString("CONSULTANT"));
-				consultVO.setConsult_phone(rs.getInt("CONSULT_PHONE"));
+				consultVO.setConsult_phone(rs.getString("CONSULT_PHONE"));
 				consultVO.setConsult_email(rs.getString("CONSULT_EMAIL"));
 				consultVO.setConsult_content(rs.getString("CONSULT_CONTENT"));
 				consultVO.setStaff_no(rs.getInt("STAFF_NO"));
@@ -206,7 +206,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 				consultVO = new ConsultVO();
 				consultVO.setConsult_no(rs.getInt("CONSULT_NO"));
 				consultVO.setConsultant(rs.getString("CONSULTANT"));
-				consultVO.setConsult_phone(rs.getInt("CONSULT_PHONE"));
+				consultVO.setConsult_phone(rs.getString("CONSULT_PHONE"));
 				consultVO.setConsult_email(rs.getString("CONSULT_EMAIL"));
 				consultVO.setConsult_content(rs.getString("CONSULT_CONTENT"));
 				consultVO.setStaff_no(rs.getInt("STAFF_NO"));
@@ -240,7 +240,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 	// 新增
 //	ConsultVO consultVO1 = new ConsultVO();
 //	consultVO1.setConsultant("吉娃娃");
-//	consultVO1.setConsult_phone(03555555);
+//	consultVO1.setConsult_phone("03555555");
 //	consultVO1.setConsult_email("123");
 //	consultVO1.setConsult_content("1234564");
 //	consultVO1.setStaff_no(1);
@@ -252,7 +252,7 @@ public class ConsultJDBCDAO implements I_ConsultDAO {
 //	ConsultVO consultVO2 = new ConsultVO();
 //	consultVO2.setConsult_no(4);
 //	consultVO2.setConsultant("吉娃1");
-//	consultVO2.setConsult_phone(03555355);
+//	consultVO2.setConsult_phone("03555355");
 //	consultVO2.setConsult_email("235");
 //	consultVO2.setConsult_content("2343564");
 //	consultVO2.setStaff_no(1);
