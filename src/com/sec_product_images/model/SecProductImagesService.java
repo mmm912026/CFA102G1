@@ -6,7 +6,7 @@ public class SecProductImagesService {
 	private I_SecProductImagesDAO dao;
 	
 	public SecProductImagesService() {
-		dao = new SecProductImagesJDBCDAO();
+		dao = new SecProductImagesDAO();
 	}
 	
 	public SecProductImagesVO insertSecProductImages(Integer spi_no, byte[] spim_img) {
