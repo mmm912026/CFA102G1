@@ -6,7 +6,7 @@ public class ProductInformService{
 	private I_ProductInformDAO dao;
 	
 	public ProductInformService() {
-		dao = new ProductInformJDBCDAO();
+		dao = new ProductInformDAO();
 	}
 	
 	public ProductInformVO insertProductInform(String spi_name, Integer spc_no, String spi_content, Integer spi_pri, 
