@@ -6,7 +6,7 @@ public class PromotionListService{
 	private I_PromotionListDAO dao;
 	
 	public PromotionListService() {
-		dao = new PromotionListJDBCDAO();
+		dao = new PromotionListDAO();
 	}
 
 	public PromotionListVO insertPromotionList(Integer promotions_no, Integer spi_no, Integer spi_price) {
