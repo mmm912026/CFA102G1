@@ -7,7 +7,7 @@ public class SecOrderService{
 	private I_SecOrderDAO dao;
 
 	public SecOrderService() {
-		dao = new SecOrderJDBCDAO();
+		dao = new SecOrderDAO();
 	}
 	
 	public SecOrderVO insertSecOrder(Timestamp so_purtime, Integer mem_no, String so_sta, String so_pay_sta, 
