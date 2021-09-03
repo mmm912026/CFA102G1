@@ -6,7 +6,7 @@ public class SecOrderListService{
 	private I_SecOrderListDAO dao;
 	
 	public SecOrderListService() {
-		dao = new SecOrderListJDBCDAO();
+		dao = new SecOrderListDAO();
 	}
 	
 	public SecOrderListVO insertSecOrderList(Integer so_no, Integer spi_no, Integer sol_proamot, Integer sol_pri) {
