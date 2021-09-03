@@ -7,7 +7,7 @@ public class PromotionService{
 	private I_PromotionDAO dao;
 	
 	public PromotionService() {
-		dao = new PromotionJDBCDAO();
+		dao = new PromotionDAO();
 	}
 	
 	public PromotionVO insertPromotion(String promotion_name, Timestamp promotion_start_date, Timestamp promotion_end_date ) {
