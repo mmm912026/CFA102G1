@@ -6,7 +6,7 @@ public class ProductClassService{
 	private I_ProductClassDAO dao;
 	
 	public ProductClassService() {
-		dao = new ProductClassJDBCDAO();
+		dao = new ProductClassDAO();
 	}
 
 	public ProductClassVO addProductClass(String spc_name) {
