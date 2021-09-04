@@ -7,7 +7,7 @@ public class Maintence_ClassService {
 	private I_Maintence_ClassDAO dao;
 	
 	public Maintence_ClassService() {
-		dao = new Maintence_ClassJDBCDAO();
+		dao = new Maintence_ClassDAO();
 	}
 	
 	public Maintence_ClassVO insertMaintenceClass(String mcl_id) {
