@@ -8,7 +8,7 @@ public class Person_MsgService {
 	private I_Person_MsgDAO dao;
 	
 	public Person_MsgService() {
-		dao = new Person_MsgJDBCDAO();
+		dao = new Person_MsgDAO();
 	}
 	
 	public Person_MsgVO insertPersonMsg(Integer mem_no,Timestamp pm_date,String pm_content,String pm_status) {
