@@ -7,7 +7,7 @@ public class Maintence_Case_ImgService {
 	private I_Maintence_Case_ImgDAO dao;
 	
 	public Maintence_Case_ImgService() {
-		dao = new Maintence_Case_ImgJDBCDAO();
+		dao = new Maintence_Case_ImgDAO();
 	}
 	
 	public Maintence_Case_ImgVO insertMaintenceCaseImg(Integer mca_no, byte[] mci_before_img,byte[] mci_after_img ) {
