@@ -8,7 +8,7 @@ public class Maintence_CaseService {
 	private I_Maintence_CaseDAO dao;
 	
 	public Maintence_CaseService() {
-		dao = new Maintence_CaseJDBCDAO();
+		dao = new Maintence_CaseDAO();
 	}
 	
 	public Maintence_CaseVO insertMaintenceCase(Integer mem_no, String mca_itm_id,Integer mcl_no, String mca_itm_spec,Timestamp mca_date,
