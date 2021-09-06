@@ -1,7 +1,6 @@
 package com.appraisal_class.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,11 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" + "rewriteBatchedStatements=true&" + "serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class Appraisal_ClassDAO implements I_Appraisal_ClassDAO{
+//	建立連線池
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static final String INSERT_STMT = "INSERT INTO CFA102G1.APPRAISAL_CLASS(ACL_ID) VALUES(?)";
 	private static final String UPDATE_STMT = "UPDATE CFA102G1.APPRAISAL_CLASS SET ACL_ID = ? WHERE ACL_NO = ?";
@@ -28,10 +38,9 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
+			
 			pstmt.setString(1,appraisal_ClassVO.getAcl_id()); 
 
 			pstmt.executeUpdate();
@@ -40,8 +49,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 			if(rs.next()) {
 				appraisal_ClassVO.setAcl_no(rs.getInt(1));
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -65,16 +72,13 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
+			
 			pstmt.setString(1, appraisal_ClassVO.getAcl_id());
 			pstmt.setInt(2, appraisal_ClassVO.getAcl_no());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -98,15 +102,12 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
+			
 			pstmt.setInt(1, acl_no);
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -132,9 +133,9 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
+			
 			pstmt.setInt(1, acl_no);
 			rs = pstmt.executeQuery();
 
@@ -144,8 +145,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 				appraisal_class.setAcl_id(rs.getString("ACL_ID"));
 
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -173,9 +172,9 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -185,8 +184,6 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 				appraisal_caseList.add(appraisal_case);
 
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -204,44 +201,4 @@ public class Appraisal_ClassJDBCDAO implements I_Appraisal_ClassDAO{
 		}
 		return appraisal_caseList;
 	}
-
-//	public static void main(String[] args) {
-		
-//		測試insert
-//		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
-//		Appraisal_ClassVO acvo = new Appraisal_ClassVO();
-//		acvo.setAcl_id("電腦");
-//		dao.insert(acvo);
-//		System.out.println(acvo.getAcl_no()+":"+acvo.getAcl_id());
-//		測試OK
-
-//		測試update
-//		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
-//		Appraisal_ClassVO acvo = new Appraisal_ClassVO();
-//		acvo.setAcl_id("手機");
-//		acvo.setAcl_no(5);
-//		dao.update(acvo);
-//		測試OK
-		
-//		測試delete
-//		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
-//		dao.delete(5);
-//		測試OK
-		
-//		測試findByPK
-//		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
-//		Appraisal_ClassVO acvo = dao.findByPK(2);
-//		System.out.println(acvo.getAcl_no());
-//		System.out.println(acvo.getAcl_id());
-//		測試OK
-		
-//		測試GetAll
-//		Appraisal_ClassJDBCDAO dao = new Appraisal_ClassJDBCDAO();
-//		List<Appraisal_ClassVO> list = dao.getAll();
-//		for(Appraisal_ClassVO acvo:list) {
-//			System.out.println(acvo.getAcl_no());
-//			System.out.println(acvo.getAcl_id());
-//		}
-//		測試OK
-//	}
 }

@@ -7,7 +7,7 @@ public class Appraisal_ClassService {
 	private I_Appraisal_ClassDAO dao;
 
 	public Appraisal_ClassService() {
-		dao = new Appraisal_ClassJDBCDAO();
+		dao = new Appraisal_ClassDAO();
 	}
 
 	public Appraisal_ClassVO addA_Class(String acl_id) {
