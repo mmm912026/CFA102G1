@@ -13,7 +13,16 @@
     <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
         
-        
+			<!-- ****Start 叉叉按鈕**** -->
+            <div class="sidebar-header">
+                <div class="d-flex justify-content-between">
+                    <div class="toggler">
+                        <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- ****End 叉叉按鈕**** -->
+            
         	<!-- ****Start右上方人物卡片**** -->
             <div class="card">
                 <div class="card-body py-4 px-5">
