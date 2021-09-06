@@ -1,20 +1,29 @@
 package com.appraisal_case.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" + "rewriteBatchedStatements=true&" + "serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class Appraisal_CaseDAO implements I_Appraisal_CaseDAO {
+//	建立連線池
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static final String INSERT_STMT = "INSERT INTO CFA102G1.APPRAISAL_CASE(MEM_NO, ACA_ITM_ID, ACL_NO, ACA_ITM_SPEC,  ACA_DATE, ACA_ITM_MODE, ACA_FIRST_P, ACA_RECPT_DATE, ACA_FINAL_P, ACA_SHIPMENT_DATE, ACA_PICKUP_DATE, ACA_PAY, ACA_COMP_DATE, ACA_COD, ACA_ADRS) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = "UPDATE CFA102G1.APPRAISAL_CASE SET MEM_NO = ?,ACA_ITM_ID = ?, ACL_NO = ?, ACA_ITM_SPEC = ?, ACA_DATE = ?, ACA_ITM_MODE = ?, ACA_FIRST_P = ?, ACA_RECPT_DATE = ?, ACA_FINAL_P = ?, ACA_SHIPMENT_DATE = ?, ACA_PICKUP_DATE = ?, ACA_PAY = ?, ACA_COMP_DATE = ?, ACA_COD = ?, ACA_ADRS = ? WHERE ACA_NO = ?";
@@ -29,10 +38,9 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
+			
 			pstmt.setInt(1, appraisal_CaseVO.getMem_no());
 			pstmt.setString(2, appraisal_CaseVO.getAca_itm_id());
 			pstmt.setInt(3, appraisal_CaseVO.getAcl_no());
@@ -55,8 +63,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 			if(rs.next()) {
 				appraisal_CaseVO.setAca_no(rs.getInt(1));
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -80,10 +86,9 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
+			
 			pstmt.setInt(1, appraisal_CaseVO.getMem_no());
 			pstmt.setString(2, appraisal_CaseVO.getAca_itm_id());
 			pstmt.setInt(3, appraisal_CaseVO.getAcl_no());
@@ -102,8 +107,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 			pstmt.setInt(16, appraisal_CaseVO.getAca_no());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -126,15 +129,12 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
+			
 			pstmt.setInt(1, aca_no);
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -159,9 +159,9 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
+			
 			pstmt.setInt(1, aca_no);
 			rs = pstmt.executeQuery();
 
@@ -185,8 +185,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 				appraisal_case.setAca_adrs(rs.getString("ACA_ADRS"));
 
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -213,9 +211,9 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -239,8 +237,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 				appraisal_caseList.add(appraisal_case);
 
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -257,99 +253,4 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		}
 		return appraisal_caseList;
 	}
-
-//	public static void main(String[] args) {
-
-//		測試insert
-//		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		Appraisal_CaseVO acvo = new Appraisal_CaseVO();
-//		acvo.setMem_no(7001);
-//		acvo.setAca_itm_id("電腦");
-//		acvo.setAcl_no(1);
-//		acvo.setAca_itm_spec("9成新");
-//		acvo.setAca_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_itm_mode("完成訂單");
-//		acvo.setAca_first_p(7000);
-//		acvo.setAca_recpt_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_final_p(6500);
-//		acvo.setAca_shipment_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_pickup_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_pay("轉帳");
-//		acvo.setAca_comp_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_cod("2022-08-23 23:00:00");
-//		acvo.setAca_adrs("2022-08-23 23:00:00");
-//		dao.insert(acvo);
-//		System.out.println(acvo.getAca_no()+":"+acvo.getAca_itm_mode());
-//		測試OK
-
-//		測試update
-//		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		Appraisal_CaseVO acvo = new Appraisal_CaseVO();
-//		acvo.setMem_no(7001);
-//		acvo.setAca_itm_id("筆電");
-//		acvo.setAcl_no(1);
-//		acvo.setAca_itm_spec("9成新");
-//		acvo.setAca_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_itm_mode("完成訂單");
-//		acvo.setAca_first_p(7000);
-//		acvo.setAca_recpt_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_final_p(6500);
-//		acvo.setAca_shipment_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_pickup_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_pay("轉帳");
-//		acvo.setAca_comp_date(java.sql.Timestamp.valueOf("2022-08-23 23:00:00"));
-//		acvo.setAca_cod("2022-08-23 23:00:00");
-//		acvo.setAca_adrs("2022-08-23 23:00:00");
-//		dao.update(acvo);
-//		測試OK
-
-//		測試delete
-//		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		dao.delete(5);
-//		測試OK
-
-//		測試findByPK
-//		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		Appraisal_CaseVO acvo = dao.findByPK(1);
-//		System.out.println(acvo.getAca_no());
-//		System.out.println(acvo.getMem_no());
-//		System.out.println(acvo.getAca_itm_id());
-//		System.out.println(acvo.getAcl_no());
-//		System.out.println(acvo.getAca_itm_spec());
-//		System.out.println(acvo.getAca_date());
-//		System.out.println(acvo.getAca_itm_mode());
-//		System.out.println(acvo.getAca_first_p());
-//		System.out.println(acvo.getAca_recpt_date());
-//		System.out.println(acvo.getAca_final_p());
-//		System.out.println(acvo.getAca_shipment_date());
-//		System.out.println(acvo.getAca_pickup_date());
-//		System.out.println(acvo.getAca_pay());
-//		System.out.println(acvo.getAca_comp_date());
-//		System.out.println(acvo.getAca_cod());
-//		System.out.println(acvo.getAca_adrs());
-//		測試OK
-
-//		測試GetAll
-//		Appraisal_CaseJDBCDAO dao = new Appraisal_CaseJDBCDAO();
-//		List<Appraisal_CaseVO> list = dao.getAll();
-//		for (Appraisal_CaseVO acvo : list) {
-//			System.out.println(acvo.getAca_no());
-//			System.out.println(acvo.getMem_no());
-//			System.out.println(acvo.getAca_itm_id());
-//			System.out.println(acvo.getAcl_no());
-//			System.out.println(acvo.getAca_itm_spec());
-//			System.out.println(acvo.getAca_date());
-//			System.out.println(acvo.getAca_itm_mode());
-//			System.out.println(acvo.getAca_first_p());
-//			System.out.println(acvo.getAca_recpt_date());
-//			System.out.println(acvo.getAca_final_p());
-//			System.out.println(acvo.getAca_shipment_date());
-//			System.out.println(acvo.getAca_pickup_date());
-//			System.out.println(acvo.getAca_pay());
-//			System.out.println(acvo.getAca_comp_date());
-//			System.out.println(acvo.getAca_cod());
-//			System.out.println(acvo.getAca_adrs());
-//		}
-//		測試OK
-//	}
 }
