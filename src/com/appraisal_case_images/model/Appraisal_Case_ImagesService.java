@@ -7,7 +7,7 @@ public class Appraisal_Case_ImagesService {
 	private I_Appraisal_Case_ImagesDAO dao;
 
 	public Appraisal_Case_ImagesService() {
-		dao = new Appraisal_Case_ImagesJDBCDAO();
+		dao = new Appraisal_Case_ImagesDAO();
 	}
 
 	public Appraisal_Case_ImagesVO addA_Case_Image(Integer aca_no, byte[] aci_img) {
