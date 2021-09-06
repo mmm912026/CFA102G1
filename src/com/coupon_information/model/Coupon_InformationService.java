@@ -8,7 +8,7 @@ public class Coupon_InformationService {
 	private I_Coupon_InformationDAO dao;
 
 	public Coupon_InformationService() {
-		dao = new Coupon_InformationJDBCDAO();
+		dao = new Coupon_InformationDAO();
 	}
 
 	public Coupon_InformationVO addC_Information(String ci_name, String ci_code, Timestamp ci_start_time,
@@ -52,7 +52,7 @@ public class Coupon_InformationService {
 		return dao.findByPK(ci_no);
 	}
 
-	private List<Coupon_InformationVO> getAll() {
+	public List<Coupon_InformationVO> getAll() {
 		return dao.getAll();
 
 	}

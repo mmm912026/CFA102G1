@@ -7,7 +7,7 @@ public class Coupon_ListService {
 	private I_Coupon_ListDAO dao;
 	
 	public Coupon_ListService() {
-		dao = new Coupon_ListJDBCDAO();
+		dao = new Coupon_ListDAO();
 	}
 	
 	public Coupon_ListVO addC_List(Integer ci_no, Integer mem_no, String cl_status) {
