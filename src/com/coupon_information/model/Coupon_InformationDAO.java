@@ -1,7 +1,6 @@
 package com.coupon_information.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,11 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" + "rewriteBatchedStatements=true&" + "serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class Coupon_InformationDAO implements I_Coupon_InformationDAO {
+//	建立連線池
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO CFA102G1.COUPON_INFORMATION(CI_NAME, CI_CODE, CI_START_TIME, CI_END_TIME, DISCOUNT, CI_CONTENT) VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = "UPDATE CFA102G1.COUPON_INFORMATION SET CI_NAME= ?, CI_CODE= ?, CI_START_TIME= ?, CI_END_TIME= ?, DISCOUNT= ?, CI_CONTENT = ? WHERE CI_NO = ?";
@@ -28,10 +38,9 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
+			
 			pstmt.setString(1, coupon_InformationVO.getCi_name());
 			pstmt.setString(2, coupon_InformationVO.getCi_code());
 			pstmt.setTimestamp(3, coupon_InformationVO.getCi_start_time());
@@ -45,8 +54,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 			if(rs.next()) {
 				coupon_InformationVO.setCi_no(rs.getInt(1));
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -70,10 +77,9 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
+			
 			pstmt.setString(1, coupon_InformationVO.getCi_name());
 			pstmt.setString(2, coupon_InformationVO.getCi_code());
 			pstmt.setTimestamp(3, coupon_InformationVO.getCi_start_time());
@@ -83,8 +89,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 			pstmt.setInt(7, coupon_InformationVO.getCi_no());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -107,15 +111,12 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
+			
 			pstmt.setInt(1, ci_no);
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -140,9 +141,9 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
+			
 			pstmt.setInt(1, ci_no);
 			rs = pstmt.executeQuery();
 
@@ -156,8 +157,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 				coupon_information.setDiscount(rs.getInt("DISCOUNT"));
 				coupon_information.setCi_content(rs.getString("CI_CONTENT"));
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -184,9 +183,9 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -200,8 +199,6 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 				coupon_information.setCi_content(rs.getString("CI_CONTENT"));
 				coupon_informationList.add(coupon_information);
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 //			se.printStackTrace();
 //			錯誤拋到前台
@@ -218,65 +215,4 @@ public class Coupon_InformationJDBCDAO implements I_Coupon_InformationDAO {
 		}
 		return coupon_informationList;
 	}
-
-//	測試
-//	public static void main(String[] args) {
-
-//		測試insert
-//		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
-//		Coupon_InformationVO civo = new Coupon_InformationVO();
-//		civo.setCi_name("必勝客 消費滿 199 元現折 50 元");
-//		civo.setCi_code("PHAUG");
-//		civo.setCi_start_time(java.sql.Timestamp.valueOf("2022-08-22 00:00:00"));
-//		civo.setCi_end_time(java.sql.Timestamp.valueOf("2022-08-23 00:00:00"));
-//		civo.setDiscount(50);
-//		civo.setCi_content("必勝客 消費滿 199 元現折 50 元");
-//		dao.insert(civo);
-//		System.out.println(civo.getCi_no()+":"+civo.getCi_name());
-//		測試OK
-
-//		測試update
-//		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
-//		Coupon_InformationVO civo = new Coupon_InformationVO();
-//		civo.setCi_no(3);
-//		civo.setCi_name("現折60");
-//		civo.setCi_code("SUM300");
-//		civo.setCi_start_time(java.sql.Timestamp.valueOf("20220822 00:00:00"));
-//		civo.setCi_end_time(java.sql.Timestamp.valueOf("20220901 00:00:00"));
-//		civo.setDiscount(60);
-//		civo.setCi_content("單筆消費滿300折60");
-//		dao.update(civo);
-//		測試OK
-
-//		測試delete
-//		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
-//		dao.delete(6);
-//		測試OK
-
-//		測試findByPK
-//		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
-//		Coupon_InformationVO civo = dao.findByPK(3);
-//		System.out.println(civo.getCi_no());
-//		System.out.println(civo.getCi_name());
-//		System.out.println(civo.getCi_code());
-//		System.out.println(civo.getCi_start_time());
-//		System.out.println(civo.getCi_end_time());
-//		System.out.println(civo.getDiscount());
-//		System.out.println(civo.getCi_content());
-//		測試OK
-
-//		測試GetAll
-//		Coupon_InformationJDBCDAO dao = new Coupon_InformationJDBCDAO();
-//		List<Coupon_InformationVO> list = dao.getAll();
-//		for(Coupon_InformationVO civo:list) {
-//			System.out.println(civo.getCi_no());
-//			System.out.println(civo.getCi_name());
-//			System.out.println(civo.getCi_code());
-//			System.out.println(civo.getCi_start_time());
-//			System.out.println(civo.getCi_end_time());
-//			System.out.println(civo.getDiscount());
-//			System.out.println(civo.getCi_content());
-//		}
-//		測試OK
-//	}
 }
