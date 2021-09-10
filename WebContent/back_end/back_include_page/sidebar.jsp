@@ -28,7 +28,7 @@
                 <div class="card-body py-4 px-5">
                     <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl">
-                            <img src="../back_CSS_JS/assets/images/faces/1.jpg" alt="Face 1">
+                            <img src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/images/faces/1.jpg" alt="Face 1">
                         </div>
                         <div class="ms-3 name">
                             <h5 class="font-bold">管理員ID</h5>

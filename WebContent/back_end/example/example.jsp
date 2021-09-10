@@ -26,11 +26,11 @@
 		
 		
 	<!--*******************	
-		Start Include sidebar File  
+		Start Include JS File  
 		******************* -->
         <%@ include file="../back_include_page/JavaScript_Include.jsp"%>
 	<!--*******************	
-		End Include sidebar File  
+		End Include JS File  
 		******************* -->
 
 </body>

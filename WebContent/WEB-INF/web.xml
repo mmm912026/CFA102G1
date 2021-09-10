@@ -9,4 +9,31 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>SecProductInformServlet</servlet-name>
+    <servlet-class>com.sec_product_inform.controller.SecProductInformServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecProductInformServlet</servlet-name>
+    <url-pattern>/secProductInfo/ProductInfo.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SecProductImagesServlet</servlet-name>
+    <servlet-class>com.sec_product_images.controller.SecProductImagesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecProductImagesServlet</servlet-name>
+    <url-pattern>/secProductImg/ProductImg.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SecProductClassServlet</servlet-name>
+    <servlet-class>com.sec_product_class.controller.SecProductClassServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecProductClassServlet</servlet-name>
+    <url-pattern>/secProductClass/ProductClass.do</url-pattern>
+  </servlet-mapping>
 </web-app>

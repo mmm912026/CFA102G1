@@ -9,3 +9,4 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/css/app.css">
     <link rel="shortcut icon" href="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/images/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/simple-datatables/style.css">
