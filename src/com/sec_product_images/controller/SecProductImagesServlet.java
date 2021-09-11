@@ -28,9 +28,7 @@ public class SecProductImagesServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		System.out.println("Enter doPost!!!");
 		String action = req.getParameter("action");
-		System.out.println("action : " + action);
 		if("showImages".equals(action)) {
 			Integer spi_no = new Integer(req.getParameter("spi_no"));
 			

@@ -348,12 +348,17 @@ public class SecProductInformServlet extends HttpServlet{
 						
 			/****3.過濾商品****/
 			if(spc_no == 0) {
-				/****spc_no=0 表示要查詢所有的商品****/
-				afterFiterProduct = productInformVOs;
-			}else {
-				/****依據spc_no，開始過濾商品****/
+				/****spc_no=0 表示要查詢所有的商品，去除狀態為"下架"或庫存為0的商品****/
 				afterFiterProduct = productInformVOs.stream()
-													.filter(p -> p.getSpc_no().intValue() == spc_no.intValue())
+													.filter(i -> i.getSpi_stock().intValue() > 0)
+													.filter(i -> i.getSpi_sta().equals("上架"))
+													.collect(Collectors.toList());
+			}else {
+				/****依據spc_no，開始過濾商品，並去除狀態為"下架"或庫存為0的商品****/
+				afterFiterProduct = productInformVOs.stream()
+													.filter(i -> i.getSpc_no().equals(spc_no))
+													.filter(i -> i.getSpi_stock().intValue() > 0)
+													.filter(i -> i.getSpi_sta().equals("上架"))
 													.collect(Collectors.toList());	
 			}
 					
@@ -366,9 +371,7 @@ public class SecProductInformServlet extends HttpServlet{
 			return;
 		}
 		
-		if("showProductDetail".equals(action)) {
-			System.out.println("Enter showProductDetail!!");
-			
+		if("showProductDetail".equals(action)) {			
 			/****1.取得參數****/
 			Integer spi_no = new Integer(req.getParameter("spi_no"));
 			
@@ -386,8 +389,6 @@ public class SecProductInformServlet extends HttpServlet{
 			afterFilterImages = secProductImagesVOs.stream()
 							 					   .filter(i -> i.getSpi_no().equals(spi_no))
 							 					   .collect(Collectors.toList());
-			
-			System.out.println("afterFilterImages size : " + afterFilterImages.size() );
 			req.setAttribute("afterFilterImages", afterFilterImages);
 			
 			/****4.頁面轉向****/
