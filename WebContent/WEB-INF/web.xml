@@ -36,4 +36,23 @@
     <servlet-name>SecProductClassServlet</servlet-name>
     <url-pattern>/secProductClass/ProductClass.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SecOrderServlet</servlet-name>
+    <servlet-class>com.sec_order.controller.SecOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecOrderServlet</servlet-name>
+    <url-pattern>/secOrder/SecOrder.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SecOrderListServlet</servlet-name>
+    <servlet-class>com.sec_order_list.controller.SecOrderListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecOrderListServlet</servlet-name>
+    <url-pattern>/secOrderList/SecOrderList.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
