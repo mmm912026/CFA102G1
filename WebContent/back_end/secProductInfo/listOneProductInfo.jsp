@@ -100,7 +100,7 @@
 													<tr>
 														<th>商品照片</th>
 														<th>
-															<img src="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spim_no=${imagesList.spim_no}"  style="width:100px;height:100px;">
+															<img src="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spim_no=${imagesList.spim_no}&action=ExportImages"  style="width:100px;height:100px;">
 														</th>
 													</tr>
 												</c:forEach>

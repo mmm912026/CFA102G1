@@ -27,17 +27,7 @@ import com.sec_product_images.*;
 public class SecProductInformServlet extends HttpServlet{
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		res.setContentType("image/jpeg");
-		Integer spim_no= new Integer(req.getParameter("spim_no"));
-		System.out.println("Integer >> spim_no : " + spim_no);
-		SecProductImagesService secProductImagesSvc = new SecProductImagesService();
-		SecProductImagesVO secProductImagesVO = secProductImagesSvc.getOneSecProductImages(spim_no);
-		byte[] imgArry = secProductImagesVO.getSpim_img();
-		ServletOutputStream out = res.getOutputStream();
-		out.write(imgArry);
-		out.close();	
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {	
 		doPost(req, res);
 	}
 	
@@ -327,6 +317,19 @@ public class SecProductInformServlet extends HttpServlet{
 				}
 			}
 				
+		}
+		
+		if("ExportImages".equals(action)) {
+			res.setContentType("image/jpeg");
+			Integer spim_no= new Integer(req.getParameter("spim_no"));
+			System.out.println("Integer >> spim_no : " + spim_no);
+			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
+			SecProductImagesVO secProductImagesVO = secProductImagesSvc.getOneSecProductImages(spim_no);
+			byte[] imgArry = secProductImagesVO.getSpim_img();
+			ServletOutputStream out = res.getOutputStream();
+			out.write(imgArry);
+			out.close();	
+			return;
 		}
 	}
 

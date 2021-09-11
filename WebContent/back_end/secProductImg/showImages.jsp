@@ -70,7 +70,7 @@
 												 <c:forEach var="images" items="${Images}">
 													<tr>
 														<th>商品照片</th>
-														<th><img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spim_no=${images.spim_no}"  style="width:100px;height:100px;"></th>
+														<th><img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spim_no=${images.spim_no}&action=ExportImages"  style="width:100px;height:100px;"></th>
 														<th>
 															<form
 																action="<%=request.getContextPath()%>/secProductImg/ProductImg.do" method="post">

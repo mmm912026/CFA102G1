@@ -22,14 +22,7 @@ import com.sec_product_images.model.SecProductImagesVO;
 public class SecProductImagesServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {	
-		res.setContentType("image/jpeg");
-		Integer spim_no= new Integer(req.getParameter("spim_no"));
-		SecProductImagesService secProductImagesSvc = new SecProductImagesService();
-		SecProductImagesVO secProductImagesVO = secProductImagesSvc.getOneSecProductImages(spim_no);
-		byte[] imgArry = secProductImagesVO.getSpim_img();
-		ServletOutputStream out = res.getOutputStream();
-		out.write(imgArry);
-		out.close();	
+		doPost(req, res);
 	}
 	
 	@Override
@@ -121,5 +114,18 @@ public class SecProductImagesServlet extends HttpServlet{
 			successView.forward(req, res);
 			return;
 		}
+		
+		if("ExportImages".equals(action)) {
+			res.setContentType("image/jpeg");
+			Integer spim_no= new Integer(req.getParameter("spim_no"));
+			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
+			SecProductImagesVO secProductImagesVO = secProductImagesSvc.getOneSecProductImages(spim_no);
+			byte[] imgArry = secProductImagesVO.getSpim_img();
+			ServletOutputStream out = res.getOutputStream();
+			out.write(imgArry);
+			out.close();
+			return;
+		}
+		
 	}
 }
