@@ -74,7 +74,7 @@
                                     	${productList.spi_name}
                                     </a>
                                 </h3>                            
-                                <span>${productList.spi_pri}</span>
+                                <span>$${productList.spi_pri}</span>
                             </div>
                             
                         </div>
