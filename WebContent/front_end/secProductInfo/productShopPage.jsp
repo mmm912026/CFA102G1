@@ -56,7 +56,7 @@
                         <div class="single-shop-products">
                         
                             <div class="shop-products-image">
-                                <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp">
+                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=${productList.spi_no}&action=showProductDetail">
 									<img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productList.spi_no}&action=showShopImage" alt="image" >
                                 </a>
                                 <ul class="shop-action">
@@ -70,7 +70,7 @@
 
                             <div class="shop-products-content">
                                 <h3>
-                                    <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp">
+                                    <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=${productList.spi_no}&action=showProductDetail">
                                     	${productList.spi_name}
                                     </a>
                                 </h3>                            

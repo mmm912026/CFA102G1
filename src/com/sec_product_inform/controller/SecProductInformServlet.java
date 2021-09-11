@@ -366,6 +366,36 @@ public class SecProductInformServlet extends HttpServlet{
 			return;
 		}
 		
+		if("showProductDetail".equals(action)) {
+			System.out.println("Enter showProductDetail!!");
+			
+			/****1.取得參數****/
+			Integer spi_no = new Integer(req.getParameter("spi_no"));
+			
+			/****2.開始查詢商品****/
+			ProductInformService productInformSvc = new ProductInformService();
+			ProductInformVO productInformVO = productInformSvc.getOneProductInform(spi_no);
+			
+			req.setAttribute("productInformVO", productInformVO);
+			
+			/****3.開始查詢商品圖片****/
+			SecProductImagesService productImagesSvc = new SecProductImagesService();
+			List<SecProductImagesVO> secProductImagesVOs = productImagesSvc.getAll();
+			
+			List<SecProductImagesVO> afterFilterImages = null;
+			afterFilterImages = secProductImagesVOs.stream()
+							 					   .filter(i -> i.getSpi_no().equals(spi_no))
+							 					   .collect(Collectors.toList());
+			
+			System.out.println("afterFilterImages size : " + afterFilterImages.size() );
+			req.setAttribute("afterFilterImages", afterFilterImages);
+			
+			/****4.頁面轉向****/
+			RequestDispatcher successView = 
+					 req.getRequestDispatcher("/front_end/secProductInfo/productDetail.jsp");
+			successView.forward(req, res);
+		}
+		
 	}
 
 }
