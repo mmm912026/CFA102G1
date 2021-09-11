@@ -3,6 +3,7 @@ package com.sec_product_inform.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -285,11 +286,9 @@ public class SecProductInformServlet extends HttpServlet{
 			/**查詢圖片**/
 			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
 			List<SecProductImagesVO> filterImagesList = secProductImagesSvc.getAll()
-																		.stream()
-																		.filter(i -> i.getSpi_no().intValue() == spi_no.intValue())
-																		.collect(Collectors.toList());
-			System.out.println("圖片查詢成功!!");
-			System.out.println("圖片查詢結果 : " + filterImagesList.isEmpty());
+																		   .stream()
+																		   .filter(i -> i.getSpi_no().intValue() == spi_no.intValue())
+																		   .collect(Collectors.toList());
 			req.setAttribute("filterImagesList", filterImagesList);
 			
 			/****3.頁面轉向****/
@@ -331,6 +330,42 @@ public class SecProductInformServlet extends HttpServlet{
 			out.close();	
 			return;
 		}
+		
+		if("showAllProduct".equals(action)) {
+			System.out.println("Enter show all prduct!!!");
+			System.out.println("spc_no : " + req.getParameter("spc_no"));
+			
+			/****1.取得變數****/
+			Integer spc_no = new Integer( req.getParameter("spc_no") );
+			
+			/****2.開始查詢****/
+			ProductInformService productInformSvc = new ProductInformService();
+			List<ProductInformVO> productInformVOs = productInformSvc.getAll();
+			
+			System.out.println("productInformVOs : " + productInformVOs.size());
+			System.out.println("------------------------------------------------------");
+			List<ProductInformVO> afterFiterProduct = null;
+						
+			/****3.過濾商品****/
+			if(spc_no == 0) {
+				/****spc_no=0 表示要查詢所有的商品****/
+				afterFiterProduct = productInformVOs;
+			}else {
+				/****依據spc_no，開始過濾商品****/
+				afterFiterProduct = productInformVOs.stream()
+													.filter(p -> p.getSpc_no().intValue() == spc_no.intValue())
+													.collect(Collectors.toList());	
+			}
+					
+			req.setAttribute("afterFiterProduct", afterFiterProduct);
+						
+			/****4.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/front_end/secProductInfo/productShopPage.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
 	}
 
 }

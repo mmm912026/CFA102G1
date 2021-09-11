@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
@@ -121,6 +122,31 @@ public class SecProductImagesServlet extends HttpServlet{
 			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
 			SecProductImagesVO secProductImagesVO = secProductImagesSvc.getOneSecProductImages(spim_no);
 			byte[] imgArry = secProductImagesVO.getSpim_img();
+			ServletOutputStream out = res.getOutputStream();
+			out.write(imgArry);
+			out.close();
+			return;
+		}
+		
+		if("showShopImage".equals(action)) {
+			res.setContentType("image/jpeg");
+			
+			/****1.取的參數****/
+			Integer spi_no =new Integer(req.getParameter("spi_no"));
+			
+			/****2.查詢照片****/
+			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
+			List<SecProductImagesVO> imgaeList = secProductImagesSvc.getAll();
+			
+			/****3.過濾照片****/
+			Optional<SecProductImagesVO> firstImages = null;
+			
+			firstImages = imgaeList.stream()
+								   .filter(i -> i.getSpi_no().intValue() == spi_no.intValue())
+								   .findFirst();
+			
+			/****4.輸出圖片****/
+			byte[] imgArry = firstImages.get().getSpim_img();
 			ServletOutputStream out = res.getOutputStream();
 			out.write(imgArry);
 			out.close();

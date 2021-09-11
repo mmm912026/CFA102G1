@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.sec_product_inform.model.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +16,7 @@
         
         <title>YSM3C - 二手租賃商城</title>
 
-        <link rel="icon" type="image/png" href="../front_CSS_JS/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/favicon.png">
 </head>
 <body>
 	    <!-- Start Preloader Area 載入畫面(圈圈)-->
@@ -48,11 +51,14 @@
                 <div class="row">
                 
 					<!-- Start 顯示單個商品 -->
-                	<%for(int i=0 ; i<4 ; i++){ %>
+                	<c:forEach var="productList" items="${afterFiterProduct}">
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-shop-products">
+                        
                             <div class="shop-products-image">
-                                <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp"><img src="../front_CSS_JS/assets/img/shop/shop-1.jpg" alt="image"></a>
+                                <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp">
+									<img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productList.spi_no}&action=showShopImage" alt="image" >
+                                </a>
                                 <ul class="shop-action">
                                     <li>
                                         <a href="cart.html">
@@ -64,13 +70,16 @@
 
                             <div class="shop-products-content">
                                 <h3>
-                                    <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp"">Action Camera</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/secProductInfo/productDetail.jsp">
+                                    	${productList.spi_name}
+                                    </a>
                                 </h3>                            
-                                <span>$150.00</span>
+                                <span>${productList.spi_pri}</span>
                             </div>
+                            
                         </div>
                     </div>
-					<%}%>
+					</c:forEach>
  					<!-- End 顯示單個商品 -->      
 					
 					<!-- Start 分頁 -->
