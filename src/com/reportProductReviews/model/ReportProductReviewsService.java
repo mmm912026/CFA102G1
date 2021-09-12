@@ -19,7 +19,7 @@ public class ReportProductReviewsService {
 		reportProductReviewsVO.setMem_no(mem_no);
 		reportProductReviewsVO.setReport_content(report_content);
 
-		dao.insert(reportProductReviewsVO);
+		reportProductReviewsVO = dao.insert(reportProductReviewsVO);
 		
 		return reportProductReviewsVO;
 	}
