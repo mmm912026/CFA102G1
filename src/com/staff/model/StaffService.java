@@ -3,49 +3,51 @@ package com.staff.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
 public class StaffService {
 	private I_StaffDAO dao;
 	
 	public StaffService() {
-		dao = new StaffJDBCDAO();
+		dao = new StaffDAO();
 	}
 public StaffVO addStaff(
-		String staff_name, String staff_gender, Integer staff_phone,String staff_email,
+		String staff_name, String staff_gender, String staff_phone,String staff_email,
 		String staff_address, String staff_account, String staff_password,
 		String staff_sta) {
-	StaffVO staff = new StaffVO();
+	StaffVO staffVO = new StaffVO();
 	
-	staff.setStaff_name(staff_name);
-	staff.setStaff_gender(staff_gender);
-	staff.setStaff_phone(staff_phone);
-	staff.setStaff_email(staff_email);
-	staff.setStaff_address(staff_address);
-	staff.setStaff_account(staff_account);
-	staff.setStaff_password(staff_password);
-	staff.setStaff_sta(staff_sta);
+	staffVO.setStaff_name(staff_name);
+	staffVO.setStaff_gender(staff_gender);
+	staffVO.setStaff_phone(staff_phone);
+	staffVO.setStaff_email(staff_email);
+	staffVO.setStaff_address(staff_address);
+	staffVO.setStaff_account(staff_account);
+	staffVO.setStaff_password(staff_password);
+	staffVO.setStaff_sta(staff_sta);
 	
-	staff = dao.insert(staff);
-	return staff;
+	staffVO = dao.insert(staffVO);
+	return staffVO;
 	};
 public StaffVO updateStaff(
-		Integer staff_no, String staff_name, String staff_gender, Integer staff_phone,String staff_email,
+		Integer staff_no, String staff_name, String staff_gender, String staff_phone,String staff_email,
 		String staff_address, String staff_account, String staff_password,
 		String staff_sta
 		) {
-	StaffVO staff = new StaffVO();
+	StaffVO staffVO = new StaffVO();
 	
-	staff.setStaff_no(staff_no);
-	staff.setStaff_name(staff_name);
-	staff.setStaff_gender(staff_gender);
-	staff.setStaff_phone(staff_phone);
-	staff.setStaff_email(staff_email);
-	staff.setStaff_address(staff_address);
-	staff.setStaff_account(staff_account);
-	staff.setStaff_password(staff_password);
-	staff.setStaff_sta(staff_sta);
+	staffVO.setStaff_no(staff_no);
+	staffVO.setStaff_name(staff_name);
+	staffVO.setStaff_gender(staff_gender);
+	staffVO.setStaff_phone(staff_phone);
+	staffVO.setStaff_email(staff_email);
+	staffVO.setStaff_address(staff_address);
+	staffVO.setStaff_account(staff_account);
+	staffVO.setStaff_password(staff_password);
+	staffVO.setStaff_sta(staff_sta);
 	
-	dao.update(staff);
-	return staff;
+	dao.update(staffVO);
+	return staffVO;
 }
 public void deleteStaff(Integer staff_no) {
 	dao.delete(staff_no);
@@ -56,10 +58,13 @@ public StaffVO getOneStaff(Integer staff_no) {
 public List<StaffVO> getName(String staff_name){
 	return dao.getAll().stream().filter(e -> e.getStaff_name().equals(staff_name)).collect(Collectors.toList());
 	}
-public List<StaffVO> getPhone(Integer staff_phone){
+public List<StaffVO> getPhone(String staff_phone){
 	return dao.getAll().stream().filter(e -> e.getStaff_phone().equals(staff_phone)).collect(Collectors.toList());
     }
 public List<StaffVO> getAll(){
 	return dao.getAll();
 	}
+public StaffVO getOneStaff_account(String staff_account, String staff_password) {
+	return dao.findByStaff_account(staff_account,staff_password);
+}
 }

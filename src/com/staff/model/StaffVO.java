@@ -6,7 +6,7 @@ public class StaffVO implements java.io.Serializable{
 	private Integer staff_no;
 	private String staff_name;
 	private String staff_gender;
-	private Integer staff_phone;
+	private String staff_phone;
 	private String staff_email;
 	private String staff_address;
 	private String staff_account;
@@ -18,7 +18,7 @@ public class StaffVO implements java.io.Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public StaffVO(Integer staff_no, String staff_name, String staff_gender, Integer staff_phone, String staff_email,
+	public StaffVO(Integer staff_no, String staff_name, String staff_gender, String staff_phone, String staff_email,
 			String staff_address, String staff_account, String staff_password, String staff_sta) {
 		super();
 		this.staff_no = staff_no;
@@ -56,11 +56,11 @@ public class StaffVO implements java.io.Serializable{
 		this.staff_gender = staff_gender;
 	}
 
-	public Integer getStaff_phone() {
+	public String getStaff_phone() {
 		return staff_phone;
 	}
 
-	public void setStaff_phone(Integer staff_phone) {
+	public void setStaff_phone(String staff_phone) {
 		this.staff_phone = staff_phone;
 	}
 

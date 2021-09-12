@@ -9,15 +9,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.member.model.MemberVO;
 
-
-public class StaffJDBCDAO implements I_StaffDAO{
-	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://localhost:3306/CFA102G1?serverTimezone=Asia/Taipei";
-	public static final String USER = "David";
-	public static final String PASSWORD = "123456";
-	
+public class StaffDAO implements I_StaffDAO{
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	private static final String INSERT_SQL = 
 			"INSERT INTO CFA102G1.STAFF (STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA)VALUES(?,?,?,?,?,?,?,?)"; 
 	private static final String UPDATE_SQL = 
@@ -34,13 +42,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			"SELECT STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA FROM CFA102G1.STAFF";
 	private static final String GET_ONE_LOGIN = 
 			"SELECT STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA FROM MEMBER WHERE STAFF_ACCOUNT = ? AND STAFF_PASSWORD = ?";		
-	static {
-		try {
-			Class.forName(DRIVER);
-		}catch (ClassNotFoundException ce) {
-			ce.printStackTrace();
-		}
-	}
+	
 	
 	@Override
 	public StaffVO insert(StaffVO staff) {
@@ -50,7 +52,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		
 		try {
 			
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
 			
 			pstmt.setString(1,staff.getStaff_name());
@@ -70,7 +72,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			}
 			
 					}catch (SQLException se) {
-			se.printStackTrace();
+						throw new RuntimeException("A database error occured. "
+								+ se.getMessage());
 		}finally {
 			if(con !=null) {
 				try {
@@ -90,7 +93,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		
 		try {
 			
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_SQL);
 			
 			
@@ -107,7 +110,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			pstmt.executeUpdate();
 			
 					}catch (SQLException se) {
-			se.printStackTrace();
+						throw new RuntimeException("A database error occured. "
+								+ se.getMessage());
 		}finally {
 			if(con !=null) {
 				try {
@@ -126,14 +130,15 @@ public class StaffJDBCDAO implements I_StaffDAO{
 
 		try {
 
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_SQL);
 
 			pstmt.setInt(1, staff_no);			
 			
 			pstmt.executeUpdate();
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con !=null) {
 				try {
@@ -155,7 +160,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		StaffVO staff = null;
 		
 		try {
-			con = DriverManager.getConnection(URL,USER,PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_STAFF_NO_SQL);
 			pstmt.setInt(1,staff_no );
 			rs = pstmt.executeQuery();
@@ -175,7 +180,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			}
 			
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con != null) {
 				try {
@@ -199,7 +205,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		StaffVO staff = null;
 		
 		try {
-			con = DriverManager.getConnection(URL,USER,PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_STAFF_NAME_SQL);
 			pstmt.setString(1,staff_name);
 			rs = pstmt.executeQuery();
@@ -219,7 +225,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 				
 			}
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con != null) {
 				try {
@@ -240,7 +247,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		StaffVO staff = null;
 		
 		try {
-			con = DriverManager.getConnection(URL,USER,PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_STAFF_PHONE_SQL);
 			pstmt.setString(1,staff_phone);
 			rs = pstmt.executeQuery();
@@ -260,7 +267,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 				
 			}
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con != null) {
 				try {
@@ -280,7 +288,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		List<StaffVO> list = new ArrayList<StaffVO>();
 		StaffVO staffVO = null;
 		try {
-			con = DriverManager.getConnection(URL,USER,PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			
@@ -302,7 +310,8 @@ public class StaffJDBCDAO implements I_StaffDAO{
 			}
 			
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con != null) {
 				try {
@@ -322,7 +331,7 @@ public class StaffJDBCDAO implements I_StaffDAO{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = DriverManager.getConnection(URL,USER,PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_LOGIN);
 			pstmt.setString(1, staff_account);
 			pstmt.setString(2, staff_password);
@@ -340,9 +349,11 @@ public class StaffJDBCDAO implements I_StaffDAO{
 				staffVO.setStaff_account(rs.getString("STAFF_ACCOUNT"));
 				staffVO.setStaff_password(rs.getString("STAFF_PASSWORD"));
 				staffVO.setStaff_sta(rs.getString("STAFF_STA"));
-			}
+}
+			
 		}catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		}finally {
 			if(con != null) {
 				try {
@@ -352,122 +363,9 @@ public class StaffJDBCDAO implements I_StaffDAO{
 				}
 			}
 		}
-	
+		
 		return staffVO;
-	}
+	}	
 
-	//測試開始
-//		public static void main(String[] args) {
-//			
-//			//新增員工資料
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			StaffVO staff = new StaffVO();
-//
-//			staff.setStaff_name("TOYA1111");
-//			staff.setStaff_gender("男");
-//			staff.setStaff_phone("0959991255");
-//			staff.setStaff_email("dasfe22@gmail.com");
-//			staff.setStaff_address("桃園市中壢區央中路2段110號");
-//			staff.setStaff_account("sadf6");
-//			staff.setStaff_password("vbdfge55");
-//			staff.setStaff_sta("正常");
-//			staff = dao.insert(staff);
-//			System.out.println(staff.getStaff_no());
-//			
-//			
-			//System.out.println("---------------------------------------------------");
-			//用員工編號查詢
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			StaffVO list1 = dao.findByStaff_no(7002);
-//			    System.out.print(list1.getStaff_no()+"\t");
-//			    System.out.print(list1.getStaff_name()+"\t");
-//			    System.out.print(list1.getStaff_gender()+"\t");
-//			    System.out.print(list1.getStaff_phone()+"\t");
-//			    System.out.print(list1.getStaff_email()+"\t");
-//			    System.out.print(list1.getStaff_address()+"\t");
-//			    System.out.print(list1.getStaff_account()+"\t");
-//			    System.out.print(list1.getStaff_password()+"\t");
-//			    System.out.print(list1.getStaff_sta()+"\t");
-//			    System.out.println();
-//			
-			//System.out.println("---------------------------------------------------");
-			//用名字查詢
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			List<StaffVO> nameList = dao.findByStaff_name("nami");
-//			for (StaffVO staffVOName : nameList) {
-//				
-//				System.out.print(staffVOName.getStaff_no()+"\t");
-//				System.out.print(staffVOName.getStaff_name()+"\t");
-//				System.out.print(staffVOName.getStaff_gender()+"\t");
-//				System.out.print(staffVOName.getStaff_phone()+"\t");
-//				System.out.print(staffVOName.getStaff_email()+"\t");
-//				System.out.print(staffVOName.getStaff_address()+"\t");
-//				System.out.print(staffVOName.getStaff_account()+"\t");
-//				System.out.print(staffVOName.getStaff_password()+"\t");
-//				System.out.print(staffVOName.getStaff_sta()+"\t");
-//				System.out.println();
-//			}
-			//System.out.println("---------------------------------------------------");
-			//搜尋全部
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			List<StaffVO> list = dao.getAll();
-//			for (StaffVO staffVO : list ) {
-//				
-//			    System.out.print(staffVO.getStaff_no()+"\t");
-//			    System.out.print(staffVO.getStaff_name()+"\t");
-//			    System.out.print(staffVO.getStaff_gender()+"\t");
-//			    System.out.print(staffVO.getStaff_phone()+"\t");
-//			    System.out.print(staffVO.getStaff_email()+"\t");
-//			    System.out.print(staffVO.getStaff_address()+"\t");
-//			    System.out.print(staffVO.getStaff_account()+"\t");
-//			    System.out.print(staffVO.getStaff_password()+"\t");
-//			    System.out.print(staffVO.getStaff_sta()+"\t");
-//			    System.out.println();
-//			}
-//			System.out.println("-------------------------------------------");
-			
-			//用手機號麻搜尋
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			List<StaffVO> list = dao.findByStaff_phone(999667150);
-//			for (StaffVO staffphone : list) {
-//				
-//				System.out.print(staffphone.getStaff_no()+"\t");
-//				System.out.print(staffphone.getStaff_name()+"\t");
-//				System.out.print(staffphone.getStaff_gender()+"\t");
-//				System.out.print(staffphone.getStaff_phone()+"\t");
-//				System.out.print(staffphone.getStaff_email()+"\t");
-//				System.out.print(staffphone.getStaff_address()+"\t");
-//				System.out.print(staffphone.getStaff_account()+"\t");
-//				System.out.print(staffphone.getStaff_password()+"\t");
-//				System.out.print(staffphone.getStaff_sta()+"\t");
-//				System.out.println();
-//			}
-			//System.out.println("---------------------------------------------------");
-			
-			//修改
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			StaffVO staff = new StaffVO();
-//			
-//			staff.setStaff_name("minako");
-//			staff.setStaff_gender("女");
-//			staff.setStaff_phone(974455553);	
-//			staff.setStaff_email("msdfw223@gmail.com");
-//			staff.setStaff_address("桃園市新屋區中正路777號");
-//			staff.setStaff_account("t05sdf");
-//			staff.setStaff_password("rass35");
-//			staff.setStaff_sta("正常");
-//			staff.setStaff_no(3);
-//			
-//			dao.update(staff);
-			
-//		}
-		//System.out.println("---------------------------------------------------");
-			//刪除
-//			StaffJDBCDAO dao = new StaffJDBCDAO();
-//			dao.delete(3);
-//			    System.out.println("已刪除");
-//			System.out.println("-------------------------------------------");
-//		
-//		
-//		}
+
 }

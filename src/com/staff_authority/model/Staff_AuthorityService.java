@@ -6,7 +6,7 @@ public class Staff_AuthorityService {
 private I_Staff_AuthorityDAO dao;
 	
 	public Staff_AuthorityService() {
-		dao = new Staff_AuthorityJDBCDAO();
+		dao = new Staff_AuthorityDAO();
 	}
 public Staff_AuthorityVO addStaff_Authority(
 		Integer staff_no, Integer authority_no) {
