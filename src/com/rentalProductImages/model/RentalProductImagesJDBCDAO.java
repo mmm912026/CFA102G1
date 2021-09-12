@@ -27,6 +27,8 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES WHERE rpi_no = ?";
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES";
+	private static final String FIND_BY_RC_NO = 
+			"SELECT * FROM RENTAL_PRODUCT_IMAGES where RC_no=?";
 	
 	public RentalProductImagesVO insert(RentalProductImagesVO rentalProductImagesVO) {
 		Connection con = null;
@@ -171,8 +173,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			while (rs.next()) {
 				rentalProductImagesVO = new RentalProductImagesVO();		
 				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
-				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
-				rentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));			
+				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));			
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -226,7 +227,62 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				rentalProductImagesVO = new RentalProductImagesVO();		
 				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
 				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
-				rentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));
+				list.add(rentalProductImagesVO);
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	public List<RentalProductImagesVO> findbyRc_no(Integer rc_no) {
+		List<RentalProductImagesVO> list = new ArrayList<RentalProductImagesVO>();
+		RentalProductImagesVO rentalProductImagesVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_RC_NO);
+			
+			pstmt.setInt(1, rc_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rentalProductImagesVO = new RentalProductImagesVO();		
+				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
+				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
 				list.add(rentalProductImagesVO);
 			}
 

@@ -27,6 +27,11 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			"SELECT * FROM RENTAL_PRODUCT_LIST WHERE rpl_no = ?";
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_PRODUCT_LIST";
+	private static final String FIND_BY_RC_NO = 
+			"SELECT * FROM RENTAL_PRODUCT_LIST where RC_no=?";
+	private static final String FIND_BY_RC_ITEM = 
+			"SELECT * FROM rental_product_list where RC_NO in (select RC_NO from rental_class where rc_item =?)";
+	
 	
 	public RentalProductListVO insert(RentalProductListVO rentalProductListVO) {
 		Connection con = null;
@@ -274,5 +279,136 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			}
 		}
 		return list;
+	}
+
+	public List<RentalProductListVO> findbyRc_no(Integer rc_no) {
+		
+		List<RentalProductListVO> list = new ArrayList<RentalProductListVO>();
+		RentalProductListVO rplVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_RC_NO);
+			
+			pstmt.setInt(1, rc_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rplVO = new RentalProductListVO();		
+				
+				rplVO.setRpl_no(rs.getInt("rpl_no"));
+				rplVO.setRc_no(rs.getInt("rc_no"));
+				rplVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
+				rplVO.setRpl_note(rs.getString("rpl_note"));
+				rplVO.setRpl_status(rs.getString("rpl_status"));
+				rplVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
+				rplVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));	
+				list.add(rplVO);
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	public List<RentalProductListVO> findbyRc_item(String rc_item) {
+		List<RentalProductListVO> list = new ArrayList<RentalProductListVO>();
+		RentalProductListVO rplVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_RC_ITEM);
+			
+			pstmt.setString(1, rc_item);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rplVO = new RentalProductListVO();		
+				
+				rplVO.setRpl_no(rs.getInt("rpl_no"));
+				rplVO.setRc_no(rs.getInt("rc_no"));
+				rplVO.setRpl_serialnum(rs.getString("rpl_serialnum"));
+				rplVO.setRpl_note(rs.getString("rpl_note"));
+				rplVO.setRpl_status(rs.getString("rpl_status"));
+				rplVO.setRpl_rentcount(rs.getInt("rpl_rentcount"));
+				rplVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));	
+				list.add(rplVO);
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public void changeRpl_status(Integer rpl_no, String rpl_status, String rpl_status2) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,7 +1,7 @@
 package com.rentalOrder.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 //Table Name :  RENTAL_ORDER(租賃商品訂單)
 
@@ -15,10 +15,10 @@ public class RentalOrderVO implements Serializable{
 	private String	ro_ship_method;
 	private String	ro_ship_status;
 	private String	ro_ship_addrs;
-	private Timestamp ro_starttime;
-	private Timestamp ro_endtime;
-	private Timestamp ro_oncerentendtime;
-	private Timestamp ro_return_date;
+	private Date ro_starttime;
+	private Date ro_endtime;
+	private Date ro_oncerentendtime;
+	private Date ro_return_date;
 	private Integer	ro_day;
 	private Integer	ro_price;
 	private Integer	ro_totalprice;
@@ -33,7 +33,7 @@ public class RentalOrderVO implements Serializable{
 
 	public RentalOrderVO(Integer ro_no, Integer mem_no, Integer rpl_no, String ro_status, String ro_pay_status,
 			String ro_pay_method, String ro_ship_method, String ro_ship_status, String ro_ship_addrs,
-			Timestamp ro_starttime, Timestamp ro_endtime, Timestamp ro_oncerentendtime, Timestamp ro_return_date,
+			Date ro_starttime, Date ro_endtime, Date ro_oncerentendtime, Date ro_return_date,
 			Integer ro_day, Integer ro_price, Integer ro_totalprice, Integer ro_deposit, String ro_deposit_status,
 			String ro_return_status, String ro_return_method, String ro_product_status, Integer ro_repaircost,
 			Integer ro_delay_days, Integer ro_return_deposit) {
@@ -140,35 +140,35 @@ public class RentalOrderVO implements Serializable{
 		this.ro_ship_addrs = ro_ship_addrs;
 	}
 
-	public Timestamp getRo_starttime() {
+	public Date getRo_starttime() {
 		return ro_starttime;
 	}
 
-	public void setRo_starttime(Timestamp ro_starttime) {
+	public void setRo_starttime(Date ro_starttime) {
 		this.ro_starttime = ro_starttime;
 	}
 
-	public Timestamp getRo_endtime() {
+	public Date getRo_endtime() {
 		return ro_endtime;
 	}
 
-	public void setRo_endtime(Timestamp ro_endtime) {
+	public void setRo_endtime(Date ro_endtime) {
 		this.ro_endtime = ro_endtime;
 	}
 
-	public Timestamp getRo_oncerentendtime() {
+	public Date getRo_oncerentendtime() {
 		return ro_oncerentendtime;
 	}
 
-	public void setRo_oncerentendtime(Timestamp ro_oncerentendtime) {
+	public void setRo_oncerentendtime(Date ro_oncerentendtime) {
 		this.ro_oncerentendtime = ro_oncerentendtime;
 	}
 
-	public Timestamp getRo_return_date() {
+	public Date getRo_return_date() {
 		return ro_return_date;
 	}
 
-	public void setRo_return_date(Timestamp ro_return_date) {
+	public void setRo_return_date(Date ro_return_date) {
 		this.ro_return_date = ro_return_date;
 	}
 

@@ -21,7 +21,7 @@ public class ProductReviewsService {
 		productReviewsVO.setPr_score(pr_score);
 		productReviewsVO.setPr_status(pr_status);
 
-		dao.insert(productReviewsVO);
+		productReviewsVO = dao.insert(productReviewsVO);
 		
 		return productReviewsVO;
 	}

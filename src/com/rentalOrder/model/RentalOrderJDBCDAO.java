@@ -18,7 +18,7 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 	String PASSWORD = "123456";
 	
 	private static final String INSERT_STMT = 
-			"INSERT INTO RENTAL_ORDER (mem_no,rpl_no,ro_pay_status,ro_pay_method,ro_ship_method,ro_ship_status,ro_ship_addrs,ro_starttime,ro_endtime,ro_oncerentendtime,ro_return_date,ro_day,ro_price,ro_totalprice,ro_deposit,ro_deposit_status,ro_return_status,ro_return_method,ro_product_status,ro_repaircost,ro_delay_days,ro_return_deposit) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			"INSERT INTO RENTAL_ORDER (mem_no,rpl_no,ro_ship_method,ro_ship_addrs,ro_starttime,ro_endtime,ro_day,ro_price,ro_totalprice,ro_deposit) VALUES(?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = 
 			"UPDATE RENTAL_ORDER set mem_no=?,rpl_no=?,ro_status=?,ro_pay_status=?,ro_pay_method=?,ro_ship_method=?,ro_ship_status=?,ro_ship_addrs=?,ro_starttime=?,ro_endtime=?,ro_oncerentendtime=?,ro_return_date=?,ro_day=?,ro_price=?,ro_totalprice=?,ro_deposit=?,ro_deposit_status=?,ro_return_status=?,ro_return_method=?,ro_product_status=?,ro_repaircost=?,ro_delay_days=?,ro_return_deposit=? where ro_no = ?";
 	private static final String DELETE_STMT = 
@@ -27,6 +27,16 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 			"SELECT * FROM RENTAL_ORDER WHERE ro_no = ?";
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_ORDER";
+	private static final String FindOneRplForRent = 
+			"SELECT * FROM RENTAL_PRODUCT_LIST where RC_NO=? and RPL_status='待租' order by RPL_RENTCOUNT desc";
+	private static final String ChangeOneRplStatusToReserved = 
+			"Update RENTAL_PRODUCT_LIST set rpl_status='預約' where rpl_no=? and rpl_status='待租'";
+	private static final String ChangeOneRoStatusToWaitDeliver = 
+			"Update RENTAL_ORDER set ro_status='已付款,待出貨' where ro_no=? and ro_status='未付款'";
+	private static final String ChangeOneRoStatusToOnRent = 
+			"Update RENTAL_ORDER set ro_status='租賃中' where ro_no=? and ro_status='已付款,待出貨'";	
+	private static final String ChangeOneRplStatusToOnRent = 
+			"Update RENTAL_PRODUCT_LIST set rpl_status='租賃中' where rpl_no=? and rpl_status='預約'";	
 	
 	public RentalOrderVO insert(RentalOrderVO rentalOrderVO) {
 		Connection con = null;
@@ -41,26 +51,14 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 
 			pstmt.setInt(1, rentalOrderVO.getMem_no());
 			pstmt.setInt(2, rentalOrderVO.getRpl_no());
-			pstmt.setString(3, rentalOrderVO.getRo_pay_status());
-			pstmt.setString(4, rentalOrderVO.getRo_pay_method());
-			pstmt.setString(5, rentalOrderVO.getRo_ship_method());
-			pstmt.setString(6, rentalOrderVO.getRo_ship_status());
-			pstmt.setString(7, rentalOrderVO.getRo_ship_addrs());
-			pstmt.setTimestamp(8, rentalOrderVO.getRo_starttime());
-			pstmt.setTimestamp(9, rentalOrderVO.getRo_endtime());
-			pstmt.setTimestamp(10, rentalOrderVO.getRo_oncerentendtime());
-			pstmt.setTimestamp(11, rentalOrderVO.getRo_return_date());
-			pstmt.setInt(12, rentalOrderVO.getRo_day());
-			pstmt.setInt(13, rentalOrderVO.getRo_price());
-			pstmt.setInt(14, rentalOrderVO.getRo_totalprice());
-			pstmt.setInt(15, rentalOrderVO.getRo_deposit());
-			pstmt.setString(16, rentalOrderVO.getRo_deposit_status());
-			pstmt.setString(17, rentalOrderVO.getRo_return_status());
-			pstmt.setString(18, rentalOrderVO.getRo_return_method());
-			pstmt.setString(19, rentalOrderVO.getRo_product_status());
-			pstmt.setInt(20, rentalOrderVO.getRo_repaircost());
-			pstmt.setInt(21, rentalOrderVO.getRo_delay_days());
-			pstmt.setInt(22, rentalOrderVO.getRo_return_deposit());
+			pstmt.setString(3, rentalOrderVO.getRo_ship_method());
+			pstmt.setString(4, rentalOrderVO.getRo_ship_addrs());
+			pstmt.setDate(5, rentalOrderVO.getRo_starttime());
+			pstmt.setDate(6, rentalOrderVO.getRo_endtime());
+			pstmt.setInt(7, rentalOrderVO.getRo_day());
+			pstmt.setInt(8, rentalOrderVO.getRo_price());
+			pstmt.setInt(9, rentalOrderVO.getRo_totalprice());
+			pstmt.setInt(10, rentalOrderVO.getRo_deposit());
 			
 			pstmt.executeUpdate();
 
@@ -112,10 +110,10 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 			pstmt.setString(6, rentalOrderVO.getRo_ship_method());
 			pstmt.setString(7, rentalOrderVO.getRo_ship_status());
 			pstmt.setString(8, rentalOrderVO.getRo_ship_addrs());
-			pstmt.setTimestamp(9, rentalOrderVO.getRo_starttime());
-			pstmt.setTimestamp(10, rentalOrderVO.getRo_endtime());
-			pstmt.setTimestamp(11, rentalOrderVO.getRo_oncerentendtime());
-			pstmt.setTimestamp(12, rentalOrderVO.getRo_return_date());
+			pstmt.setDate(9, rentalOrderVO.getRo_starttime());
+			pstmt.setDate(10, rentalOrderVO.getRo_endtime());
+			pstmt.setDate(11, rentalOrderVO.getRo_oncerentendtime());
+			pstmt.setDate(12, rentalOrderVO.getRo_return_date());
 			pstmt.setInt(13, rentalOrderVO.getRo_day());
 			pstmt.setInt(14, rentalOrderVO.getRo_price());
 			pstmt.setInt(15, rentalOrderVO.getRo_totalprice());
@@ -220,10 +218,10 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
 				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
-				rentalOrderVO.setRo_starttime(rs.getTimestamp("ro_starttime"));
-				rentalOrderVO.setRo_endtime(rs.getTimestamp("ro_endtime"));				
-				rentalOrderVO.setRo_oncerentendtime(rs.getTimestamp("ro_oncerentendtime"));				
-				rentalOrderVO.setRo_return_date(rs.getTimestamp("ro_return_date"));				
+				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
+				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
+				rentalOrderVO.setRo_oncerentendtime(rs.getDate("ro_oncerentendtime"));				
+				rentalOrderVO.setRo_return_date(rs.getDate("ro_return_date"));				
 				rentalOrderVO.setRo_day(rs.getInt("ro_day"));				
 				rentalOrderVO.setRo_price(rs.getInt("ro_price"));				
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
@@ -270,7 +268,6 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 	}
 
 	public List<RentalOrderVO> getAll() {
-		// TODO Auto-generated method stub
 		List<RentalOrderVO> list = new ArrayList<RentalOrderVO>();
 		RentalOrderVO rentalOrderVO = null;
 
@@ -296,10 +293,10 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
 				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
-				rentalOrderVO.setRo_starttime(rs.getTimestamp("ro_starttime"));
-				rentalOrderVO.setRo_endtime(rs.getTimestamp("ro_endtime"));				
-				rentalOrderVO.setRo_oncerentendtime(rs.getTimestamp("ro_oncerentendtime"));				
-				rentalOrderVO.setRo_return_date(rs.getTimestamp("ro_return_date"));				
+				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
+				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
+				rentalOrderVO.setRo_oncerentendtime(rs.getDate("ro_oncerentendtime"));				
+				rentalOrderVO.setRo_return_date(rs.getDate("ro_return_date"));				
 				rentalOrderVO.setRo_day(rs.getInt("ro_day"));				
 				rentalOrderVO.setRo_price(rs.getInt("ro_price"));				
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
@@ -345,4 +342,188 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 		}
 		return list;
 	}
+
+	public Integer findOneForRent(Integer rc_no) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer rpl_no = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(FindOneRplForRent);
+			pstmt.setInt(1, rc_no);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				rpl_no = rs.getInt("rpl_no");
+				break;
+			}
+			
+			pstmt = con.prepareStatement(ChangeOneRplStatusToReserved);
+			pstmt.setInt(1, rpl_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			con.setAutoCommit(true);
+
+		}catch (NullPointerException e) {
+			throw new RuntimeException("此商品目前已無庫存"
+					);
+		}catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		}catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rpl_no;
+	}
+
+	public void changeROToWaitDeliver(Integer ro_no) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(ChangeOneRoStatusToWaitDeliver);
+			
+			pstmt.setInt(1, ro_no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+
+	public void changeROToOnRent(Integer ro_no,Integer rpl_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(ChangeOneRoStatusToOnRent);
+			pstmt.setInt(1, ro_no);
+			pstmt.executeUpdate();
+			
+			pstmt = con.prepareStatement(ChangeOneRplStatusToOnRent);
+			pstmt.setInt(1, rpl_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			con.setAutoCommit(true);
+			System.out.println("commit成功");
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	
+	}
+
+	@Override
+	public List<RentalOrderVO> findByRoStatus(String ro_status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
 }
