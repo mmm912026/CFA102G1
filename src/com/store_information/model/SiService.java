@@ -7,7 +7,7 @@ public class SiService {
 	private I_SiDAO dao;
 
 	public SiService() {
-		dao = new SiJDBCDAO();
+		dao = new SiDAO();
 	}
 
 	public SiVO addSi(Integer si_no, String si_address, String si_open, String si_phone,
