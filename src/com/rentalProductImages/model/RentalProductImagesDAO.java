@@ -1,21 +1,24 @@
 package com.rentalProductImages.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
-public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class RentalProductImagesDAO implements I_RentalProductImagesDAO{
 	
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" 
-			+ "rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static final String INSERT_STMT = 
 			"INSERT INTO RENTAL_PRODUCT_IMAGES (rc_no,rpi_img) VALUES(?,?)";
@@ -31,14 +34,14 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES where RC_no=?";
 	
 	public RentalProductImagesVO insert(RentalProductImagesVO rentalProductImagesVO) {
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setInt(1, rentalProductImagesVO.getRc_no());
@@ -51,20 +54,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				rentalProductImagesVO.setRpi_no(rs.getInt(1));
 			}
 			
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -82,8 +75,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 			pstmt.setInt(1, rentalProductImagesVO.getRc_no());
@@ -92,20 +84,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-		} catch (SQLException se) {
+		}catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -122,28 +104,17 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
 			
 			pstmt.setInt(1, rpi_no);
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -162,8 +133,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			
 			pstmt.setInt(1, rpi_no);
@@ -173,30 +143,14 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 			while (rs.next()) {
 				rentalProductImagesVO = new RentalProductImagesVO();		
 				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
-				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));			
+				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
+				rentalProductImagesVO.setRpi_img(rs.getBytes("rpi_img"));	
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -218,8 +172,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -230,27 +183,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				list.add(rentalProductImagesVO);
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -272,8 +208,7 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_RC_NO);
 			
 			pstmt.setInt(1, rc_no);
@@ -286,27 +221,10 @@ public class RentalProductImagesJDBCDAO implements I_RentalProductImagesDAO{
 				list.add(rentalProductImagesVO);
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();

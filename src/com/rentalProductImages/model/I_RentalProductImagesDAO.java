@@ -8,4 +8,5 @@ public interface I_RentalProductImagesDAO {
 	public void delete(Integer rpi_no);
 	public RentalProductImagesVO findByPK(Integer rpi_no);
 	public List<RentalProductImagesVO> getAll();
+	public List<RentalProductImagesVO> findbyRc_no(Integer rc_no);
 }
