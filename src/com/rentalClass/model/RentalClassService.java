@@ -6,7 +6,7 @@ public class RentalClassService {
 	private I_RentalClassDAO dao;
 	
 	public RentalClassService() {
-		dao = new RentalClassJDBCDAO();
+		dao = new RentalClassDAO();
 	}
 	
 	public RentalClassVO insertRentalClass(String rc_name, String rc_item, String rc_detail, Integer rc_deposit, Integer rc_price) {
@@ -18,7 +18,11 @@ public class RentalClassService {
 		rentalClassVO.setRc_detail(rc_detail);
 		rentalClassVO.setRc_deposit(rc_deposit);
 		rentalClassVO.setRc_price(rc_price);
-		dao.insert(rentalClassVO);
+		rentalClassVO = dao.insert(rentalClassVO);
+		rentalClassVO.setRc_status("下架");
+		rentalClassVO.setRc_storage(0);
+		rentalClassVO.setRc_total_count(0);
+		rentalClassVO.setRc_total_score(0);
 		
 		return rentalClassVO;
 	}
@@ -52,5 +56,17 @@ public class RentalClassService {
 
 	public List<RentalClassVO> getAll() {
 		return dao.getAll();
+	}
+	//一個按鍵更改類別狀態
+	public void changeRentalClassStatus(Integer rc_no ,String rc_status) {
+		dao.changeRc_status(rc_no ,rc_status);
+	}
+	//回傳全部種類
+	public List<String> getAllRc_Item() {
+		return dao.getAllRc_Item();
+	}
+	//用種類取回RC list
+	public List<RentalClassVO> getOneRc_item(String rc_item) {
+		return dao.findByRc_item(rc_item);
 	}
 }
