@@ -6,7 +6,7 @@ public class ConsultService {
 	private I_ConsultDAO dao;
 
 	public ConsultService() {
-		dao = new ConsultJDBCDAO();
+		dao = new ConsultDAO();
 	}
 
 	public ConsultVO addConsult(String consultant, String consult_phone, String consult_email, String consult_content,
