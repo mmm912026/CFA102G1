@@ -54,5 +54,175 @@
     <servlet-name>SecOrderListServlet</servlet-name>
     <url-pattern>/secOrderList/SecOrderList.do</url-pattern>
   </servlet-mapping>
+
+<!-- ******************** -->
+
+  <servlet>
+    <servlet-name>ReportProductReviewsServlet</servlet-name>
+    <servlet-class>com.reportProductReviews.controller.ReportProductReviewsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReportProductReviewsServlet</servlet-name>
+    <url-pattern>/back_end/rep/rep.do</url-pattern>
+  </servlet-mapping>
   
+  <servlet>
+    <servlet-name>ProductReviewsServlet</servlet-name>
+    <servlet-class>com.productReviews.controller.ProductReviewsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductReviewsServlet</servlet-name>
+    <url-pattern>/back_end/pr/pr.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RentalOrderServlet</servlet-name>
+    <servlet-class>com.rentalOrder.controller.RentalOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RentalOrderServlet</servlet-name>
+    <url-pattern>/back_end/ro/ro.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RentalProductListServlet</servlet-name>
+    <servlet-class>com.rentalProductList.controller.RentalProductListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RentalProductListServlet</servlet-name>
+    <url-pattern>/back_end/rpl/rpl.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RentalProductImagesServlet</servlet-name>
+    <servlet-class>com.rentalProductImages.controller.RentalProductImagesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RentalProductImagesServlet</servlet-name>
+    <url-pattern>/back_end/rpi/rpi.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+		<servlet-name>DBGifReader</servlet-name>
+		<servlet-class>com.rentalProductImages.controller.DBGifReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DBGifReader</servlet-name>
+		<url-pattern>/rpi/DBGifReader</url-pattern>
+	</servlet-mapping>
+  <servlet>
+  
+  <servlet-name>RentalClassServlet</servlet-name>
+    <servlet-class>com.rentalClass.controller.RentalClassServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RentalClassServlet</servlet-name>
+    <url-pattern>/back_end/rc/rc.do</url-pattern>
+  </servlet-mapping>   
+  
+<!-- ******************** -->
+
+  <servlet>
+    <servlet-name>MemberServlet</servlet-name>
+    <servlet-class>com.member.controller.MemberServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberServlet</servlet-name>
+    <url-pattern>/member/member.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>StaffServlet</servlet-name>
+    <servlet-class>com.staff.controller.StaffServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StaffServlet</servlet-name>
+    <url-pattern>/staff/staff.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>AuthorityServlet</servlet-name>
+    <servlet-class>com.authority.controller.AuthorityServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthorityServlet</servlet-name>
+    <url-pattern>/authority/authority.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Staff_AuthorityServlet</servlet-name>
+    <servlet-class>com.staff_authority.controller.Staff_AuthorityServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Staff_AuthorityServlet</servlet-name>
+    <url-pattern>/staff_authority/staff_authority.do</url-pattern>
+  </servlet-mapping>
+  
+<!-- ******************** -->
+
+  <servlet>
+  <servlet-name>ConsultServlet</servlet-name>
+    <servlet-class>com.consultation.controller.ConsultServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConsultServlet</servlet-name>
+    <url-pattern>/back_end/consultation/consult.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SiServlet</servlet-name>
+    <servlet-class>com.store_information.controller.SiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SiServlet</servlet-name>
+    <url-pattern>/back_end/store_information/si.do</url-pattern>
+  </servlet-mapping>
+  
+<!-- ******************** -->
+
+  <servlet>
+  	<servlet-name>Appraisal_Case_ImagesServlet</servlet-name>
+  	<servlet-class>com.appraisal_case_images.controller.Appraisal_Case_ImagesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Appraisal_Case_ImagesServlet</servlet-name>
+	<url-pattern>/back_end/appraisal_case_images/appraisal_case_images.do</url-pattern>  	
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>Appraisal_ClassServlet</servlet-name>
+  	<servlet-class>com.appraisal_class.controller.Appraisal_ClassServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Appraisal_ClassServlet</servlet-name>
+	<url-pattern>/back_end/appraisal_class/appraisal_class.do</url-pattern>  	
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>Appraisal_CaseServlet</servlet-name>
+  	<servlet-class>com.appraisal_case.controller.Appraisal_CaseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Appraisal_CaseServlet</servlet-name>
+	<url-pattern>/back_end/appraisal_case/appraisal_case.do</url-pattern>  	
+  </servlet-mapping>  
+
+  <servlet>
+  	<servlet-name>Coupon_InformationServlet</servlet-name>
+  	<servlet-class>com.coupon_information.controller.Coupon_InformationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Coupon_InformationServlet</servlet-name>
+	<url-pattern>/back_end/coupon_information/coupon_information.do</url-pattern>  	
+  </servlet-mapping>  
+ 
+  <servlet>
+  	<servlet-name>Coupon_ListServlet</servlet-name>
+  	<servlet-class>com.coupon_list.controller.Coupon_ListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Coupon_ListServlet</servlet-name>
+	<url-pattern>/back_end/coupon_list/coupon_list.do</url-pattern>  	
+  </servlet-mapping>
 </web-app>
