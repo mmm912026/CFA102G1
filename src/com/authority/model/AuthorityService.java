@@ -6,15 +6,15 @@ public class AuthorityService {
 	private I_AuthorityDAO dao;
 	
 	public AuthorityService() {
-		dao = new AuthorityJDBCDAO();
+		dao = new AuthorityDAO();
 	}
 	
 	public AuthorityVO addAuthority(
-			Integer authority_no, String authority_name) {
+			 String authority_name) {
 		
 		AuthorityVO authority = new AuthorityVO();
 		
-		authority.setAuthority_no(authority_no);
+		
 		authority.setAuthority_name(authority_name);
 		authority = dao.insert(authority);
 		return authority;
