@@ -1,21 +1,24 @@
 package com.rentalProductList.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
-public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class RentalProductListDAO implements I_RentalProductListDAO{
 	
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" 
-			+ "rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static final String INSERT_STMT = 
 			"INSERT INTO RENTAL_PRODUCT_LIST (rc_no,rpl_serialnum,rpl_note) VALUES(?,?,?)";
@@ -31,7 +34,8 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			"SELECT * FROM RENTAL_PRODUCT_LIST where RC_no=?";
 	private static final String FIND_BY_RC_ITEM = 
 			"SELECT * FROM rental_product_list where RC_NO in (select RC_NO from rental_class where rc_item =?)";
-	
+	private static final String Update_One_Status = 
+			"UPDATE RENTAL_PRODUCT_LIST set rpl_status=? where rpl_no = ? and rpl_status=?";
 	
 	public RentalProductListVO insert(RentalProductListVO rentalProductListVO) {
 		Connection con = null;
@@ -40,8 +44,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setInt(1, rentalProductListVO.getRc_no());
@@ -55,20 +58,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				rentalProductListVO.setRpl_no(rs.getInt(1));
 			}
 			
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -86,8 +79,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 			pstmt.setInt(1, rentalProductListVO.getRc_no());
@@ -100,20 +92,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -130,28 +112,17 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
 			
 			pstmt.setInt(1, rpl_no);
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -170,8 +141,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			
 			pstmt.setInt(1, rpl_no);
@@ -189,27 +159,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				rentalProductListVO.setRpl_jointtime(rs.getTimestamp("rpl_jointtime"));			
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -231,8 +184,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -249,27 +201,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				list.add(rentalProductListVO); // Store the row in the vector
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -292,8 +227,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_RC_NO);
 			
 			pstmt.setInt(1, rc_no);
@@ -312,27 +246,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				list.add(rplVO);
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -354,8 +271,7 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_RC_ITEM);
 			
 			pstmt.setString(1, rc_item);
@@ -374,27 +290,10 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 				list.add(rplVO);
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -405,10 +304,35 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		}
 		return list;
 	}
-
-	@Override
-	public void changeRpl_status(Integer rpl_no, String rpl_status, String rpl_status2) {
-		// TODO Auto-generated method stub
+	
+	public void changeRpl_status(Integer rpl_no,String rpl_status,String rpl_status2) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(Update_One_Status);
+			
+			pstmt.setString(1, rpl_status);
+			pstmt.setInt(2, rpl_no);
+			pstmt.setString(3, rpl_status2);
+			
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	
 	}
+	
+	
 }
