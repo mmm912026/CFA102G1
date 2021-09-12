@@ -1,16 +1,20 @@
 package com.member.model;
 
+import java.sql.Date;
+
+
+
 //Table Name : MEMBER(會員)
 public class MemberVO implements java.io.Serializable{
 	private Integer mem_no;
 	private String mem_name;
 	private String mem_gender;
-	private Integer mem_phone;
+	private String mem_phone;
 	private String mem_email;
 	private String mem_address;
 	private String mem_account;
 	private String mem_password;
-	private String mem_birth;
+	private Date mem_birth;
 	private String mem_sta;
 	
 	
@@ -23,8 +27,8 @@ public class MemberVO implements java.io.Serializable{
 	}
 
 
-	public MemberVO(Integer mem_no, String mem_name, String mem_gender, Integer mem_phone, String mem_email,
-			String mem_address, String mem_account, String mem_password, String mem_birth, String mem_sta) {
+	public MemberVO(Integer mem_no, String mem_name, String mem_gender, String mem_phone, String mem_email,
+			String mem_address, String mem_account, String mem_password, Date mem_birth, String mem_sta) {
 		super();
 		this.mem_no = mem_no;
 		this.mem_name = mem_name;
@@ -80,14 +84,14 @@ public class MemberVO implements java.io.Serializable{
 
 
 
-	public Integer getMem_phone() {
+	public String getMem_phone() {
 		return mem_phone;
 	}
 
 
 
 
-	public void setMem_phone(Integer mem_phone) {
+	public void setMem_phone(String mem_phone) {
 		this.mem_phone = mem_phone;
 	}
 
@@ -150,14 +154,14 @@ public class MemberVO implements java.io.Serializable{
 
 
 
-	public String getMem_birth() {
+	public Date getMem_birth() {
 		return mem_birth;
 	}
 
 
 
 
-	public void setMem_birth(String mem_birth) {
+	public void setMem_birth(Date mem_birth) {
 		this.mem_birth = mem_birth;
 	}
 
