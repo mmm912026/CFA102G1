@@ -1,0 +1,121 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<!--*******************	
+		Start Include CSS File  
+		******************* -->
+        <%@ include file="../back_include_page/CSS_link.jsp"%>
+	<!--*******************	
+		End Include CSS File  
+		******************* -->  
+	<meta charset="UTF-8">
+	<title>YSM-3C 後台管理</title>
+	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
+<title>Consultation</title>
+
+<style>
+  table#table-1 {
+	width: 450px;
+	background-color: #CCCCFF;
+	margin-top: 5px;
+	margin-bottom: 10px;
+    border: 3px ridge Gray;
+    height: 80px;
+    text-align: center;
+  }
+  table#table-1 h4 {
+    color: red;
+    display: block;
+    margin-bottom: 1px;
+  }
+</style>
+
+</head>
+<body bgcolor='white'>
+<div id="app">
+<!--*******************	
+		Start Include sidebar File  
+		******************* -->
+        <%@ include file="../back_include_page/sidebar.jsp"%>
+	<!--*******************	
+		End Include sidebar File  
+		******************* -->  
+<div id="main">
+<table id="table-1">
+   <tr><td><h3>Consultation</h3></td></tr>
+</table>
+
+
+<h3>諮詢表單資料查詢:</h3>
+<hr>
+<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+	    <c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+</c:if>
+
+<ul>
+  <li><a href='<%=request.getContextPath()%>/back_end/consultation/listAllConsult.jsp'>List</a> all Consults.		  <br><br></li>
+  
+  
+  <li>
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
+        <b>輸入諮詢單編號 (如1):</b>
+        <input type="text" name="consult_no">
+        <input type="hidden" name="action" value="getOne_For_Display">
+        <input type="submit" value="送出">
+    </FORM>
+  </li>
+
+  <jsp:useBean id="consultSvc" scope="page" class="com.consultation.model.ConsultService" />
+   
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
+       <b>選擇諮詢單編號:</b>
+       <select size="1" name="consult_no">
+         <c:forEach var="consultVO" items="${consultSvc.all}" > 
+          <option value="${consultVO.consult_no}">${consultVO.consult_no}
+         </c:forEach>   
+       </select>
+       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="submit" value="送出">
+    </FORM>
+  </li>
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
+       <b>選擇諮詢人姓名:</b>
+       <select size="1" name="consult_no">
+         <c:forEach var="consultVO" items="${consultSvc.all}" > 
+          <option value="${consultVO.consult_no}">${consultVO.consultant}
+         </c:forEach>   
+       </select>
+       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="submit" value="送出">
+     </FORM>
+  </li>
+</ul>
+
+
+<h3>諮詢表單管理</h3>
+
+<ul>
+  <li><a href='addConsult.jsp'>Add</a> a new Consult.</li>
+</ul>
+<!--*******************	
+		Start Include sidebar File  
+		******************* -->
+        <%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+	<!--*******************	
+		End Include sidebar File  
+		******************* -->
+		</div>
+</div>
+</body>
+</html>
