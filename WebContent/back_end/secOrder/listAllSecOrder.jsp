@@ -101,10 +101,10 @@
 											</td>
 											<td>
 												<form
-													action="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do"
+													action="<%=request.getContextPath()%>/secOrder/SecOrder.do""
 													method="post">
 													<input type="submit" class="btn btn-outline-secondary" value="修改">
-													<input type="hidden" name="spi_no" value="${productInfoVO.spi_no}">
+													<input type="hidden" name="so_no" value="${OrderVO.so_no}">
 													<input type="hidden" name="action" value="getOneForUpdate">
 												</form>
 											</td>
