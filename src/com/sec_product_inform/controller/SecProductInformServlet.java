@@ -13,6 +13,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.sec_product_images.model.SecProductImagesService;
@@ -20,6 +21,7 @@ import com.sec_product_images.model.SecProductImagesVO;
 import com.sec_product_inform.model.*;
 
 import oracle.net.aso.i;
+import oracle.net.aso.l;
 
 import com.sec_product_class.model.*;
 import com.sec_product_images.*;
@@ -397,6 +399,83 @@ public class SecProductInformServlet extends HttpServlet{
 			successView.forward(req, res);
 		}
 		
-	}
+		
+		
+		/*購物車>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>購物車*/
+		if("cart".equals(action)) {
+			Integer spi_no = new Integer(req.getParameter("spi_no"));
+			Integer quantity = new Integer(req.getParameter("quantity"));
+			
+			HttpSession session = req.getSession();
+			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
+			String cart_action = req.getParameter("cart_action");
+			/*使用HashMap儲存商品數量 (key:spi_no商品編號, value: quantity購買數量)*/
+			Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap");
+			
+			if(!cart_action.equals("checkout")) {
+				
+				//刪除購物車商品
+				if(cart_action.equals("delete")) {
+					/*還沒做*/
+				}
+				//新增商品到購物車中
+				else if(cart_action.equals("add")) {
+					boolean match = false;
+					
+					/*從新將商品查詢出來並存入req，forward回原本商品頁面才有資料 >>>>*/
+					/****開始查詢商品****/
+					ProductInformService productInformSvc = new ProductInformService();
+					ProductInformVO productInformVO = productInformSvc.getOneProductInform(spi_no);
+					req.setAttribute("productInformVO", productInformVO);
+										
+					/****開始查詢商品圖片****/
+					SecProductImagesService productImagesSvc = new SecProductImagesService();
+					List<SecProductImagesVO> secProductImagesVOs = productImagesSvc.getAll();
+					
+					List<SecProductImagesVO> afterFilterImages = null;
+					afterFilterImages = secProductImagesVOs.stream()
+									 					   .filter(i -> i.getSpi_no().equals(spi_no))
+									 					   .collect(Collectors.toList());
+					req.setAttribute("afterFilterImages", afterFilterImages);
+					/*<<<<從新將商品查詢出來並存入req，forward回原本商品頁面才有資料 */
+					
+					
+					//新增第一個商品到購物車
+					if(productInformList==null) {
+						productInformList = new Vector<ProductInformVO>();
+						productInformList.add(productInformVO);
+						Quamap = new HashMap<Integer, Integer>();
+						Quamap.put(spi_no, quantity);
+					}else {
+						//檢查是否為重複的商品
+						for(int i=0 ; i<productInformList.size() ; i++ ) {
+							ProductInformVO productInformVO2 = productInformList.get(i);
+							if(productInformVO2.getSpi_name().equals(productInformVO.getSpi_name())) {
+								/*直接將原本的數量覆蓋掉*/
+								Quamap.put(spi_no, quantity);
+								match = true;
+							}
+						}
+						
+						//如果不是重複商品則新增
+						if(!match) {
+							productInformList.add(productInformVO);
+							Quamap.put(spi_no, quantity);
+						}
+					}
+					
+				}
 
+				session.setAttribute("Quamap", Quamap);
+				session.setAttribute("shoppingCart_sec", productInformList);
+				RequestDispatcher successVisw = 
+						req.getRequestDispatcher("/front_end/secProductInfo/productDetail.jsp");
+				successVisw.forward(req, res);
+				return;
+				
+			}
+		}
+		/*購物車<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<購物車*/
+	}
+		
 }

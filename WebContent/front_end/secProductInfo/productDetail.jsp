@@ -87,28 +87,32 @@
                                     <li><span>庫存:</span> <a href="#">${productInformVO.spi_stock}</a></li>
                                     <li><span>商品編號:</span> <a href="#">${productInformVO.spi_no}</a></li>
                                 </ul>
-
-                                <div class="product-quantities">
-                                    <span>Quantities:</span>
-
-                                    <div class="input-counter">
-                                        <span class="minus-btn">
-                                            <i class='bx bx-minus'></i>
-                                        </span>
-                                        <input type="text" value="1">
-                                        <span class="plus-btn">
-                                            <i class='bx bx-plus'></i>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="product-add-to-cart">
-                                    <button type="submit" class="default-btn">
-                                        <i class="flaticon-shopping-cart"></i>
-                                        	加入購物車
-                                        <span></span>
-                                    </button>
-                                </div>
+                                
+								<form METHOD="POST" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do">
+	                                <div >
+	                                    <span>購買數量:</span>
+	
+	                                    <div class="input-counter">
+											<select name="quantity">
+												<c:forEach var="i" begin="1" end="${productInformVO.spi_stock}">
+													<option value="${i}">${i}</option>
+												</c:forEach>
+											</select>
+											<br>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="product-add-to-cart">
+	                                    <button type="submit" class="default-btn">
+	                                        <i class="flaticon-shopping-cart"></i>
+	                                        	加入購物車
+	                                        <span></span>
+	                                    </button>
+	                                </div>
+	                                <input type="hidden" name="spi_no" value="${productInformVO.spi_no}">
+	                                <input type="hidden" name="action" value="cart">
+	                                <input type="hidden" name="cart_action" value="add">
+                                </form>
                             </div>
                         </div>
                     </div>
