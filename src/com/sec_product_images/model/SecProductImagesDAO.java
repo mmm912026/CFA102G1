@@ -163,7 +163,7 @@ public class SecProductImagesDAO implements I_SecProductImagesDAO{
 				secProductImages = new SecProductImagesVO();
 				secProductImages.setSpim_no(rs.getInt("SPIM_NO"));
 				secProductImages.setSpi_no(rs.getInt("SPI_NO"));
-				secProductImages.setSpim_img(rs.getBytes("SPIM_IMG"));
+				//secProductImages.setSpim_img(rs.getBytes("SPIM_IMG")); //移除回傳圖片，使用findByPK來取得圖片
 				lsitSecProductImages.add(secProductImages);
 			}
 		}catch (SQLException e) {

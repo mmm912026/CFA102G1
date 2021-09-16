@@ -143,8 +143,11 @@ public class SecProductImagesServlet extends HttpServlet{
 								   .filter(i -> i.getSpi_no().intValue() == spi_no.intValue())
 								   .findFirst();
 			
-			/****4.輸出圖片****/
-			byte[] imgArry = firstImages.get().getSpim_img();
+			/****4.依PK取得圖片****/
+			SecProductImagesVO OutImages = secProductImagesSvc.getOneSecProductImages(firstImages.get().getSpim_no());
+			
+			/****5.輸出圖片****/
+			byte[] imgArry = OutImages.getSpim_img();
 			ServletOutputStream out = res.getOutputStream();
 			out.write(imgArry);
 			out.close();
