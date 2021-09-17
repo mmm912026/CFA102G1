@@ -75,9 +75,11 @@
                                     	%>
                                         <tr class="top-class">
                                             <td class="product-thumbnail">
-                                                <a href="#" class="remove"><i class='bx bx-x'></i></a>
-
-                                                <a href="#">
+                                                <a href="#" class="remove">
+                                                	<i class='bx bx-x'></i>
+                                                </a>
+													<!--點選商品圖片會回到商品頁面 -->
+                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&action=showProductDetail">
                                                     <img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=<%=order.getSpi_no()%>&action=showShopImage" alt="item">
                                                 </a>
                                             </td>
