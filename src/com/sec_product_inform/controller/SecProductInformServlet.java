@@ -121,6 +121,7 @@ public class SecProductInformServlet extends HttpServlet{
 				/****4.新增完成，頁面轉向***/
 				RequestDispatcher successView = req.getRequestDispatcher("/back_end/secProductInfo/listAllSecProductInfo.jsp");
 				successView.forward(req, res);
+				return;
 				
 			} catch (Exception e) {
 				/****5.新增失敗****/
@@ -339,33 +340,12 @@ public class SecProductInformServlet extends HttpServlet{
 			/****1.取得變數****/
 			Integer spc_no = new Integer( req.getParameter("spc_no") );
 			
-			/****2.開始查詢****/
-			ProductInformService productInformSvc = new ProductInformService();
-			List<ProductInformVO> productInformVOs = productInformSvc.getAll();
-			
-			System.out.println("productInformVOs : " + productInformVOs.size());
-			System.out.println("------------------------------------------------------");
-			List<ProductInformVO> afterFiterProduct = null;
-						
-			/****3.過濾商品****/
-			if(spc_no == 0) {
-				/****spc_no=0 表示要查詢所有的商品，去除狀態為"下架"或庫存為0的商品****/
-				afterFiterProduct = productInformVOs.stream()
-													.filter(i -> i.getSpi_stock().intValue() > 0)
-													.filter(i -> i.getSpi_sta().equals("上架"))
-													.collect(Collectors.toList());
-			}else {
-				/****依據spc_no，開始過濾商品，並去除狀態為"下架"或庫存為0的商品****/
-				afterFiterProduct = productInformVOs.stream()
-													.filter(i -> i.getSpc_no().equals(spc_no))
-													.filter(i -> i.getSpi_stock().intValue() > 0)
-													.filter(i -> i.getSpi_sta().equals("上架"))
-													.collect(Collectors.toList());	
-			}
+			/****2.透過searchProductList()取得該類別的商品列表****/
+			List<ProductInformVO> afterFiterProduct = searchProductList(spc_no);
 					
 			req.setAttribute("afterFiterProduct", afterFiterProduct);
 						
-			/****4.頁面轉向****/
+			/****3.頁面轉向****/
 			RequestDispatcher successView = 
 					req.getRequestDispatcher("/front_end/secProductInfo/productShopPage.jsp");
 			successView.forward(req, res);
@@ -396,6 +376,7 @@ public class SecProductInformServlet extends HttpServlet{
 			RequestDispatcher successView = 
 					 req.getRequestDispatcher("/front_end/secProductInfo/productDetail.jsp");
 			successView.forward(req, res);
+			return;
 		}
 		
 		
@@ -499,6 +480,32 @@ public class SecProductInformServlet extends HttpServlet{
 			}
 		}
 		/*購物車<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<購物車*/
+	}
+	
+	/*此方法根據輸入的商品類別編號搜尋並過濾，回傳過濾後的商品列表*/
+	private List<ProductInformVO> searchProductList(Integer spc_no) {
+		List<ProductInformVO> afterFiterProduct = null;
+				
+		/****1.開始查詢****/
+		ProductInformService productInformSvc = new ProductInformService();
+		List<ProductInformVO> productInformVOs = productInformSvc.getAll();
+				
+		/****2.過濾商品****/
+		if(spc_no == 0) {
+			/****spc_no=0 表示要查詢所有的商品，並去除狀態為"下架"或庫存為0的商品****/
+			afterFiterProduct = productInformVOs.stream()
+												.filter(i -> i.getSpi_stock().intValue() > 0)
+												.filter(i -> i.getSpi_sta().equals("上架"))
+												.collect(Collectors.toList());
+		}else {
+			/****依據spc_no，開始過濾商品，並去除狀態為"下架"或庫存為0的商品****/
+			afterFiterProduct = productInformVOs.stream()
+												.filter(i -> i.getSpc_no().equals(spc_no))
+												.filter(i -> i.getSpi_stock().intValue() > 0)
+												.filter(i -> i.getSpi_sta().equals("上架"))
+												.collect(Collectors.toList());	
+		}
+		return afterFiterProduct;
 	}
 		
 }
