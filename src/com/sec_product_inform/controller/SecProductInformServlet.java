@@ -404,22 +404,27 @@ public class SecProductInformServlet extends HttpServlet{
 		/*購物車>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>購物車*/
 		if("cart".equals(action)) {
 			Integer spi_no = new Integer(req.getParameter("spi_no"));
-			Integer quantity = new Integer(req.getParameter("quantity"));
 			
 			HttpSession session = req.getSession();
 			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
 			String cart_action = req.getParameter("cart_action");
 			/*使用HashMap儲存商品數量 (key:spi_no商品編號, value: quantity購買數量)*/
 			Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap");
+			String forwardStr = null;
 			
 			if(!cart_action.equals("checkout")) {
 				
 				//刪除購物車商品
 				if(cart_action.equals("delete")) {
-					/*還沒做*/
+					String delete = req.getParameter("index");
+					int del = Integer.parseInt(delete);
+					productInformList.removeElementAt(del);
+					//刪除完商品回到購物車頁面
+					forwardStr = "/front_end/secProductInfo/cart.jsp";
 				}
 				//新增商品到購物車中
 				else if(cart_action.equals("add")) {
+					Integer quantity = new Integer(req.getParameter("quantity"));
 					boolean match = false;
 					
 					/*從新將商品查詢出來並存入req，forward回原本商品頁面才有資料 >>>>*/
@@ -463,6 +468,8 @@ public class SecProductInformServlet extends HttpServlet{
 							Quamap.put(spi_no, quantity);
 						}
 					}
+					//新增完商品回到商品頁面
+					forwardStr = "/front_end/secProductInfo/productDetail.jsp";
 				}
 				
 				/*計算購物車內商品價格*/
@@ -483,10 +490,9 @@ public class SecProductInformServlet extends HttpServlet{
 				session.setAttribute("Quamap", Quamap);
 				session.setAttribute("shoppingCart_sec", productInformList);
 				RequestDispatcher successVisw = 
-						req.getRequestDispatcher("/front_end/secProductInfo/productDetail.jsp");
+						req.getRequestDispatcher(forwardStr);
 				successVisw.forward(req, res);
 				return;
-				
 			}
 		}
 		/*購物車<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<購物車*/

@@ -75,7 +75,7 @@
                                     	%>
                                         <tr class="top-class">
                                             <td class="product-thumbnail">
-                                                <a href="#" class="remove">
+                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&index=<%=index %>&action=cart&cart_action=delete" class="remove">
                                                 	<i class='bx bx-x'></i>
                                                 </a>
 													<!--點選商品圖片會回到商品頁面 -->
