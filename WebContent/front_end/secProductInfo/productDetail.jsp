@@ -41,14 +41,16 @@
 		<%@ include file="../front_include_page/navbar.jsp"%>
 	<!--*******************	
 		End Navbar Area  
-		******************* -->			
-
+		******************* -->
+		<br>
+		<h6>
+			<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct">&nbsp&nbsp &lt&lt 回到商品列表</a>
+		</h6>
         <!-- Start Products Details Area -->
         <section class="products-details-area ptb-50">
             <div class="container">
                 <div class="products-details-desc">
-
-                    
+       
                     <div class="row align-items-center">
 
                         <!-- Start 商品照片 -->

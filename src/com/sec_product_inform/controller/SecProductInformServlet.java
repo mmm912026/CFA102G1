@@ -334,14 +334,24 @@ public class SecProductInformServlet extends HttpServlet{
 		}
 		
 		if("showAllProduct".equals(action)) {
-			System.out.println("Enter show all prduct!!!");
-			System.out.println("spc_no : " + req.getParameter("spc_no"));
-			
+			HttpSession session = req.getSession();
+			Integer global_spc_no = (Integer) session.getAttribute("global_spc_no");
+						
 			/****1.取得變數****/
-			Integer spc_no = new Integer( req.getParameter("spc_no") );
-			
+			try {
+				Integer spc_no = new Integer( req.getParameter("spc_no") );
+				global_spc_no = spc_no;	
+			} 
+			//沒有取得spc_no
+			catch (Exception e) {
+				if(global_spc_no == null)
+					//預設為顯示全部商品
+					global_spc_no = 0;
+			}
+			session.setAttribute("global_spc_no", global_spc_no);
+
 			/****2.透過searchProductList()取得該類別的商品列表****/
-			List<ProductInformVO> afterFiterProduct = searchProductList(spc_no);
+			List<ProductInformVO> afterFiterProduct = searchProductList(global_spc_no);
 					
 			req.setAttribute("afterFiterProduct", afterFiterProduct);
 						
