@@ -463,8 +463,22 @@ public class SecProductInformServlet extends HttpServlet{
 							Quamap.put(spi_no, quantity);
 						}
 					}
-					
 				}
+				
+				/*計算購物車內商品價格*/
+				int subTotal = 0;
+				for (ProductInformVO product : productInformList) {
+					subTotal += product.getSpi_pri() * Quamap.get(product.getSpi_no());
+				}
+				Quamap.put(999, subTotal);
+				System.out.println("購物車內商品價格 : " + Quamap.get(999));
+				
+				/*計算購物車內商品數量*/
+				Integer amount = (int) productInformList.stream().count();
+				Quamap.put(998, amount);
+				System.out.println("購物車內商品數量 : " + Quamap.get(998));
+				
+				
 
 				session.setAttribute("Quamap", Quamap);
 				session.setAttribute("shoppingCart_sec", productInformList);

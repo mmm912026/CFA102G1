@@ -134,14 +134,13 @@
                             <h3>Cart Totals</h3>
     
                             <ul>
-                                <li>Subtotal <span>$599.00</span></li>
-                                <li>Shipping <span>$30.00</span></li>
-                                <li>Total <span>$599.00</span></li>
-                                <li>Payable Total <span>$599.00</span></li>
+                                <li>小計 <span>$<%=Quamap.get(999)%></span></li>
+                                <li>優惠折扣 <span>$0.00</span></li>
+                                <li>總計 <span>$<%=Quamap.get(999)%></span></li>
                             </ul>
     
                             <a href="#" class="default-btn">
-                                Proceed to Checkout
+                                	結帳
                                 <span></span>
                             </a>
                         </div>

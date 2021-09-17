@@ -1,5 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+
+<%
+	Map<Integer, Integer> Quamap2 = (Map<Integer, Integer>) session.getAttribute("Quamap"); 
+	Boolean flag = false;
+	if(Quamap2 != null && Quamap2.size() > 0){
+		flag = true;
+	}
+%>
+
+
+        <!-- Start 修改購物車顏色 -->
+        <style>
+            /* 購物車圖案顏色 */
+            .middle-header-optional li a i {
+                color: #292929;
+            }
+            
+            /* 價格顏色 */
+            .middle-header-optional li {
+                color: #292929;
+            }
+        </style>
+		<!-- End 修改購物車顏色 -->
 
         <!-- Start Navbar Area 導覽列-->
         <div class="navbar-area p-relative">
@@ -103,16 +127,19 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">聯絡我們</a>
                                 </li>
-
                             </ul>
 
                             <div class="others-option d-flex align-items-center">
-                                <div class="option-item">
-                                    <span>
-                                        Hotline:
-                                        <a href="">(03)397-1234</a>
-                                    </span>
-                                </div>
+								<ul class="middle-header-optional">
+                                    <li>
+                                        <a href="<%=request.getContextPath()%>/front_end/secProductInfo/cart.jsp">
+                                        	<i class="flaticon-shopping-cart"></i>
+                                        	
+                                        	<span><%=flag?Quamap2.get(998):0%></span>
+                                        </a>
+                                    </li>
+                                    <li>$<%=flag?Quamap2.get(999):0%></li>
+                                </ul>
                             </div>
                         </div>
                     </nav>
