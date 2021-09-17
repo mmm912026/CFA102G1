@@ -114,15 +114,15 @@
                             <div class="cart-buttons">
                                 <div class="row align-items-center">
                                     <div class="col-lg-7 col-sm-7 col-md-7">
-                                        <div class="shopping-coupon-code">
-                                            <input type="text" class="form-control" placeholder="Coupon code" name="coupon-code" id="coupon-code">
-                                            <button type="submit">Apply Coupon</button>
-                                        </div>
+<!--                                         <div class="shopping-coupon-code"> -->
+<!--                                             <input type="text" class="form-control" placeholder="Coupon code" name="coupon-code" id="coupon-code"> -->
+<!--                                             <button type="submit">Apply Coupon</button> -->
+<!--                                         </div> -->
                                     </div>
         
                                     <div class="col-lg-5 col-sm-5 col-md-5 text-right">
-                                        <a href="#" class="default-btn">
-                                            Update Cart
+                                        <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?&action=cart&cart_action=deleteAll" class="default-btn">
+                                           	移除所有商品
                                             <span></span>
                                         </a>
                                     </div>
@@ -137,8 +137,8 @@
     
                             <ul>
                                 <li>小計 <span>$<%=Quamap.get(999)%></span></li>
-                                <li>優惠折扣 <span>$0.00</span></li>
-                                <li>總計 <span>$<%=Quamap.get(999)%></span></li>
+<!--                                 <li>優惠折扣 <span>$0.00</span></li> -->
+<%--                                 <li>總計 <span>$<%=Quamap.get(999)%></span></li> --%>
                             </ul>
     
                             <a href="#" class="default-btn">

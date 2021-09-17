@@ -316,8 +316,7 @@ public class SecProductInformServlet extends HttpServlet{
 					failView.forward(req, res);
 					return;
 				}
-			}
-				
+			}	
 		}
 		
 		if("ExportImages".equals(action)) {
@@ -403,8 +402,7 @@ public class SecProductInformServlet extends HttpServlet{
 		
 		/*購物車>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>購物車*/
 		if("cart".equals(action)) {
-			Integer spi_no = new Integer(req.getParameter("spi_no"));
-			
+
 			HttpSession session = req.getSession();
 			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
 			String cart_action = req.getParameter("cart_action");
@@ -422,8 +420,17 @@ public class SecProductInformServlet extends HttpServlet{
 					//刪除完商品回到購物車頁面
 					forwardStr = "/front_end/secProductInfo/cart.jsp";
 				}
+				//刪除購物車中所有商品
+				else if(cart_action.equals("deleteAll")) {
+					Quamap.clear();
+					productInformList.removeAllElements();
+					//刪除完商品回到購物車頁面
+					forwardStr = "/front_end/secProductInfo/cart.jsp";
+				}
+				
 				//新增商品到購物車中
 				else if(cart_action.equals("add")) {
+					Integer spi_no = new Integer(req.getParameter("spi_no"));
 					Integer quantity = new Integer(req.getParameter("quantity"));
 					boolean match = false;
 					
@@ -455,7 +462,7 @@ public class SecProductInformServlet extends HttpServlet{
 						//檢查是否為重複的商品
 						for(int i=0 ; i<productInformList.size() ; i++ ) {
 							ProductInformVO productInformVO2 = productInformList.get(i);
-							if(productInformVO2.getSpi_name().equals(productInformVO.getSpi_name())) {
+							if(productInformVO2.getSpi_no().equals(productInformVO.getSpi_no())) {
 								/*直接將原本的數量覆蓋掉*/
 								Quamap.put(spi_no, quantity);
 								match = true;
@@ -478,14 +485,10 @@ public class SecProductInformServlet extends HttpServlet{
 					subTotal += product.getSpi_pri() * Quamap.get(product.getSpi_no());
 				}
 				Quamap.put(999, subTotal);
-				System.out.println("購物車內商品價格 : " + Quamap.get(999));
 				
 				/*計算購物車內商品數量*/
-				Integer amount = (int) productInformList.stream().count();
+				Integer amount = (int) productInformList.size();
 				Quamap.put(998, amount);
-				System.out.println("購物車內商品數量 : " + Quamap.get(998));
-				
-				
 
 				session.setAttribute("Quamap", Quamap);
 				session.setAttribute("shoppingCart_sec", productInformList);
