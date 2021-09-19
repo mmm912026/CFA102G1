@@ -296,9 +296,9 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 	}
 	
 	@Override
-	public void insertWithList(SecOrderVO secOrder, List<SecOrderListVO> secOrderListVOs) {
+	public SecOrderVO insertWithList(SecOrderVO secOrder, List<SecOrderListVO> secOrderListVOs) {
 		// TODO Auto-generated method stub
-		
+		return secOrder;
 	}
 	
 	//測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>

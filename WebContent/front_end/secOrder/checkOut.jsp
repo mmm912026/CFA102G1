@@ -289,15 +289,15 @@
 		<script>			
 // 			無法取得預設值?????
 
-			$(function() {
-	            var temp="${so_prodel}"; 
-	            $("#select_prodel").val(temp);
-	        });
+// 			$(function() {
+// 	            var temp="${so_prodel}"; 
+// 	            $("#select_prodel").val(temp);
+// 	        });
 // 			無法取得預設值?????	        
-	        $(function() {
-	            var temp="${so_paymthd}"; 
-	            $("#select_paymthd").val(temp);
-	        });
+// 	        $(function() {
+// 	            var temp="${so_paymthd}"; 
+// 	            $("#select_paymthd").val(temp);
+// 	        });
 		</script>
 	
 </body>
