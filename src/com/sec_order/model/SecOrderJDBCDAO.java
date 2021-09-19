@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sec_order_list.model.SecOrderListVO;
+
 public class SecOrderJDBCDAO implements I_SecOrderDAO{
 	String DRIVER = "com.mysql.cj.jdbc.Driver";
 	String URL = 
@@ -291,6 +293,12 @@ public class SecOrderJDBCDAO implements I_SecOrderDAO{
 			}
 		}
 		return listSecOrder;
+	}
+	
+	@Override
+	public void insertWithList(SecOrderVO secOrder, List<SecOrderListVO> secOrderListVOs) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>

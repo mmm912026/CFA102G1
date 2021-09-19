@@ -6,6 +6,8 @@
 
 <%Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec"); %>
 <%Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap"); %>
+
+<!-- 前台_購物車頁面 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,6 +112,8 @@
                                             </td>
                                         </tr>
 										<%} %>
+									<%}else{ %>
+										<h4>您的購物車中沒有商品</h4>
 									<%} %>
                                     </tbody>
                                 </table>
@@ -145,7 +149,7 @@
 <%--                                 <li>總計 <span>$<%=Quamap.get(999)%></span></li> --%>
                             </ul>
     
-                            <a href="#" class="default-btn">
+                            <a href="<%=request.getContextPath()%>/front_end/secOrder/checkOut.jsp" class="default-btn">
                                 	結帳
                                 <span></span>
                             </a>

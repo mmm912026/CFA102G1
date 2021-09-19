@@ -190,4 +190,37 @@ public class SecOrderListDAO implements I_SecOrderListDAO{
 		}
 		return listSecOrderList;
 	}
+	
+	@Override
+	public void insertWithOrder(SecOrderListVO secOrderList, Connection con) {
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt.setInt(1, secOrderList.getSo_no());
+			pstmt.setInt(2, secOrderList.getSpi_no());
+			pstmt.setInt(3, secOrderList.getSol_proamot());
+			pstmt.setInt(4, secOrderList.getSol_pri());
+			pstmt.executeUpdate();
+			
+		}catch (SQLException e) {
+			if (con!=null) {
+				try {
+					System.err.println("secOrderList 執行 rollback!!");
+					con.rollback();
+				} catch (SQLException e1) {
+					throw new RuntimeException("執行rollback失敗 : " + e1.getMessage());
+				}
+			}
+		}finally {
+			if (pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					throw new RuntimeException("關閉pstmt失敗  : " + e.getMessage());
+				}
+			}
+		}
+		
+	}
 }

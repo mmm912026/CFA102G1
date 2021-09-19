@@ -196,6 +196,12 @@ public class SecOrderListJDBCDAO implements I_SecOrderListDAO{
 		}
 		return listSecOrderList;
 	}
+	
+	@Override
+	public void insertWithOrder(SecOrderListVO secOrderList, Connection con) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//測試驗證>>>>>>>>>>>>>>>>>>>>>>>>>>
 //			public static void main (String[] args) {

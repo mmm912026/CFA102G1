@@ -8,4 +8,6 @@ public interface I_SecOrderListDAO {
 	public void delete(Integer sol_no);
 	public SecOrderListVO findByPk(Integer sol_no);
 	public List<SecOrderListVO> getAll();
+	
+	public void insertWithOrder(SecOrderListVO secOrderList, java.sql.Connection con);
 }

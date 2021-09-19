@@ -7,10 +7,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.management.RuntimeErrorException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.mysql.cj.x.protobuf.MysqlxConnection.Close;
+import com.sec_order_list.model.SecOrderListDAO;
+import com.sec_order_list.model.SecOrderListVO;
+
+import sun.security.ec.ECDHKeyAgreement;
 
 public class SecOrderDAO implements I_SecOrderDAO{
 	private static DataSource ds = null;
@@ -283,5 +291,76 @@ public class SecOrderDAO implements I_SecOrderDAO{
 			}
 		}
 		return listSecOrder;
+	}
+	
+	@Override
+	public SecOrderVO insertWithList(SecOrderVO secOrder, List<SecOrderListVO> secOrderListVOs) {
+		Connection con = null; 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			
+			//1.設定手動交易
+			con.setAutoCommit(false);
+			
+			//2.新增訂單
+			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setTimestamp(1, secOrder.getSo_purtime());
+			pstmt.setInt(2, secOrder.getMem_no());
+			pstmt.setString(3, secOrder.getSo_sta());
+			pstmt.setString(4, secOrder.getSo_pay_sta());
+			pstmt.setString(5, secOrder.getSo_ship_sta());
+			pstmt.setInt(6, secOrder.getCi_no());
+			pstmt.setInt(7, secOrder.getSo_totalpri());
+			pstmt.setString(8, secOrder.getSo_prodel());
+			pstmt.setString(9, secOrder.getSo_deladrs());
+			pstmt.setString(10, secOrder.getSo_paymthd());
+			pstmt.setTimestamp(11, secOrder.getSo_shipdate());
+			pstmt.setInt(12, secOrder.getSo_delcost());
+			pstmt.setInt(13, secOrder.getSo_discount_price());
+			pstmt.executeUpdate();
+			
+			//3.取回訂單PK
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				secOrder.setSo_no(rs.getInt(1));
+			}
+			
+			//4.開始新增訂單明細
+			SecOrderListDAO dao = new SecOrderListDAO();
+			
+			for(SecOrderListVO secOrderList : secOrderListVOs) {
+				secOrderList.setSo_no(secOrder.getSo_no());
+				dao.insertWithOrder(secOrderList, con);
+			}
+			
+			//5.完成資料新增，並設定回自動交易
+			con.commit();
+			con.setAutoCommit(true);
+		} catch (SQLException e) {
+			if(con!=null) {
+				try {
+					System.err.println("新增訂單失敗!!!");
+					System.err.println("由secOrder執行rollback!!!");
+					System.err.println("錯誤訊息 : " + e.getMessage());
+					con.rollback();
+				} catch (SQLException e1) {
+					throw new RuntimeException("rollback執行失敗 : " + e1.getMessage());
+					
+				}
+			}
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					throw new RuntimeException("連線關閉失敗 : " + e.getMessage());
+				}
+			}
+		}
+		return secOrder;
+		
 	}
 }
