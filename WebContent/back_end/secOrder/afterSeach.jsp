@@ -4,13 +4,20 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="com.sec_product_class.model.*"%>
-
 <%@ page import="com.sec_order.model.*" %>
 
+<%-- <% --%>
+<!-- // 	SecOrderService secOrderSvc = new SecOrderService(); -->
+<!-- // 	List<SecOrderVO> list = secOrderSvc.getAll(); -->
+<!-- // 	pageContext.setAttribute("order_list", list); -->
+	
+<%-- %> --%>
+<%-- <jsp:useBean id="order_list" scope="request" class="com.sec_order.model.SecOrderService"/> --%>
+
+<%-- <%Vector<SecOrderVO> productInformList = (Vector<SecOrderVO>) session.getAttribute("order_list"); %> --%>
 
 
-<jsp:useBean id="order_list_svc" scope="request" class="com.sec_order.model.SecOrderService"/>
-
+<!-- 後台_顯示搜尋後的訂單列表頁面 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +64,7 @@
 				<section class="section">
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">二手訂單列表</h3>
+							<h3 class="card-title">二手訂單查詢結果列表</h3>
 						</div>
 
 						<div class="card-body">
@@ -77,7 +84,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="OrderVO" items="${order_list_svc.all}">
+									<c:forEach var="OrderVO" items="${order_list_seach}">
 										<tr>
 											<td>${OrderVO.so_no}</td>
 											<td>${OrderVO.so_purtime}</td>

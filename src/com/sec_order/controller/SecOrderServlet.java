@@ -279,6 +279,183 @@ public class SecOrderServlet extends HttpServlet{
 			return;
 		}
 		
+		
+		if("findByPK".equals(action)) {
+//			HttpSession session = req.getSession();
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String so_no_str = req.getParameter("so_no");
+			if(so_no_str.trim().length()==0) {
+				errorMsgs.add("請輸入訂單編號!!");
+			}
+			
+			if(!errorMsgs.isEmpty()) {
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			Integer so_no = null;
+			try {
+				so_no = new Integer(so_no_str);
+			} catch (Exception e) {
+				errorMsgs.add("請輸入數字!!");
+			}
+			
+			if(!errorMsgs.isEmpty()) {
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> order_list = new LinkedList<SecOrderVO>();
+			SecOrderVO secOrderVO = secOrderSvc.getOneSecOrder(so_no);
+			
+			order_list.add(secOrderVO);
+		
+//			session.setAttribute("order_list_seach", order_list);
+			req.setAttribute("order_list_seach", order_list);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		//依會員編號查詢
+		if("findByMemNO".equals(action)) {
+//			HttpSession session = req.getSession();
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String mem_no_str = req.getParameter("mem_no");
+			if(mem_no_str.trim().length()==0) {
+				errorMsgs.add("請輸入會員編號!!");
+			}
+			
+			if(!errorMsgs.isEmpty()) {
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			Integer mem_no = null;
+			try {
+				mem_no = new Integer(mem_no_str);
+			} catch (Exception e) {
+				errorMsgs.add("請輸入數字!!");
+			}
+			
+			if(!errorMsgs.isEmpty()) {
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> order_list = secOrderSvc.getOneSecOrderByMem(mem_no);
+			
+//			session.setAttribute("order_list_seach", order_list);
+			req.setAttribute("order_list_seach", order_list);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		//依訂單狀態查詢
+		if("findBySoSta".equals(action)) {
+//			HttpSession session = req.getSession();
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String so_sta = req.getParameter("so_sta");
+
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> order_list = secOrderSvc.getAll()
+													 .stream()
+													 .filter(s -> s.getSo_sta().equals(so_sta))
+													 .collect(Collectors.toList());
+			
+//			session.setAttribute("order_list_seach", order_list);
+			req.setAttribute("order_list_seach", order_list);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		//依付款狀態查詢
+		if("findBySoPaySta".equals(action)) {
+//			HttpSession session = req.getSession();
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String so_pay_sta = req.getParameter("so_pay_sta");
+
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> order_list = secOrderSvc.getAll()
+													 .stream()
+													 .filter(s -> s.getSo_pay_sta().equals(so_pay_sta))
+													 .collect(Collectors.toList());
+			
+//			session.setAttribute("order_list_seach", order_list);
+			req.setAttribute("order_list_seach", order_list);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		//依出貨狀態查詢
+		if("findBySoShipSta".equals(action)) {
+//			HttpSession session = req.getSession();
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String so_ship_sta = req.getParameter("so_ship_sta");
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> order_list = secOrderSvc.getAll()
+													 .stream()
+													 .filter(s -> s.getSo_ship_sta().equals(so_ship_sta))
+													 .collect(Collectors.toList());
+			
+//			session.setAttribute("order_list_seach", order_list);
+			req.setAttribute("order_list_seach", order_list);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		
+		
 	}
 	
 	

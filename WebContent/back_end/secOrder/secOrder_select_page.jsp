@@ -62,17 +62,17 @@
 													
 													<!--錯誤訊息顯示 -->
 													
-												    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+												    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>輸入訂單編號 : </b>
-												        <input type="text" name="spi_no">
-												        <input type="hidden" name="action" value="FindByPK">
+												        <input type="text" name="so_no">
+												        <input type="hidden" name="action" value="findByPK">
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="*" >
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>輸入會員編號 : </b>
-												        <input type="text" name="empno">
-												        <input type="hidden" name="action" value="getOne_For_Display">
+												        <input type="text" name="mem_no">
+												        <input type="hidden" name="action" value="findByMemNO">
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												<br>
@@ -83,7 +83,7 @@
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="*" >
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>訂單狀態 : </b>
 												        <select  id="basicSelect" name="so_sta">
                                             				<option value = "通知自取">通知自取</option>
@@ -91,27 +91,30 @@
                                             				<option value = "完成訂單">完成訂單</option>
                                             				<option value = "取消訂單">取消訂單</option>
                                     					</select>
+                                    					<input type="hidden" name="action" value="findBySoSta">
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												<br>
     												
-    												<FORM METHOD="post" ACTION="*" >
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>付款狀態 : </b>
 												        <select  id="basicSelect" name="so_pay_sta">
                                             				<option value = "待付款">待付款</option>
                                             				<option value = "已付款">已付款</option>
                                     					</select>
+                                    					<input type="hidden" name="action" value="findBySoPaySta">                                    					
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												
     												<br>
-    												<FORM METHOD="post" ACTION="*" >
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>出貨狀態 : </b>
 												        <select  id="basicSelect" name="so_ship_sta">
                                             				<option value = "未出貨">未出貨</option>
                                             				<option value = "已出貨">已出貨</option>
                                             				<option value = "待取貨">待取貨</option>
                                     					</select>
+                                    					<input type="hidden" name="action" value="findBySoShipSta">  
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
 												</th>
@@ -120,11 +123,7 @@
 											<tr>
 												<th><a href="<%=request.getContextPath()%>/back_end/secOrder/listAllSecOrder.jsp" class="btn btn-secondary"> 顯示所有訂單 </a></th>
 											</tr>
-											
-											<tr>
-												<th><a href="<%=request.getContextPath()%>/back_end/secProductInfo/addSecProductInfo.jsp" class="btn btn-secondary"> 新增訂單--測試用 </a></th>
-											</tr>	
-																						
+																							
 										</thead>
 									</table>
 								</div>
