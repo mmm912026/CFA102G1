@@ -207,24 +207,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                
-                                    <div class="cart-buttons">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-7 col-sm-7 col-md-7">
-                                                <div class="shopping-coupon-code">
-                                                    <input type="text" class="form-control" placeholder="Coupon code" name="coupon-code" id="coupon-code">
-                                                    <button type="submit">Apply Coupon</button>
-                                                </div>
-                                            </div>
-                
-<!--                                             <div class="col-lg-5 col-sm-5 col-md-5 text-right"> -->
-<!--                                                 <a href="#" class="default-btn"> -->
-<!--                                                     Update Cart -->
-<!--                                                     <span></span> -->
-<!--                                                 </a> -->
-<!--                                             </div> -->
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <!--end 商品明細 -->
@@ -238,13 +220,9 @@
                                     <ul>
                                         <li>小計 <span>$<%=Quamap.get(999)%></span></li>
                                         <li>運費 <span>$0.00</span></li>
-                                        <li>優惠折扣 <span>$0.00</span></li>
+                                        <li>優惠折扣 <span>$${discount}</span></li>
                                         <li>總計 <span>$<%=Quamap.get(999)%></span></li>
                                     </ul>
-<!--                                     <a href="#" class="default-btn"> -->
-<!--                                         	確認結帳 -->
-<!--                                         <span></span> -->
-<!--                                     </a> -->
 
 									<button type="submit" class="default-btn">
 										確認結帳
@@ -256,6 +234,8 @@
                         <!--End 計算金額方塊 -->
                     </div>
                     <input type="hidden" name="action" value="insert">
+                    <input type="hidden" name="discount" value="${(not empty discount)?discount:0}">
+                    <input type="hidden" name="ci_no" value="${(not empty ci_no)?ci_no:1}">
                 </form>
             </div>
         </section>

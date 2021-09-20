@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 
+import com.coupon_information.model.Coupon_InformationDAO;
+import com.coupon_information.model.Coupon_InformationService;
+import com.coupon_information.model.Coupon_InformationVO;
 import com.sec_order.model.SecOrderService;
 import com.sec_order.model.SecOrderVO;
 import com.sec_order_list.model.SecOrderListService;
@@ -161,6 +164,8 @@ public class SecOrderServlet extends HttpServlet{
 			String so_prodel = req.getParameter("so_prodel"); //運送方式 >> 自取or宅配
 			String so_deladrs = req.getParameter("so_deladrs");//配送地址 >>需要檢查此欄位!!!
 			String so_paymthd = req.getParameter("so_paymthd");//付款方式 >> 匯款or信用卡
+			Integer ci_no = new Integer(req.getParameter("ci_no")); // 優惠券編號 >> ci_no=1 表示沒有使用優惠券
+			Integer discount = new Integer(req.getParameter("discount"));//取得折扣價
 			
 			if("宅配".equals(so_prodel)) {
 				//檢查配送地址是否為空
@@ -191,12 +196,11 @@ public class SecOrderServlet extends HttpServlet{
 			String so_sta = "備貨中";	//訂單狀態 >> 預設為備貨中
 			String so_pay_sta = "待付款"; //付款狀態 >> 先寫死!!
 			String so_ship_sta = "未出貨"; //出貨狀態 >> 預設為未出貨
-			Integer ci_no = new Integer(1); // 優惠券編號 >> 先寫死(還未解決空值問題)
 			Timestamp so_shipdate = null; //出貨日期 >> 預設為空
 			Integer so_delcost = new Integer( so_prodel.equals("自取")?"0":"100" ); //配送費用 >> 自取運費為0，宅配100
 			Integer so_totalpri = Quamap.get(999) + so_delcost; //訂單總價格 >> 商品費用+配送費用
-			Integer so_discount_price = so_totalpri ;//訂單優惠價格 >> 訂單總價格-優惠券折扣費用
-				
+			Integer so_discount_price = so_totalpri - discount;//訂單優惠價格 >> 訂單總價格-優惠券折扣費用
+			
 			/****3.將購物車內商品加入"商品明細"中****/
 			List<SecOrderListVO> secOrderListVOs = new LinkedList<SecOrderListVO>();
 			SecOrderListVO secOrderVO = null;
@@ -277,6 +281,84 @@ public class SecOrderServlet extends HttpServlet{
 					req.getRequestDispatcher("/front_end/secOrder/paymentSuccess.jsp");
 			successView.forward(req, res);
 			return;
+		}
+		
+		//檢查購物車內商品與優惠券
+		if("checkCart".equals(action)) {
+			HttpSession session = req.getSession();
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.檢查購物車****/
+			//取得購物車內的商品
+			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
+			
+			//檢查購物車內是否有商品
+			if( !(productInformList!=null && productInformList.size()>0) ) {
+				errorMsgs.add("請加入要購買的商品");
+			}
+			
+			if(!errorMsgs.isEmpty()) {				
+				RequestDispatcher failView =
+						req.getRequestDispatcher("/front_end/secProductInfo/cart.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			/****2.檢查優惠券****/
+			//取得優惠券編碼
+			String ci_code = req.getParameter("ci_code");
+			
+			//檢查優惠券
+			if(ci_code.trim().length()!=0) {
+				//確認編碼是否存在
+				Coupon_InformationService coupon_InformationSvc = new Coupon_InformationService();
+				List<Coupon_InformationVO> list = coupon_InformationSvc.getAll()
+																		.stream()
+																		.filter(c -> c.getCi_code().equals(ci_code))
+																		.collect(Collectors.toList());
+				if(list.size()==0) {
+					errorMsgs.add("您輸入的優惠券無效!");
+				}
+				
+				if(!errorMsgs.isEmpty()) {				
+					RequestDispatcher failView =
+							req.getRequestDispatcher("/front_end/secProductInfo/cart.jsp");
+					failView.forward(req, res);
+					return;
+				}
+				
+				//檢查優惠券時效
+				Coupon_InformationVO coupon_VO = list.get(0);
+				
+				Timestamp currentTime = new Timestamp(System.currentTimeMillis()); //取得當前時間
+				Timestamp start_time = coupon_VO.getCi_start_time();
+				Timestamp end_time =coupon_VO.getCi_end_time();
+				if( !(currentTime.compareTo(start_time)>0 && currentTime.compareTo(end_time)<0) ) {
+					errorMsgs.add("您輸入的優惠券無效!");
+				}
+											
+				if(!errorMsgs.isEmpty()) {				
+					RequestDispatcher failView =
+							req.getRequestDispatcher("/front_end/secProductInfo/cart.jsp");
+					failView.forward(req, res);
+					return;
+				}
+				
+				//取的優惠券編碼與折扣金額
+				Integer ci_no = coupon_VO.getCi_no();
+				Integer discount = coupon_VO.getDiscount();
+				
+				req.setAttribute("ci_no", ci_no);
+				req.setAttribute("discount", discount);
+			}
+			
+			/****3.轉向至結帳頁面****/
+			RequestDispatcher successView =
+					req.getRequestDispatcher("/front_end/secOrder/checkOut.jsp");
+			successView.forward(req, res);
+			return;			
 		}
 		
 		

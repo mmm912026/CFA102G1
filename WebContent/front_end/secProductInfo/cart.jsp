@@ -58,9 +58,11 @@
 		<section class="cart-area ptb-50">
             <div class="container">
                 <div class="row">
+                
                     <div class="col-lg-8 col-md-12">
                         <form>
                             <div class="cart-table table-responsive">
+                      
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -122,10 +124,10 @@
                             <div class="cart-buttons">
                                 <div class="row align-items-center">
                                     <div class="col-lg-7 col-sm-7 col-md-7">
-<!--                                         <div class="shopping-coupon-code"> -->
-<!--                                             <input type="text" class="form-control" placeholder="Coupon code" name="coupon-code" id="coupon-code"> -->
+                                        <div class="shopping-coupon-code">
+<!--                                             <input type="text" class="form-control" placeholder="輸入優惠券" name="coupon-code" id="coupon-code"> -->
 <!--                                             <button type="submit">Apply Coupon</button> -->
-<!--                                         </div> -->
+                                        </div>
                                     </div>
         
                                     <div class="col-lg-5 col-sm-5 col-md-5 text-right">
@@ -142,19 +144,32 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="cart-totals">
                             <h3>Cart Totals</h3>
-    
+    						        <!--Start 錯誤訊息顯示 -->                         		
+                                    <c:if test="${not empty errorMsgs}">
+                                    	<ul>
+											<c:forEach var="error" items="${errorMsgs}"> 
+												<li><h5 style="color:red">${error}</h5></li>
+											</c:forEach>
+										</ul>
+									<h5 class="card-text" style="color:red"></h5>
+									</c:if>      
+                                    <!--End 錯誤訊息顯示 -->
                             <ul>
                                 <li>小計 <span>$<%=Quamap.get(999)%></span></li>
-<!--                                 <li>優惠折扣 <span>$0.00</span></li> -->
-<%--                                 <li>總計 <span>$<%=Quamap.get(999)%></span></li> --%>
+
                             </ul>
-    
-                            <a href="<%=request.getContextPath()%>/front_end/secOrder/checkOut.jsp" class="default-btn">
-                                	結帳
-                                <span></span>
-                            </a>
+                            
+                            <form method="post" action="<%=request.getContextPath()%>/secOrder/SecOrder.do"> 
+	                            <input type="text" class="form-control" placeholder="輸入優惠券" name="ci_code" id="coupon-code" maxlength="6">
+	                            <br>
+	                            <input type="hidden" name="action" value="checkCart">
+	                            <button type="submit" class="default-btn">結帳 <span></span></button>
+                            </form>
+                            
                         </div>
                     </div>
+                    
+                    
                 </div>
             </div>
         </section>
