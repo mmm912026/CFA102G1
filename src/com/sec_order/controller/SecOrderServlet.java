@@ -162,9 +162,11 @@ public class SecOrderServlet extends HttpServlet{
 			String so_deladrs = req.getParameter("so_deladrs");//配送地址 >>需要檢查此欄位!!!
 			String so_paymthd = req.getParameter("so_paymthd");//付款方式 >> 匯款or信用卡
 			
-			//檢查配送地址是否為空
-			if(so_deladrs.trim().length()==0) {
-				errorMsgs.add("請輸入配送地址!!");
+			if("宅配".equals(so_prodel)) {
+				//檢查配送地址是否為空
+				if(so_deladrs.trim().length()==0) {
+					errorMsgs.add("請輸入配送地址!!");
+				}
 			}
 			
 			//檢查購物車內是否有商品
