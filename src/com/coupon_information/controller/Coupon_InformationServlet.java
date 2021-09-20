@@ -106,6 +106,7 @@ public class Coupon_InformationServlet extends HttpServlet {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/coupon_information/listAllC_Information.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 
