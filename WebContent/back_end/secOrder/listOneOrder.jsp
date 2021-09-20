@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%-- <%@ page import="com.sec_product_inform.model.*" %> --%>
 
@@ -70,7 +71,8 @@
 												</tr>
 												<tr>
 													<th>訂購時間</th>
-													<th>${secOrderVO.so_purtime}</th>
+<%-- 													<th>${secOrderVO.so_purtime}</th> --%>
+													<th><fmt:formatDate value="${secOrderVO.so_purtime}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
 												</tr>
 												<tr>
 													<th>會員編號</th>
@@ -107,7 +109,8 @@
 												</tr>
 												<tr>
 													<th>出貨日期</th>
-													<th>${secOrderVO.so_shipdate}</th>
+<%-- 													<th>${secOrderVO.so_shipdate}</th> --%>
+													<th><fmt:formatDate value="${secOrderVO.so_shipdate}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
 												</tr>
 												<tr>
 													<th>配送費用</th>

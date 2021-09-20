@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="com.sec_product_class.model.*"%>
@@ -80,7 +81,7 @@
 									<c:forEach var="OrderVO" items="${order_list_svc.all}">
 										<tr>
 											<td>${OrderVO.so_no}</td>
-											<td>${OrderVO.so_purtime}</td>
+											<td><fmt:formatDate value="${OrderVO.so_purtime}" pattern="yyyy-MM-dd"/></td>
 											<td>${OrderVO.mem_no}</td>
 											<td>${OrderVO.so_sta}</td>
 											<td>${OrderVO.so_pay_sta}</td>
