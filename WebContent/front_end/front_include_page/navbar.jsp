@@ -73,7 +73,7 @@
                                         </li>
                                         
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">筆記型電腦</a>
+                                            <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=2" class="nav-link">筆記型電腦</a>
                                         </li>
 
                                         <li class="nav-item">
@@ -84,31 +84,31 @@
                                             
                                             <ul class="dropdown-menu">
                                             	<li class="nav-item">
-                                            		<a href="#" class="nav-link">CPU-處理器</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=3" class="nav-link">CPU-處理器</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">RAM-記憶體</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=4" class="nav-link">RAM-記憶體</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">HDD-傳統硬碟</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=5" class="nav-link">HDD-傳統硬碟</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">SSD-固態硬碟</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=6" class="nav-link">SSD-固態硬碟</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">電源供應器</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=7" class="nav-link">電源供應器</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">顯示卡</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=8" class="nav-link">顯示卡</a>
                                        			</li>
                                        			
                                        			<li class="nav-item">
-                                            		<a href="#" class="nav-link">其他</a>
+                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=9" class="nav-link">其他</a>
                                        			</li>
                                             </ul>
                                         </li>
