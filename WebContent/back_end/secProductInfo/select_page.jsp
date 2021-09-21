@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.sec_product_class.model.*" %>
+
+<jsp:useBean id="productClassSvc" scope="page" class="com.sec_product_class.model.ProductClassDAO"/>
 <!DOCTYPE html>
 <html>
 <head>
+
 
 <!--*******************	
 		Start Include CSS File  
@@ -69,12 +73,33 @@
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="*" >
-												        <b>輸入商品編號 : </b>
-												        <input type="text" name="empno">
-												        <input type="hidden" name="action" value="getOne_For_Display">
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+												        <b>輸入商品名稱 : </b>
+												        <input type="text" name="spi_name">
+												        <input type="hidden" name="action" value="findBySpiName">
 												        <input type="submit" class="btn btn-secondary" value="送出">
     												</FORM>
+    												<br>
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+												        <b>輸入商品類別 : </b>
+												        <select name="spc_no">
+												        	<c:forEach var="productClassVO" items="${productClassSvc.all}">
+												        		<option value="${productClassVO.spc_no}">${productClassVO.spc_name}</option>
+												        	</c:forEach>
+												        </select>
+												        <input type="hidden" name="action" value="findBySpcNo">
+												        <input type="submit" class="btn btn-secondary" value="送出">
+    												</FORM>
+    												<br>
+    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+												        <b>輸入狀態 : </b>
+												        <select name="spi_sta">
+												        	<option value="上架">上架</option>
+												        	<option value="下架">下架</option>
+												        </select>
+												        <input type="hidden" name="action" value="findBySpiSta">
+												        <input type="submit" class="btn btn-secondary" value="送出">
+    												</FORM>    												
 												</th>
 											</tr>
 											

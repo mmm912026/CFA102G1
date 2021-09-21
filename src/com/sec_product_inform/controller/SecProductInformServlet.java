@@ -267,11 +267,7 @@ public class SecProductInformServlet extends HttpServlet{
 			}
 		}
 		
-		if("FindByPK".equals(action)) {
-			System.out.println("Enter FindByPK");
-			System.out.println("action : " + action);
-			System.out.println("spi_no : " + req.getParameter("spi_no"));
-			
+		if("FindByPK".equals(action)) {			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);			
 			try {
@@ -490,6 +486,103 @@ public class SecProductInformServlet extends HttpServlet{
 			}
 		}
 		/*購物車<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<購物車*/
+		
+		//依類別編號查詢
+		if("findBySpcNo".equals(action)) {
+			
+			/****1.取得參數****/
+			Integer spc_no = new Integer(req.getParameter("spc_no"));
+			
+			/****2.查詢商品****/
+			ProductInformService productInformSvc = new ProductInformService();
+			List<ProductInformVO> productInformVOs = productInformSvc.getAll()
+																	 .stream()
+																	 .filter(p -> p.getSpc_no().equals(spc_no))
+																	 .collect(Collectors.toList());
+			req.setAttribute("productInfoVOs", productInformVOs);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secProductInfo/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+			
+		}
+		
+		//依商品名稱查詢
+		if("findBySpiName".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String spi_name = req.getParameter("spi_name");
+
+			if(spi_name.trim().length()==0) {
+				errorMsgs.add("請輸入商品名稱!!");
+				
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			/****2.查詢商品****/
+			ProductInformService productInformSvc = new ProductInformService();
+			List<ProductInformVO> productInformVOs = productInformSvc.getAll()
+																	 .stream()
+																	 .filter(p -> p.getSpi_name()   /*不區分大小寫*/
+																			 	   .toLowerCase()
+																			 	   .contains(spi_name.toLowerCase()))
+																	 .collect(Collectors.toList());
+			if(productInformVOs.size()==0) {
+				errorMsgs.add("查無商品");
+				
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			req.setAttribute("productInfoVOs", productInformVOs);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secProductInfo/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
+		
+		//依商品狀態查詢
+		if("findBySpiSta".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			String spi_sta = req.getParameter("spi_sta");
+						
+			/****2.查詢商品****/
+			ProductInformService productInformSvc = new ProductInformService();
+			List<ProductInformVO> productInformVOs = productInformSvc.getAll()
+																	 .stream()
+																	 .filter(p -> p.getSpi_sta().equals(spi_sta))
+																	 .collect(Collectors.toList());
+			if(productInformVOs.size()==0) {
+				errorMsgs.add("查無商品");
+				
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			req.setAttribute("productInfoVOs", productInformVOs);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secProductInfo/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
 	}
 	
 	/*此方法根據輸入的商品類別編號搜尋並過濾，回傳過濾後的商品列表*/
