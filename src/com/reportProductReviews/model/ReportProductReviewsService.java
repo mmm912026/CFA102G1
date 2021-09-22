@@ -7,7 +7,7 @@ public class ReportProductReviewsService {
 	private I_ReportProductReviews dao;
 	
 	public ReportProductReviewsService() {
-		dao = new ReportProductReviewsJDBCDAO();
+		dao = new ReportProductReviewsDAO();
 	}
 	
 	public ReportProductReviewsVO insertReportProductReviews(Integer pr_no, Integer mem_no, String report_content
@@ -38,6 +38,12 @@ public class ReportProductReviewsService {
 
 		dao.update(reportProductReviewsVO);
 
+		return reportProductReviewsVO;
+	}
+	
+	public ReportProductReviewsVO updateReportProductReviews(ReportProductReviewsVO reportProductReviewsVO) {
+
+		dao.update(reportProductReviewsVO);
 		return reportProductReviewsVO;
 	}
 
