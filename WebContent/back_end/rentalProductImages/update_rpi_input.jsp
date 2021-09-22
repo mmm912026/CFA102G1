@@ -59,7 +59,6 @@
 				</td></tr>
 			</table>
 			
-			<h3>資料修改:</h3>
 			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
@@ -72,6 +71,14 @@
 			</c:if>
 			
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpi/rpi.do" name="form1" enctype="multipart/form-data">
+			<input type="file" name="rpi_img" accept="image/*" id="imginput">
+			<input type="hidden" name="action" value="update">
+			<input type="hidden" name="rpi_no" value="<%=rpiVO.getRpi_no()%>">
+			<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
+			<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">			
+			<input type="submit" value="送出">
+			
+			
 			<table>
 				<tr>
 					<td>租賃商品圖片編號:<font color=red><b>*</b></font></td>
@@ -88,22 +95,17 @@
 					</select></td>
 				</tr>
 				<tr>
-					<td>租賃商品圖片:</td>
-					<td>
-						<input type="file" name="rpi_img">
+					<td>原圖:</td>
+					<td><img src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showImgByRpino&id=${rpiVO.rpi_no}" width="150px" height="auto">	 
 					</td>
 				</tr>
+				<tr>
+					<td>新圖:</td>
+					<td><img id="imgshow" src="" /> 
+					</td>
+				</tr>
+				
 			</table>
-			<p>
-				原圖
-			<p>
-				<img src="<%=request.getContextPath()%>/rpi/DBGifReader?id=${rpiVO.rpi_no}" width="100px" height="auto">
-			<p>
-			<input type="hidden" name="action" value="update">
-			<input type="hidden" name="rpi_no" value="<%=rpiVO.getRpi_no()%>">
-			<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
-			<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">			
-			<input type="submit" value="送出">
 			</FORM>		
 		</div>
 	</div>
@@ -114,5 +116,19 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script>
+imginput.onchange = evt => {
+	  const [file] = imginput.files
+	  if (file) {
+		  imgshow.src = URL.createObjectURL(file)
+		  
+	  }
+	  var img = document.getElementById("imgshow");
+	  img.setAttribute("width", "150px");
+	  img.setAttribute("height", "auto");
+	}
+
+</script>
+		
 </body>
 </html>

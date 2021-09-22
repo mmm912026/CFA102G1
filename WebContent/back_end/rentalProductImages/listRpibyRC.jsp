@@ -130,7 +130,7 @@
 					>
 						<td>${rpiVO.rpi_no}</td>
 						<td>${rpiVO.rc_no}.${(rcSvc.getOneRentalClass(rpiVO.rc_no)).rc_name}</td>
-						<td><img src="<%=request.getContextPath()%>/rpi/DBGifReader?id=${rpiVO.rpi_no}" width="100px" height="auto"></td>
+						<td><img src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showImgByRpino&id=${rpiVO.rpi_no}" width="100px" height="auto"></td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpi/rpi.do" style="margin-bottom: 0px;">
 						     <input type="submit" value="修改">

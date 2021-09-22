@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.rentalOrder.model.*"%>
 
 <%
@@ -10,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>­q³æ§¹¦¨/¨ú®ø</title>
+<title>è¨‚å–®å®Œæˆ/å–æ¶ˆ</title>
 
 <style>
 	form { display: inline; }
@@ -63,12 +64,12 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>­q³æ§¹¦¨/¨ú®ø</h3>
+		 <h3>è¨‚å–®å®Œæˆ/å–æ¶ˆ</h3>
 	</td></tr>
 </table>
-	<%-- ¿ù»~ªí¦C --%>
+	<%-- éŒ¯èª¤è¡¨åˆ— --%>
 	<c:if test="${not empty errorMsgs}">
-		<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+		<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 		<ul>
 			<c:forEach var="message" items="${errorMsgs}">
 				<li style="color:red">${message}</li>
@@ -79,89 +80,89 @@
 	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" id="form2">
 	<table id="ordertable">
 		<tr>
-			<th>­q³æ½s¸¹:<font color=red><b>*</b></font></th>
+			<th>è¨‚å–®ç·¨è™Ÿ:<font color=red><b>*</b></font></th>
 			<td><%=roVO.getRo_no()%></td>
-			<th>¯²¸î°Ó«~½s¸¹:</th>
+			<th>ç§Ÿè³ƒå•†å“ç·¨è™Ÿ:</th>
 			<td><%=roVO.getRpl_no()%></td>
 		</tr>
 		<tr>
-			<th>¯²¸î°Ó«~Ãş§O:</th>
+			<th>ç§Ÿè³ƒå•†å“é¡åˆ¥:</th>
 			<td colspan="2">${rcSvc.getOneRentalClass(rplSvc.getOneRentalProductList(roVO.rpl_no).rc_no).rc_name}</td>
 			<td>${rcSvc.getOneRentalClass(rplSvc.getOneRentalProductList(roVO.rpl_no).rc_no).rc_item}</td>
 		</tr>
 	<tr>
-			<th>¯²¸î¶}©l®É¶¡:</th>
+			<th>ç§Ÿè³ƒé–‹å§‹æ™‚é–“:</th>
 			<td><%=roVO.getRo_starttime()%></td>
-			<th>¯²¸îµ²§ô®É¶¡:</th>
+			<th>ç§Ÿè³ƒçµæŸæ™‚é–“:</th>
 			<td><%=roVO.getRo_endtime()%></td>
 		</tr>
 		<tr>
-			<th>¯²¸î¤Ñ¼Æ:</th>
-			<td><%=roVO.getRo_day()%> ¤Ñ	</td>
-			<th>¯²¸î»ù®æ/¨C¤Ñ:</th>
-			<td><%=roVO.getRo_price()%> ¤¸</td>
+			<th>ç§Ÿè³ƒå¤©æ•¸:</th>
+			<td><%=roVO.getRo_day()%> å¤©	</td>
+			<th>ç§Ÿè³ƒåƒ¹æ ¼/æ¯å¤©:</th>
+			<td><%=roVO.getRo_price()%> å…ƒ</td>
 	
 		</tr>
 		<tr>
-			<th>­q³æÁ`»ù®æ:</th>
-			<td><%=roVO.getRo_totalprice()%> ¤¸</td>
-			<th>©ãª÷:</th>
-			<td><%=roVO.getRo_deposit()%> ¤¸</td>
+			<th>è¨‚å–®ç¸½åƒ¹æ ¼:</th>
+			<td><%=roVO.getRo_totalprice()%> å…ƒ</td>
+			<th>æŠ¼é‡‘:</th>
+			<td><%=roVO.getRo_deposit()%> å…ƒ</td>
 		</tr>
 		<tr>
-			<th>°Ó«~ª¬ºA:</th>
+			<th>å•†å“ç‹€æ…‹:</th>
 			<td>
 				<select size="1" name="ro_product_status" id="ro_product_status">
-				<option value="¥¿±`" ${(roVO.ro_product_status=="¥¿±`")?'selected':'' }>¥¿±`
-				<option value="¿ò¥¢" ${(roVO.ro_product_status=="¿ò¥¢")?'selected':'' }>¿ò¥¢
-				<option value="·´·l" ${(roVO.ro_product_status=="·´·l")?'selected':'' }>·´·l
+				<option value="æ­£å¸¸" ${(roVO.ro_product_status=="æ­£å¸¸")?'selected':'' }>æ­£å¸¸
+				<option value="éºå¤±" ${(roVO.ro_product_status=="éºå¤±")?'selected':'' }>éºå¤±
+				<option value="æ¯€æ" ${(roVO.ro_product_status=="æ¯€æ")?'selected':'' }>æ¯€æ
 				</select>
 			</td>
-			<th>©ãª÷ª¬ºA:</th>
+			<th>æŠ¼é‡‘ç‹€æ…‹:</th>
 			<td><%=(roVO.getRo_deposit_status()==null?"":roVO.getRo_deposit_status())%></td>
 		</tr>
 		<tr>
-			<th>¹ê»ÚÂkÁÙ®É¶¡:</th>
+			<th>å¯¦éš›æ­¸é‚„æ™‚é–“:</th>
 			<td colspan="3">
 			<input name="ro_return_date" id="return_date" type="text" >
 			</td>
 		</tr>
 		<tr>
-			<th>ÂkÁÙª¬ºA:</th>
+			<th>æ­¸é‚„ç‹€æ…‹:</th>
 			<td><span id="returnstatus"></span>
 			<input type="hidden" name="ro_return_status" id="return" value="">
 			</td>
-			<th>¹O´Á(´£«e)¤Ñ¼Æ:</th>
+			<th>é€¾æœŸ(æå‰)å¤©æ•¸:</th>
 			<td>
 			<span id="showday"></span>
 			<input type="hidden" name="ro_delay_days" id="returndays" value="0" size="1">
 			</td>
 		</tr>
 		<tr>
-			<th>·´·l¦©°£ÃB:</th>
-			<td><input type=${(roVO.ro_product_status=="·´·l")?'text':'hidden'} name="ro_repaircost" size="5" id="ro_repaircost" value="0"/></td>
-			<th>À³ÂkÁÙ©ãª÷:</th>
+			<th>æ¯€ææ‰£é™¤é¡:</th>
+			<td><input type=${(roVO.ro_product_status=="æ¯€æ")?'text':'hidden'} name="ro_repaircost" size="5" id="ro_repaircost" value="0"/></td>
+			<th>æ‡‰æ­¸é‚„æŠ¼é‡‘:</th>
 			<td>
 			<span id="returnmoney"></span>
-			<input type="text" name="ro_return_deposit" size="1" id="ro_return_deposit" value="<%=roVO.getRo_deposit()%>"/>
+			<input type="hidden" name="ro_return_deposit" size="1" id="ro_return_deposit" value="<%=roVO.getRo_deposit()%>"/>
 			</td>
 		</tr>
 	</table>
 	<br>
 	<input type="hidden" name="action" value="Complete_RO">
 	<input type="hidden" name="ro_no" value="<%=roVO.getRo_no()%>">
-	<input type="submit" value="§¹¦¨­q³æ" id="send" >
+	<input type="submit" value="å®Œæˆè¨‚å–®" id="send" >
 	</FORM>
 <FORM>
-<input onclick="window.close();" value="Ãö³¬µøµ¡" type="button">
+<input onclick="window.close();" value="é—œé–‰è¦–çª—" type="button">
 </FORM>
 <br>
 <br>
-<input type="checkbox" id="cancelcheck">¨ú®ø­q³æ
+<input type="checkbox" id="cancelcheck">å–æ¶ˆè¨‚å–®
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" id="form1">
 <input type="hidden" name="action" value="cancelRo">
 <input type="hidden" name="ro_no" value="<%=roVO.getRo_no()%>">
-<input type="hidden" value="¨ú®ø­q³æ" id="cancelsend" >
+<input type="hidden" value="å–æ¶ˆè¨‚å–®" id="cancelsend" >
 </FORM>
 <script>
         $.datetimepicker.setLocale('zh'); 
@@ -183,20 +184,20 @@
 				if(money<0)
 					money=0;
 	        	$('#ro_return_deposit').val(money);
-	        	document.getElementById("returnmoney").innerHTML = money + " ¤¸";
+	        	document.getElementById("returnmoney").innerHTML = money + " å…ƒ";
 			}
 			else{
-				document.getElementById("returnmoney").innerHTML = '<font color="red">'+"¿é¤J¿ù»~"+'</font>';
+				document.getElementById("returnmoney").innerHTML = '<font color="red">'+"è¼¸å…¥éŒ¯èª¤"+'</font>';
 				$('#send').attr("disabled","disabled");
 			}
         });
         
              
-//         	®Ú¾Ú°Ó«~ª¬ºA§ïÅÜ¿é¤J¶µ¥Ø
+//         	æ ¹æ“šå•†å“ç‹€æ…‹æ”¹è®Šè¼¸å…¥é …ç›®
         $('#ro_product_status').on('change',function(){
-        	if($("#ro_product_status :selected").val()=="·´·l"){
+        	if($("#ro_product_status :selected").val()=="æ¯€æ"){
         		productDamage();
-        	}else if ($("#ro_product_status :selected").val()=="¿ò¥¢"){
+        	}else if ($("#ro_product_status :selected").val()=="éºå¤±"){
         		productLost();
         	}else {
         		productNormal();	
@@ -204,36 +205,36 @@
            	});	
 
         function productNormal(){
-    		$('#return_date').attr("type","text");	//ÁÙ­ìÂkÁÙ¤é´Á¿ï¶µ
-    		$('#return_date').val("");					//³]©w¤é´ÁªÅ¦r¦ê
-    		$('#ro_repaircost').attr("type","hidden");	//Åã¥Ü·´·l­È¿é¤J
-    		$('#ro_repaircost').val(0);					//³]©w·´·l­È0
-       		document.getElementById("showday").innerHTML = "";	//ÁÙ­ì¹O´Á¤Ñ¼ÆÅã¥Üªí®æ
-    		document.getElementById("returnstatus").innerHTML = "";	//ÁÙ­ìÂkÁÙª¬ºAÅã¥Üªí®æ
-    		$('#returndays').val(0);	//³]©w¹O´Á¤Ñ¼Æ0
-    		$('#return').val("");		//³]©wÂkÁÙª¬ºAªÅ¦r¦ê	
+    		$('#return_date').attr("type","text");	//é‚„åŸæ­¸é‚„æ—¥æœŸé¸é …
+    		$('#return_date').val("");					//è¨­å®šæ—¥æœŸç©ºå­—ä¸²
+    		$('#ro_repaircost').attr("type","hidden");	//é¡¯ç¤ºæ¯€æå€¼è¼¸å…¥
+    		$('#ro_repaircost').val(0);					//è¨­å®šæ¯€æå€¼0
+       		document.getElementById("showday").innerHTML = "";	//é‚„åŸé€¾æœŸå¤©æ•¸é¡¯ç¤ºè¡¨æ ¼
+    		document.getElementById("returnstatus").innerHTML = "";	//é‚„åŸæ­¸é‚„ç‹€æ…‹é¡¯ç¤ºè¡¨æ ¼
+    		$('#returndays').val(0);	//è¨­å®šé€¾æœŸå¤©æ•¸0
+    		$('#return').val("");		//è¨­å®šæ­¸é‚„ç‹€æ…‹ç©ºå­—ä¸²	
         };
         function productLost(){
-        	$('#return_date').attr("type","hidden");	//ÁôÂÃÂkÁÙ¤é´Á¿ï¶µ
-        	$('#ro_repaircost').attr("type","hidden");		//ÁôÂÃ·´·lÃB
-        	$('#return_date').val("");						//³]©wÂkÁÙ¤é´Ávalue
-        	$('#returndays').val(0);						//³]©w¹O´Á¤Ñ¼Æ0
-        	$('#return').val("¿ò¥¢");							//³]©wÂkÁÙª¬ºAªÅ¦r¦ê	
-        	$('#ro_repaircost').val(<%=roVO.getRo_deposit()%>);   	//³]©w·´·lª÷ÃBµ¥©ó©ãª÷
+        	$('#return_date').attr("type","hidden");	//éš±è—æ­¸é‚„æ—¥æœŸé¸é …
+        	$('#ro_repaircost').attr("type","hidden");		//éš±è—æ¯€æé¡
+        	$('#return_date').val("");						//è¨­å®šæ­¸é‚„æ—¥æœŸvalue
+        	$('#returndays').val(0);						//è¨­å®šé€¾æœŸå¤©æ•¸0
+        	$('#return').val("éºå¤±");							//è¨­å®šæ­¸é‚„ç‹€æ…‹ç©ºå­—ä¸²	
+        	$('#ro_repaircost').val(<%=roVO.getRo_deposit()%>);   	//è¨­å®šæ¯€æé‡‘é¡ç­‰æ–¼æŠ¼é‡‘
     		document.getElementById("showday").innerHTML = "";
-			document.getElementById("returnstatus").innerHTML = "¿ò¥¢";
+			document.getElementById("returnstatus").innerHTML = "éºå¤±";
         };
         function productDamage(){
-    		$('#return_date').attr("type","text");	//ÁÙ­ìÂkÁÙ¤é´Á¿ï¶µ
-    		$('#return_date').val("");					//³]©w¤é´ÁªÅ¦r¦ê
-    		$('#ro_repaircost').attr("type","text");	//Åã¥Ü·´·l­È¿é¤J
-    		$('#ro_repaircost').val(0);					//³]©w·´·l­È0
-       		document.getElementById("showday").innerHTML = "";	//ÁÙ­ì¹O´Á¤Ñ¼ÆÅã¥Üªí®æ
-    		document.getElementById("returnstatus").innerHTML = "";	//ÁÙ­ìÂkÁÙª¬ºAÅã¥Üªí®æ
-    		$('#returndays').val(0);	//³]©w¹O´Á¤Ñ¼Æ0
-    		$('#return').val("");		//³]©wÂkÁÙª¬ºAªÅ¦r¦ê
+    		$('#return_date').attr("type","text");	//é‚„åŸæ­¸é‚„æ—¥æœŸé¸é …
+    		$('#return_date').val("");					//è¨­å®šæ—¥æœŸç©ºå­—ä¸²
+    		$('#ro_repaircost').attr("type","text");	//é¡¯ç¤ºæ¯€æå€¼è¼¸å…¥
+    		$('#ro_repaircost').val(0);					//è¨­å®šæ¯€æå€¼0
+       		document.getElementById("showday").innerHTML = "";	//é‚„åŸé€¾æœŸå¤©æ•¸é¡¯ç¤ºè¡¨æ ¼
+    		document.getElementById("returnstatus").innerHTML = "";	//é‚„åŸæ­¸é‚„ç‹€æ…‹é¡¯ç¤ºè¡¨æ ¼
+    		$('#returndays').val(0);	//è¨­å®šé€¾æœŸå¤©æ•¸0
+    		$('#return').val("");		//è¨­å®šæ­¸é‚„ç‹€æ…‹ç©ºå­—ä¸²
         }; 			  
-//         ®Ú¾Ú¤é´Á¿ï¾Ü§ïÅÜ
+//         æ ¹æ“šæ—¥æœŸé¸æ“‡æ”¹è®Š
         $('#return_date').on('change',function(){
         	if($('#return_date').val()==""){
         		document.getElementById("showday").innerHTML = "";
@@ -243,21 +244,21 @@
         	}else{
         		var Days = parseInt((new Date($('#return_date').val())-new Date("<%=roVO.getRo_endtime()%>"))/(1000*60*60*24));
 				if (Days<0){
-					document.getElementById("showday").innerHTML = Math.abs(Days) + " ¤Ñ";
-					document.getElementById("returnstatus").innerHTML = "´£«e";
+					document.getElementById("showday").innerHTML = Math.abs(Days) + " å¤©";
+					document.getElementById("returnstatus").innerHTML = "æå‰";
 					$('#returndays').val(Days);
-					$('#return').val("´£«e");				
+					$('#return').val("æå‰");				
 	
 				}else if (Days ==0){
-					document.getElementById("showday").innerHTML = Math.abs(Days) + " ¤Ñ";
+					document.getElementById("showday").innerHTML = Math.abs(Days) + " å¤©";
 					$('#returndays').val(Days);
-					document.getElementById("returnstatus").innerHTML = "·Ç®É";
-					$('#return').val("·Ç®É");
+					document.getElementById("returnstatus").innerHTML = "æº–æ™‚";
+					$('#return').val("æº–æ™‚");
 				}else{
-					document.getElementById("showday").innerHTML = Days + " ¤Ñ";
+					document.getElementById("showday").innerHTML = Days + " å¤©";
 					$('#returndays').val(Days);
-					document.getElementById("returnstatus").innerHTML = "¹O´Á";
-					$('#return').val("¹O´Á");
+					document.getElementById("returnstatus").innerHTML = "é€¾æœŸ";
+					$('#return').val("é€¾æœŸ");
 				} 		
         	}
         });

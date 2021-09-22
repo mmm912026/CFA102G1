@@ -111,22 +111,28 @@ img1input.onchange = evt => {
 	  if (file) {
 		  img1show.src = URL.createObjectURL(file)
 	  }
+	  var img = document.getElementById("img1show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
 	}
 img2input.onchange = evt => {
 	  const [file] = img2input.files
 	  if (file) {
 		  img2show.src = URL.createObjectURL(file)
 	  }
+	  var img = document.getElementById("img2show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
 	}
 img3input.onchange = evt => {
 	  const [file] = img3input.files
 	  if (file) {
 		  img3show.src = URL.createObjectURL(file)
 	  }
+	  var img = document.getElementById("img3show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
 	}
-
-
-
 </script>
 		
 </body>

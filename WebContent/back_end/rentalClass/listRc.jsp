@@ -14,7 +14,6 @@
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("listAll",listAll);
 	
-// 	getOneRc_item_For_Display傳回,使選單可以顯示所有Rc_item
 	List<String> rc_itemList = rcSvc.getAllRc_Item();
 	pageContext.setAttribute("rc_itemList",rc_itemList);
 	
@@ -92,10 +91,10 @@
 					       <b>編號:</b>
 					       <select size="1" name="rc_no">
 					         <c:forEach var="rcVOAll" items="${listAll}" > 
-					          <option value="${rcVOAll.rc_no}" ${(rcVOAll.rc_no==(list.get(0).rc_no))?'selected':''}  >${rcVOAll.rc_no}.${rcVOAll.rc_name}
+					          <option value="${rcVOAll.rc_no}" ${rcVOAll.rc_no==list.get(0).rc_no?'selected':''}  >${rcVOAll.rc_no}.${rcVOAll.rc_name}
 					         </c:forEach>   
 					       </select>
-					       <input type="hidden" name="action" value="getOne_For_Display">
+					       <input type="hidden" name="action" value="getOne_For_Display">					  
 					       <input type="submit" value="查詢">
 					     </FORM>
 					</td>		
@@ -105,16 +104,16 @@
 					       <select size="1" name="rc_item" >
 					         <c:forEach var="rc_itemList" items="${rc_itemList}" >
 			<!-- 		         list.get(0)取一個用來產生selected -->
-					          <option value="${rc_itemList}" ${(rc_itemList==(list.get(0).rc_item))?'selected':''} >${rc_itemList}
+					          <option value="${rc_itemList}" ${rc_itemList==param.rc_item?'selected':''} >${rc_itemList}
 					         </c:forEach>   
 					       </select>
-					       <input type="hidden" name="action" value="getOneRc_item_For_Display">
+					       <input type="hidden" name="action" value="getOneRc_item_For_Display">			
 					       <input type="submit" value="查詢">
 					     </FORM>
 					</td>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalClass/addRc.jsp" >
-				       		<input type="submit" value="新增類別">
+				       		<input type="submit" value="新增">
 			     		</FORM>
 					</td>
 				</tr>	
@@ -162,7 +161,6 @@
 						<td><A href=
 						"<%=request.getContextPath()%>/back_end/rpl/rpl.do?action=getOneClass_For_Display&rc_no=${rcVO.rc_no}">
 						${rcVO.rc_name}</A></td>
-<%-- 						<td><A href="${roVO.ro_no})">${rcVO.rc_name}</A></td> --%>
 						<td>${rcVO.rc_item}</td>
 						<td><A href=
 						"<%=request.getContextPath()%>/back_end/rpi/rpi.do?action=getOneClass_For_Display&rc_no=${rcVO.rc_no}">
@@ -173,9 +171,9 @@
 						<td>${rcVO.rc_status}</td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" style="margin-bottom: 0px;">
-						     <input type="submit" value=${(rcVO.rc_status=="上架")?"下架":"上架"}>
+						     <input type="submit" value=${rcVO.rc_status=="上架"?"下架":"上架"}>
 						     <input type="hidden" name="rc_no"  value="${rcVO.rc_no}">
-						     <input type="hidden" name="rc_status"  value=${(rcVO.rc_status=="上架")?"下架":"上架"}>
+						     <input type="hidden" name="rc_status"  value=${rcVO.rc_status=="上架"?"下架":"上架"}>
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>"> 
 						     <input type="hidden" name="action"	value="getOne_Change_Status"></FORM>

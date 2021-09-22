@@ -6,6 +6,10 @@
 <%@ page import="com.rentalClass.model.*"%>
 
 <% 	
+	RentalClassService rcSvc = new RentalClassService();
+	List<RentalClassVO> rcVOlist = rcSvc.getAll();
+	pageContext.setAttribute("rcVOlist",rcVOlist);
+	
 	List<RentalProductListVO> list = (List<RentalProductListVO>) request.getAttribute("list");
 	pageContext.setAttribute("list",list);
 	
@@ -13,8 +17,6 @@
 	pageContext.setAttribute("rcVOselect",rcVOselect);
 	
 %>
-
-<jsp:useBean id="rcSvc" scope="page" class="com.rentalClass.model.RentalClassService" />
 
 <html>
 <head>
@@ -88,7 +90,7 @@
 					     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do" >
 					       <b>類別:</b>
 					       <select size="1" name="rc_no">
-					         <c:forEach var="rcVO" items="${rcSvc.all}" > 
+					         <c:forEach var="rcVO" items="${rcVOlist}" > 
 					          <option value="${rcVO.rc_no}" ${(rcVO.rc_no==rcVOselect)?'selected':''}>${rcVO.rc_no}.${rcVO.rc_name}
 					         </c:forEach>   
 					       </select>
@@ -124,7 +126,6 @@
 					<th>狀態</th>
 					<th>修改狀態</th>
 					<th>修改</th>
-					<th>刪除</th>
 				</tr>
 			<%@ include file="page1.file"%> 
 				<c:forEach var="rplVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
@@ -134,8 +135,8 @@
 					</c:if>	
 					>
 						<td>${rplVO.rpl_no}</td>
-						<td>${(rcSvc.getOneRentalClass(rplVO.rc_no)).rc_no}</td>
-						<td>${(rcSvc.getOneRentalClass(rplVO.rc_no)).rc_item}</td>
+						<td>${rcSvc.oneRentalClass(rplVO.rc_no).rc_no}</td>
+						<td>${rcSvc.oneRentalClass(rplVO.rc_no).rc_item}</td>
 						<td>${rplVO.rpl_serialnum}</td>
 						<td>${rplVO.rpl_rentcount}</td>
 						<td>${rplVO.rpl_status}</td>
@@ -158,14 +159,6 @@
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">  
 						     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-						</td>
-						<td>
-						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="刪除">
-						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
-						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">  
-						     <input type="hidden" name="rpl_no"  value="${rplVO.rpl_no}">
-						     <input type="hidden" name="action" value="delete"></FORM>
 						</td>
 					</tr>
 				</c:forEach>
