@@ -1,6 +1,9 @@
 package com.appraisal_class.model;
 
 import java.util.List;
+import java.util.Set;
+
+import com.appraisal_case.model.Appraisal_CaseVO;
 
 public class Appraisal_ClassService {
 
@@ -41,5 +44,8 @@ public class Appraisal_ClassService {
 
 	public List<Appraisal_ClassVO> getAll() {
 		return dao.getAll();
+	}
+	public Set<Appraisal_CaseVO> getA_CaseByA_Class(Integer acl_no){
+		return dao.getA_CaseByA_Class(acl_no);
 	}
 }

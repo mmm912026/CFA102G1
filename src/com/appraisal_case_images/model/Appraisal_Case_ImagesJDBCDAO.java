@@ -207,15 +207,15 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 		return appraisal_case_imagesList;
 	}
 
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 
 //		測試insert
-//		Appraisal_Case_ImagesJDBCDAO dao = new Appraisal_Case_ImagesJDBCDAO();
-//		Appraisal_Case_ImagesVO acivo = new Appraisal_Case_ImagesVO();
-//		acivo.setAca_no(9);
-//		acivo.setAci_img(getPictureByteArray("images/popcat.png"));
-//		dao.insert(acivo);
-//		System.out.println(acivo.getAci_no());
+		Appraisal_Case_ImagesJDBCDAO dao = new Appraisal_Case_ImagesJDBCDAO();
+		Appraisal_Case_ImagesVO acivo = new Appraisal_Case_ImagesVO();
+		acivo.setAca_no(9);
+		acivo.setAci_img(getPictureByteArray("D:\\Git\\GitSample\\CFA102TEST\\WebContent\\back_end\\appraisal_case_images\\images\\popcat.png"));
+		dao.insert(acivo);
+		System.out.println(acivo.getAci_no());
 //		測試OK
 
 //		測試update
@@ -248,21 +248,21 @@ public class Appraisal_Case_ImagesJDBCDAO implements I_Appraisal_Case_ImagesDAO 
 //			readPicture(acivo.getAci_img());
 //		}
 //		測試OK
-//	}
+	}
 //	
-//	// 使用byte[]方式寫入資料庫
-//	public static byte[] getPictureByteArray(String path) {
-//		byte[] buffer = null;
-//		try {
-//			FileInputStream fis = new FileInputStream(path);
-//			buffer = new byte[fis.available()];
-//			fis.read(buffer);
-//			fis.close();
-//		} catch (IOException ie) {
-//			ie.printStackTrace();
-//		}
-//		return buffer;
-//	}
+	// 使用byte[]方式寫入資料庫
+	public static byte[] getPictureByteArray(String path) {
+		byte[] buffer = null;
+		try {
+			FileInputStream fis = new FileInputStream(path);
+			buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+		} catch (IOException ie) {
+			ie.printStackTrace();
+		}
+		return buffer;
+	}
 //	
 //	// 使用byte[]方式讀取圖片
 //	public static void readPicture(byte[] bytes){

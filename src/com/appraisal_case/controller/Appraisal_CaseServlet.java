@@ -2,17 +2,21 @@ package com.appraisal_case.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.appraisal_case.model.Appraisal_CaseService;
 import com.appraisal_case.model.Appraisal_CaseVO;
+import com.appraisal_class.model.Appraisal_ClassService;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
@@ -92,6 +96,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
+			String requestURL = req.getParameter("requestURL");
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer aca_no = new Integer(req.getParameter("aca_no"));
@@ -109,7 +114,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/listAllA_Case.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
 				failureView.forward(req, res);
 			}
 		}
@@ -118,6 +123,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
+			String requestURL = req.getParameter("requestURL");
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				Integer aca_no = new Integer(req.getParameter("aca_no").trim());
@@ -151,7 +157,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 					aca_first_p = new Integer(req.getParameter("aca_first_p").trim());
 				} catch (NumberFormatException e) {
 					aca_first_p = 0;
-					errorMsgs.add("報價：請輸入報價金額");
 				}
 
 				// 門市收貨日期
@@ -201,7 +206,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				String aca_cod = req.getParameter("aca_cod");
 
 				// 配送地址
-				String aca_adrs = req.getParameter("aca_adrs");
+				String aca_adrs = req.getParameter("aca_adrs").trim();
 				if (aca_adrs == null || aca_adrs.trim().length() == 0) {
 					errorMsgs.add("配送地址：請輸入配送地址");
 				}
@@ -239,14 +244,19 @@ public class Appraisal_CaseServlet extends HttpServlet {
 						aca_pickup_date, aca_pay, aca_comp_date, aca_cod, aca_adrs);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
-				String url = "/back_end/appraisal_case/listOneA_Case.jsp";
+				Appraisal_ClassService appraisalClassSvc = new Appraisal_ClassService();
+				if (requestURL.equals("/back_end/appraisal_class/listCase_ByClass.jsp")|| requestURL.equals("/back_end/appraisal_class/listAllA_Class.jsp")) {
+					req.setAttribute("listCase_ByClass", appraisalClassSvc.getA_CaseByA_Class(acl_no));
+				}
+				else if(requestURL.equals("/back_end/appraisal_case/listOneA_Case.jsp")||requestURL.equals("/back_end/appraisal_case/A_CaseInformation.jsp")) {
+					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+				}
+				String url = requestURL;
+				System.out.println(url);
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (NullPointerException ne) {
-				ne.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
@@ -263,15 +273,11 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				// 查詢有無此會員 若無會員無法新增估價單
-				String str = req.getParameter("mem_no");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入會員編號");
-				}
 				Integer mem_no = null;
 				try {
-					mem_no = new Integer(str);
-				} catch (Exception e) {
-					errorMsgs.add("會員編號格式不正確");
+					mem_no = new Integer(req.getParameter("mem_no"));
+				} catch (NumberFormatException e) {
+					errorMsgs.add("請輸入會員編號(格式為數字)");
 				}
 				// 估價商品名稱
 				String aca_itm_id = req.getParameter("aca_itm_id");
@@ -302,7 +308,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 					aca_first_p = new Integer(req.getParameter("aca_first_p").trim());
 				} catch (NumberFormatException e) {
 					aca_first_p = 0;
-					errorMsgs.add("請輸入報價金額");
 				}
 
 				// 門市收貨日期
@@ -359,12 +364,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				appraisalCaseVO.setAca_cod(aca_cod);
 				appraisalCaseVO.setAca_adrs(aca_adrs);
 
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/addA_Case.jsp");
-					failureView.forward(req, res);
-					return;
-				}
 				/*************************** 2.開始新增資料 ***************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO = memSvc.getOneMem(mem_no);
@@ -396,6 +395,47 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			}
 		}
 
+		if ("information".equals(action)) {
+			try {
+				Integer aca_no = new Integer(req.getParameter("aca_no"));
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				Appraisal_CaseVO appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
+				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+
+				String url = "/back_end/appraisal_case/A_CaseInformation.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
+				successView.forward(req, res);
+
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		if ("listA_Case_ByCompositeQuery".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+		
+			try {
+				/*************************** 1.將輸入資料轉為Map **********************************/
+				Map<String ,String[]>map = req.getParameterMap();
+				
+				/*************************** 2.開始複合查詢 ***************************************/
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				List<Appraisal_CaseVO> list = appraisalCaseSvc.getAll(map);
+			
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				req.setAttribute("listA_Case_ByCompositeQuery", list);
+				String url = "/back_end/appraisal_case/listA_Case_ByCompositeQuery.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("delete".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);

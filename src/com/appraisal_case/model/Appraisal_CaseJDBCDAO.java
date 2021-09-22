@@ -7,8 +7,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.appraisal_case_images.model.Appraisal_Case_ImagesVO;
 
 public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 	String DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -256,6 +261,18 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 			}
 		}
 		return appraisal_caseList;
+	}
+
+
+	@Override
+	public List<Appraisal_CaseVO> getAll(Map<String, String[]> map) {
+		return null;
+	}
+
+	@Override
+	public Set<Appraisal_Case_ImagesVO> getImages_Case(Integer aca_no) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 //	public static void main(String[] args) {
