@@ -7,6 +7,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS --> 
+         <%@ include file="../front_include_page/Top_head.jsp"%>
       <%@ include file="../front_include_page/CSS_link.jsp"%>
 
         <title>忘記密碼|YSM3C</title>

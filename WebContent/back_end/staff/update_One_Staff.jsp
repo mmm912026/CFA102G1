@@ -4,7 +4,7 @@
 <%@ page import="com.staff.model.*"%>
 
 <%
-  StaffVO staffVO = (StaffVO) request.getAttribute("staffVO"); //StaffServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
+  StaffVO staffVO = (StaffVO) session.getAttribute("staffVO"); //StaffServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 %>
 <!DOCTYPE html>
 <html>
@@ -126,16 +126,6 @@
 		<td><input type="TEXT" name="staff_password" size="45"	value="<%=staffVO.getStaff_password()%>" /></td>
 	</tr>
     
-	<tr>
-		<td>狀態:</td>
-		<td><select name="staff_sta" >
-                     <option value="${staffVO.staff_sta}"> ${staffVO.staff_sta} </option>
-                      
-                     <option  value="停權">停權</option>
-                     <option value="正常">正常</option>
-                   </select></td>
-	
-	</tr>
 	
 	
 </table>>
