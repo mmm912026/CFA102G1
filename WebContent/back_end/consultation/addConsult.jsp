@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.consultation.model.*"%>
 
@@ -9,39 +9,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
-	<!--*******************	
+
+<!--*******************	
 		Start Include CSS File  
 		******************* -->
-        <%@ include file="../back_include_page/CSS_link.jsp"%>
-	<!--*******************	
+<%@ include file="../back_include_page/CSS_link.jsp"%>
+<!--*******************	
 		End Include CSS File  
-		******************* -->  
-	<meta charset="UTF-8">
-	<title>YSM-3C «á¥xºŞ²z</title>
-	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
+		******************* -->
+<meta charset="UTF-8">
+<title>YSM-3C å¾Œå°ç®¡ç†</title>
+<link rel="icon" type="image/png"
+	href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>¿Ô¸ßªí³æ·s¼W - addConsult.jsp</title>
-
-<style>
-table#table-1 {
-	background-color: #CCCCFF;
-	border: 2px solid black;
-	text-align: center;
-}
-
-table#table-1 h4 {
-	color: red;
-	display: block;
-	margin-bottom: 1px;
-}
-
-h4 {
-	color: blue;
-	display: inline;
-}
-</style>
-
 <style>
 table {
 	width: 450px;
@@ -61,84 +41,109 @@ th, td {
 
 </head>
 <body bgcolor='white'>
-<div id="app">
-	<!--*******************	
+	<div id="app">
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/sidebar.jsp"%>
-	<!--*******************	
+		<%@ include file="../back_include_page/sidebar.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
-		******************* -->  
-		
+		******************* -->
+
 		<div id="main">
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>¿Ô¸ßªí³æ·s¼W - addConsult.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">¦^­º­¶</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+			<%-- éŒ¯èª¤è¡¨åˆ— --%>
+			<c:if test="${not empty errorMsgs}">
+				<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
+				<ul>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color: red">${message}</li>
+					</c:forEach>
+				</ul>
+			</c:if>
+			<section class="section">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">
+							æ–°å¢è«®è©¢è¡¨å–®><a
+								href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">è«®è©¢è¡¨å–®ç®¡ç†</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<FORM METHOD="post" ACTION="consult.do" name="form1">
 
-	<h3>ªí³æ·s¼W:</h3>
+							<div class="mb-3 row">
+								<label for="inputConsultant" class="col-sm-2 col-form-label">è«®è©¢äººå§“å:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsultant"
+										name="consultant"
+										value="<%=(consultVO == null) ? "" : consultVO.getConsultant()%>">
+								</div>
+							</div>
 
-	<%-- ¿ù»~ªí¦C --%>
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
+							<div class="mb-3 row">
+								<label for="inputConsult_phone" class="col-sm-2 col-form-label">è«®è©¢äººæ‰‹æ©Ÿ:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsult_phone"
+										name="consult_phone"
+										value="<%=(consultVO == null) ? "" : consultVO.getConsult_phone()%>">
+								</div>
+							</div>
 
-	<FORM METHOD="post" ACTION="consult.do" name="form1">
-		<table>
-			<tr>
-				<td>¿Ô¸ß¤H©m¦W:</td>
-				<td><input type="TEXT" name="consultant" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getConsultant()%>" /></td>
-			</tr>
-			<tr>
-				<td>¿Ô¸ß¤H¤â¾÷:</td>
-				<td><input type="TEXT" name="consult_phone" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getConsult_phone()%>" /></td>
-			</tr>
-			<tr>
-				<td>¿Ô¸ß¤HEMAIL:</td>
-				<td><input type="TEXT" name="consult_email" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getConsult_email()%>" /></td>
-			</tr>
-			<tr>
-				<td>¿Ô¸ß¤º®e:</td>
-				<td><input type="TEXT" name="consult_content" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getConsult_content()%>" /></td>
-			</tr>
-			<tr>
-				<td>­û¤u½s¸¹:</td>
-				<td><input type="TEXT" name="staff_no" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getStaff_no()%>" /></td>
-			</tr>
-			<tr>
-				<td>¦^ÂĞª¬ºA:</td>
-				<td><input type="TEXT" name="consult_sta" size="45"
-					value="<%=(consultVO == null) ? "" : consultVO.getConsult_sta()%>" /></td>
-			</tr>
+							<div class="mb-3 row">
+								<label for="inputConsult_email" class="col-sm-2 col-form-label">è«®è©¢äººEMAIL:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsult_email"
+										name="consult_email"
+										value="<%=(consultVO == null) ? "" : consultVO.getConsult_email()%>">
+								</div>
+							</div>
 
-		</table>
-		<br> <input type="hidden" name="action" value="insert"> <input
-			type="submit" value="°e¥X·s¼W">
-	</FORM>
-</div>
-	<!--*******************	
+							<div class="mb-3 row">
+								<label for="inputConsult_content"
+									class="col-sm-2 col-form-label">è«®è©¢å…§å®¹:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control"
+										id="inputConsult_content" name="consult_content"
+										value="<%=(consultVO == null) ? "" : consultVO.getConsult_content()%>">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputStaff_no" class="col-sm-2 col-form-label">å“¡å·¥ç·¨è™Ÿ:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputStaff_no"
+										name="staff_no"
+										value="<%=(consultVO == null) ? "" : consultVO.getStaff_no()%>">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputConsult_sta" class="col-sm-2 col-form-label">å›è¦†ç‹€æ…‹:</label>
+								<div class="col-sm-10">
+									<select name="consult_sta" class="form-control"
+										id="inputConsult_sta">
+										<option selected></option>
+										<option>å·²å›è¦†</option>
+										<option>æœªå›è¦†</option>
+									</select>
+								</div>
+							</div>
+							<br> <input type="hidden" name="action" value="insert">
+							<div class="position-relative"><!-- èª¿æ•´ä½ç½® -->
+								<div class="position-absolute top-50 start-50 translate-middle"><!-- èª¿æ•´ä½ç½® -->
+									<input type="submit" class="btn btn-primary" value="é€å‡ºæ–°å¢">
+								</div>
+							</div>
+						</FORM>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/JavaScript_Include.jsp"%>
-	<!--*******************	
+		<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
 		******************* -->
 	</div>

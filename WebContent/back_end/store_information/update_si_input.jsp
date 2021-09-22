@@ -1,9 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.store_information.model.*"%>
 
 <%
-	SiVO siVO = (SiVO) request.getAttribute("siVO"); //SiServlet.java (Controller) ¦s¤JreqªºsiVOª«¥ó (¥]¬AÀ°¦£¨ú¥XªºsiVO, ¤]¥]¬A¿é¤J¸ê®Æ¿ù»~®ÉªºsiVOª«¥ó)
+	SiVO siVO = (SiVO) request.getAttribute("siVO"); //SiServlet.java (Controller) å­˜å…¥reqçš„siVOç‰©ä»¶ (åŒ…æ‹¬å¹«å¿™å–å‡ºçš„siVO, ä¹ŸåŒ…æ‹¬è¼¸å…¥è³‡æ–™éŒ¯èª¤æ™‚çš„siVOç‰©ä»¶)
 %>
 
 <!DOCTYPE html>
@@ -18,11 +18,11 @@
 		End Include CSS File  
 		******************* -->
 <meta charset="UTF-8">
-<title>YSM-3C «á¥xºŞ²z</title>
+<title>YSM-3C å¾Œå°ç®¡ç†</title>
 <link rel="icon" type="image/png"
 	href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>°Ó®a¸ê°T­×§ï - update_si_input.jsp</title>
+<title>å•†å®¶è³‡è¨Šä¿®æ”¹ - update_si_input.jsp</title>
 <style>
 table#table-1 {
 	background-color: #CCCCFF;
@@ -71,64 +71,91 @@ th, td {
 		******************* -->
 
 		<div id="main">
-			<table id="table-1">
-				<tr>
-					<td>
-						<h3>­û¤u¸ê®Æ­×§ï update_si_input.jsp</h3>
-						<h4>
-							<a href="select_page.jsp">¦^­º­¶</a>
-						</h4>
-					</td>
-				</tr>
-			</table>
-
-			<%-- ¿ù»~ªí¦C --%>
+			<%-- éŒ¯èª¤è¡¨åˆ— --%>
 			<c:if test="${not empty errorMsgs}">
-				<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+				<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 				<ul>
 					<c:forEach var="message" items="${errorMsgs}">
 						<li style="color: red">${message}</li>
 					</c:forEach>
 				</ul>
 			</c:if>
+			<section class="section">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">
+							å•†å®¶è³‡è¨Šè³‡æ–™ä¿®æ”¹><a
+								href="<%=request.getContextPath()%>/back_end/store_information/select_page.jsp">å•†å®¶è³‡è¨Šç®¡ç†</a>
+						</h3>
+					</div>
+					<div class="card-body">
 
-			<FORM METHOD="post" ACTION="si.do" name="form1">
-				<table>
-					<tr>
-						<td>°Ó®a½s¸¹:<font color=red><b>*</b></font></td>
-						<td><%=siVO.getSi_no()%></td>
-					</tr>
-					<tr>
-						<td>ªù¥«¦a§}:</td>
-						<td><input type="TEXT" name="si_address" size="45"
-							value="<%=siVO.getSi_address()%>" /></td>
-					</tr>
-					<tr>
-						<td>Àç·~®É¶¡:</td>
-						<td><input type="TEXT" name="si_open" size="45"
-							value="<%=siVO.getSi_open()%>" /></td>
-					</tr>
-					<tr>
-						<td>Ápµ¸¹q¸Ü:</td>
-						<td><input type="TEXT" name="si_phone" size="45"
-							value="<%=siVO.getSi_phone()%>" /></td>
-					</tr>
-					<tr>
-						<td>¹q¤l¶l¥ó:</td>
-						<td><input type="TEXT" name="si_email" size="45"
-							value="<%=siVO.getSi_email()%>" /></td>
-					</tr>
-					<tr>
-						<td>LINE¸ê°T:</td>
-						<td><input type="TEXT" name="si_line" size="45"
-							value="<%=siVO.getSi_line()%>" /></td>
-					</tr>
 
-				</table>
-				<br> <input type="hidden" name="action" value="update">
-				<input type="hidden" name="si_no" value="<%=siVO.getSi_no()%>">
-				<input type="submit" value="°e¥X­×§ï">
-			</FORM>
+
+						<FORM METHOD="post" ACTION="si.do" name="form1">
+
+							<div class="mb-3 row">
+								<label for="staticSi_no" class="col-sm-2 col-form-label">å•†å®¶ç·¨è™Ÿ:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" readonly class="form-control-plaintext"
+										id="staticSi_no" value="<%=siVO.getSi_no()%>">
+								</div>
+							</div>
+							<div class="mb-3 row">
+								<label for="inputSi_address" class="col-sm-2 col-form-label">é–€å¸‚åœ°å€:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputSi_address"
+										name="si_address" value="<%=siVO.getSi_address()%>">
+								</div>
+							</div>
+							<div class="mb-3 row">
+								<label for="inputSi_open" class="col-sm-2 col-form-label">ç‡Ÿæ¥­æ™‚é–“:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputSi_open"
+										name="si_open" value="<%=siVO.getSi_open()%>">
+								</div>
+							</div>
+							<div class="mb-3 row">
+								<label for="inputSi_phone" class="col-sm-2 col-form-label">è¯çµ¡é›»è©±:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputSi_phone"
+										name="si_phone" value="<%=siVO.getSi_phone()%>">
+								</div>
+							</div>
+							<div class="mb-3 row">
+								<label for="inputSi_email" class="col-sm-2 col-form-label">é›»å­éƒµä»¶:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputSi_email"
+										name="si_email" value="<%=siVO.getSi_email()%>">
+								</div>
+							</div>
+							<div class="mb-3 row">
+								<label for="inputSi_line" class="col-sm-2 col-form-label">LINEè³‡è¨Š:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputSi_line"
+										name="si_line" value="<%=siVO.getSi_line()%>">
+								</div>
+							</div>
+
+							<br> <input type="hidden" name="action" value="update">
+							<input type="hidden" name="si_no" value="<%=siVO.getSi_no()%>">
+							<input type="hidden" name="requestURL"
+								value="<%=request.getParameter("requestURL")%>">
+							<!--æ¥æ”¶åŸé€å‡ºä¿®æ”¹çš„ä¾†æºç¶²é è·¯å¾‘å¾Œ,å†é€çµ¦Controlleræº–å‚™è½‰äº¤ä¹‹ç”¨-->
+							<input type="hidden" name="whichPage"
+								value="<%=request.getParameter("whichPage")%>">
+							<!--åªç”¨æ–¼:istAllEmp.jsp-->
+							<div class="position-relative">
+								<!-- èª¿æ•´ä½ç½® -->
+								<div class="position-absolute top-50 start-50 translate-middle">
+									<!-- èª¿æ•´ä½ç½® -->
+									<input type="submit" class="btn btn-primary" value="é€å‡ºä¿®æ”¹">
+								</div>
+							</div>
+						</FORM>
+					</div>
+				</div>
+			</section>
 		</div>
 		<!--*******************	
 		Start Include sidebar File  
