@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.member.model.*"%>
+
+<%
+  MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+%>
 <!doctype html>
     <html lang="zxx">
     <head>
@@ -7,6 +13,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS --> 
+         <%@ include file="../front_include_page/Top_head.jsp"%>
         <%@ include file="../front_include_page/CSS_link.jsp"%>
         <title>會員註冊|YSM3C</title>
 
@@ -47,52 +54,75 @@
                     <div class="contact-form">
                         <h2>註冊</h2>
 
-                        <form id="contactForm">
-
+            <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1">
+ <%-- 錯誤表列 --%>
+			<c:if test="${not empty errorMsgs}">
+				<ul>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color:red">${message}</li>
+					</c:forEach>
+				</ul>
+				
+			</c:if>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="姓名" required data-error="請輸入姓名"> 
+                                <input type="text" name="mem_name" class="form-control" placeholder="姓名" required data-error="請輸入姓名"
+                                value="<%= (memberVO==null)? "" : memberVO.getMem_name()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
                             <p>性別：</p>
 
-                            <input type="radio" class="btn-check" name="mem_gender" id="option1" value="1" autocomplete="off" checked>
+                            <input type="radio" name="mem_gender" class="btn-check" name="mem_gender" id="option1" value="男" autocomplete="off" checked
+                            value="<%= (memberVO==null)? "" : memberVO.getMem_gender()%>">
                             <label class="btn btn-light" for="option1">男</label>
 
-                            <input type="radio" class="btn-check" name="mem_gender" id="option2" value="2" autocomplete="off">
+                            <input type="radio" name="mem_gender" class="btn-check" name="mem_gender" id="option2" value="女" autocomplete="off"
+                            value="<%= (memberVO==null)? "" : memberVO.getMem_gender()%>">
                             <label class="btn btn-light" for="option2">女</label>
                             
                                                                                
                             
                             <div class="form-group">
-                                <input type="date" class="form-control" placeholder="生日 :  西元年/月份/日期" required data-error="請輸入生日"> 
+                                <input type="date" name="mem_birth" class="form-control" placeholder="生日 :  西元年/月份/日期" required data-error="請輸入生日"
+                                 value="<%= (memberVO==null)? "" : memberVO.getMem_birth()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
                             
                             
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="電話" required data-error="請輸入電話"> 
+                                <input type="text" name="mem_phone" class="form-control" placeholder="電話" required data-error="請輸入電話"
+                                 value="<%= (memberVO==null)? "" : memberVO.getMem_phone()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="電子郵件" required data-error="請輸入電子郵件"> 
+                                <input type="text" name="mem_email" class="form-control" placeholder="電子郵件" required data-error="請輸入電子郵件"
+                                 value="<%= (memberVO==null)? "" : memberVO.getMem_email()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="地址" required data-error="請輸入地址"> 
+                                <input type="text" name="mem_address" class="form-control" placeholder="地址" required data-error="請輸入地址"
+                                 value="<%= (memberVO==null)? "" : memberVO.getMem_address()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="帳戶" required data-error="請輸入帳戶"> 
+                                <input type="text" name="mem_account" class="form-control" placeholder="帳戶" required data-error="請輸入帳戶"
+                                value="<%= (memberVO==null)? "" : memberVO.getMem_account()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="密碼" required data-error="請輸入密碼"> 
+                                <input type="text" name="mem_password" class="form-control" placeholder="密碼" required data-error="請輸入密碼"
+                                 value="<%= (memberVO==null)? "" : memberVO.getMem_password()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
+                            
+<!--                             <p>目前狀態：</p> -->
+<!--                             <div class="form-group"> -->
+<!--                                   <input type="text" class="form-control" name="mem_sta" value="未驗證" readonly="readonly"/> -->
+<!--                                 <div class="help-block with-errors"></div> -->
+<!--                             </div> -->
 
                                                                                       
                             
@@ -105,7 +135,10 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
                             <button type="submit">現在註冊</button>
+                            <input type="hidden" name="action" value="register">
+                            </div>
                         </form>
 
                         <div class="important-text">
@@ -117,63 +150,7 @@
         </section>
         <!-- End Register Area -->
 
-        <!-- Start Support Area -->
-        <section class="support-area">
-            <div class="container">
-                <div class="support-inner-box">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-free-shipping"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>Free Shipping Worldwide</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-return"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>30 Days Money Returns</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-security"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>100% Secure Payment</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-support"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>24/7 Customer Support</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Support Area -->
+       
 
         <!-- Start Footer Area -->
         <section class="footer-area pt-50 pb-20">

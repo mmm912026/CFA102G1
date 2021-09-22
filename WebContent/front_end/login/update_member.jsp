@@ -3,8 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.member.model.*"%>
 <%
-  MemberVO memberVO = (MemberVO) request.getAttribute("memberVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
+  MemberVO memberVO = (MemberVO) session.getAttribute("memberVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 %>
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <!doctype html>
     <html lang="zxx">
     <head>
@@ -12,11 +13,53 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS --> 
+     <%@ include file="../front_include_page/Top_head.jsp"%>
      <%@ include file="../front_include_page/CSS_link.jsp"%>
 
         <title>會員資料修改|YSM3C</title>
 
         <link rel="icon" type="image/png" href="../front_CSS_JS/assets/img/favicon.png">
+        
+        	<style>
+  table#table-1 {
+	background-color: grey;
+    border: 2px solid black;
+    text-align: center;
+  }
+  table#table-1 h4 {
+    color: red;
+    display: block;
+    margin-bottom: 1px;
+  }
+  h4 {
+    color: blue;
+    display: inline;
+  }
+  #div2{
+  margin-left:220px;
+  }
+</style>
+
+<style>
+  table {
+	width: 1300px;
+	
+	background-color: white;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left:450px;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  #div1 {
+   margin-left:1670px;
+}
+#div11{
+ margin-left:600px;
+ }
+  
+</style>
     </head>
 
     <body>
@@ -53,148 +96,111 @@
         <!-- End Page Banner -->
 
         <!-- Start Register Area -->
-        <section class="register-area ptb-50">
+        
+                        
+        
+  
+
+      
+                          <div id="div11">
+<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+</c:if>
+</div>
+	
+
+<section class="register-area ptb-50">
             <div class="container">
                 <div class="register-form">
                     <div class="contact-form">
                         <h2>修改個人資料</h2>
-        
-        
-                             <div class="success">
-								<%-- 成功表列 --%>
-								<c:if test="${not empty success}">
-										<c:forEach var="message" items="${success}">
-											<h5><span style="color: green">${message}</span></h5><br>
-										</c:forEach>
-								</c:if>
-						   </div>
-	   
-	   
-	  						<div class="errorMegs">
-								<%-- 錯誤表列 --%>
-								<c:if test="${not empty errorMsgs}">
-									<h5><font style="color: red">請修正以下錯誤:</font></h5>
-										<c:forEach var="message" items="${errorMsgs}">
-										<h5><span style="color: red">${message}</span></h5><br>
-										</c:forEach>
-								</c:if>
-						   </div>
- 
-                       <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1">
 
+                        <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" name="form1">
+       
+		
+                            <p>姓名：</p>
                             <div class="form-group">
-                                <input type="TEXT" name="mem_name" size="45" value="<%=memberVO.getMem_name()%>" />
+                                <input type="text" class="form-control"  name="mem_name" value="<%=memberVO.getMem_name()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
                             <p>性別：</p>
-
-                            <input type="radio" class="btn-check" name="mem_gender" id="option1" value="1" autocomplete="off" checked>
-                            <label class="btn btn-light" for="option1">男</label>
-
-                            <input type="radio" class="btn-check" name="mem_gender" id="option2" value="2" autocomplete="off">
-                            <label class="btn btn-light" for="option2">女</label>
+                            <div class="form-group">
+		                         <select name="mem_gender" >
+                                        <option value="${memberVO.mem_gender}"> ${memberVO.mem_gender} </option>
+                      
+                                          <option  value="男">男</option>
+                                            <option value="女">女</option>
+                                     </select></div>
                             
+ <br>
+ <br>
+ <br>
                                                                                
-                            
+                            <p>出生年月日：</p>
                             <div class="form-group">
-                                <input type="date" class="form-control" placeholder="生日 :  西元年/月份/日期" required data-error="請輸入生日"> 
+                                <input type="date" class="form-control" name="mem_birth"  value="<%=memberVO.getMem_birth()%>"/> 
                                 <div class="help-block with-errors"></div>
                             </div>
                             
-                            
+                            <p>聯絡電話：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="電話" required data-error="請輸入電話"> 
+                                <input type="text" name="mem_phone" class="form-control" value="<%=memberVO.getMem_phone()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
-
+                            <p>信箱：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="電子郵件" required data-error="請輸入電子郵件"> 
+                                <input type="text" name="mem_email" class="form-control" value="<%=memberVO.getMem_email()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
-
+                            <p>地址：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="地址" required data-error="請輸入地址"> 
+                                <input type="text" class="form-control" name="mem_address" value="<%=memberVO.getMem_address()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
-
+                            <p>帳號：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="帳戶" required data-error="請輸入帳戶"> 
+                                <input type="text" class="form-control" name="mem_account" value="<%=memberVO.getMem_account()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
-
+                            <p>密碼：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="密碼" required data-error="請輸入密碼"> 
+                                <input type="password" class="form-control" name="mem_password" value="<%=memberVO.getMem_password()%>" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
-
+                             <p>會員狀態：</p>
+                            <div class="form-group">
+                                  <input type="text" class="form-control" name="mem_sta" value="<%=memberVO.getMem_sta()%>" readonly="readonly"/>
+                                <div class="help-block with-errors"></div>
+                            </div>
                                                                                       
                             
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-check" id ="div2">
+                                        <input type="hidden" name="action" value="update">
+                                        <input type="hidden" name="mem_no" value="<%=memberVO.getMem_no()%>">
+                                        <input class="btn btn-primary" type="submit" value="送出修改">
+                                    </div>
+                                </div>
+                            </div>
 
-                            <button type="submit">現在修改</button>
                         </form>
-                        </div>
-                    </div>
-                </div>
-             </section>
-        <!-- End Register Area -->
-
-        <!-- Start Support Area -->
-        <section class="support-area">
-            <div class="container">
-                <div class="support-inner-box">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-free-shipping"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>Free Shipping Worldwide</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-return"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>30 Days Money Returns</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-security"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>100% Secure Payment</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-support"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>24/7 Customer Support</h3>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- End Support Area -->
+        <!-- End Register Area -->
+<br>
+
+        <!-- End Register Area -->
+
+     
 
         <!-- Start Footer Area -->
         <section class="footer-area pt-50 pb-20">
