@@ -1,6 +1,7 @@
 package com.rentalClass.controller;
 
 import com.rentalClass.model.*;
+
 import javax.servlet.http.*;
 import javax.servlet.*;
 import java.io.*;
@@ -19,7 +20,47 @@ public class RentalClassServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+			
+		//從前台導向租覽特定類別租賃商品
+		if ("showRc_itemList".equals(action)) {
+			try {
+				
+				String rc_item = req.getParameter("rc_item");
+					
+				RentalClassService rcSvc = new RentalClassService();
+				List<RentalClassVO> list = rcSvc.getOneRc_item(rc_item);
+					
+				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("list", list);
+				RequestDispatcher successView = 
+						req.getRequestDispatcher("/front_end/rental/rentalProductList.jsp");
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalProductList.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		//從前台導向租賃商品詳情
+		if ("showRcDetail".equals(action)) {
+			try {
+				Integer rc_no = new Integer(req.getParameter("rc_no"));
+				req.setAttribute("rc_no", rc_no);	
+				
+				String url = "/front_end/rental/rentalProductDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}catch (Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalProductDetail.jsp");
+				failureView.forward(req, res);
+			}
+		}
 		
+		//後台下單防呆2對庫存為0  類別下單
 		if ("addRo".equals(action)) {
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -60,7 +101,8 @@ public class RentalClassServlet extends HttpServlet {
 			}
 			
 		}
-			
+		
+		//回傳單一種類(桌機/筆電/AIO...) rcVO List 
 		if ("getOneRc_item_For_Display".equals(action)) {
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -89,8 +131,8 @@ public class RentalClassServlet extends HttpServlet {
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("list", list);
-				String url = "/back_end/rentalClass/listRcbyItem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
+				
+				RequestDispatcher successView = req.getRequestDispatcher("/back_end/rentalClass/listRcbyItem.jsp");
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
@@ -103,6 +145,7 @@ public class RentalClassServlet extends HttpServlet {
 			
 		}
 		
+		//後台一鍵對類別上下架 
 		/***************************更改狀態**************************************/
 		if ("getOne_Change_Status".equals(action)) { 
 								
@@ -111,12 +154,18 @@ public class RentalClassServlet extends HttpServlet {
 				String rc_status = req.getParameter("rc_status");
 				
 				RentalClassService rcSvc = new RentalClassService();
-				String rc_item = rcSvc.getOneRentalClass(rc_no).getRc_item();
 				rcSvc.changeRentalClassStatus(rc_no,rc_status);
 				
+				String rc_item = rcSvc.getOneRentalClass(rc_no).getRc_item();
+				
 				String requestURL = req.getParameter("requestURL");
-				if(requestURL.equals("/back_end/rentalClass/listRcbyItem.jsp"))
+				if(requestURL.equals("/back_end/rentalClass/listRcbyItem.jsp")) 
 					req.setAttribute("list",rcSvc.getOneRc_item(rc_item));
+				if(requestURL.equals("/back_end/rentalClass/listOneRc.jsp")) {
+					List<RentalClassVO> list = new ArrayList<RentalClassVO>();
+					list.add(rcSvc.getOneRentalClass(rc_no));
+					req.setAttribute("list",list);
+				}
 				
 				RequestDispatcher successView = 
 						req.getRequestDispatcher(requestURL);// 
@@ -125,7 +174,7 @@ public class RentalClassServlet extends HttpServlet {
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/rentalClass/listRc.jsp");
 				failureView.forward(req, res);
-			}	
+			}
 		}
 		
 		
@@ -227,10 +276,18 @@ public class RentalClassServlet extends HttpServlet {
 				/***************************2.開始修改資料*****************************************/	
 				rcVO = rcSvc.updateRentalClass(rc_no,rc_name,rc_item,rc_detail,rc_deposit,rc_price,rc_total_count,rc_total_score,rc_storage,rc_status);
 	
+				
+				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				String requestURL = req.getParameter("requestURL");
 				if(requestURL.equals("/back_end/rentalClass/listRcbyItem.jsp"))
 					req.setAttribute("list",rcSvc.getOneRc_item(rc_item));
+				if(requestURL.equals("/back_end/rentalClass/listOneRc.jsp")) {
+					List<RentalClassVO> list = new ArrayList<RentalClassVO>();
+					list.add(rcSvc.getOneRentalClass(rc_no));
+					req.setAttribute("list",list);
+				}
+								
 				req.setAttribute("rcVO", rcVO); 
 				
 				RequestDispatcher successView = req.getRequestDispatcher(requestURL); 
@@ -329,7 +386,7 @@ public class RentalClassServlet extends HttpServlet {
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("list", list);
-				String url = "/back_end/rentalClass/listRc.jsp";
+				String url = "/back_end/rentalClass/listOneRc.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 

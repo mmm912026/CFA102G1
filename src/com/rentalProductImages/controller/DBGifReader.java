@@ -14,44 +14,90 @@ public class DBGifReader extends HttpServlet {
 	
 	Connection con;
 
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {	
+		doGet(req, res);
+	}
+	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 
 		res.setContentType("image/gif");
 		ServletOutputStream out = res.getOutputStream();
+		String action = req.getParameter("action");
 
-		try {
-			Statement stmt = con.createStatement();
-			String id = req.getParameter("id").trim();
-			ResultSet rs = stmt.executeQuery(
-				"SELECT rpi_img FROM RENTAL_PRODUCT_IMAGES where rpi_no=" + id);
+		if ("showRcFirstImg".equals(action)) { 
 
-			if (rs.next()) {
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("rpi_img"));
-				byte[] buf = new byte[4 * 1024]; // 4K buffer
-				int len;
-				while ((len = in.read(buf)) != -1) {
-					out.write(buf, 0, len);
+			try {
+				Statement stmt = con.createStatement();
+				String id = req.getParameter("id").trim();
+				ResultSet rs = stmt.executeQuery(
+					"SELECT rpi_img FROM RENTAL_PRODUCT_IMAGES where rc_no=" + id +" limit 1");
+
+				if (rs.next()) {
+					BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("rpi_img"));
+					byte[] buf = new byte[4 * 1024]; // 4K buffer
+					int len;
+					while ((len = in.read(buf)) != -1) {
+						out.write(buf, 0, len);
+					}
+					in.close();
+				} else {
+					InputStream in = getServletContext().getResourceAsStream("/NoData/none2.jpg");
+					byte[] b = new byte[in.available()];
+					in.read(b);
+					out.write(b);
+					in.close();
 				}
-				in.close();
-			} else {
-//				res.sendError(HttpServletResponse.SC_NOT_FOUND);
-				InputStream in = getServletContext().getResourceAsStream("/NoData/none2.jpg");
+				rs.close();
+				stmt.close();
+			} catch (Exception e) {
+				InputStream in = getServletContext().getResourceAsStream("/NoData/null.jpg");
 				byte[] b = new byte[in.available()];
 				in.read(b);
 				out.write(b);
 				in.close();
 			}
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-//			System.out.println(e);
-			InputStream in = getServletContext().getResourceAsStream("/NoData/null.jpg");
-			byte[] b = new byte[in.available()];
-			in.read(b);
-			out.write(b);
-			in.close();
+					
 		}
+		
+		
+		if ("showImgByRpino".equals(action)) { 
+			
+			try {
+				Statement stmt = con.createStatement();
+				String id = req.getParameter("id").trim();
+				ResultSet rs = stmt.executeQuery(
+					"SELECT rpi_img FROM RENTAL_PRODUCT_IMAGES where rpi_no=" + id);
+
+				if (rs.next()) {
+					BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("rpi_img"));
+					byte[] buf = new byte[4 * 1024]; // 4K buffer
+					int len;
+					while ((len = in.read(buf)) != -1) {
+						out.write(buf, 0, len);
+					}
+					in.close();
+				} else {
+					InputStream in = getServletContext().getResourceAsStream("/NoData/none2.jpg");
+					byte[] b = new byte[in.available()];
+					in.read(b);
+					out.write(b);
+					in.close();
+				}
+				rs.close();
+				stmt.close();
+			} catch (Exception e) {
+				InputStream in = getServletContext().getResourceAsStream("/NoData/null.jpg");
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				out.write(b);
+				in.close();
+			}		
+		}
+		
+		
+		
 	}
 
 	public void init() throws ServletException {

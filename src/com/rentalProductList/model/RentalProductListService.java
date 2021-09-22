@@ -18,7 +18,7 @@ public class RentalProductListService {
 		rentalProductListVO.setRpl_serialnum(rpl_serialnum);
 		rentalProductListVO.setRpl_note(rpl_note);
 		rentalProductListVO = dao.insert(rentalProductListVO);
-		rentalProductListVO.setRpl_status("¾ã³Æ");
+		rentalProductListVO.setRpl_status("æ•´å‚™");
 		rentalProductListVO.setRpl_rentcount(0);
 
 		return rentalProductListVO;
@@ -68,7 +68,7 @@ public class RentalProductListService {
 		return dao.findbyRc_item(rc_item);
 	}
 	
-	//¤@­Ó«öÁä§ó§ï°Ó«~ª¬ºA(¾ã³Æ<->«İ¯²)
+	//ä¸€å€‹æŒ‰éµæ›´æ”¹å•†å“ç‹€æ…‹(æ•´å‚™<->å¾…ç§Ÿ)
 		public void changeRplStatus(Integer rpl_no ,String rpl_status,String rpl_status2) {
 			dao.changeRpl_status(rpl_no ,rpl_status,rpl_status2);
 		}

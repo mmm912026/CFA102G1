@@ -6,7 +6,7 @@ public class ProductReviewsService {
 	private I_ProductReviewsDAO dao;
 	
 	public ProductReviewsService() {
-		dao = new ProductReviewsJDBCDAO();
+		dao = new ProductReviewsDAO();
 	}
 	
 	public ProductReviewsVO insertProductReviews(Integer rc_no, Integer ro_no, String pr_content, byte[] pr_images,
@@ -43,7 +43,12 @@ public class ProductReviewsService {
 
 		return productReviewsVO;
 	}
-
+	
+	public ProductReviewsVO updateProductReviews(ProductReviewsVO prVO) {
+		dao.update(prVO);
+		return prVO;
+	}
+	
 	public void deleteProductReviews(Integer pr_no) {
 		dao.delete(pr_no);
 	}
@@ -54,5 +59,13 @@ public class ProductReviewsService {
 
 	public List<ProductReviewsVO> getAll() {
 		return dao.getAll();
+	}
+	
+	public List<ProductReviewsVO> getListbyRc(Integer rc_no) {
+		return dao.getbyRc(rc_no);
+	}
+	
+	public ProductReviewsVO getOneProductReviewsbyRo_no(Integer ro_no) {
+		return dao.findByRo_no(ro_no);
 	}
 }

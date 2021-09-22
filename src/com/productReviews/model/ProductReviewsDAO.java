@@ -1,21 +1,22 @@
 package com.productReviews.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
-public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
+import javax.naming.*;
+import javax.sql.DataSource;
 
-	String DRIVER = "com.mysql.cj.jdbc.Driver";
-	String URL = "jdbc:mysql://localhost:3306/CFA102G1?" 
-			+ "rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
-	String USER = "David";
-	String PASSWORD = "123456";
+public class ProductReviewsDAO implements I_ProductReviewsDAO{
+
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static final String INSERT_STMT = 
 			"INSERT INTO PRODUCT_REVIEWS (rc_no,ro_no,pr_content,pr_images,pr_score,pr_status) VALUES(?,?,?,?,?,?)";
@@ -27,7 +28,11 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 			"SELECT * FROM PRODUCT_REVIEWS WHERE pr_no = ?";
 	private static final String GET_ALL = 
 			"SELECT * FROM PRODUCT_REVIEWS";
-	
+	private static final String GETbyRc = 
+			"SELECT * FROM PRODUCT_REVIEWS where rc_no=? and pr_status='上架'";
+	private static final String FIND_BY_RO_NO = 
+			"SELECT * FROM PRODUCT_REVIEWS where ro_no=? ";
+
 	public ProductReviewsVO insert(ProductReviewsVO productReviewsVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -35,8 +40,7 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 
 			pstmt.setInt(1, productReviewsVO.getRc_no());
@@ -53,20 +57,10 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 				productReviewsVO.setPr_no(rs.getInt(1));
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -84,8 +78,7 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
 			pstmt.setInt(1, productReviewsVO.getRc_no());
@@ -98,20 +91,10 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -128,28 +111,17 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
 			
 			pstmt.setInt(1, pr_no);
 			
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -168,8 +140,7 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			
 			pstmt.setInt(1, pr_no);
@@ -187,27 +158,10 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 				productReviewsVO.setPr_status(rs.getString("pr_status"));			
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -229,8 +183,7 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -246,27 +199,10 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 				list.add(productReviewsVO); 
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (con != null) {
 				try {
 					con.close();
@@ -280,13 +216,85 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 
 	@Override
 	public List<ProductReviewsVO> getbyRc(Integer rc_no) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProductReviewsVO> list = new ArrayList<ProductReviewsVO>();
+		ProductReviewsVO productReviewsVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GETbyRc);
+			pstmt.setInt(1, rc_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				productReviewsVO = new ProductReviewsVO();		
+				productReviewsVO.setPr_no(rs.getInt("pr_no"));
+				productReviewsVO.setRc_no(rs.getInt("rc_no"));
+				productReviewsVO.setRo_no(rs.getInt("ro_no"));
+				productReviewsVO.setPr_content(rs.getString("pr_content"));
+				productReviewsVO.setPr_images(rs.getBytes("pr_images"));
+				productReviewsVO.setPr_score(rs.getInt("pr_score"));
+				productReviewsVO.setPr_status(rs.getString("pr_status"));		
+				list.add(productReviewsVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
 
-	@Override
 	public ProductReviewsVO findByRo_no(Integer ro_no) {
-		// TODO Auto-generated method stub
-		return null;
+		ProductReviewsVO productReviewsVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_RO_NO);
+			
+			pstmt.setInt(1, ro_no);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				productReviewsVO = new ProductReviewsVO();		
+				productReviewsVO.setPr_no(rs.getInt("pr_no"));
+				productReviewsVO.setRc_no(rs.getInt("rc_no"));
+				productReviewsVO.setRo_no(rs.getInt("ro_no"));
+				productReviewsVO.setPr_content(rs.getString("pr_content"));
+				productReviewsVO.setPr_images(rs.getBytes("pr_images"));
+				productReviewsVO.setPr_score(rs.getInt("pr_score"));
+				productReviewsVO.setPr_status(rs.getString("pr_status"));			
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return productReviewsVO;
 	}
 }

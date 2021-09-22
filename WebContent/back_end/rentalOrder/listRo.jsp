@@ -87,19 +87,13 @@
 					        	<option value="未付款" ${('未付款'eq roStatusSelect)?'selected':''} >未付款</option>
 					        	<option value="已付款,未出貨" ${('已付款,未出貨'eq roStatusSelect)?'selected':''} >已付款,未出貨</option>
 					            <option value="租賃中" ${('租賃中' eq roStatusSelect)?'selected':''} >租賃中</option>
-					            <option value="完成" ${('完成' eq roStatusSelect)?'selected':''} >完成</option>
+					            <option value="租賃中-逾期" ${('租賃中-逾期' eq roStatusSelect)?'selected':''} >租賃中-逾期</option>
+					            <option value="結束-逾期未還" ${('結束-逾期未還' eq roStatusSelect)?'selected':''} >結束-逾期未還</option>
+					            <option value="結束" ${('結束' eq roStatusSelect)?'selected':''} >結束</option>
 					            <option value="取消" ${('取消'eq roStatusSelect)?'selected':''} >取消</option>
 					        </select>
 					        <input type="hidden" name="action" value="getOneRoStatus_For_Display">
 					        <input type="submit" value="查詢">
-				        </FORM>
-					</td>
-					<td>
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" >
-					        <b>電話(未完成) :</b>
-					        <input type="text" name="mem_phone" size="5">
-					        <input type="hidden" name="action" value="getRObyPhone_For_Display">
-					         <input type="submit" value="查詢">
 				        </FORM>
 					</td>			
 					<td>
@@ -137,7 +131,7 @@
 					<th>編號</th>
 					<th>會員編號</th>
 					<th>商品編號</th>
-					<th>狀態</th>
+					<th width="120">狀態</th>
 					<th>開始時間</th>
 					<th>結束時間</th>
 					<th>歸還狀態</th>
@@ -167,8 +161,8 @@
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">   
 						    </FORM>
-						    <input type="submit" value="結束" ${(roVO.ro_status=="完成")?"disabled":""} ${(roVO.ro_status=="取消")?"disabled":"" }
-						    onclick="showEnd(${roVO.ro_no})">
+						    <input type="submit" value="結束" ${(roVO.ro_status=="結束")?"disabled":""} ${(roVO.ro_status=="取消")?"disabled":"" }
+						     ${(roVO.ro_status=="結束-逾期未還")?"disabled":""} onclick="showEnd(${roVO.ro_no})">
 					</tr>
 				</c:forEach>
 			</table>
@@ -196,10 +190,10 @@
 
 <script>
     function showDetail(data){
-    	document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_DisplayDetail', '' ,'height=700,width=800,left=150,top=130,resizable=yes,scrollbars=yes');
+    	document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_DisplayDetail', '' ,'height=700,width=800,left=600,top=200,resizable=yes,scrollbars=yes');
    	}
     function showEnd(data){
-        document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_End', '' ,'height=810,width=800,left=150,top=130,resizable=yes,scrollbars=yes');
+        document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_End', '' ,'height=810,width=800,left=600,top=200,resizable=yes,scrollbars=yes');
     }
        
 </script>

@@ -96,7 +96,12 @@ public class RentalProductImagesServlet extends HttpServlet {
 				String requestURL = req.getParameter("requestURL");
 				if(requestURL.equals("/back_end/rentalProductImages/listRpibyRC.jsp"))
 					req.setAttribute("list",rpiSvc.getOneRentalClassImages(rc_no));
-				
+				if(requestURL.equals("/back_end/rentalProductImages/listOneRpi.jsp")) {
+					List<RentalProductImagesVO> list = new ArrayList<RentalProductImagesVO>();
+					list.add(rpiSvc.getOneRentalProductImages(rpi_no));
+					req.setAttribute("list",list);
+				}
+					
 				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
@@ -195,7 +200,7 @@ public class RentalProductImagesServlet extends HttpServlet {
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("list", list); 
-				String url = "/back_end/rentalProductImages/listRpi.jsp";
+				String url = "/back_end/rentalProductImages/listOneRpi.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 

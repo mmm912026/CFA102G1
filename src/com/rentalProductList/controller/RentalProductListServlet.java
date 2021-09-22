@@ -37,7 +37,12 @@ public class RentalProductListServlet  extends HttpServlet{
 				String requestURL = req.getParameter("requestURL");
 				if(requestURL.equals("/back_end/rentalProductList/listRplbyRC.jsp"))
 					req.setAttribute("list",rplSvc.getOneRentalClassList(rc_no));
-				
+				if(requestURL.equals("/back_end/rentalProductList/listOneRpl.jsp")) {
+					List<RentalProductListVO> list = new ArrayList<RentalProductListVO>();
+					list.add(rplSvc.getOneRentalProductList(rpl_no));
+					req.setAttribute("list",list);
+				}
+									
 				req.setAttribute("rcVOselect", rc_no);
 				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
@@ -139,6 +144,12 @@ public class RentalProductListServlet  extends HttpServlet{
 				String requestURL = req.getParameter("requestURL");
 				if(requestURL.equals("/back_end/rentalProductList/listRplbyRC.jsp"))
 					req.setAttribute("list",rplSvc.getOneRentalClassList(rc_no));
+				if(requestURL.equals("/back_end/rentalProductList/listOneRpl.jsp")) {
+					List<RentalProductListVO> list = new ArrayList<RentalProductListVO>();
+					list.add(rplSvc.getOneRentalProductList(rpl_no));
+					req.setAttribute("list",list);
+				}
+				
 				
 				req.setAttribute("rcVOselect", rc_no);
 				String url = requestURL;
@@ -241,7 +252,7 @@ public class RentalProductListServlet  extends HttpServlet{
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("list", list); 
-				String url = "/back_end/rentalProductList/listRpl.jsp";
+				String url = "/back_end/rentalProductList/listOneRpl.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 

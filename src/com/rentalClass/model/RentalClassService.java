@@ -19,7 +19,7 @@ public class RentalClassService {
 		rentalClassVO.setRc_deposit(rc_deposit);
 		rentalClassVO.setRc_price(rc_price);
 		rentalClassVO = dao.insert(rentalClassVO);
-		rentalClassVO.setRc_status("¤U¬[");
+		rentalClassVO.setRc_status("ä¸‹æ¶");
 		rentalClassVO.setRc_storage(0);
 		rentalClassVO.setRc_total_count(0);
 		rentalClassVO.setRc_total_score(0);
@@ -57,16 +57,25 @@ public class RentalClassService {
 	public List<RentalClassVO> getAll() {
 		return dao.getAll();
 	}
-	//¤@­Ó«öÁä§ó§ïÃş§Oª¬ºA
+	//ä¸€å€‹æŒ‰éµæ›´æ”¹é¡åˆ¥ç‹€æ…‹
 	public void changeRentalClassStatus(Integer rc_no ,String rc_status) {
 		dao.changeRc_status(rc_no ,rc_status);
 	}
-	//¦^¶Ç¥ş³¡ºØÃş
+	//å›å‚³å…¨éƒ¨ç¨®é¡
 	public List<String> getAllRc_Item() {
+		List<RentalClassVO> list = dao.getAll();
+		
 		return dao.getAllRc_Item();
 	}
-	//¥ÎºØÃş¨ú¦^RC list
+
+	//ç”¨ç¨®é¡å–å›RC list
 	public List<RentalClassVO> getOneRc_item(String rc_item) {
 		return dao.findByRc_item(rc_item);
 	}
+	//å›å‚³ RC ç§Ÿè³ƒå‰å¹¾å list
+		public List<RentalClassVO> getRcRentHotList(Integer num) {
+			return dao.findByRc_rentcount(num);
+		}
+	
+	
 }

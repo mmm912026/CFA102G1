@@ -8,13 +8,18 @@ public interface I_RentalOrderDAO {
 	public void delete(Integer ro_no);
 	public RentalOrderVO findByPK(Integer ro_no);
 	public List<RentalOrderVO> getAll();
-	//§ä¤@­Órc_noÃş§Oªº«İ¯²°Ó«~/§ó§ï¸Ó«İ¯²°Ó«~ª¬ºA¬°¹w¬ù
+	//æ‰¾ä¸€å€‹rc_noé¡åˆ¥çš„å¾…ç§Ÿå•†å“/æ›´æ”¹è©²å¾…ç§Ÿå•†å“ç‹€æ…‹ç‚ºé ç´„
 	public Integer findOneForRent(Integer rc_no);
-	//§ó§ï¥¼¥I´Ú­q³æª¬ºA¬°¾ã³Æ§¹¦¨,«İ¥X³f
+	//æ›´æ”¹æœªä»˜æ¬¾è¨‚å–®ç‹€æ…‹ç‚ºæ•´å‚™å®Œæˆ,å¾…å‡ºè²¨
 	public void changeROToWaitDeliver(Integer ro_no);
-	//§ó§ï¥¼¥I´Ú­q³æª¬ºA¬°¯²¸î¤¤/§ó§ï¸Ó«İ¯²°Ó«~ª¬ºA¬°¯²¸î¤¤
+	//æ›´æ”¹æœªä»˜æ¬¾è¨‚å–®ç‹€æ…‹ç‚ºç§Ÿè³ƒä¸­/æ›´æ”¹è©²å¾…ç§Ÿå•†å“ç‹€æ…‹ç‚ºç§Ÿè³ƒä¸­
 	public void changeROToOnRent(Integer ro_no,Integer rpl_no);
-	
+	//ç”¨ç‹€æ…‹å°‹æ‰¾è¨‚å–®List
 	public List<RentalOrderVO> findByRoStatus(String ro_status);
+	//ç”¨æœƒå“¡ç·¨è™Ÿå°‹æ‰¾è¨‚å–®List
+	public List<RentalOrderVO> findByMem_no(Integer mem_no);
+	//ç”¨å•†å“ç·¨è™Ÿè·Ÿè¨‚å–®ç‹€æ…‹å°‹æ‰¾è¨‚å–®
+	public List<RentalOrderVO> findByRpl_noAndRoStatus (Integer rpl_no, String ro_status);
+	
 	
 }

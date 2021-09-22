@@ -8,13 +8,10 @@
 	RentalClassService rcSvc = new RentalClassService(); 
 	List<RentalClassVO> listAll = rcSvc.getAll();
 	List<RentalClassVO> list = (List<RentalClassVO>) request.getAttribute("list");
-	if(list==null)
-		list = listAll;
 	
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("listAll",listAll);
 	
-// 	getOneRc_item_For_Display傳回,使選單可以顯示所有Rc_item
 	List<String> rc_itemList = rcSvc.getAllRc_Item();
 	pageContext.setAttribute("rc_itemList",rc_itemList);
 	
@@ -67,11 +64,11 @@
 					 <h3>租賃商品類別</h3>
 				</td></tr>
 			</table>
-
+			
 			<input type="button" class="menu" value="租賃商品類別" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
 			<input type="button" class="menu" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
 			<input type="button" class="menu" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
-				
+			
 			<table>
 				<tr>
 					<td>
@@ -192,7 +189,7 @@
 					</tr>
 				</c:forEach>
 			</table>
-			<%@ include file="page2.file"%>					
+			<%@ include file="page2.file"%>		
 		</div>	
 	</div>
 	
