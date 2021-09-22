@@ -42,6 +42,8 @@ public class RentalClassDAO implements I_RentalClassDAO{
 			"select distinct rc_item from rental_class";
 	private static final String FIND_BY_Rc_item = 
 			"select * from rental_class where rc_item=?";
+	private static final String FIND_BY_Rc_Rentcount = 
+			"select * from RENTAL_CLASS where rc_status='¤W¬[' order by rc_total_count desc limit ?";
 	
 	public RentalClassVO insert(RentalClassVO rentalClassVO) {
 		Connection con = null;
@@ -311,6 +313,54 @@ public class RentalClassDAO implements I_RentalClassDAO{
 			pstmt = con.prepareStatement(FIND_BY_Rc_item);
 			
 			pstmt.setString(1, rc_item);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rentalClassVO = new RentalClassVO();		
+				rentalClassVO.setRc_no(rs.getInt("rc_no"));
+				rentalClassVO.setRc_name(rs.getString("rc_name"));
+				rentalClassVO.setRc_item(rs.getString("rc_item"));
+				rentalClassVO.setRc_detail(rs.getString("rc_detail"));
+				rentalClassVO.setRc_deposit(rs.getInt("rc_deposit"));
+				rentalClassVO.setRc_price(rs.getInt("rc_price"));
+				rentalClassVO.setRc_total_count(rs.getInt("rc_total_count"));
+				rentalClassVO.setRc_total_score(rs.getInt("rc_total_score"));
+				rentalClassVO.setRc_storage(rs.getInt("rc_storage"));
+				rentalClassVO.setRc_status(rs.getString("rc_status"));	
+				list.add(rentalClassVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	public List<RentalClassVO> findByRc_rentcount(Integer get_rc_num) {
+		
+		List<RentalClassVO> list = new ArrayList<RentalClassVO>();
+		RentalClassVO rentalClassVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_Rc_Rentcount);
+			
+			pstmt.setInt(1, get_rc_num);
 			
 			rs = pstmt.executeQuery();
 

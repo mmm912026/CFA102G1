@@ -9,10 +9,13 @@ public interface I_RentalClassDAO {
 	public RentalClassVO findByPK(Integer rc_no);
 	public List<RentalClassVO> getAll();
 	
-	//¤@Áä§ó§ï¤W¤U¬[ª¬ºA
+	//ä¸€éµæ›´æ”¹ä¸Šä¸‹æ¶ç‹€æ…‹
 	public void changeRc_status(Integer rc_no ,String rc_status);
-	//¦^¶Ç²{¦³rc_itemºØÃş(Desktop,NB,MINIPC)
+	//å›å‚³ç¾æœ‰rc_itemç¨®é¡(Desktop,NB,MINIPC)
 	public List<String> getAllRc_Item();
-	//§Q¥Îrc_item¬d¸ß
+	//åˆ©ç”¨rc_itemæŸ¥è©¢
 	public List<RentalClassVO> findByRc_item(String rc_item);
+	//é¡¯ç¤ºå‰å¹¾åç§Ÿè³ƒæ¬¡æ•¸çš„rc
+	public List<RentalClassVO> findByRc_rentcount(Integer get_rc_num);
+	
 }
