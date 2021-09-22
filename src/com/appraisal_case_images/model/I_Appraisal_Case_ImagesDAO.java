@@ -1,7 +1,5 @@
 package com.appraisal_case_images.model;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
 public interface I_Appraisal_Case_ImagesDAO {
