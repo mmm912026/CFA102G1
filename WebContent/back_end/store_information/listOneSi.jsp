@@ -1,92 +1,104 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.store_information.model.*"%>
-<%-- ¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È --%>
+<%-- æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ --%>
 
 <%
-  SiVO siVO = (SiVO) request.getAttribute("siVO"); //SiServlet.java(Controller), ¦s¤JreqªºsiVOª«¥ó
+	SiVO siVO = (SiVO) request.getAttribute("siVO"); //SiServlet.java(Controller), å­˜å…¥reqçš„siVOç‰©ä»¶
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-	
-	<!--*******************	
+
+<!--*******************	
 		Start Include CSS File  
 		******************* -->
-        <%@ include file="../back_include_page/CSS_link.jsp"%>
-	<!--*******************	
+<%@ include file="../back_include_page/CSS_link.jsp"%>
+<!--*******************	
 		End Include CSS File  
-		******************* -->  
-	<meta charset="UTF-8">
-	<title>YSM-3C «á¥xºŞ²z</title>
-	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
-<title>°Ó®a¸ê°T - listOneSi.jsp</title>
+		******************* -->
+<meta charset="UTF-8">
+<title>YSM-3C å¾Œå°ç®¡ç†</title>
+<link rel="icon" type="image/png"
+	href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
+<title>å•†å®¶è³‡è¨Š - listOneSi.jsp</title>
 
 <style>
-  table#table-1 {
-    border: 2px solid black;
-    text-align: center;
-  }
+table#table-1 {
+	border: 2px solid black;
+	text-align: center;
+}
 </style>
 <style>
-  table {
+table {
 	width: 1265px;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
+}
+
+table, th, td {
+	border: 1px solid #CCCCFF;
+}
+
+th, td {
+	padding: 5px;
+	text-align: center;
+}
 </style>
 
 </head>
 <body bgcolor='white'>
-<div id="app">
-	<!--*******************	
+	<div id="app">
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/sidebar.jsp"%>
-	<!--*******************	
+		<%@ include file="../back_include_page/sidebar.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
-		******************* -->  
-		
-		<div id="main">
-<table id="table-1">
-	<tr><td>
-		 <h3>°Ó®a¸ê°T - ListOneSi.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back_end/store_information/select_page.jsp">¦^­º­¶</a></h4>
-	</td></tr>
-</table>
+		******************* -->
 
-<table>
-	<tr>
-		<th>°Ó®a½s¸¹</th>
-		<th>ªù¥«¦a§}</th>
-		<th>Àç·~®É¶¡</th>
-		<th>Ápµ¸¹q¸Ü</th>
-		<th>¹q¤l¶l¥ó</th>
-		<th>LINE¸ê°T</th>
-	</tr>
-	<tr>
-		<td><%=siVO.getSi_no()%></td>
-		<td><%=siVO.getSi_address()%></td>
-		<td><%=siVO.getSi_open()%></td>
-		<td><%=siVO.getSi_phone()%></td>
-		<td><%=siVO.getSi_email()%></td>
-		<td><%=siVO.getSi_line()%></td>
-	</tr>
-</table>
-</div>
-	<!--*******************	
+		<div id="main">
+			<section class="section">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">
+							å•†å®¶è³‡è¨Š><a
+								href="<%=request.getContextPath()%>//back_end/store_information/select_page.jsp">å•†å®¶è³‡è¨Šç®¡ç†</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<table class="table table-striped" id="table1">
+							<thead>
+								<tr>
+									<th>å•†å®¶ç·¨è™Ÿ</th>
+									<th>é–€å¸‚åœ°å€</th>
+									<th>ç‡Ÿæ¥­æ™‚é–“</th>
+									<th>è¯çµ¡é›»è©±</th>
+									<th>é›»å­éƒµä»¶</th>
+									<th>LINEè³‡è¨Š</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><%=siVO.getSi_no()%></td>
+									<td><%=siVO.getSi_address()%></td>
+									<td><%=siVO.getSi_open()%></td>
+									<td><%=siVO.getSi_phone()%></td>
+									<td><%=siVO.getSi_email()%></td>
+									<td><%=siVO.getSi_line()%></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/JavaScript_Include.jsp"%>
-	<!--*******************	
+		<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
 		******************* -->
 	</div>
