@@ -1,98 +1,97 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.consultation.model.*"%>
-<%-- ¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È --%>
+<%-- æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ --%>
 
 <%
-  ConsultVO consultVO = (ConsultVO) request.getAttribute("consultVO"); //ConsultServlet.java(Controller), ¦s¤JreqªºconsultVOª«¥ó
+	ConsultVO consultVO = (ConsultVO) request.getAttribute("consultVO"); //ConsultServlet.java(Controller), å­˜å…¥reqçš„consultVOç‰©ä»¶
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-	
-	<!--*******************	
+
+<!--*******************	
 		Start Include CSS File  
 		******************* -->
-        <%@ include file="../back_include_page/CSS_link.jsp"%>
-	<!--*******************	
+<%@ include file="../back_include_page/CSS_link.jsp"%>
+<!--*******************	
 		End Include CSS File  
-		******************* -->  
-	<meta charset="UTF-8">
-	<title>YSM-3C «á¥xºŞ²z</title>
-	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
-<title>¿Ô¸ßªí³æ¸ê®Æ - listOneConsult.jsp</title>
+		******************* -->
+<meta charset="UTF-8">
+<title>YSM-3C å¾Œå°ç®¡ç†</title>
+<link rel="icon" type="image/png"
+	href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-</style>
-
-<style>
-  table {
+table {
 	width: 1265px;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
+}
+
+table, th, td {
+	border: 1px solid #CCCCFF;
+}
+
+th, td {
+	padding: 5px;
+	text-align: center;
+}
 </style>
 
 </head>
 <body bgcolor='white'>
-<div id="app">
-	<!--*******************	
+	<div id="app">
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/sidebar.jsp"%>
-	<!--*******************	
+		<%@ include file="../back_include_page/sidebar.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
-		******************* -->  
-		
-		<div id="main">
-<table id="table-1">
-	<tr><td>
-		 <h3>¿Ô¸ßªí³æ¸ê®Æ - ListOneConsult.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">¦^­º­¶</a></h4>
-	</td></tr>
-</table>
+		******************* -->
 
-<table>
-	<tr>
-		<th>¿Ô¸ß³æ½s¸¹</th>
-		<th>¿Ô¸ß¤H©m¦W</th>
-		<th>¿Ô¸ß¤H¤â¾÷</th>
-		<th>¿Ô¸ß¤HEMAIL</th>
-		<th>¿Ô¸ß¤º®e</th>
-		<th>­û¤u½s¸¹</th>
-		<th>¦^ÂĞª¬ºA</th>
-	</tr>
-	<tr>
-		<td><%=consultVO.getConsult_no()%></td>
-		<td><%=consultVO.getConsultant()%></td>
-		<td><%=consultVO.getConsult_phone()%></td>
-		<td><%=consultVO.getConsult_email()%></td>
-		<td><%=consultVO.getConsult_content()%></td>
-		<td><%=consultVO.getStaff_no()%></td>
-		<td><%=consultVO.getConsult_sta()%></td>
-	</tr>
-</table>
-</div>
-	<!--*******************	
+		<div id="main">
+			<section class="section">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">è«®è©¢è¡¨å–®è³‡æ–™><a href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">è«®è©¢è¡¨å–®ç®¡ç†</a></h3>
+					</div>
+					<div class="card-body">
+						<table class="table table-striped" id="table1">
+							<thead>
+								<tr>
+									<th>è«®è©¢å–®ç·¨è™Ÿ</th>
+									<th>è«®è©¢äººå§“å</th>
+									<th>è«®è©¢äººæ‰‹æ©Ÿ</th>
+									<th>è«®è©¢äººEMAIL</th>	
+									<th>è«®è©¢å…§å®¹</th>
+									<th>å“¡å·¥ç·¨è™Ÿ</th>
+									<th>å›è¦†ç‹€æ…‹</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><%=consultVO.getConsult_no()%></td>
+									<td><%=consultVO.getConsultant()%></td>
+									<td><%=consultVO.getConsult_phone()%></td>
+									<td><%=consultVO.getConsult_email()%></td>
+									<td><%=consultVO.getConsult_content()%></td>
+									<td><%=consultVO.getStaff_no()%></td>
+									<td><%=consultVO.getConsult_sta()%></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-        <%@ include file="../back_include_page/JavaScript_Include.jsp"%>
-	<!--*******************	
+			<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+			<!--*******************	
 		End Include sidebar File  
 		******************* -->
-	</div>
+		</div>
 </body>
 </html>

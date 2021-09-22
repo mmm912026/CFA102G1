@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 		End Include CSS File  
 		******************* -->  
 	<meta charset="UTF-8">
-	<title>YSM-3C лсеx║▐▓z</title>
+	<title>YSM-3C х╛МхП░чобчРЖ</title>
 	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <title>Consultation</title>
 
@@ -43,16 +43,17 @@
 		End Include sidebar File  
 		******************* -->  
 <div id="main">
+<section class="section">
+				<div class="card">				
+					<div class="card-body">
 <table id="table-1">
-   <tr><td><h3>Consultation</h3></td></tr>
+   <tr><td><h3>шлошйвшбихЦочобчРЖ</h3></td></tr>
 </table>
-
-
-<h3>┐╘╕▀кэ│ц╕ъо╞мd╕▀:</h3>
+<h3>шлошйвшбихЦош│ЗцЦЩцЯешйв:</h3>
 <hr>
-<%-- ┐∙╗~кэжC --%>
+<%-- щМпшкдшбихИЧ --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">╜╨н╫е┐еHдU┐∙╗~:</font>
+	<font style="color:red">шлЛф┐оцнгф╗еф╕ЛщМпшкд:</font>
 	<ul>
 	    <c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -61,53 +62,55 @@
 </c:if>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/back_end/consultation/listAllConsult.jsp'>List</a> all Consults.		  <br><br></li>
-  
-  
+  <li><a href='<%=request.getContextPath()%>/back_end/consultation/listAllConsult.jsp'>шлошйвшбихЦохИЧшби</a><br><br></li>
+    
   <li>
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
-        <b>┐щдJ┐╘╕▀│ц╜s╕╣ (жp1):</b>
+        <b>ш╝╕хЕешлошйвхЦоч╖ишЩЯ (хжВ1):</b>
         <input type="text" name="consult_no">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="░eеX">
+        <input type="submit" class="btn btn-outline-secondary btn-sm" value="щАБхЗ║">
     </FORM>
-  </li>
-
+  <br></li>
+  
   <jsp:useBean id="consultSvc" scope="page" class="com.consultation.model.ConsultService" />
    
   <li>
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
-       <b>┐я╛▄┐╘╕▀│ц╜s╕╣:</b>
+       <b>щБ╕цУЗшлошйвхЦоч╖ишЩЯ:</b>
        <select size="1" name="consult_no">
          <c:forEach var="consultVO" items="${consultSvc.all}" > 
           <option value="${consultVO.consult_no}">${consultVO.consult_no}
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="░eеX">
+       <input type="submit" class="btn btn-outline-secondary btn-sm" value="щАБхЗ║">
     </FORM>
-  </li>
+  <br></li>
   
   <li>
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" >
-       <b>┐я╛▄┐╘╕▀дHйmжW:</b>
+       <b>щБ╕цУЗшлошйвф║║хзУхРН:</b>
        <select size="1" name="consult_no">
          <c:forEach var="consultVO" items="${consultSvc.all}" > 
           <option value="${consultVO.consult_no}">${consultVO.consultant}
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="░eеX">
+       <input type="submit" class="btn btn-outline-secondary btn-sm" value="щАБхЗ║">
      </FORM>
-  </li>
+  <br></li>
 </ul>
-
-
-<h3>┐╘╕▀кэ│ц║▐▓z</h3>
-
+<h3>шлошйвшбихЦочобчРЖ</h3>
+<hr>
+<br>
 <ul>
-  <li><a href='addConsult.jsp'>Add</a> a new Consult.</li>
+  <li><a href='addConsult.jsp'>цЦ░хвЮшлошйвшбихЦо</a></li>
 </ul>
+</div>
+</div>
+</section>
+
 <!--*******************	
 		Start Include sidebar File  
 		******************* -->

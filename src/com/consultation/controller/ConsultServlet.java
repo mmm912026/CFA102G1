@@ -94,6 +94,9 @@ public class ConsultServlet extends HttpServlet{
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】
+			
+			
 			try {
 				/***************************1.接收請求參數****************************************/
 				Integer consult_no = new Integer(req.getParameter("consult_no"));
@@ -110,8 +113,9 @@ public class ConsultServlet extends HttpServlet{
 
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/consultation/listAllConsult.jsp");
+				errorMsgs.add("修改資料取出時失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher(requestURL);
 				failureView.forward(req, res);
 			}
 		}
@@ -123,6 +127,9 @@ public class ConsultServlet extends HttpServlet{
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
+			
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】
+			
 		
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
@@ -191,9 +198,10 @@ public class ConsultServlet extends HttpServlet{
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("consultVO", consultVO); // 資料庫update成功後,正確的的consultVO物件,存入req
-				String url = "/back_end/consultation/listOneConsult.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneConsult.jsp
-				successView.forward(req, res);
+				String url = "/back_end/consultation/listAllConsult.jsp";
+				 System.out.println("url"+url);
+				 				RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
+				 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
@@ -317,5 +325,33 @@ public class ConsultServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+	
+
+	if ("getOne_From06".equals(action)) {
+
+		try {
+			// Retrieve form parameters.
+			Integer consult_no = new Integer(req.getParameter("consult_no"));
+
+			ConsultDAO dao = new ConsultDAO();
+			ConsultVO consultVO = dao.findByPrimaryKey(consult_no);
+
+			req.setAttribute("consultVO", consultVO); // 資料庫取出的consultVO物件,存入req
+			
+			//Bootstrap_modal
+			boolean openModal=true;
+			req.setAttribute("openModal",openModal );
+			
+			// 取出的empVO送給listOneConsult.jsp
+			RequestDispatcher successView = req
+					.getRequestDispatcher("/back_end/consultation/listAllConsult.jsp");
+			successView.forward(req, res);
+			return;
+
+			// Handle any unusual exceptions
+		} catch (Exception e) {
+			throw new ServletException(e);
+		}
 	}
+}
 }
