@@ -18,7 +18,7 @@
 		******************* -->  
 	<meta charset="UTF-8">
 	<title>YSM-3C 後台-修改員工資料管理</title>
-	<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
+	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/imgaes/logo/favicon.png">
 	<style>
   table#table-1 {
 	background-color: grey;
@@ -97,8 +97,14 @@
 	</tr>
 	<tr>
 		<td>性別:</td>
-		<td><input type="TEXT" name="staff_gender" size="45"	value="<%=staffVO.getStaff_gender()%>" /></td>
+		<td><select name="staff_gender" >
+                     <option value="${staffVO.staff_gender}"> ${staffVO.staff_gender} </option>
+                      
+                     <option  value="男"> 男 </option>
+                     <option value="女"> 女 </option>
+                   </select></td>
 	</tr>
+	
 	<tr>
 		<td>電話:</td>
 		<td><input type="TEXT" name="staff_phone" size="45"	value="<%=staffVO.getStaff_phone()%>" /></td>
@@ -122,11 +128,18 @@
     
 	<tr>
 		<td>狀態:</td>
-		<td><input type="TEXT" name="staff_sta" size="45"	value="<%=staffVO.getStaff_sta()%>" /></td>
+		<td><select name="staff_sta" >
+                     <option value="${staffVO.staff_sta}"> ${staffVO.staff_sta} </option>
+                      
+                     <option  value="停權">停權</option>
+                     <option value="正常">正常</option>
+                   </select></td>
 	
 	</tr>
 	
-</table>
+	
+</table>>
+                
 <br>
 <div id="div1">
 <input type="hidden" name="action" value="update">

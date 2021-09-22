@@ -101,8 +101,10 @@
 	</tr>
 	<tr>
 		<td>性別 :</td>
-		<td><input type="TEXT" name="staff_gender" size="45"
-			 value="<%= (staffVO==null)? "女" : staffVO.getStaff_gender()%>" /></td>
+		<td><select name="staff_gender" > 
+                     <option  value="男"> 男 </option>
+                     <option value="女"> 女 </option>
+                   </select></td>
 	</tr>
 	<tr>
 		<td>電話 :</td>
@@ -132,8 +134,11 @@
 	
 	<tr>
 	     <td>狀態 :</td>
-		<td><input type="TEXT" name="staff_sta" size="45"
-			 value="<%= (staffVO==null)? "100" : staffVO.getStaff_sta()%>" /></td>
+		<td><select name="staff_sta" >
+                     
+                     <option  value="正常"> 正常 </option>
+                     <option value="停權"> 停權</option>
+                   </select></td>
 	</tr>
 
 
