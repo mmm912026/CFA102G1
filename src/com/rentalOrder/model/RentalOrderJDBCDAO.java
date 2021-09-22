@@ -519,11 +519,18 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public List<RentalOrderVO> findByMem_no(Integer mem_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RentalOrderVO> findByRpl_noAndRoStatus (Integer rpl_no, String ro_status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

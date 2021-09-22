@@ -42,7 +42,12 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 	private static final String ChangeOneRplStatusToOnRent = 
 			"Update RENTAL_PRODUCT_LIST set rpl_status='租賃中' where rpl_no=? and rpl_status='預約'";	
 	private static final String FindByRoStatus = 
-			"SELECT * FROM RENTAL_ORDER where ro_status= ?";	
+			"SELECT * FROM RENTAL_ORDER where ro_status= ?";
+	private static final String FindRoByMem = 
+			"SELECT * FROM RENTAL_ORDER where mem_no= ? order by ro_no desc";
+	private static final String FindRoByRpl_noAndRo_status = 
+			"SELECT * FROM RENTAL_ORDER where rpl_no=? and ro_status=?";
+	
 	
 	public RentalOrderVO insert(RentalOrderVO rentalOrderVO) {
 		Connection con = null;
@@ -95,7 +100,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
-			
+
 			pstmt.setInt(1, rentalOrderVO.getMem_no());
 			pstmt.setInt(2, rentalOrderVO.getRpl_no());
 			pstmt.setString(3, rentalOrderVO.getRo_status());	
@@ -181,10 +186,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
 				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
 				rentalOrderVO.setRo_status(rs.getString("ro_status"));
-				rentalOrderVO.setRo_pay_status(rs.getString("ro_pay_status"));
-				rentalOrderVO.setRo_pay_method(rs.getString("ro_pay_method"));
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
-				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
 				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
 				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
@@ -195,8 +197,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
 				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
 				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
-				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));				
-				rentalOrderVO.setRo_return_method(rs.getString("ro_return_method"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));								
 				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
 				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
 				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
@@ -238,10 +239,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
 				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
 				rentalOrderVO.setRo_status(rs.getString("ro_status"));
-				rentalOrderVO.setRo_pay_status(rs.getString("ro_pay_status"));
-				rentalOrderVO.setRo_pay_method(rs.getString("ro_pay_method"));
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
-				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
 				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
 				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
@@ -252,8 +250,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
 				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
 				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
-				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));				
-				rentalOrderVO.setRo_return_method(rs.getString("ro_return_method"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));							
 				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
 				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
 				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
@@ -307,7 +304,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 			con.setAutoCommit(true);
 
 		}catch (NullPointerException e) {
-			throw new RuntimeException("此商品目前已無庫存"
+			throw new RuntimeException("此商品目前無庫存"
 					);
 		}catch (SQLException se) {
 			if (con != null) {
@@ -427,10 +424,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
 				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
 				rentalOrderVO.setRo_status(rs.getString("ro_status"));
-				rentalOrderVO.setRo_pay_status(rs.getString("ro_pay_status"));
-				rentalOrderVO.setRo_pay_method(rs.getString("ro_pay_method"));
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
-				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
 				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
 				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
@@ -441,8 +435,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
 				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
 				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
-				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));				
-				rentalOrderVO.setRo_return_method(rs.getString("ro_return_method"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));								
 				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
 				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
 				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
@@ -463,6 +456,117 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 			}
 		}
 		return list;	
+	}
+
+	public List<RentalOrderVO> findByMem_no(Integer mem_no) {
+		List<RentalOrderVO> list = new ArrayList<RentalOrderVO>();
+		RentalOrderVO rentalOrderVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FindRoByMem);
+			pstmt.setInt(1, mem_no);	
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rentalOrderVO = new RentalOrderVO();		
+				rentalOrderVO.setRo_no(rs.getInt("ro_no"));
+				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
+				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
+				rentalOrderVO.setRo_status(rs.getString("ro_status"));
+				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
+				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
+				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
+				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
+				rentalOrderVO.setRo_oncerentendtime(rs.getDate("ro_oncerentendtime"));				
+				rentalOrderVO.setRo_return_date(rs.getDate("ro_return_date"));				
+				rentalOrderVO.setRo_day(rs.getInt("ro_day"));				
+				rentalOrderVO.setRo_price(rs.getInt("ro_price"));				
+				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
+				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
+				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));								
+				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
+				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
+				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
+				rentalOrderVO.setRo_return_deposit(rs.getInt("ro_return_deposit"));
+				list.add(rentalOrderVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	public List<RentalOrderVO> findByRpl_noAndRoStatus(Integer rpl_no, String ro_status) {
+		List<RentalOrderVO> list = new ArrayList<RentalOrderVO>();
+		RentalOrderVO rentalOrderVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FindRoByRpl_noAndRo_status);
+			pstmt.setInt(1, rpl_no);
+			pstmt.setString(2, ro_status);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rentalOrderVO = new RentalOrderVO();		
+				rentalOrderVO.setRo_no(rs.getInt("ro_no"));
+				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
+				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
+				rentalOrderVO.setRo_status(rs.getString("ro_status"));
+				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
+				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
+				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
+				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
+				rentalOrderVO.setRo_oncerentendtime(rs.getDate("ro_oncerentendtime"));				
+				rentalOrderVO.setRo_return_date(rs.getDate("ro_return_date"));				
+				rentalOrderVO.setRo_day(rs.getInt("ro_day"));				
+				rentalOrderVO.setRo_price(rs.getInt("ro_price"));				
+				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
+				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
+				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));								
+				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
+				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
+				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
+				rentalOrderVO.setRo_return_deposit(rs.getInt("ro_return_deposit"));
+				list.add(rentalOrderVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
 	
 

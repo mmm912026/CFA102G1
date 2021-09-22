@@ -5,6 +5,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import com.rentalOrder.model.*;
 import com.rentalProductList.model.*;
@@ -22,7 +23,186 @@ private static final long serialVersionUID = 1L;
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		
+		//引導到評價頁面    
+		if ("getOne_For_Pr".equals(action)) {
+			try {
+				Integer ro_no = new Integer(req.getParameter("ro_no"));
+				
+				req.setAttribute("ro_no", ro_no);
+				String url = "/front_end/rental/rentalProductReviewPage.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}catch(Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalOrderList.jsp");
+				failureView.forward(req, res);
+			}
+		}				
+		
+		
+		
+		if ("insertProlongOrder".equals(action)) { 
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+				
+				String fromfront = req.getParameter("front_end");
+				
+				Integer ro_no = new Integer(req.getParameter("ro_no"));
+				Integer mem_no = new Integer(req.getParameter("mem_no"));
+				Integer rpl_no = new Integer(req.getParameter("rpl_no"));
+
+				String ro_ship_method ="";
+				String ro_ship_addrs ="";
+				
+				String starttime = req.getParameter("ro_starttime");
+				String endtime = req.getParameter("ro_endtime");
+				
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date ro_starttime = new Date(formatter.parse(starttime).getTime()+60*60*24*1000);
+
+				Date ro_endtime = null;
+				
+				if (endtime==null || endtime.trim().length() == 0) {
+					errorMsgs.add("請選擇續租日期");
+				}else {
+					ro_endtime = Date.valueOf(endtime);
+				}		
+				
+				String url;
+				if (!errorMsgs.isEmpty()) {
 					
+					url = "/back_end/rentalOrder/addRo.jsp";			
+					if("true".equals(fromfront))
+						url = "/back_end/ro/ro.do?action=getOne_For_Prolong&ro_no="+ ro_no;								
+					RequestDispatcher failureView = req
+							.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;
+				}
+			
+				Integer ro_day = new Integer(req.getParameter("ro_day"));	
+				Integer ro_price = new Integer(req.getParameter("ro_price"));
+				Integer ro_totalprice = new Integer(req.getParameter("ro_totalprice"));
+				Integer ro_deposit = new Integer(req.getParameter("ro_deposit"));
+
+				RentalOrderVO roVO = new RentalOrderVO();
+				roVO.setMem_no(mem_no);
+				roVO.setRpl_no(rpl_no);
+				roVO.setRo_ship_method(ro_ship_method);
+				roVO.setRo_ship_addrs(ro_ship_addrs);
+				roVO.setRo_starttime(ro_starttime);
+				roVO.setRo_endtime(ro_endtime);
+				roVO.setRo_day(ro_day);
+				roVO.setRo_price(ro_price);
+				roVO.setRo_totalprice(ro_totalprice);
+				roVO.setRo_deposit(ro_deposit);		
+
+				/***************************2.開始新增資料***************************************/
+				RentalOrderService roSvc = new RentalOrderService();				
+				
+				RentalOrderVO roVO_old = roSvc.getOneRentalOrder(ro_no);
+				if(roVO_old.getRo_oncerentendtime().toString().equals("1970-01-01")) {
+				roVO = roSvc.insertRentalOrder(mem_no, rpl_no,ro_ship_method,ro_ship_addrs, 
+						ro_starttime,ro_endtime, ro_day, ro_price,ro_totalprice,ro_deposit);
+
+				roVO.setRo_status("續租-未付款");
+				roVO.setRo_deposit_status("已收取");
+				roVO.setRo_return_status("");
+				roVO.setRo_product_status("");
+				roVO.setRo_repaircost(0);
+				roVO.setRo_return_deposit(0);
+				roVO.setRo_delay_days(0);
+				roVO.setRo_oncerentendtime(Date.valueOf("1970-01-01"));
+				roVO = roSvc.updateRentalOrder(roVO);
+
+				roVO_old.setRo_oncerentendtime(Date.valueOf("1970-01-02"));
+				roSvc.updateRentalOrder(roVO_old);
+				} else {
+					url = "/front_end/rental/errorPage.jsp";
+					errorMsgs.add("申請失敗,已經申請續租!");
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;
+				}				
+					
+				
+				req.setAttribute("roVO",roVO);
+				
+				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				url = "/front_end/rental/prolongOrderCreateSuccess.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);				
+				
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				String url = "/front_end/rental/errorPage.jsp";
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				failureView.forward(req, res);
+			}								
+		}
+		
+		//申請會員租賃訂單引導至續租申請    
+		if ("getOne_For_Prolong".equals(action)) {
+			try {
+				Integer ro_no = new Integer(req.getParameter("ro_no"));
+				
+				req.setAttribute("ro_no", ro_no);
+				String url = "/front_end/rental/prolongRentalOrderCreate.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}catch(Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalOrderList.jsp");
+				failureView.forward(req, res);
+			}
+		}		
+		
+		//從前台導向訂單付款頁面
+		if ("showRoPayPage".equals(action)) {
+			try {
+				Integer ro_no = new Integer(req.getParameter("ro_no"));
+
+				req.setAttribute("ro_no", ro_no);
+				String url = "/front_end/rental/payPage.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}catch(Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalOrderList.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		//從前台導向租賃訂單產生頁面
+		if ("showRoCreatePage".equals(action)) {
+			try {
+				
+				Integer rc_no = new Integer(req.getParameter("rc_no"));
+				req.setAttribute("rc_no", rc_no);	
+				
+				String url = "/front_end/rental/rentalOrderCreate.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front_end/rental/rentalOrderCreate.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("getOneRoStatus_For_Display".equals(action)) {
 			try {
 				String ro_status = req.getParameter("ro_status");
@@ -142,15 +322,30 @@ private static final long serialVersionUID = 1L;
 				
 				RentalProductListService rplSvc = new RentalProductListService();
 				RentalProductListVO rplVO = rplSvc.getOneRentalProductList(rpl_no);
-				rplVO.setRpl_status("待租");
 				
-				rplSvc.updateRentalProductListByVO(rplVO);
+				if("預約".equals(rplVO.getRpl_status())) {
+					rplVO.setRpl_status("待租");		
+					rplSvc.updateRentalProductListByVO(rplVO);
+				}
 				
+				if("租賃中".equals(rplVO.getRpl_status())) {
+					List<RentalOrderVO> list = roSvc.getListByRplandRo_status(rpl_no, "租賃中");
+					RentalOrderVO roVO_old = list.get(0);
+					roVO_old.setRo_oncerentendtime(Date.valueOf("1970-01-01"));		
+					roSvc.updateRentalOrder(roVO_old);
+				}
+							
 				req.setAttribute("roVO", roVO);
 				req.setAttribute("closewindow",true);
 				
+				String fromfront = req.getParameter("fromfront");
+				String url = "/back_end/rentalOrder/complete_ro.jsp";			
+				
+				if("true".equals(fromfront))
+					url = "/front_end/rental/rentalOrderList.jsp";
+				
 				RequestDispatcher successView = req
-						.getRequestDispatcher("/back_end/rentalOrder/complete_ro.jsp");
+						.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			}catch(Exception e) {
@@ -195,7 +390,14 @@ private static final long serialVersionUID = 1L;
 				
 				Integer mem_no = roVO.getMem_no();
 				Integer rpl_no = roVO.getRpl_no();
-				String ro_status ="完成";
+				String ro_status =null;
+				if("遺失".equals(ro_product_status))
+					ro_status = "結束-商品遺失";
+				else if ("毀損".equals(ro_product_status))
+					ro_status = "結束-商品毀損";
+				else
+					ro_status = "結束";
+				
 				String ro_ship_method = roVO.getRo_ship_method();
 				String ro_ship_addrs = roVO.getRo_ship_addrs();
 				Date ro_starttime = roVO.getRo_starttime();
@@ -471,6 +673,8 @@ private static final long serialVersionUID = 1L;
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				
+				String fromfront = req.getParameter("front_end");
+				
 				String str = req.getParameter("mem_no");
 				if (str == null || str.trim().length() == 0) {
 					errorMsgs.add("員工編號: 請勿空白");
@@ -485,11 +689,16 @@ private static final long serialVersionUID = 1L;
 				
 				Integer rc_no = new Integer(req.getParameter("rc_no"));
 				String ro_ship_method = req.getParameter("ro_ship_method");
+				if (ro_ship_method == null || ro_ship_method.trim().length() == 0) {
+					errorMsgs.add("請選擇配送方式");
+				}
+				
+				
 				String ro_ship_addrs = null;
 				if ("宅配".equals(ro_ship_method)) {
 					ro_ship_addrs = req.getParameter("ro_ship_addrs");
 					if (ro_ship_addrs == null || ro_ship_addrs.trim().length() == 0) {
-						errorMsgs.add("配送地址: 請勿空白");
+						errorMsgs.add("請填寫配送地址");
 					}
 				}
 				else
@@ -497,26 +706,34 @@ private static final long serialVersionUID = 1L;
 				
 				String starttime = req.getParameter("ro_starttime");
 				String endtime = req.getParameter("ro_endtime");
+
+				Date ro_starttime = null;
+				Date ro_endtime = null;
 				
 				if (starttime == null || endtime==null || starttime.trim().length() == 0 || endtime.trim().length() == 0) {
 					errorMsgs.add("請選擇租賃日期");
-				}
+				}else {
+					ro_starttime = Date.valueOf(starttime);
+					ro_endtime = Date.valueOf(endtime);
+				}		
 				
-				Date ro_starttime = Date.valueOf(starttime);
-				Date ro_endtime = Date.valueOf(endtime);
-				
+				String url;
 				if (!errorMsgs.isEmpty()) {
+					
+					url = "/back_end/rentalOrder/addRo.jsp";			
+					if("true".equals(fromfront))
+						url = "/front_end/rental/rentalOrderCreate.jsp";								
 					RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/rentalOrder/addRo.jsp");
-						failureView.forward(req, res);
+							.getRequestDispatcher(url);
+					failureView.forward(req, res);
 					return;
 				}
-				
+			
 				Integer ro_day = new Integer(req.getParameter("ro_day"));	
 				Integer ro_price = new Integer(req.getParameter("ro_price"));
 				Integer ro_totalprice = new Integer(req.getParameter("ro_totalprice"));
 				Integer ro_deposit = new Integer(req.getParameter("ro_deposit"));
-				
+	
 				RentalOrderVO roVO = new RentalOrderVO();
 				roVO.setMem_no(mem_no);
 				roVO.setRo_ship_method(ro_ship_method);
@@ -526,21 +743,23 @@ private static final long serialVersionUID = 1L;
 				roVO.setRo_day(ro_day);
 				roVO.setRo_price(ro_price);
 				roVO.setRo_totalprice(ro_totalprice);
-				roVO.setRo_deposit(ro_deposit);
-				
-
-				// Send the use back to the form, if there were errors
+				roVO.setRo_deposit(ro_deposit);		
+					
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("roVO", roVO); // 
+				
+					url = "/back_end/rentalOrder/addRo.jsp";
+					
+					if("true".equals(fromfront))
+						url = "/front_end/rental/errorPage.jsp";
+									
+					req.setAttribute("roVO", roVO); 
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/rentalOrder/addRo.jsp");
+							.getRequestDispatcher(url);
 					failureView.forward(req, res);
 					return;
 				}
-				
 				/***************************2.開始新增資料***************************************/
-				RentalOrderService roSvc = new RentalOrderService();
-				
+				RentalOrderService roSvc = new RentalOrderService();				
 				Integer rpl_no = roSvc.findOneProductForRent(rc_no);
 				
 				roVO.setRpl_no(rpl_no);
@@ -548,20 +767,27 @@ private static final long serialVersionUID = 1L;
 				roVO = roSvc.insertRentalOrder(mem_no, rpl_no,ro_ship_method,ro_ship_addrs, 
 						ro_starttime,ro_endtime, ro_day, ro_price,ro_totalprice,ro_deposit);
 				
+				req.setAttribute("roVO",roVO);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/rentalOrder/listRo.jsp";
+				url = "/back_end/rentalOrder/listRo.jsp";
+				
+				if("true".equals(fromfront))
+					url = "/front_end/rental/orderCreateSuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
+				String url = "/back_end/rentalOrder/listRo.jsp";
+				String fromfront = req.getParameter("front_end");
+				
+				if("true".equals(fromfront))
+					url = "/front_end/rental/errorPage.jsp";
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/rentalOrder/addRo.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
-			}
-									
+			}								
 		}
 		
 		if ("payOneRO".equals(action)) {
@@ -570,11 +796,7 @@ private static final long serialVersionUID = 1L;
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			
-//			String requestURL = req.getParameter("requestURL"); 	
-//			String whichPage = req.getParameter("whichPage"); 
- 
-			
+					
 			try {
 				String str = req.getParameter("ro_no");
 				if (str == null || str.trim().length() == 0) {
@@ -595,8 +817,26 @@ private static final long serialVersionUID = 1L;
 				}
 				
 				RentalOrderService roSvc = new RentalOrderService();
-				roSvc.changeOneRoStatusToWaitDeliver(ro_no);
-				RequestDispatcher successView = req.getRequestDispatcher("/back_end/rentalOrder/listRo.jsp"); 
+				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
+				if(roVO.getRo_status().equals("續租-未付款")) {
+					List<RentalOrderVO> list = roSvc.getListByRplandRo_status(roVO.getRpl_no(), "租賃中");
+					RentalOrderVO roVO_old = list.get(0);
+					roVO_old.setRo_oncerentendtime(roVO.getRo_starttime());		
+					roSvc.updateRentalOrder(roVO_old);
+					
+					roVO.setRo_status("續租-付款完成");
+					roSvc.updateRentalOrder(roVO);		
+				} else {
+					roSvc.changeOneRoStatusToWaitDeliver(ro_no);
+				}
+				
+				String fromfront = req.getParameter("fromfront");
+				String url = "/back_end/rentalOrder/listRo.jsp";			
+				
+				if("true".equals(fromfront))
+					url = "/front_end/rental/rentalOrderList.jsp";
+				
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);			
 				
 			} catch (Exception e) {

@@ -65,6 +65,12 @@ public class RentalOrderService {
 
 		return rentalOrderVO;
 	}
+	
+	public RentalOrderVO updateRentalOrder(RentalOrderVO roVO) 
+	{
+		dao.update(roVO);
+		return roVO;
+	}
 
 	public void deleteRentalOrder(Integer ro_no) {
 		dao.delete(ro_no);
@@ -94,4 +100,11 @@ public class RentalOrderService {
 		return dao.findByRoStatus(ro_status);
 	}
 	
+	public List<RentalOrderVO> getListByMem_no(Integer mem_no) {
+		return dao.findByMem_no(mem_no);
+	}
+	
+	public List<RentalOrderVO> getListByRplandRo_status(Integer rpl_no,String ro_status) {
+		return dao.findByRpl_noAndRoStatus(rpl_no,ro_status);
+	}
 }
