@@ -3,8 +3,8 @@
 <%@ page import="com.staff.model.*"%>   
 
 <%
-  StaffVO staffVO = (StaffVO) request.getAttribute("staffVO"); //StaffServlet.java(Concroller), 存入req的empVO物件
-%> 
+  StaffVO staffVO = (StaffVO) request.getAttribute("staffVO"); //StaffServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
+%>
 <!DOCTYPE html>
 <html>
 <head>
