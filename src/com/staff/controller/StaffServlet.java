@@ -83,6 +83,7 @@ public class StaffServlet extends HttpServlet {
 			    	RequestDispatcher failureView = req
 			    			.getRequestDispatcher("/back_end/login/select_page.jsp");
 			    	failureView.forward(req, res);
+			    	return;
 			    }
        }
 		if("getOne_For_Update".equals(action)) {// 來自listAllMember.jsp的請求
@@ -100,7 +101,7 @@ public class StaffServlet extends HttpServlet {
 				String url = "/back_end/staff/update_staff_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_member_input.jsp
 				successView.forward(req, res);
-				
+				return;
 				/*************可能的其他錯誤*********/
 				
 				}catch(Exception e) {
@@ -108,6 +109,7 @@ public class StaffServlet extends HttpServlet {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/back_end/staff/listAllStaff.jsp");
 					failureView.forward(req, res);
+					return;
 				}
 		}
 		if("update".equals(action)) {// 來自update_staff_input.jsp的請求
@@ -128,7 +130,7 @@ public class StaffServlet extends HttpServlet {
 					
 				String staff_gender = req.getParameter("staff_gender").trim();
 				if(staff_gender==null||staff_gender.trim().length()==0) {
-					errorMsgs.add("會員姓名:請勿空白");
+					errorMsgs.add("性別:請勿空白");
 				 }
 				String staff_phone = req.getParameter("staff_phone").trim();
 				if((staff_phone == null||staff_phone.trim().length()==0)&&!staff_phone.trim().matches(staff_phoneReg)){
@@ -191,7 +193,7 @@ public class StaffServlet extends HttpServlet {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/back_end/staff/update_staff_input.jsp");
 					failureView.forward(req, res);
-					
+					return;
 				}
 			   
 		}
@@ -270,7 +272,7 @@ public class StaffServlet extends HttpServlet {
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/staff/addStaff.jsp");
 				failureView.forward(req, res);
-				
+				return;
 			}
 			
 		}
@@ -325,20 +327,37 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			return;//程式中斷
 		}
 		System.out.println("3");
+		
 		String staff_password = null;
 		try {
 			staff_password = new String(str1);
 		} catch (Exception e) {
 			errorMsgs.add("密碼格式不正確");
 		}
-		System.out.println("4");
 		StaffService staffSvc2 = new StaffService();
 		StaffVO staffVO2 = staffSvc2.getOneStaff_account(staff_account, staff_password);
 		
-		if(staffVO2 != null && staffVO2.getStaff_sta() == "停權") {
-			errorMsgs.add("您已被停權");
+		System.out.println(staffVO2.getStaff_sta());
+		if (staffVO2 == null) {
+			errorMsgs.add("帳號密碼錯誤,請重新登錄");
 		}
-		System.out.println("5");
+		
+//		if(memberVO.getMemPassword().equals(memPassword)) {
+//			System.out.println(memberVO.getMemstatus());
+		else if (staffVO2.getStaff_sta().equals("未認證")) {
+				errorMsgs.add("您的員工尚未啟動");
+				} else if (staffVO2.getStaff_sta().equals("停權") ) {
+				errorMsgs.add("您的員工已停權");
+				 }
+//		
+		System.out.println("4");
+//		StaffService staffSvc2 = new StaffService();
+//		StaffVO staffVO2 = staffSvc2.getOneStaff_account(staff_account, staff_password);
+//		
+//		if(staffVO2 != null && staffVO2.getStaff_sta() == "1") {
+//			errorMsgs.add("您已被停權");
+//		}
+//		System.out.println("5");
 		// Send the use back to the form, if there were errors
 		if (!errorMsgs.isEmpty()) {
 			RequestDispatcher failureView = req
@@ -361,6 +380,7 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			failureView.forward(req, res);
 			return;//程式中斷
 		}
+		
 		System.out.println("8");
 		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 		
@@ -392,8 +412,108 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 		failureView.forward(req, res);
 	     }
        }
+if ("update_One_Staff".equals(action)) { // 來自update_One_Staff.jsp的請求
+	
+	List<String> errorMsgs = new LinkedList<String>();
+	req.setAttribute("errorMsgs", errorMsgs);
+	
+	try {
+		/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+		Integer staff_no = new Integer(req.getParameter("staff_no"));
+		String staff_name = req.getParameter("staff_name");
+		String staff_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+		if (staff_name == null || staff_name.trim().length() == 0) {
+			errorMsgs.add("員工姓名: 請勿空白");
+		} else if(!staff_name.trim().matches(staff_nameReg)) { 
+			errorMsgs.add("員工姓名: 只能是中英文字母、數字和且長度必需在2到10之間");
+        }
+		String staff_gender = req.getParameter("staff_gender").trim();
+		if(staff_gender==null||staff_gender.trim().length()==0) {
+			errorMsgs.add("性別請勿空白");
+		}	    
+		String staff_phone = req.getParameter("staff_phone");
+		if ((staff_phone != null || staff_phone.trim().length() != 0) && !staff_phone.trim().matches(staff_phoneReg)) {
+			errorMsgs.add("手機號碼只能為數字");
+		}
+		
+	  String staff_email = req.getParameter("staff_email");
+		if (staff_email == null || staff_email.trim().length() == 0) {
+			errorMsgs.add("Email 不能為空");
+		} else if(!staff_email.trim().matches(staff_emailReg)){
+			errorMsgs.add("Email 格式須為 test@test.com");
+		}
+      String staff_address = req.getParameter("staff_address").trim();
+			if(staff_address==null||staff_address.trim().length()==0) {
+				errorMsgs.add("地址請勿空白");
+			}	    
+	  String staff_account = req.getParameter("staff_account");
+			if (staff_account == null || staff_account.trim().length() == 0) {
+				errorMsgs.add("帳號不能為空");
+			}	
+	  String staff_password = req.getParameter("staff_password");
+			if (staff_password == null || staff_password.trim().length() == 0) {
+				errorMsgs.add("密碼不能為空");
+			}
+			StaffVO staffVO = new StaffVO();
+			staffVO.setStaff_no(staff_no);
+			staffVO.setStaff_name(staff_name);
+			staffVO.setStaff_gender(staff_gender);
+			staffVO.setStaff_phone(staff_phone);
+			staffVO.setStaff_email(staff_email);
+			staffVO.setStaff_address(staff_address);
+			staffVO.setStaff_account(staff_account);
+			staffVO.setStaff_password(staff_password);
+			
+		System.out.println("check1");
+		System.out.println(staff_no+","+staff_name+","+ staff_gender+","+ staff_phone+","+ staff_email+","+ staff_address+","+ staff_account+","+staff_password);
+		// Send the use back to the form, if there were errors
+		if (!errorMsgs.isEmpty()) {
+			for(String error:errorMsgs) {
+				System.out.println(error);
+			}
+			System.out.println("check2");
+			req.setAttribute("staffVO", staffVO); // 含有輸入格式錯誤的member_rankVO物件,也存入req
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/back_end/login/select_page.jsp");
+			failureView.forward(req, res);
+			return; //程式中斷
+		}
+		System.out.println("check");
+		/***************************2.開始修改資料*****************************************/
+		StaffService staffSvc = new StaffService();
+		staffVO = staffSvc.update_One_Staff(staff_no,staff_name, staff_gender, staff_phone, staff_email, staff_address, staff_account, staff_password);
+		
+		/***************************3.修改完成,準備轉交(Send the Success view)*************/
+		req.setAttribute("staffVO", staffVO); // 資料庫update成功後,正確的的member_rankVO物件,存入req
+		String url = "/back_end/staff/listOneStaff.jsp";
+		RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMember_rank.jsp
+		successView.forward(req, res);
+
+		/***************************其他可能的錯誤處理*************************************/
+	} catch (Exception e) {
+		errorMsgs.add("修改資料失敗:"+e.getMessage());
+		RequestDispatcher failureView = req
+				.getRequestDispatcher("/back_end/staff/update_One_staff.jsp");
+		failureView.forward(req, res);
+		return;
 	}
 }
+
+if("login_out".equals(action)) {
+	///***************************開始查詢資料 ***************************/
+	HttpSession session = req.getSession();
+	if(session != null) {
+		session.removeAttribute("StaffVO");
+	}
+	System.out.println("11");
+	///****************查詢完成,準備轉交(Send the Success view)***************/
+	String url = req.getContextPath() + "/back_end/login_out/login_out.jsp";
+	res.sendRedirect(url);
+	return;
+       }
+	}
+}
+
 
 
 
