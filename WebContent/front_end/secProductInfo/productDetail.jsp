@@ -128,7 +128,8 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="description" role="tabpanel">
                             <h2>商品簡介</h2>
-                            	${productInformVO.spi_content}
+								<!--商簡介內容透過JS新增 -->
+                             <div id="prodContent"></div>
                         </div>
                     </div>
                 </div>
@@ -160,5 +161,20 @@
 	<!--*******************	
 		End Include JS File  
 		******************* -->	
+		
+	<script>
+		//將商品介紹內文，拆解為文字陣列
+		let arr = `${productInformVO.spi_content}`.split(">>");  //方法一
+// 		let arr = $("#prodContent").text().split(">>");	//方法二
+		let str = "";
+		
+		//將陣列加上換行
+		for(let i = 0; i < arr.length; i++) {
+			if(arr[i] != ""){
+				str += (">>" + arr[i] + "<br>");
+			}
+		}
+		$("#prodContent").html(str);
+	</script>
 </body>
 </html>
