@@ -283,22 +283,32 @@ public class SecOrderServlet extends HttpServlet{
 			SecOrderService secOrderSvc = new SecOrderService();
 			SecOrderVO secOrderVO = secOrderSvc.getOneSecOrder(so_no);
 			
-			/****3.修改訂單狀態 (待付款更改為已付款)****/
-			secOrderVO.setSo_pay_sta("已付款");
+			String str = null;
+			if( !secOrderVO.getSo_sta().equals("取消訂單") ) {
+				
+				/****3.修改訂單狀態 (待付款更改為已付款)****/
+				secOrderVO.setSo_pay_sta("已付款");
+				
+				/****4.更新訂單****/
+				secOrderSvc.updateSecOrder( secOrderVO.getSo_no(),		secOrderVO.getSo_purtime(),	 secOrderVO.getMem_no(), 
+											secOrderVO.getSo_sta(),		secOrderVO.getSo_pay_sta(),	 secOrderVO.getSo_ship_sta(), 
+											secOrderVO.getCi_no(),		secOrderVO.getSo_totalpri(), secOrderVO.getSo_prodel(), 
+											secOrderVO.getSo_deladrs(),	secOrderVO.getSo_paymthd(),  secOrderVO.getSo_shipdate(), 
+											secOrderVO.getSo_delcost(),	secOrderVO.getSo_discount_price() );
+				/****5.設置付款成功頁面路徑****/
+				str = "/front_end/secOrder/paymentSuccess.jsp";
+			}else {
+				//訂單狀態為"取消訂單"則無法付款
+				str = "/front_end/secOrder/paymentFail.jsp";
+			}
 			
-			/****4.更新訂單****/
-			secOrderSvc.updateSecOrder( secOrderVO.getSo_no(),		secOrderVO.getSo_purtime(),	 secOrderVO.getMem_no(), 
-										secOrderVO.getSo_sta(),		secOrderVO.getSo_pay_sta(),	 secOrderVO.getSo_ship_sta(), 
-										secOrderVO.getCi_no(),		secOrderVO.getSo_totalpri(), secOrderVO.getSo_prodel(), 
-										secOrderVO.getSo_deladrs(),	secOrderVO.getSo_paymthd(),  secOrderVO.getSo_shipdate(), 
-										secOrderVO.getSo_delcost(),	secOrderVO.getSo_discount_price() );
 			
-			/****5.轉向至付款成功頁面****/
+			/****6.頁面轉向****/
 			req.setAttribute("secOrderVO", secOrderVO);
 
-			RequestDispatcher successView = 
-					req.getRequestDispatcher("/front_end/secOrder/paymentSuccess.jsp");
-			successView.forward(req, res);
+			RequestDispatcher view = 
+					req.getRequestDispatcher(str);
+			view.forward(req, res);
 			return;
 		}
 		
