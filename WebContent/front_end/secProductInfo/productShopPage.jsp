@@ -5,7 +5,10 @@
 
 <%
 	List<ProductInformVO> list = (List<ProductInformVO>) request.getAttribute("afterFiterProduct");
-	
+	if(list == null){
+		ProductInformService productInformSvc = new ProductInformService();
+		list = productInformSvc.getAll();
+	}
 	pageContext.setAttribute("list",list);
 %>
 
@@ -90,7 +93,7 @@
                 
                 	<%@ include file="page1.file" %> 
 					<!-- Start 顯示單個商品 -->
-                	<c:forEach var="productList" items="${afterFiterProduct}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+                	<c:forEach var="productList" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-shop-products">
                         
