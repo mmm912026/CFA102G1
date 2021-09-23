@@ -25,6 +25,7 @@ import com.sec_order.model.SecOrderService;
 import com.sec_order.model.SecOrderVO;
 import com.sec_order_list.model.SecOrderListService;
 import com.sec_order_list.model.SecOrderListVO;
+import com.sec_product_inform.model.ProductInformService;
 import com.sec_product_inform.model.ProductInformVO;
 
 import oracle.net.aso.s;
@@ -233,6 +234,24 @@ public class SecOrderServlet extends HttpServlet{
 				failView.forward(req, res);
 				return;
 			}finally {
+				//結帳完成，更新商品庫存與商品狀態。
+				for(ProductInformVO productInformVO : productInformList) {
+					int newStock = productInformVO.getSpi_stock() - Quamap.get(productInformVO.getSpi_no());
+					productInformVO.setSpi_stock(new Integer(newStock));
+					
+					//檢查商品庫存為0，則下架
+					if(newStock == 0) {
+						productInformVO.setSpi_sta("下架");
+					}
+					
+					//更新資料庫
+					ProductInformService productInformSvc = new ProductInformService();
+					productInformSvc.updateProductInform(
+							productInformVO.getSpi_no(), productInformVO.getSpi_name(), productInformVO.getSpc_no(), 
+							productInformVO.getSpi_content(), productInformVO.getSpi_pri(), productInformVO.getSpi_stock(), 
+							productInformVO.getSpi_sta());
+				}
+				
 				//結帳完成，清空購物車內商品
 				productInformList.removeAllElements();
 				Quamap.clear();
@@ -246,7 +265,7 @@ public class SecOrderServlet extends HttpServlet{
 				}else {
 					str = "/front_end/secOrder/transferPay.jsp";
 				}
-				
+				//轉至付款頁面
 				RequestDispatcher successView = 
 						req.getRequestDispatcher(str);
 				successView.forward(req, res);
