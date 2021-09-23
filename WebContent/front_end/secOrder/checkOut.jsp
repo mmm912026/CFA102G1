@@ -127,7 +127,7 @@
                                         <div class="form-group">
                                             <label>配送地址 <span class="required">*</span></label>
                                             <input type="text" class="form-control" name="so_deladrs"
-                                            		value="${(not empty so_deladrs)?so_deladrs:''}">
+                                            		value="${(not empty so_deladrs)?so_deladrs:''}" id="so_deladrs" disabled>
                                         </div>
                                     </div>
 
@@ -182,7 +182,7 @@
 			                                            </td>
 			        
 			                                            <td class="product-name">
-			                                                <a href="products-details.html"><%=order.getSpi_name() %></a>
+			                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&action=showProductDetail"><%=order.getSpi_name() %></a>
 			                                            </td>
 			        
 			                                            <td class="product-price">
@@ -218,10 +218,10 @@
                                 <div class="cart-totals">
                                     <h3>Cart Totals</h3>
                                     <ul>
-                                        <li>小計 <span>$<%=Quamap.get(999)%></span></li>
-                                        <li>運費 <span>$0.00</span></li>
-                                        <li>優惠折扣 <span>$${discount}</span></li>
-                                        <li>總計 <span>$<%=Quamap.get(999)%></span></li>
+                                        <li>小計  <span id="sub_total"><%=Quamap.get(999)%></span><span>$</span></li>
+                                        <li>運費 <span id="pri">0.00</span><span>$</span></li>
+                                        <li>優惠折扣 <span id="discount">${(not empty discount)?discount:0.00}</span><span>$</span></li>
+                                        <li>總計 <span id="total"><%=Quamap.get(999)%></span><span>$</span></li>
                                     </ul>
 
 									<button type="submit" class="default-btn">
@@ -266,18 +266,28 @@
 		End Include JS File  
 		******************* -->			
 		
-		<script>			
-// 			無法取得預設值?????
-
-// 			$(function() {
-// 	            var temp="${so_prodel}"; 
-// 	            $("#select_prodel").val(temp);
-// 	        });
-// 			無法取得預設值?????	        
-// 	        $(function() {
-// 	            var temp="${so_paymthd}"; 
-// 	            $("#select_paymthd").val(temp);
-// 	        });
+		<script>					
+			$(function() {
+				//計算總價格 >> 小計+運費-折扣(畫面載入時給的初始值)
+				let total = parseInt($("#sub_total").text(), 10) + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
+				$("#total").text(total)
+				
+				//判斷當配送方式為自取時
+				//1.運費=0。2.將配送地址欄類disabled
+				$("#select_prodel").on("change", function(){
+					let a = $("#select_prodel").val();
+					if(a == "自取"){
+						$("#so_deladrs").prop("disabled", true);
+						$("#pri").text("0.00");
+					}else{
+						$("#so_deladrs").prop("disabled", false);
+						$("#pri").text("100");
+					}
+					//計算總價
+					let total = parseInt($("#sub_total").text(), 10) + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
+					$("#total").text(total)
+				})
+			})
 		</script>
 	
 </body>
