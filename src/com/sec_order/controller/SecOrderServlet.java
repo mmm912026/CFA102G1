@@ -568,6 +568,62 @@ public class SecOrderServlet extends HttpServlet{
 			return;
 		}
 		
+		//前台會員中心，顯示訂單詳情
+		if("front_getOneForDiplay".equals(action)) {
+			
+			/****1.取得參數****/
+			Integer so_no = new Integer(req.getParameter("so_no"));
+			
+			/****2.開始查詢****/
+			
+			/****查詢訂單****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			SecOrderVO secOrderVO = secOrderSvc.getOneSecOrder(so_no);
+			req.setAttribute("secOrderVO", secOrderVO);
+			
+			/****查詢訂單明細****/
+			SecOrderListService secOrderListSvc = new SecOrderListService();
+			List<SecOrderListVO> secOrderListVOs = secOrderListSvc.getAll()
+																  .stream()
+																  .filter(s -> s.getSo_no().equals(so_no)) /*篩選出此訂單的明細*/
+																  .collect(Collectors.toList());
+			req.setAttribute("secOrderListVOs", secOrderListVOs);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/front_end/secOrder/listOneOrder.jsp");
+			successView.forward(req, res);
+			return;
+			
+		}
+		
+		//前台會員中心取消訂單
+		if("front_cancelOrder".equals(action)) {
+			/****1.取得參數****/
+			Integer so_no = new Integer(req.getParameter("so_no"));
+			
+			/****2.開始查詢 查詢訂單****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			SecOrderVO secOrderVO = secOrderSvc.getOneSecOrder(so_no);
+			
+			/****3.更新訂單狀態為"取消訂單"****/
+			secOrderVO.setSo_sta("取消訂單");
+			
+			secOrderSvc.updateSecOrder(
+					secOrderVO.getSo_no(), secOrderVO.getSo_purtime(), secOrderVO.getMem_no(), secOrderVO.getSo_sta(), 
+					secOrderVO.getSo_pay_sta(), secOrderVO.getSo_ship_sta(), secOrderVO.getCi_no(), secOrderVO.getSo_totalpri(), 
+					secOrderVO.getSo_prodel(), secOrderVO.getSo_deladrs(), secOrderVO.getSo_paymthd(), secOrderVO.getSo_shipdate(), 
+					secOrderVO.getSo_delcost(), secOrderVO.getSo_discount_price());
+			
+			/****4.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/front_end/secOrder/MemberCentreSecOrder.jsp");
+			successView.forward(req, res);
+			return;
+			
+			
+		}
+		
 		
 		
 	}
