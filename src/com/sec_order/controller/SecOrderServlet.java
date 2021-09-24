@@ -21,6 +21,7 @@ import javax.xml.transform.Source;
 import com.coupon_information.model.Coupon_InformationDAO;
 import com.coupon_information.model.Coupon_InformationService;
 import com.coupon_information.model.Coupon_InformationVO;
+import com.member.model.MemberVO;
 import com.sec_order.model.SecOrderService;
 import com.sec_order.model.SecOrderVO;
 import com.sec_order_list.model.SecOrderListService;
@@ -155,6 +156,8 @@ public class SecOrderServlet extends HttpServlet{
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
+			//取得會員資訊
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 			//取得購物車內的商品
 			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
 			//取得商品購買數量
@@ -193,7 +196,7 @@ public class SecOrderServlet extends HttpServlet{
 										
 			/****2.給予初始值****/
 			Timestamp so_purtime = new Timestamp(System.currentTimeMillis());  //訂購時間 >>預設為下單當下時間
-			Integer mem_no = new Integer(1); //會員編號 >> 目前先死，之後直接抓登入的會員編號
+			Integer mem_no = new Integer(memberVO.getMem_no()); //會員編號
 			String so_sta = "備貨中";	//訂單狀態 >> 預設為備貨中
 			String so_pay_sta = "待付款"; //付款狀態 >> 先寫死!!
 			String so_ship_sta = "未出貨"; //出貨狀態 >> 預設為未出貨

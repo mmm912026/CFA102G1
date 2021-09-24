@@ -3,13 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.member.model.*"%>
 
 <%
 	Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session
 			.getAttribute("shoppingCart_sec");
-%>
-<%
+
 	Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap");
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 %>
 
 <!-- 前台_商品結帳頁面 -->
@@ -106,7 +107,7 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label>訂購者姓名</label>
-                                            <input type="text" class="form-control" value="陳信輔" disabled>
+                                            <input type="text" class="form-control" value="${memberVO.mem_name }" disabled>
                                         </div>
                                     </div>
 
@@ -127,7 +128,7 @@
                                         <div class="form-group">
                                             <label>配送地址 <span class="required">*</span></label>
                                             <input type="text" class="form-control" name="so_deladrs"
-                                            		value="${(not empty so_deladrs)?so_deladrs:''}" id="so_deladrs" disabled>
+                                            		value="${(not empty so_deladrs)?so_deladrs:memberVO.mem_address}" id="so_deladrs" disabled>
                                         </div>
                                     </div>
 
