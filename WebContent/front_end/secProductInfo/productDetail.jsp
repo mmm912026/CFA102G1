@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,11 +81,10 @@
                             <div class="product-content content-two">
                                 <h3>${productInformVO.spi_name}</h3>
 
-                                <div class="price">
-                                    <!-- <span class="old-price">$150.00</span> -->
-                                    <span class="new-price">$${productInformVO.spi_pri}</span>
+                                <div class="price">                                    
+                                    <span class="new-price">$<fmt:formatNumber type="number" maxFractionDigits="3" value="${productInformVO.spi_pri}"/></span>
+                                    
                                 </div>
-                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea com modo consequat.</p> -->
 
                                 <ul class="products-info">
                                     <li><span>庫存:</span> <a href="#">${productInformVO.spi_stock}</a></li>

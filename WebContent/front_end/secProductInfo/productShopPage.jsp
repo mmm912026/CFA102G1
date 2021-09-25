@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.sec_product_inform.model.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <%
 	List<ProductInformVO> list = (List<ProductInformVO>) request.getAttribute("afterFiterProduct");
@@ -111,21 +113,20 @@
                                     <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=${productList.spi_no}&action=showProductDetail">
                                     	${productList.spi_name}
                                     </a>
-                                </h3>                            
-                                <span>$${productList.spi_pri}</span>
+                                </h3>                                                            
+                                <span>$<fmt:formatNumber type="number" maxFractionDigits="3" value="${productList.spi_pri}"/></span>                             
                             </div>
                             
                         </div>
                     </div>
 					</c:forEach>
  					<!-- End 顯示單個商品 -->     
-<%--  					<%@ include file="page2.file" %>  --%>
 					
 					<!-- Start 分頁 -->
                     <div class="col-lg-12 col-md-12">
                         <div class="pagination-area">  							
 	  							<%for(int i=1 ; i<=pageNumber ; i++){ %>
-<!-- 	  								將當前頁面按鈕設為藍色底色 -->
+									<!--將當前頁面按鈕設為藍底白字 -->
 	  								<%if(i==whichPage) {%>
 	  									<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=i%>&action=showAllProduct" class="page-numbers-2" style="background-color: #113366; color: #ffffff;"><%=i %></A>&nbsp;
 	  								<%} else{%>
@@ -135,7 +136,6 @@
                         </div>
                     </div>
 					<!-- End 分頁 -->           
-                    
                 </div>
             </div>
         </section>
