@@ -78,7 +78,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="OrderVO" items="${order_list_svc.all}">
+									<c:forEach var="OrderVO" items="${order_list_svc.all}" varStatus="s">
 										<tr>
 											<td>${OrderVO.so_no}</td>
 											<td><fmt:formatDate value="${OrderVO.so_purtime}" pattern="yyyy-MM-dd"/></td>
@@ -86,17 +86,21 @@
 											<td>${OrderVO.so_sta}</td>
 											<td>${OrderVO.so_pay_sta}</td>
 											<td>${OrderVO.so_ship_sta}</td>
-											<td>${OrderVO.so_totalpri}</td>
-											<td>${OrderVO.so_discount_price}</td>
+<%-- 											<td>${OrderVO.so_totalpri}</td> --%>
+<%-- 											<td>${OrderVO.so_discount_price}</td> --%>
+											<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${OrderVO.so_totalpri}"/></td>
+											<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${OrderVO.so_discount_price}"/></td>
+											
 											<td>
-												<form
-													action="<%=request.getContextPath()%>/secOrder/SecOrder.do"
-													method="post">
+<!-- 												<form -->
+<%-- 													action="<%=request.getContextPath()%>/secOrder/SecOrder.do" --%>
+<!-- 													method="post"> -->
 													
-													<input type="submit" class="btn btn-outline-secondary" value="查看詳情">
-													<input type="hidden" name="so_no"value="${OrderVO.so_no}"> 
-													<input type="hidden" name="action" value="getOneForDiplay">
-												</form>
+<!-- 													<input type="submit" class="btn btn-outline-secondary" value="查看詳情"> -->
+<%-- 													<input type="hidden" name="so_no"value="${OrderVO.so_no}">  --%>
+<!-- 													<input type="hidden" name="action" value="getOneForDiplay"> -->
+<!-- 												</form> -->
+												<A HREF="javascript:presses${s.count}()" class="btn btn-outline-secondary">查看詳情</a>
 											</td>
 											<td>
 												<form
@@ -108,6 +112,12 @@
 												</form>
 											</td>
 										</tr>
+										
+										<script>
+         									function presses${s.count}(){
+        	 								document.open("<%=request.getContextPath()%>/secOrder/SecOrder.do?so_no=${OrderVO.so_no}&action=getOneForDiplay", "" ,"height=550,width=850,left=65,top=100,resizable=yes,scrollbars=yes");
+         									}
+        								</script>
 									</c:forEach>
 								</tbody>
 							</table>

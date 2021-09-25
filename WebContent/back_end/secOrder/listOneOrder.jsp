@@ -28,13 +28,6 @@
 </head>
 <body>
 	<div id="app">
-		<!--*******************	
-		Start Include sidebar File  
-		******************* -->
-		<%@ include file="../back_include_page/sidebar.jsp"%>
-		<!--*******************	
-		End Include sidebar File  
-		******************* -->
 
 		<div id="main">
 			<div class="page-title">
@@ -71,7 +64,6 @@
 												</tr>
 												<tr>
 													<th>訂購時間</th>
-<%-- 													<th>${secOrderVO.so_purtime}</th> --%>
 													<th><fmt:formatDate value="${secOrderVO.so_purtime}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
 												</tr>
 												<tr>
@@ -109,7 +101,6 @@
 												</tr>
 												<tr>
 													<th>出貨日期</th>
-<%-- 													<th>${secOrderVO.so_shipdate}</th> --%>
 													<th><fmt:formatDate value="${secOrderVO.so_shipdate}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
 												</tr>
 												<tr>
@@ -118,11 +109,14 @@
 												</tr>
 												<tr>
 													<th>訂單總價格</th>
-													<th>${secOrderVO.so_totalpri}</th>
+<%-- 													<th>${secOrderVO.so_totalpri}</th> --%>
+													<th><fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderVO.so_totalpri}"/></th>
+													
 												</tr>
 												<tr>
 													<th>訂單優惠價格</th>
-													<th>${secOrderVO.so_discount_price}</th>
+<%-- 													<th>${secOrderVO.so_discount_price}</th> --%>
+													<th><fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderVO.so_discount_price}"/></th>
 												</tr>
 												
 											</thead>
@@ -151,7 +145,8 @@
 														</c:forEach>
 														</td>
 														<td>${secOrderListVO.sol_proamot}</td>
-														<td>${secOrderListVO.sol_pri}</td>
+<%-- 														<td>${secOrderListVO.sol_pri}</td> --%>
+														<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderListVO.sol_pri}"/></td>
 													</tr>
 												</c:forEach>
 											</tbody>
