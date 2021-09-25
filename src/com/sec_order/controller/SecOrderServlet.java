@@ -322,6 +322,16 @@ public class SecOrderServlet extends HttpServlet{
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
+			/****0.檢查是否登入會員****/
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+			if(memberVO==null) {
+				errorMsgs.add("結帳前請先登入會員");
+				RequestDispatcher failView =
+						req.getRequestDispatcher("/front_end/secProductInfo/cart.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
 			/****1.檢查購物車****/
 			//取得購物車內的商品
 			Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec");
