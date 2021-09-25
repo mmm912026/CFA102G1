@@ -4,12 +4,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="com.sec_product_class.model.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%-- <% --%>
-<!-- // 	ProductInformService productInformSvc = new ProductInformService(); -->
-<!-- // 	List<ProductInformVO> list = productInformSvc.getAll(); -->
-<!-- // 	pageContext.setAttribute("list", list); -->
-<%-- %> --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,8 +33,6 @@
 		<!--*******************	
 		End Include sidebar File  
 		******************* -->
-
-
 
 		<div id="main">
 			<div class="page-heading">
@@ -74,7 +69,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="productInfoVO" items="${productInfoVOs}">
+									<c:forEach var="productInfoVO" items="${productInfoVOs}" varStatus="s">
 										<tr>
 											<td>${productInfoVO.spi_no}</td>
 											<td>${productInfoVO.spi_name}</td>
@@ -86,27 +81,13 @@
 														</c:if>
 												</c:forEach>
 											</td>
-											<td>${productInfoVO.spi_pri}</td>
+											<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${productInfoVO.spi_pri}"/></td>
 											<td>${productInfoVO.spi_sta}</td>
 											<td>
-												<form
-													action="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do"
-													method="post">
-													
-													<input type="submit" class="btn btn-outline-secondary" value="查看詳情">
-													<input type="hidden" name="spi_no"value="${productInfoVO.spi_no}"> 
-													<input type="hidden" name="action" value="getOneForDiplay">
-												</form>
+												<A HREF="javascript:presses${s.count}()" class="btn btn-outline-secondary">查看詳情</a>
 											</td>
 											<td>										
-												<form
-													action="<%=request.getContextPath()%>/secProductImg/ProductImg.do"
-													method="post">
-													
-													<input type="submit" class="btn btn-outline-secondary" value="查看圖片">
-													<input type="hidden" name="spi_no"value="${productInfoVO.spi_no}"> 
-													<input type="hidden" name="action" value="showImages">
-												</form>
+												<A HREF="javascript:presses_img${s.count}()" class="btn btn-outline-secondary">查看圖片</a>
 											</td>
 											<td>
 												<form
@@ -118,6 +99,14 @@
 												</form>
 											</td>
 										</tr>
+										<script>
+         									function presses${s.count}(){
+        	 								document.open("<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=${productInfoVO.spi_no}&action=getOneForDiplay", "" ,"height=550,width=850,left=65,top=100,resizable=yes,scrollbars=yes");
+         									}
+         									function presses_img${s.count}(){
+        	 								document.open("<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productInfoVO.spi_no}&action=showImages", "" ,"height=550,width=850,left=65,top=100,resizable=yes,scrollbars=yes");
+         									}
+        								</script>
 									</c:forEach>
 								</tbody>
 							</table>

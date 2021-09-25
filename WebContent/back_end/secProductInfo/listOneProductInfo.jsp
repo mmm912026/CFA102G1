@@ -5,6 +5,7 @@
 <%@ page import="com.sec_product_class.model.*" %>	
 <%@ page import="com.sec_product_images.model.*"   %>
 <%@ page import="java.util.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% 
 	ProductClassService productClassSvc = new ProductClassService();
@@ -29,14 +30,6 @@
 </head>
 <body>
 	<div id="app">
-		<!--*******************	
-		Start Include sidebar File  
-		******************* -->
-		<%@ include file="../back_include_page/sidebar.jsp"%>
-		<!--*******************	
-		End Include sidebar File  
-		******************* -->
-
 		<div id="main">
 			<div class="page-title">
 				<div class="row">
@@ -85,7 +78,7 @@
 												</tr>
 												<tr>
 													<th>商品價格</th>
-													<th>${productInformVO.spi_pri}</th>
+													<th><fmt:formatNumber type="number" maxFractionDigits="3" value="${productInformVO.spi_pri}"/></th>
 												</tr>
 												<tr>
 													<th>商品庫存</th>

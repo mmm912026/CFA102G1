@@ -25,14 +25,6 @@
 </head>
 <body>
 	<div id="app">
-		<!--*******************	
-		Start Include sidebar File  
-		******************* -->
-		<%@ include file="../back_include_page/sidebar.jsp"%>
-		<!--*******************	
-		End Include sidebar File  
-		******************* -->
-
 		<div id="main">
 			<div class="page-title">
 				<div class="row">
@@ -105,7 +97,6 @@
 				</div>
 			</section>
 			<!-- Basic Tables end -->
-
 
 		</div>
 	</div>
