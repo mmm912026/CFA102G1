@@ -279,40 +279,38 @@ public class SecProductInformServlet extends HttpServlet{
 			/****2.查詢資料****/
 			ProductInformService productInformSvc = new ProductInformService();
 			ProductInformVO productInformVO = productInformSvc.getOneProductInform(spi_no);
-			req.setAttribute("productInformVO", productInformVO);
 			
-			System.out.println("資料查詢成功!!");
-			/**查詢圖片**/
-			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
-			List<SecProductImagesVO> filterImagesList = secProductImagesSvc.getAll()
-																		   .stream()
-																		   .filter(i -> i.getSpi_no().intValue() == spi_no.intValue())
-																		   .collect(Collectors.toList());
-			req.setAttribute("filterImagesList", filterImagesList);
+			if(productInformVO==null) {
+				errorMsgs.add("查無商品");	
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			//配合前台頁面EL取值，將VO存入List中
+			List<ProductInformVO> productInfoVOs = new LinkedList<ProductInformVO>();
+			productInfoVOs.add(productInformVO);
+			req.setAttribute("productInfoVOs", productInfoVOs);			
 			
 			/****3.頁面轉向****/
 			RequestDispatcher successView = 
-								req.getRequestDispatcher("/back_end/secProductInfo/listOneProductInfo.jsp");
-			System.out.println("成功轉向!!");
+								req.getRequestDispatcher("/back_end/secProductInfo/afterSeach.jsp");
 			successView.forward(req, res);
 			return;
 			
 			}catch (NumberFormatException e) {
 				errorMsgs.add("請輸入數字!!");
-				if(!errorMsgs.isEmpty()) {
-					RequestDispatcher failView = 
-							req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
-					failView.forward(req, res);
-					return;
-				}
-				
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
 			}catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				if(!errorMsgs.isEmpty()) {
-					RequestDispatcher failView = req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
-					failView.forward(req, res);
-					return;
-				}
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secProductInfo/select_page.jsp");
+				failView.forward(req, res);
+				return;
 			}	
 		}
 		
