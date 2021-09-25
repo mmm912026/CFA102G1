@@ -155,8 +155,7 @@
 									</c:if>      
                                     <!--End 錯誤訊息顯示 -->
                             <ul>
-                                <li>小計 <span>$<%=Quamap.get(999)%></span></li>
-
+                                <li>小計 <span>$<%=(productInformList != null && (productInformList.size() > 0))?Quamap.get(999) : 0%></span></li>
                             </ul>
                             
                             <form method="post" action="<%=request.getContextPath()%>/secOrder/SecOrder.do"> 
