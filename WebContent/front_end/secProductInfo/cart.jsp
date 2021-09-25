@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.sec_product_inform.model.*"%>
+<%@ page import=" java.text.DecimalFormat"%>
 <%@ page import="java.util.*" %>
 
 <%Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session.getAttribute("shoppingCart_sec"); %>
@@ -97,7 +98,7 @@
                                             </td>
         
                                             <td class="product-price">
-                                                <span class="unit-amount">$<%=order.getSpi_pri() %></span>
+                                                <span class="unit-amount">$<%=new DecimalFormat(",###").format(order.getSpi_pri()) %></span>
                                             </td>
         
                                             <td class="product-quantity">
@@ -110,7 +111,7 @@
                                             </td>
         
                                             <td class="product-subtotal">
-                                                <span class="subtotal-amount">$<%=order.getSpi_pri()*Quamap.get(order.getSpi_no()) %></span>
+                                                <span class="subtotal-amount">$<%=new DecimalFormat(",###").format(order.getSpi_pri()*Quamap.get(order.getSpi_no())) %></span>
                                             </td>
                                         </tr>
 										<%} %>
@@ -155,7 +156,7 @@
 									</c:if>      
                                     <!--End 錯誤訊息顯示 -->
                             <ul>
-                                <li>小計 <span>$<%=(productInformList != null && (productInformList.size() > 0))?Quamap.get(999) : 0%></span></li>
+                                <li>小計 <span>$<%=(productInformList != null && (productInformList.size() > 0))? new DecimalFormat(",###").format(Quamap.get(999)) : 0%></span></li>
                             </ul>
                             
                             <form method="post" action="<%=request.getContextPath()%>/secOrder/SecOrder.do"> 
