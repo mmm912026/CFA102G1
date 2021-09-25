@@ -24,11 +24,7 @@
 		******************* -->      
 		
 		<style>
-			.pagination-area .page-numbers {
-  			width: 70px;
- 			height: 35px;
-			}
-			
+
 			.page-numbers-2 {
   			width: 35px;
  			height: 35px;
@@ -127,23 +123,15 @@
 					
 					<!-- Start 分頁 -->
                     <div class="col-lg-12 col-md-12">
-                        <div class="pagination-area">
-
-						  	<%if (rowsPerPage < rowNumber) {%>
-	    						<%if(pageIndex >= rowsPerPage){%>
-	        						<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=1&action=showAllProduct" class="page-numbers">第一頁</A>&nbsp;
-	        						<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=whichPage-1%>&action=showAllProduct" class="page-numbers">上一頁</A>&nbsp;
-	  							<%}%>
-	  							
-	  							<%for(int i=2 ; i<pageNumber ; i++){ %>
-	  								<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=i%>&action=showAllProduct" class="page-numbers-2"><%=i %></A>&nbsp;
+                        <div class="pagination-area">  							
+	  							<%for(int i=1 ; i<=pageNumber ; i++){ %>
+<!-- 	  								將當前頁面按鈕設為藍色底色 -->
+	  								<%if(i==whichPage) {%>
+	  									<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=i%>&action=showAllProduct" class="page-numbers-2" style="background-color: #113366; color: #ffffff;"><%=i %></A>&nbsp;
+	  								<%} else{%>
+	  									<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=i%>&action=showAllProduct" class="page-numbers-2" ><%=i %></A>&nbsp;	  									
+	  								<%} %>
 	  							<%} %>
-	  							
-	    						<%if(pageIndex < pageIndexArray[pageNumber-1]){%>
-	        						<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=whichPage+1%>&action=showAllProduct" class="page-numbers">下一頁</A>&nbsp;
-	      							<A href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?whichPage=<%=pageNumber%>&action=showAllProduct" class="page-numbers">最後一頁</A>&nbsp;
-	    						<%}%>
-	  						<%}%>  
                         </div>
                     </div>
 					<!-- End 分頁 -->           
