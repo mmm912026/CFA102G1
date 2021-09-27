@@ -1,5 +1,6 @@
 package com.sec_product_images.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -71,6 +72,7 @@ public class SecProductImagesServlet extends HttpServlet{
 		}
 		
 		if("insert".equals(action)) {
+			System.out.println("enter insert");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
@@ -80,19 +82,25 @@ public class SecProductImagesServlet extends HttpServlet{
 
 			SecProductImagesService secProductImagesSvc = new SecProductImagesService();
 
-			/****1.新增圖片****/
+			/****1.新增圖片****/ 
 			Collection<Part> parts = req.getParts();
 
+			String filename = null;
 			for(Part part : parts) {
-				InputStream in = part.getInputStream();
-				if(in.available()!=0 && part.getContentType()!=null) {
+				InputStream in = part.getInputStream();				
+				
+
+				if(getFileNameFromPart(part)!=null && part.getContentType()!=null) {	
+					filename = getFileNameFromPart(part);
 					byte[] buf = new byte[in.available()];
 					in.read(buf);
 					in.close();
 					secProductImagesSvc.insertSecProductImages(spi_no, buf);
-				}else {
-					errorMsgs.add("請選擇檔案!");
 				}
+			}
+			
+			if(filename == null) {
+				errorMsgs.add("請選擇檔案!");
 			}
 			
 			/****2.新增圖片後重新查詢，並將結果存入req****/
@@ -154,5 +162,17 @@ public class SecProductImagesServlet extends HttpServlet{
 			return;
 		}
 		
+	}
+	
+	// 取出上傳的檔案名稱 (因為API未提供method,所以必須自行撰寫)
+	public String getFileNameFromPart(Part part) {
+		String header = part.getHeader("content-disposition");
+//		System.out.println("header=" + header); // 測試用
+		String filename = new File(header.substring(header.lastIndexOf("=") + 2, header.length() - 1)).getName();
+//		System.out.println("filename=" + filename); // 測試用
+		if (filename.length() == 0) {
+			return null;
+		}
+		return filename;
 	}
 }
