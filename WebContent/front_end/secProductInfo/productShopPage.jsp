@@ -1,3 +1,4 @@
+<%@page import="java.util.stream.Collectors"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,7 +10,11 @@
 	List<ProductInformVO> list = (List<ProductInformVO>) request.getAttribute("afterFiterProduct");
 	if(list == null){
 		ProductInformService productInformSvc = new ProductInformService();
-		list = productInformSvc.getAll();
+		list = productInformSvc.getAll()
+							   .stream()
+							   .filter(i -> i.getSpi_stock().intValue() > 0)
+							   .filter(i -> i.getSpi_sta().equals("上架"))
+								.collect(Collectors.toList());
 	}
 	pageContext.setAttribute("list",list);
 %>

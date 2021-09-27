@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="java.util.*" %>
 
@@ -80,6 +81,8 @@
 						<div class="form-group">
                         	<h4>訂單成立</h4>
                         	<h5>訂單編號 : ${secOrderVO.so_no}</h5>
+                        	<h5 style="color:red">請在24小時內付款!!</h5>
+
                         </div>                 
                     	<hr>
                     	<div class="form-group">
@@ -98,7 +101,8 @@
                         <hr>
                         <div class="form-group">
                         	<h4>轉帳金額</h4>
-                            <h5>$${secOrderVO.so_discount_price}</h5>
+<!--                             <h5>$${secOrderVO.so_discount_price}</h5> -->
+                            <h5>$<fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderVO.so_discount_price}"/></h5>
                         </div>
                         <hr>
                         <div class="form-group">

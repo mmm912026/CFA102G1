@@ -4,6 +4,7 @@
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.member.model.*"%>
+<%@ page import=" java.text.DecimalFormat"%>
 
 <%
 	Vector<ProductInformVO> productInformList = (Vector<ProductInformVO>) session
@@ -156,11 +157,11 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Product</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Unit Price</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Total</th>
+                                                    <th scope="col">商品照</th>
+                                                    <th scope="col">商品名稱</th>
+                                                    <th scope="col">單價</th>
+                                                    <th scope="col">購買數量</th>
+                                                    <th scope="col">小計</th>
                                                 </tr>
                                             </thead>
                 
@@ -173,9 +174,9 @@
 			                                    	%>
 			                                        <tr class="top-class">
 			                                            <td class="product-thumbnail">
-			                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&index=<%=index %>&action=cart&cart_action=delete" class="remove">
-			                                                	<i class='bx bx-x'></i>
-			                                                </a>
+<%-- 			                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&index=<%=index %>&action=cart&cart_action=delete" class="remove"> --%>
+<!-- 			                                                	<i class='bx bx-x'></i> -->
+<!-- 			                                                </a> -->
 																<!--點選商品圖片會回到商品頁面 -->
 			                                                <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=<%=order.getSpi_no() %>&action=showProductDetail">
 			                                                    <img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=<%=order.getSpi_no()%>&action=showShopImage" alt="item">
@@ -187,7 +188,7 @@
 			                                            </td>
 			        
 			                                            <td class="product-price">
-			                                                <span class="unit-amount">$<%=order.getSpi_pri() %></span>
+			                                                <span class="unit-amount">$<%=new DecimalFormat(",###").format(order.getSpi_pri()) %></span>
 			                                            </td>
 			        
 			                                            <td class="product-quantity">
@@ -198,7 +199,7 @@
 			                                            </td>
 			        
 			                                            <td class="product-subtotal">
-			                                                <span class="subtotal-amount">$<%=order.getSpi_pri()*Quamap.get(order.getSpi_no()) %></span>
+			                                                <span class="subtotal-amount">$<%=new DecimalFormat(",###").format( order.getSpi_pri()*Quamap.get(order.getSpi_no()) ) %></span>
 			                                            </td>
 			                                        </tr>
 													<%} %>
@@ -219,7 +220,7 @@
                                 <div class="cart-totals">
                                     <h3>Cart Totals</h3>
                                     <ul>
-                                        <li>小計  <span id="sub_total"><%=Quamap.get(999)%></span><span>$</span></li>
+                                        <li>小計  <span id="sub_total"><%=new DecimalFormat(",###").format(Quamap.get(999))%></span><span>$</span></li>
                                         <li>運費 <span id="pri">0.00</span><span>$</span></li>
                                         <li>優惠折扣 <span id="discount">${(not empty discount)?discount:0.00}</span><span>$</span></li>
                                         <li>總計 <span id="total"><%=Quamap.get(999)%></span><span>$</span></li>
@@ -270,8 +271,9 @@
 		<script>					
 			$(function() {
 				//計算總價格 >> 小計+運費-折扣(畫面載入時給的初始值)
-				let total = parseInt($("#sub_total").text(), 10) + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
-				$("#total").text(total)
+// 				let total = parseInt($("#sub_total").text(), 10) + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
+				let total = <%=Quamap.get(999)%> + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
+				$("#total").text(total.toLocaleString())
 				
 				//判斷當配送方式為自取時
 				//1.運費=0。2.將配送地址欄類disabled
@@ -285,8 +287,8 @@
 						$("#pri").text("100");
 					}
 					//計算總價
-					let total = parseInt($("#sub_total").text(), 10) + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
-					$("#total").text(total)
+					let total = <%=Quamap.get(999)%> + parseInt($("#pri").text(), 10) - parseInt($("#discount").text(), 10);
+					$("#total").text(total.toLocaleString())
 				})
 			})
 		</script>

@@ -67,11 +67,11 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Product</th>
+                                            <th scope="col">商品照</th>
                                             <th scope="col">商品名稱</th>
                                             <th scope="col">單價</th>
-                                            <th scope="col">數量</th>
-                                            <th scope="col">Total</th>
+                                            <th scope="col">購買數量</th>
+                                            <th scope="col">小計</th>
                                         </tr>
                                     </thead>
         
