@@ -69,7 +69,8 @@
                                 <!-- Start 商品大圖 -->
                                 <div class="slider slider-for">
 									<c:forEach var="imglist" items="${afterFilterImages}">
-                                    	<div><img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spim_no=${imglist.spim_no}&action=ExportImages" alt="image"></div>
+                                    	<div><img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spim_no=${imglist.spim_no}&action=ExportImages" alt="image"
+                                    	style="width:600px;height:500px;"></div>
                                 	</c:forEach>
                                 </div>
                                 <!-- Start 商品大圖 -->

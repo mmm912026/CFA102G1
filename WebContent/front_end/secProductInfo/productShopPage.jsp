@@ -63,15 +63,6 @@
         <link rel="icon" type="image/png" href="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/favicon.png">
 </head>
 <body>
-	    <!-- Start Preloader Area 載入畫面(圈圈)-->
-<!--         <div class="preloader"> -->
-<!--             <div class="loader"> -->
-<!--                 <div class="sbl-half-circle-spin"> -->
-<!--                     <div></div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--         </div> -->
-        <!-- End Preloader Area 載入畫面(圈圈)-->
 
 	<!--*******************	
 		Start Top Head Area  
@@ -102,7 +93,8 @@
                         
                             <div class="shop-products-image">
                                 <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?spi_no=${productList.spi_no}&action=showProductDetail">
-									<img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productList.spi_no}&action=showShopImage" alt="image" >
+									<img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productList.spi_no}&action=showShopImage" alt="image" 
+										style="width:250px;height:250px;">
                                 </a>
                                 <ul class="shop-action">
                                     <li>
