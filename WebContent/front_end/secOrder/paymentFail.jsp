@@ -56,7 +56,7 @@
         <div class="page-title-area">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>付款成功</h2>
+                    <h2>付款失敗</h2>
                 </div>
             </div>
         </div>
