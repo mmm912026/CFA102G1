@@ -41,6 +41,12 @@
 		******************* -->
 		
 		<style>
+			/* 將付款按鈕disable */
+			a.disabled {
+        	pointer-events: none;
+        	cursor: default;
+/*         	color: #e1e1e1; */
+			}
 
 			.page-numbers-3 {
   			width: 50px;
@@ -128,6 +134,15 @@
                 	<tr><h5>您目前沒有購買紀錄</h5></tr>
                 </c:if>
                 
+                <!--錯誤顯示>>>>-->
+				<c:if test="${not empty errorMsgs}">
+					<c:forEach var="error" items="${errorMsgs}"> 
+							<h4 class="card-text" style="color:red">${error}</h4>
+					</c:forEach>
+				</c:if>
+				<br>
+				<!--<<<<錯誤顯示-->
+                
 				<thead>
 					<tr>
 						<th>訂單編號</th>
@@ -137,6 +152,7 @@
 						<th>出貨狀態</th>
 						<th>訂單總價</th>
 						<th>訂單優惠價格</th>
+						<th>付款</th>
 						<th>查看詳情</th>
 						<th>修改訂單</th>
 					</tr>
@@ -155,6 +171,16 @@
 							<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${OrderVO.so_discount_price}"/></td>
 							
 							<td>
+									<c:choose>
+										<c:when test="${OrderVO.so_sta == '取消訂單' || OrderVO.so_pay_sta == '已付款'}">
+											<A HREF="javascript:presses2${s.count}()" class="btn btn-outline-secondary disabled">付款</a>
+										</c:when>
+										<c:otherwise>
+											<A HREF="javascript:presses2${s.count}()" class="btn btn-outline-secondary">付款</a>
+										</c:otherwise>
+									</c:choose>
+							</td>
+							<td>
 								<A HREF="javascript:presses${s.count}()" class="btn btn-outline-secondary">查看詳情</a>
 							</td>
 							<td>
@@ -171,6 +197,9 @@
 						<script>
          					function presses${s.count}(){
         	 					document.open("<%=request.getContextPath()%>/secOrder/SecOrder.do?so_no=${OrderVO.so_no}&action=front_getOneForDiplay", "" ,"height=550,width=850,left=65,top=100,resizable=yes,scrollbars=yes");
+         					}
+         					function presses2${s.count}(){
+        	 					document.open("<%=request.getContextPath()%>/secOrder/SecOrder.do?so_no=${OrderVO.so_no}&action=Payment", "" ,"height=550,width=850,left=65,top=100,resizable=yes,scrollbars=yes");
          					}
         				</script>
 						

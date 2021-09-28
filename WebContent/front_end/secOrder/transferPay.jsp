@@ -77,13 +77,24 @@
                 <div class="login-form">
                     <h2>匯款資訊</h2>
 
+					<!--錯誤顯示>>>>-->
+					<c:if test="${not empty errorMsgs}">
+						<br>
+								<c:forEach var="error" items="${errorMsgs}"> 
+							<h1 class="card-text" style="color:red">${error}</h1>
+								</c:forEach>
+						<br>
+					</c:if>	
+					<!--<<<<錯誤顯示-->
+					
+					<c:if test="${empty errorMsgs}">
                     <form method="post" action="<%=request.getContextPath()%>/secOrder/SecOrder.do">
 						<div class="form-group">
                         	<h4>訂單成立</h4>
                         	<h5>訂單編號 : ${secOrderVO.so_no}</h5>
                         	<h5 style="color:red">請在24小時內付款!!</h5>
-
-                        </div>                 
+                        </div>
+                                         
                     	<hr>
                     	<div class="form-group">
                         	<h4>收款人:陳信輔</h4>
@@ -101,7 +112,6 @@
                         <hr>
                         <div class="form-group">
                         	<h4>轉帳金額</h4>
-<!--                             <h5>$${secOrderVO.so_discount_price}</h5> -->
                             <h5>$<fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderVO.so_discount_price}"/></h5>
                         </div>
                         <hr>
@@ -115,6 +125,7 @@
                         <input type="hidden" name="action" value="confirmPay">
                         <input type="hidden" name="so_no" value="${secOrderVO.so_no}">
                     </form>
+                    </c:if>
                 </div>
             </div>
         </section>

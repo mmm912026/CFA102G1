@@ -164,7 +164,6 @@ public class SecOrderServlet extends HttpServlet{
 			Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap");
 
 			/****1.取得參數****/
-			System.out.println("Enter sec order insert!!!"); 
 			String so_prodel = req.getParameter("so_prodel"); //運送方式 >> 自取or宅配
 			String so_deladrs = req.getParameter("so_deladrs");//配送地址 >>需要檢查此欄位!!!
 			String so_paymthd = req.getParameter("so_paymthd");//付款方式 >> 匯款or信用卡
@@ -609,6 +608,9 @@ public class SecOrderServlet extends HttpServlet{
 		
 		//前台會員中心取消訂單
 		if("front_cancelOrder".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
 			/****1.取得參數****/
 			Integer so_no = new Integer(req.getParameter("so_no"));
 			
@@ -616,16 +618,20 @@ public class SecOrderServlet extends HttpServlet{
 			SecOrderService secOrderSvc = new SecOrderService();
 			SecOrderVO secOrderVO = secOrderSvc.getOneSecOrder(so_no);
 			
-			/****3.更新訂單狀態為"取消訂單"****/
-			secOrderVO.setSo_sta("取消訂單");
-			
-			secOrderSvc.updateSecOrder(
-					secOrderVO.getSo_no(), secOrderVO.getSo_purtime(), secOrderVO.getMem_no(), secOrderVO.getSo_sta(), 
-					secOrderVO.getSo_pay_sta(), secOrderVO.getSo_ship_sta(), secOrderVO.getCi_no(), secOrderVO.getSo_totalpri(), 
-					secOrderVO.getSo_prodel(), secOrderVO.getSo_deladrs(), secOrderVO.getSo_paymthd(), secOrderVO.getSo_shipdate(), 
-					secOrderVO.getSo_delcost(), secOrderVO.getSo_discount_price());
-			
-			/****4.頁面轉向****/
+			/****3.檢查訂單狀態****/
+			if("已付款".equals(secOrderVO.getSo_pay_sta())) {
+				errorMsgs.add("此訂單已付款，無法取消!!");
+			}else {
+				/****4.更新訂單狀態為"取消訂單"****/
+				secOrderVO.setSo_sta("取消訂單");
+				
+				secOrderSvc.updateSecOrder(
+						secOrderVO.getSo_no(), secOrderVO.getSo_purtime(), secOrderVO.getMem_no(), secOrderVO.getSo_sta(), 
+						secOrderVO.getSo_pay_sta(), secOrderVO.getSo_ship_sta(), secOrderVO.getCi_no(), secOrderVO.getSo_totalpri(), 
+						secOrderVO.getSo_prodel(), secOrderVO.getSo_deladrs(), secOrderVO.getSo_paymthd(), secOrderVO.getSo_shipdate(), 
+						secOrderVO.getSo_delcost(), secOrderVO.getSo_discount_price());
+			}
+			/****5.頁面轉向****/
 			RequestDispatcher successView = 
 					req.getRequestDispatcher("/front_end/secOrder/MemberCentreSecOrder.jsp");
 			successView.forward(req, res);
@@ -634,8 +640,41 @@ public class SecOrderServlet extends HttpServlet{
 			
 		}
 		
-		
-		
+		//前台會員中心付款
+		if("Payment".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/****1.取得參數****/
+			Integer so_no = new Integer(req.getParameter("so_no"));
+			
+			/****2.取得VO****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			SecOrderVO secOrderVO =  secOrderSvc.getOneSecOrder(so_no);
+			
+			/****3.確認訂單狀態****/
+			if(secOrderVO.getSo_sta().equals("取消訂單")) {
+				errorMsgs.add("此訂單已取消， 請重新下標!!");
+			}else if(secOrderVO.getSo_pay_sta().equals("已付款")) {
+				errorMsgs.add("此訂單已付款!!");
+			}
+
+			req.setAttribute("secOrderVO", secOrderVO);
+			
+			/****3.設置轉向頁面****/
+			String str = null;
+			if(secOrderVO.getSo_paymthd().equals("信用卡")) {
+				str = "/front_end/secOrder/creditCardPay.jsp";
+			}else {
+				str = "/front_end/secOrder/transferPay.jsp";
+			}
+			//轉至付款頁面
+			RequestDispatcher successView = 
+					req.getRequestDispatcher(str);
+			successView.forward(req, res);
+			return;
+		}
+
 	}
 	
 	

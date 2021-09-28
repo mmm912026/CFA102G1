@@ -71,13 +71,24 @@
             <div class="container">
                 <div class="login-form">
                     <h2>信用卡資訊</h2>
-
+                    
+                    <!--錯誤顯示>>>>-->
+					<c:if test="${not empty errorMsgs}">
+						<br>
+								<c:forEach var="error" items="${errorMsgs}"> 
+							<h1 class="card-text" style="color:red">${error}</h1>
+								</c:forEach>
+						<br>
+					</c:if>	
+					<!--<<<<錯誤顯示-->
+					
+					<c:if test="${empty errorMsgs}">
                     <form method="post" action="<%=request.getContextPath()%>/secOrder/SecOrder.do">
                         
                         <div class="form-group">
                         	<h4>訂單成立</h4>
                         	<h5>訂單編號 : ${secOrderVO.so_no}</h5>
-                        	<h5 style="color:red">請在24小時內付款!!</h5>
+                        	<h3 style="color:red">請在24小時內付款!!</h3>     	
                         </div>                 
                     	<hr>
                         <div class="form-group">
@@ -99,22 +110,18 @@
                         </div>
                         <hr>
                         <div class="form-group">
-<!--                         	<h4>金額 : $${secOrderVO.so_discount_price}</h4> -->
                         	<h4>金額 : $<fmt:formatNumber type="number" maxFractionDigits="3" value="${secOrderVO.so_discount_price}"/></h4>
-                        	
-                        	
                         </div>
 						<hr>
                         <button type="submit">確認</button>
                         <input type="hidden" name="action" value="confirmPay">
                         <input type="hidden" name="so_no" value="${secOrderVO.so_no}">
                     </form>
+                    </c:if>
                 </div>
             </div>
         </section>
         <!-- End Login Area -->
-
-
 
 
 	<!--*******************	
