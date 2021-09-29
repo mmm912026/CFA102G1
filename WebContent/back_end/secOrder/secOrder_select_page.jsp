@@ -62,61 +62,48 @@
 													
 													<!--錯誤訊息顯示 -->
 													
-												    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
+													<!-- 複合查詢>>>> -->
+													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>輸入訂單編號 : </b>
 												        <input type="text" name="so_no">
-												        <input type="hidden" name="action" value="findByPK">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
+    												<br>
 												        <b>輸入會員編號 : </b>
 												        <input type="text" name="mem_no">
-												        <input type="hidden" name="action" value="findByMemNO">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="*" >
-												        <b>輸入會員姓名 : </b>
-												        <input type="text" name="empno">
-												        <input type="hidden" name="action" value="getOne_For_Display">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
     												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
 												        <b>訂單狀態 : </b>
 												        <select  id="basicSelect" name="so_sta">
+                                            				<option value = ""></option>
                                             				<option value = "通知自取">通知自取</option>
                                             				<option value = "備貨中">備貨中</option>
                                             				<option value = "完成訂單">完成訂單</option>
                                             				<option value = "取消訂單">取消訂單</option>
                                     					</select>
-                                    					<input type="hidden" name="action" value="findBySoSta">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
     												<br>
-    												
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
+    												<br>
 												        <b>付款狀態 : </b>
 												        <select  id="basicSelect" name="so_pay_sta">
+                                            				<option value = ""></option>
                                             				<option value = "待付款">待付款</option>
                                             				<option value = "已付款">已付款</option>
-                                    					</select>
-                                    					<input type="hidden" name="action" value="findBySoPaySta">                                    					
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
-    												
+                                    					</select>  												
     												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secOrder/SecOrder.do" >
+    												<br>
 												        <b>出貨狀態 : </b>
 												        <select  id="basicSelect" name="so_ship_sta">
+                                            				<option value = ""></option>
                                             				<option value = "未出貨">未出貨</option>
                                             				<option value = "已出貨">已出貨</option>
                                             				<option value = "待取貨">待取貨</option>
                                     					</select>
-                                    					<input type="hidden" name="action" value="findBySoShipSta">  
-												        <input type="submit" class="btn btn-secondary" value="送出">
+                                    					
+                                    					<br>
+                                    					<br>
+                                    					<input type="hidden" name="action" value="compoundQuery">  
+												        <input type="submit" class="btn btn-secondary" value="送出查詢">
     												</FORM>
+													<!-- <<<<複合查詢  -->
 												</th>
 											</tr>
 											

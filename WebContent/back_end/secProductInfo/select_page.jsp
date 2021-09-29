@@ -64,42 +64,35 @@
 														</c:forEach>
 													</c:if>
 													
-													<!--錯誤訊息顯示 -->
-													
-												    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+													<!--錯誤訊息顯示 -->													
+    												
+													<!-- 複合查詢>>>>>>>-->
+													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
 												        <b>輸入商品編號 : </b>
 												        <input type="text" name="spi_no">
-												        <input type="hidden" name="action" value="FindByPK">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
-    												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+    													<br><br>
 												        <b>輸入商品名稱 : </b>
 												        <input type="text" name="spi_name">
-												        <input type="hidden" name="action" value="findBySpiName">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
-    												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+    													<br><br>
 												        <b>輸入商品類別 : </b>
 												        <select name="spc_no">
+														        <option value=" "></option>
 												        	<c:forEach var="productClassVO" items="${productClassSvc.all}">
 												        		<option value="${productClassVO.spc_no}">${productClassVO.spc_name}</option>
 												        	</c:forEach>
 												        </select>
-												        <input type="hidden" name="action" value="findBySpcNo">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>
-    												<br>
-    												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do" >
+    													<br><br>
 												        <b>輸入狀態 : </b>
 												        <select name="spi_sta">
+												        	<option value=" "></option>
 												        	<option value="上架">上架</option>
 												        	<option value="下架">下架</option>
 												        </select>
-												        <input type="hidden" name="action" value="findBySpiSta">
-												        <input type="submit" class="btn btn-secondary" value="送出">
-    												</FORM>    												
+												        <input type="hidden" name="action" value="compoundQuery">
+												        <br><br>
+												        <input type="submit" class="btn btn-secondary" value="送出查詢">
+    												</FORM>
+													<!--<<<<<<<複合查詢 -->
 												</th>
 											</tr>
 											

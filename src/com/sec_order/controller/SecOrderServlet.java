@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -674,8 +676,124 @@ public class SecOrderServlet extends HttpServlet{
 			successView.forward(req, res);
 			return;
 		}
+		
+		//複合查詢
+		if("compoundQuery".equals(action)) {			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);	
+						
+			/****1.取得參數****/
+			String so_no_str = req.getParameter("so_no");
+			Integer so_no = null;
+			if(so_no_str.trim().length() != 0) {
+				try {
+					so_no = new Integer(req.getParameter("so_no"));
+				} catch (NumberFormatException e) {
+					errorMsgs.add("訂單編號請輸入數字");
+				}
+			}
+			
+			String mem_no_str = req.getParameter("mem_no");
+			Integer mem_no = null;
+			if(mem_no_str.trim().length() != 0) {
+				try {
+					mem_no = new Integer(req.getParameter("mem_no"));
+				} catch (NumberFormatException e) {
+					errorMsgs.add("會員編號請輸入數字");
+				}
+			}
+			
+			if(!errorMsgs.isEmpty()) {
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			String so_sta = req.getParameter("so_sta");
+			String so_pay_sta = req.getParameter("so_pay_sta");
+			String so_ship_sta = req.getParameter("so_ship_sta");
+			
+			Map<String, String> condititon = new HashMap<String, String>();
+			condititon.put("so_no_str", so_no_str);
+			condititon.put("mem_no_str", mem_no_str);
+			condititon.put("so_sta", so_sta);
+			condititon.put("so_pay_sta", so_pay_sta);
+			condititon.put("so_ship_sta", so_ship_sta);
+			
+			/****2.開始查詢****/
+			SecOrderService secOrderSvc = new SecOrderService();
+			List<SecOrderVO> secOrderVOs = secOrderSvc.getAll();
+			
+			Set<String> key = condititon.keySet();
+			
+			key.stream()
+			   .forEach(k -> compoundQuery(secOrderVOs, k, condititon.get(k)));
+			
+			if(secOrderVOs.isEmpty()) {
+				errorMsgs.add("查無訂單!!");
+				RequestDispatcher failView = 
+						req.getRequestDispatcher("/back_end/secOrder/secOrder_select_page.jsp");
+				failView.forward(req, res);
+				return;
+			}
+			
+			req.setAttribute("order_list_seach", secOrderVOs);
+			
+			/****3.頁面轉向****/
+			RequestDispatcher successView = 
+					req.getRequestDispatcher("/back_end/secOrder/afterSeach.jsp");
+			successView.forward(req, res);
+			return;
+		}
 
 	}
 	
+	//此方法根據輸入的key和value過濾productInformVOs內的VO
+	private void compoundQuery (List<SecOrderVO> secOrderVOs, String key, String value) {
+		List<SecOrderVO> secOrderVO_after = null;
+		
+		if(value.trim().length()!=0) {
+			switch (key) {
+			case "so_no_str":
+				secOrderVO_after = secOrderVOs.stream()
+											  .filter(i -> i.getSo_no().equals(new Integer(value)))
+											  .collect(Collectors.toList());
+				secOrderVOs.clear();
+				secOrderVOs.addAll(secOrderVO_after);
+				break;
+			case "mem_no_str":
+				secOrderVO_after = secOrderVOs.stream()
+											  .filter(i -> i.getMem_no().equals(new Integer(value)))
+											  .collect(Collectors.toList());
+				secOrderVOs.clear();
+				secOrderVOs.addAll(secOrderVO_after);
+				break;
+			case "so_sta":
+				secOrderVO_after = secOrderVOs.stream()
+											  .filter(i -> i.getSo_sta().equals(value))
+											  .collect(Collectors.toList());
+				secOrderVOs.clear();				
+				secOrderVOs.addAll(secOrderVO_after);
+				break;
+			case "so_pay_sta":
+				secOrderVO_after = secOrderVOs.stream()
+											  .filter(i -> i.getSo_pay_sta().equals(value))
+											  .collect(Collectors.toList());
+				secOrderVOs.clear();
+				secOrderVOs.addAll(secOrderVO_after);
+				break;	
+			case "so_ship_sta":
+				secOrderVO_after = secOrderVOs.stream()
+											  .filter(i -> i.getSo_ship_sta().equals(value))
+											  .collect(Collectors.toList());
+				secOrderVOs.clear();
+				secOrderVOs.addAll(secOrderVO_after);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	
 }
