@@ -31,8 +31,7 @@
 		</ul>
 	</c:if>
 
-	<FORM METHOD="post"
-		ACTION="<%= request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do"enctype="multipart/form-data">
+	<FORM METHOD="post"ACTION="<%= request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do"enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>估價案件圖片編號:<font color=red><b>*</b></font></td>
@@ -47,14 +46,15 @@
 				<td>
 					<td>
 					<input type="file" name="aci_img" accept="image/*" onchange="loadFile(event)">
- 					<img id="imgDisplay" width="80px"height="80px"src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}">
-				</td>
+ 					<img id="imgDisplay" width="120"height="120"src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}&action=showIMG">
 				</td>
 			</tr>
 		</table>
-		<br> <input type="hidden" name="action" value="update"> <input
-			type="hidden" name="aci_no" value="<%=appraisalCaseImagesVO.getAci_no()%>">
-		<input type="submit" value="送出修改">
+		<br>
+		 <input type="hidden" name="action" value="update">
+		 <input type="hidden" name="aci_no" value="<%=appraisalCaseImagesVO.getAci_no()%>">
+		 <input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
+		 <input type="submit" value="送出修改">
 	</FORM>
 	
 <script>

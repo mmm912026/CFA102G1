@@ -43,7 +43,7 @@
 	<tr>
 		<td>${appraisalCaseImagesVO.aci_no }</td>
 		<td>${appraisalCaseImagesVO.aca_no }</td>
-		<td><img width="100" height="100" src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}"></td>
+		<td><img width="120" height="120" src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}&action=showIMG"></td>
 	</tr>
 </table>
 </body>

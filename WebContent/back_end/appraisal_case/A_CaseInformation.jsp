@@ -3,43 +3,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.appraisal_case.model.*"%>
 <%@ page import="com.appraisal_class.model.*"%>
-<%@ page import="com.appraisal_case_images.model.*" %>
 
 <%
 	Appraisal_CaseVO appraisalCaseVO = (Appraisal_CaseVO) request.getAttribute("appraisalCaseVO");
 %>
 
 <jsp:useBean id="appraisalClassSvc" scope="page" class="com.appraisal_class.model.Appraisal_ClassService" />
-<jsp:useBean id="appraisalCaseImages" scope="page" class="com.appraisal_case_images.model.Appraisal_Case_ImagesService" />
 
 <!DOCTYPE html>
 <html>
 <head>
+<!--*******************	Start Include CSS File ******************* -->
+<%@ include file="../back_include_page/CSS_link.jsp"%>
+<!--*******************	End Include CSS File ******************* -->
 <meta charset="UTF-8">
 <title>︳基ン戈</title>
-
-<style>
-table {
-	
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-table, th, td {
-	border: 1px solid #CCCCFF;
-}
-
-th, td {
-	padding: 5px;
-	text-align: center;
-}
-</style>
+<link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 
 </head>
 <body>
-
-<table>
+<section class="section">
+	<div class="card">
+		<div class="card-body">
+	<table class="table table-striped" id="table1">
     <tr>
         <td>︳基ン絪腹</td>
         <td>${appraisalCaseVO.aca_no }</td>
@@ -50,14 +36,13 @@ th, td {
     </tr>
     <tr>
         <td>︳基坝珇嘿</td>
-        <td><input type="text" value="${appraisalCaseVO.aca_itm_id }" disabled></td>
+        <td>${appraisalCaseVO.aca_itm_id }</td>
     </tr>
     <tr>
         <td>︳基摸</td>
         <td>
-            <!-- 					琩高︳基摸嘿 -->
+            <!--琩高︳基摸嘿 -->
             ${appraisalClassSvc.getOneA_Class(appraisalCaseVO.acl_no).acl_id }
-
         </td>
     </tr>
     <tr>
@@ -108,27 +93,13 @@ th, td {
         <td>皌癳</td>
         <td>${appraisalCaseVO.aca_adrs }</td>
     </tr>
-    <tr>
-    	<td>︳基瓜</td>
-    	<td>
-	    	<c:forEach var="appraisalCaseImagesVO" items="${appraisalCaseImagesSvc.all }">
-	    		<img width="100" height="100" src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}">
-	    		${appraisalCaseImagesSvc.getOneA_Case_Image(appraisalCaseImagesVO.aci_no).aci_img }
-	    	</c:forEach>
-		</td>
-    </tr>
-
-    <tr>
-    <td>э</td>
-        <td>
-            <FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do"style="margin-bottom: 0px;">
-                <input type="submit" value="э">
-                <input type="hidden" name="aca_no" value="${appraisalCaseVO.aca_no}">
-                <input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
-                <input type="hidden" name="action" value="getOne_For_Update">
-            </FORM>
-        </td>
-    </tr>
+    
 </table>
+</div>
+</div>
+</section>
+<!--*******************Start Include JS File******************* -->
+<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+<!--*******************End Include JS File******************* -->
 </body>
 </html>
