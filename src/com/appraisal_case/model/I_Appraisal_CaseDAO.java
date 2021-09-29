@@ -22,6 +22,4 @@ public interface I_Appraisal_CaseDAO {
 	// 萬用複合查詢(傳入參數型態Map)(回傳 List)
 	public List<Appraisal_CaseVO> getAll(Map<String, String[]> map);
 	
-	//在案件中查詢圖片
-	public Set<Appraisal_Case_ImagesVO> getImages_Case(Integer aca_no);
 }
