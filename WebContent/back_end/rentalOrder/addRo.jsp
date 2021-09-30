@@ -20,28 +20,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
+	background-color: white;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -54,15 +51,14 @@
 		******************* -->  
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
-			   <tr><td><h3>新增租賃訂單</h3>
-			   <h6><a href="<%=request.getContextPath()%>/back_end/rentalOrder/listRo.jsp">回首頁</a></h6>
-			   </td></tr>
-			</table>
+
+			<h3>新增租賃訂單</h3>
+			<h6><a href="<%=request.getContextPath()%>/back_end/rentalOrder/listRo.jsp">回首頁</a></h6>
+
 			
 			<p>
 			
-			<h3>資料新增:</h3>
+			<h5>資料新增:</h5>
 			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
@@ -75,7 +71,7 @@
 			</c:if>	
 				
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" name="form1">
-			<table>	
+			<table class="table table-striped">	
 				<tr>
 					<th>會員編號:</th>
 					<td><input type="TEXT" name="mem_no" size="5" 
@@ -136,7 +132,7 @@
 			</table>			
 			<br>
 			<input type="hidden" name="action" value="insert">
-			<input type="submit" value="送出">
+			<input type="submit" value="送出" class="btn btn-sm btn-primary">
 			</FORM>					
 		</div>
 	</div>	
@@ -178,7 +174,7 @@ $(function(){
 	 
   	 var today = new Date();
      var somedate1 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+3);	 
-     var somedate2 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+9);
+     var somedate2 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+7);
      $('#start_date').datetimepicker({
          beforeShowDay: function(date) {
        	  if (  date.getYear() <  somedate1.getYear() || 
@@ -195,26 +191,40 @@ $(function(){
              return [true, ""];
      }});    
       
+     var somedate3 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+9);
 	 $('#end_date').datetimepicker({
 	  format:'Y-m-d',
-	  onShow:function(){
-	   this.setOptions({
-	    	minDate:$('#start_date').val()?(new Date($('#start_date').val())).Format():false
-	   })
-	  },
-	  timepicker:false
+	  timepicker:false,
+	  beforeShowDay: function(date) {
+       	  if (  date.getYear() <  somedate3.getYear() || 
+		           (date.getYear() == somedate3.getYear() && date.getMonth() <  somedate3.getMonth()) || 
+		           (date.getYear() == somedate3.getYear() && date.getMonth() == somedate3.getMonth() && date.getDate() < somedate3.getDate())
+             ) {
+                  return [false, ""]
+             }
+             return [true, ""];
+     }
+	  
 	 });
 });
 
-Date.prototype.Format = function() {
-	var mm = this.getMonth() + 1; // getMonth() is zero-based
-	var dd = this.getDate()+6;
-
-	return [this.getFullYear(),
-	         (mm>9 ? '' : '0') + mm,
-	         (dd>9 ? '' : '0') + dd
-	       ].join('-');
-	};
+$('#start_date').on('change',function(){
+	var somedate3 = new Date($('#start_date').val().substring(0,4),parseInt($('#start_date').val().substring(5,7))-1,parseInt($('#start_date').val().substring(8,10))+6);
+	$('#end_date').datetimepicker({
+		  format:'Y-m-d',
+		  timepicker:false,
+		  beforeShowDay: function(date) {
+	       	  if (  date.getYear() <  somedate3.getYear() || 
+			           (date.getYear() == somedate3.getYear() && date.getMonth() <  somedate3.getMonth()) || 
+			           (date.getYear() == somedate3.getYear() && date.getMonth() == somedate3.getMonth() && date.getDate() < somedate3.getDate())
+	             ) {
+	                  return [false, ""]
+	             }
+	             return [true, ""];
+	     }
+		  
+		 });
+});
 
 // 當選定租賃日期,計算租賃天數
 $('.renttime1').on('change',function(){
@@ -247,7 +257,9 @@ $('.renttime2').on('change',function(){
 	}
 });
 
-
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
 
 </script>
 </html>

@@ -14,6 +14,11 @@
 	
 	String roStatusSelect = (String) request.getAttribute("roStatusSelect");
 	pageContext.setAttribute("roStatusSelect",roStatusSelect);
+	
+	Set<String> rostatuslist = new HashSet<String>();
+	for(RentalOrderVO roVO : roSvc.getAll())
+		rostatuslist.add(roVO.getRo_status());
+	pageContext.setAttribute("rostatuslist",rostatuslist);
 %>
 
 <html>
@@ -23,29 +28,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
-    color:black;
+    background-color: white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
+  .btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -59,17 +60,18 @@
 	<div id="app">	
 		<div id="main">
 		
-			<table id="table-1">
-				<tr><td>
-					 <h3>租賃訂單資訊</h3>
-					 <h4></h4>
-				</td></tr>
-			</table>
+			<h3>租賃訂單</h3>
+			<font style="color:blue;font-weight:bold">訂單規則</font>
+			<ul style="color:blue;font-weight:bold">
+				<li>預約訂單需當天付款，否則隔天將取消</li>
+				<li>訂單每超過1天，需多收2倍租金
+				<li>當第9天沒歸還商品，將直接沒收押金，結束訂單
+			</ul>
 			<table>
 				<tr>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalOrder/listRo.jsp" >
-				       		<input type="submit" value="顯示全部">
+				       		<input type="submit" value="顯示全部" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 					<td>
@@ -77,28 +79,24 @@
 					        <b>訂單編號 :</b>
 					        <input type="text" name="ro_no" size="2">
 					        <input type="hidden" name="action" value="getOne_For_Display">
-					        <input type="submit" value="查詢">
+					        <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 				        </FORM>
 					</td>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" >
 					        <b>訂單狀態 :</b>
 					        <select name="ro_status" >
-					        	<option value="未付款" ${('未付款'eq roStatusSelect)?'selected':''} >未付款</option>
-					        	<option value="已付款,未出貨" ${('已付款,未出貨'eq roStatusSelect)?'selected':''} >已付款,未出貨</option>
-					            <option value="租賃中" ${('租賃中' eq roStatusSelect)?'selected':''} >租賃中</option>
-					            <option value="租賃中-逾期" ${('租賃中-逾期' eq roStatusSelect)?'selected':''} >租賃中-逾期</option>
-					            <option value="結束-逾期未還" ${('結束-逾期未還' eq roStatusSelect)?'selected':''} >結束-逾期未還</option>
-					            <option value="結束" ${('結束' eq roStatusSelect)?'selected':''} >結束</option>
-					            <option value="取消" ${('取消'eq roStatusSelect)?'selected':''} >取消</option>
+					        		<c:forEach var="rostatus" items="${rostatuslist}">
+										<option value="${rostatus}" ${(rostatus==param.ro_status)?'selected':''}>${rostatus}</option>
+									</c:forEach>					        
 					        </select>
 					        <input type="hidden" name="action" value="getOneRoStatus_For_Display">
-					        <input type="submit" value="查詢">
+					        <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 				        </FORM>
 					</td>			
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp" >
-				       		 <input type="submit" value="新增訂單">
+				       		 <input type="submit" value="新增訂單" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 				</tr>	
@@ -122,11 +120,7 @@
 				</ul>
 			</c:if>
 			
-			<table>
-				<tr>
-					<th colspan="6">訂單</th>
-					<th colspan="3">歸還狀態</th>
-				</tr>
+			<table class="table table-striped">
 				<tr>
 					<th>編號</th>
 					<th>會員編號</th>
@@ -155,14 +149,15 @@
 						<td>${(roVO.ro_return_date=="1970-01-01")?"":roVO.ro_return_date}</td>
 						<td>
 							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" style="margin-bottom: 0px;">
-						     <input type="submit" ${(roVO.ro_status=="已付款,待出貨")?"":"disabled"} value="出貨">
+						     <input type="submit" ${(roVO.ro_status=="已付款,待出貨")?"":"disabled"} value="出貨" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="ro_no"  value="${roVO.ro_no}">
 						     <input type="hidden" name="action"	value="deliver">
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">   
 						    </FORM>
 						    <input type="submit" value="結束" ${(roVO.ro_status=="結束")?"disabled":""} ${(roVO.ro_status=="取消")?"disabled":"" }
-						     ${(roVO.ro_status=="結束-逾期未還")?"disabled":""} onclick="showEnd(${roVO.ro_no})">
+						     ${(roVO.ro_status=="結束-逾期未還")?"disabled":""} 
+						     onclick="showEnd(${roVO.ro_no})" class="btn btn-sm btn-primary">
 					</tr>
 				</c:forEach>
 			</table>
@@ -172,7 +167,7 @@
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do" >
 					        <b>訂單編號 :</b>
 					        <input type="text" name="ro_no">
-					        <input type="submit" value="付款">
+					        <input type="submit" value="付款" class="btn btn-sm btn-primary" class="pay">
 					        <input type="hidden" name="action" value="payOneRO"> 
 					        <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						    <input type="hidden" name="whichPage"	value="<%=whichPage%>">               
@@ -187,13 +182,17 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
-
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
 <script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+		
     function showDetail(data){
-    	document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_DisplayDetail', '' ,'height=700,width=800,left=600,top=200,resizable=yes,scrollbars=yes');
+    	document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_DisplayDetail', '' ,'height=500,width=520,left=600,top=200,resizable=yes,scrollbars=yes');
    	}
     function showEnd(data){
-        document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_End', '' ,'height=810,width=800,left=600,top=200,resizable=yes,scrollbars=yes');
+        document.open('<%=request.getContextPath()%>/back_end/ro/ro.do?ro_no='+data+'&action=getOne_For_End', '' ,'height=500,width=520,left=600,top=100,resizable=yes,scrollbars=yes');
     }
        
 </script>

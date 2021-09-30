@@ -134,5 +134,11 @@
 <input onclick="window.close();" value="關閉視窗" type="button">
 </FORM>
 <font style="color:red">(非必要請勿隨意修改)</font>
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>
