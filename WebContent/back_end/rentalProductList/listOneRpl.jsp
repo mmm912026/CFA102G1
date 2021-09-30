@@ -23,29 +23,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #66b3ff;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
- 	color:black;
+ 	background-color:white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -59,21 +55,20 @@
 	<div id="app">
 
 		<div id="main">
-			<table id="table-1">
-				<tr><td>
+
 					 <h3>租賃商品清單</h3>
-				</td></tr>
-			</table>
+
 			
-			<input type="button" class="menu" value="租賃商品類別" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
-			<input type="button" class="menu" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
-			<input type="button" class="menu" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
-		
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
+			<br><br>
+			
 			<table>
 				<tr>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp" >
-				       		<input type="submit" value="顯示全部">
+				       		<input type="submit" value="顯示全部" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 					<td>
@@ -81,7 +76,7 @@
 					        <b>商品編號 :</b>
 					        <input type="text" name="rpl_no" size="1" >
 					        <input type="hidden" name="action" value="getOne_For_Display">
-					        <input type="submit" value="查詢">
+					        <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 				        </FORM>
 					</td>			
 					<td>
@@ -93,12 +88,12 @@
 					         </c:forEach>   
 					       </select>
 					       <input type="hidden" name="action" value="getOneClass_For_Display">
-					       <input type="submit" value="查詢">					       
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">					       
 					     </FORM>
 					</td>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalProductList/addRpl.jsp" >
-				 	 		<input type="submit" value="新增商品">
+				 	 		<input type="submit" value="新增商品" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 				</tr>	
@@ -114,11 +109,11 @@
 				</ul>
 			</c:if>
 			
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<th>商品編號</th>
-					<th>商品類別</th>
-					<th>種類</th>
+					<th width="80">商品類別</th>
+					<th width="90">種類</th>
 					<th width="200">產品序號</th>
 					<th>租賃次數</th>
 					<th>狀態</th>
@@ -141,17 +136,15 @@
 						<td>
 							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do" style="margin-bottom: 0px;">
 						     <input type="submit" value=${(rplVO.rpl_status=="整備")?"待租":"整備"} 
-						     ${(rplVO.rpl_status!="整備"&&rplVO.rpl_status!="待租")?"disabled":""}>
-						     <input type="hidden" name="rpl_no"  value="${rplVO.rpl_no}">
-						     <input type="hidden" name="rpl_status"  value=${(rplVO.rpl_status=="整備")?"待租":"整備"}>
-						     <input type="hidden" name="rpl_status2"  value=${(rplVO.rpl_status=="整備")?"整備":"待租"}>
+						     ${(rplVO.rpl_status!="整備"&&rplVO.rpl_status!="待租")?"disabled":""} class="btn btn-sm btn-primary">
+						     <input type="hidden" name="rpl_no"  value="${rplVO.rpl_no}">				 
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>"> 
 						     <input type="hidden" name="action"	value="getOne_Change_Status"></FORM>
 						</td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="修改">
+						     <input type="submit" value="修改" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rpl_no"  value="${rplVO.rpl_no}">
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">  
@@ -170,5 +163,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>
