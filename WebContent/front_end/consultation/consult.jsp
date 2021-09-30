@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="BIG5"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.consultation.model.*"%>
+<%@ page import="com.store_information.model.*"%>
+<%
+	ConsultVO consultVO = (ConsultVO) request.getAttribute("consultVO");
+%>
+<%
+	SiService siSvc = new SiService();
+	List<SiVO> list = siSvc.getAll();
+	pageContext.setAttribute("list", list);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +22,7 @@
 		End Include CSS File  
 		******************* -->
 
-<title>YSM3C - ¤G¤â¯²¸î°Ó«°</title>
+<title>YSM3C - äºŒæ‰‹ç§Ÿè³ƒå•†åŸ</title>
 
 <link rel="icon" type="image/png"
 	href="../front_CSS_JS/assets/img/favicon.png">
@@ -34,63 +45,8 @@
 		End Navbar Area  
 		******************* -->
 
-	<!-- ************************¤U­±¶}©l¶ë§A¦Û¤vªº­¶­±¸ê°T************************ -->
-	<!-- ************************¤U­±¶}©l¶ë§A¦Û¤vªº­¶­±¸ê°T************************ -->
-	<!-- Start Main Slider Area ±ÛÂà¤ì°¨-->
-	<div class="main-slider-area">
-		<div class="container">
-			<div class="home-slides-two owl-carousel owl-theme">
-				<div class="main-slider-item-box">
-					<div class="main-slider-content">
-						<b>Big Sale Offer</b>
-						<h1>Get the Best Deals on Headphone</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua.</p>
-
-						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
-								class="flaticon-shopping-cart"></i> Shop Now <span></span>
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="main-slider-item-box item-two">
-					<div class="main-slider-content">
-						<b>Popular in 2020</b>
-						<h1>New Arrivals CCTV Camera</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua.</p>
-
-						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
-								class="flaticon-shopping-cart"></i> Shop Now <span></span>
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="main-slider-item-box item-three">
-					<div class="main-slider-content">
-						<b>Big Sale Offer</b>
-						<h1>High-Quality Product Camera</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua.</p>
-
-						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
-								class="flaticon-shopping-cart"></i> Shop Now <span></span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Main Slider Area ±ÛÂà¤ì°¨-->
+	<!-- ************************ä¸‹é¢é–‹å§‹å¡ä½ è‡ªå·±çš„é é¢è³‡è¨Š************************ -->
+	<!-- ************************ä¸‹é¢é–‹å§‹å¡ä½ è‡ªå·±çš„é é¢è³‡è¨Š************************ -->
 	<!-- Start Contact Area -->
 	<section class="contact-area ptb-50">
 		<div class="container">
@@ -98,83 +54,102 @@
 				<div class="col-lg-7 col-md-12">
 					<div class="contact-form">
 						<div class="tile">
-							<h3>µ¹§Ú­Ì¯d¨¥</h3>
-							<p>±zªº¹q¤l¶l¥ó¤£·|³Q¤½¶}</p>
-							<p>*¬°¥²¶ñ¸ê®Æ</p>
+							<h3>çµ¦æˆ‘å€‘ç•™è¨€</h3>
+							<p>æ‚¨çš„é›»å­éƒµä»¶ä¸æœƒè¢«å…¬é–‹</p>
+							<p>*ç‚ºå¿…å¡«è³‡æ–™</p>
 						</div>
+						<%-- éŒ¯èª¤è¡¨åˆ— --%>
+						<c:if test="${not empty errorMsgs}">
+							<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
+							<ul>
+								<c:forEach var="message" items="${errorMsgs}">
+									<li style="color: red">${message}</li>
+								</c:forEach>
+							</ul>
+						</c:if>
+						<FORM METHOD="post"
+							ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do"
+							name="form1">
 
-						<form id="contactForm">
-							<div class="row">
+							<div class="mb-3 row">
+								<label for="inputConsultant" class="col-sm-2 col-form-label">è«®è©¢äººå§“å*:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsultant"
+										name="consultant">
 
-
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>±zªº©m¦W*</label> <input type="text" name="name" id="name"
-											class="form-control" required data-error="½Ğ¶ñ¼g±zªº¦W¦r">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-12">
-									<div class="form-group">
-										<label>¤â¾÷*</label> <input type="text" name="phone_number"
-											id="phone_number" class="form-control" required
-											data-error="½Ğ¶ñ¼g±zªº¤â¾÷">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="col-lg-12 col-md-12">
-									<div class="form-group">
-										<label>¹q¤l¶l¥ó*</label> <input type="email" name="email"
-											id="email" class="form-control" required
-											data-error="½Ğ¶ñ¼g±zªº¹q¤l¶l¥ó">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="col-lg-12 col-md-12">
-									<div class="form-group">
-										<label>¯d¨¥¤º®e*</label>
-
-										<textarea name="message" id="message" cols="30" rows="5"
-											required data-error="½Ğ¶ñ¼g¿Ô¸ß¤º®e" class="form-control"></textarea>
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-
-								<div class="col-lg-12 col-md-12">
-									<button type="submit" class="default-btn">
-										µo°e°T®§ <span></span>
-									</button>
-									<div class="clearfix"></div>
 								</div>
 							</div>
-						</form>
+
+							<div class="mb-3 row">
+								<label for="inputConsult_phone" class="col-sm-2 col-form-label">è«®è©¢äººæ‰‹æ©Ÿ*:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsult_phone"
+										name="consult_phone">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputConsult_email" class="col-sm-2 col-form-label">EMAIL*:</label>
+								<div class="col-sm-10">
+									<input type="TEXT" class="form-control" id="inputConsult_email"
+										name="consult_email">
+								</div>
+							</div>
+
+
+							<div class="mb-3 row">
+								<label for="inputConsult_content"
+									class="col-sm-2 col-form-label">è«®è©¢å…§å®¹*:</label>
+
+								<textarea name="consult_content" id="inputConsult_content"
+									cols="30" rows="5" class="form-control"></textarea>
+							</div>
+
+							<div class="mb-3 row">
+								<!-- 								<label for="inputStaff_no" class="col-sm-2 col-form-label">å“¡å·¥ç·¨è™Ÿ:</label> -->
+								<div class="col-sm-10">
+									<input type="HIDDEN" class="form-control" id="inputStaff_no"
+										name="staff_no" value="1">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<!-- 								<label for="inputConsult_sta" class="col-sm-2 col-form-label">å›è¦†ç‹€æ…‹:</label> -->
+								<div class="col-sm-10">
+									<input type="HIDDEN" class="form-control" id="inputConsult_sta"
+										name="consult_sta" value="æœªå›è¦†">
+								</div>
+							</div>
+							<div align="center" style="position: relative; top: 10px">
+								<input type="hidden" name="action" value="insert"> <input
+									type="submit" class="default-btn" value="é€å‡ºæ–°å¢">
+							</div>
+						</FORM>
 					</div>
 				</div>
 
 				<div class="col-lg-5 col-md-12">
 					<div class="contact-information">
-						<h3>°Ó®a¸ê°T</h3>
+						<h3>å•†å®¶è³‡è¨Š</h3>
+						<c:forEach var="siVO" items="${list}">
+							<ul class="contact-list">
+								<li><i class='bx bx-map'></i> åœ°å€: <span>${siVO.si_address}</span></li>
+								<li><i class='bx bx-phone-call'></i> è¯çµ¡é›»è©±: <span>${siVO.si_phone}</span></li>
+								<li><i class='bx bx-envelope'></i> é›»å­éƒµä»¶: <span>${siVO.si_email}</span></li>
+								<li><i class='bx bx-right-arrow-circle'></i> LINEè³‡è¨Š: <span>${siVO.si_line}</span></li>
+							</ul>
 
-						<ul class="contact-list">
-							<li><i class='bx bx-map'></i> ¦a§}: <span>320®ç¶é¥«¤¤Ãc°Ï´_¿³¸ô46¸¹9¼Ó</span></li>
-							<li><i class='bx bx-phone-call'></i> Ápµ¸¹q¸Ü: <span>03-5578587</span></li>
-							<li><i class='bx bx-envelope'></i> ¹q¤l¶l¥ó: <span>YSM3C@gmail.com</span></li>
-							<li><i class='bx bx-right-arrow-circle'></i> LINE¸ê°T: <span>@YSM3C</span></li>
-						</ul>
-
-						<h4>Àç·~®É¶¡:</h4>
-						<ul class="opening-hours">
-							<li>¬P´Á¤@: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¤G: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¤T: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¥|: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¤­: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¤»: <span>08:00am-10:00pm</span></li>
-							<li>¬P´Á¤é: <span>Closed</span></li>
-						</ul>
+							<h4>ç‡Ÿæ¥­æ™‚é–“:</h4>
+							<ul class="opening-hours">
+								<li>æ˜ŸæœŸä¸€: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸäºŒ: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸä¸‰: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸå››: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸäº”: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸå…­: <span>${siVO.si_open}</span></li>
+								<li>æ˜ŸæœŸæ—¥: <span>CLOSE</span></li>
+							</ul>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -182,13 +157,13 @@
 	</section>
 	<!-- End Contact Area -->
 
-	<!-- ************************¤W­±¶ë§A¦Û¤vªº­¶­±¸ê°T***************************** -->
-	<!-- ************************¤W­±¶ë§A¦Û¤vªº­¶­±¸ê°T***************************** -->
+	<!-- ************************ä¸Šé¢å¡ä½ è‡ªå·±çš„é é¢è³‡è¨Š***************************** -->
+	<!-- ************************ä¸Šé¢å¡ä½ è‡ªå·±çš„é é¢è³‡è¨Š***************************** -->
 
 	<!--*******************	
 		Start Footer Area  
 		******************* -->
-	<%@ include file="../front_include_page/footer2.jsp"%>
+	<%@ include file="../front_include_page/footer.jsp"%>
 	<!--*******************	
 		End Footer Area  
 		******************* -->
