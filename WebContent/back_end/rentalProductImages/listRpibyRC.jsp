@@ -22,29 +22,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #ffcc99;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
- 	color:black;
+ 	background-color: white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -57,21 +53,17 @@
 		******************* --> 
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
-				<tr><td>
-					 <h3>租賃商品類別圖片</h3>
-				</td></tr>
-			</table>
-			
-			<input type="button" class="menu" value="租賃商品類別" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
-			<input type="button" class="menu" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
-			<input type="button" class="menu" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
-							
+
+					 <h3>租賃商品圖片</h3>
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
+			<br><br>		
 			<table>
 				<tr>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp" >
-				       		<input type="submit" value="顯示全部">
+				       		<input type="submit" value="顯示全部" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 					<td>
@@ -79,7 +71,7 @@
 					        <b>圖片編號 :</b>
 					        <input type="text" name="rpi_no" size="1">
 					        <input type="hidden" name="action" value="getOne_For_Display">
-					        <input type="submit" value="查詢">
+					        <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 				        </FORM>
 					</td>
 					<td>
@@ -91,12 +83,12 @@
 					         </c:forEach>   
 					       </select>
 					       <input type="hidden" name="action" value="getOneClass_For_Display">
-					       <input type="submit" value="查詢">
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 					     </FORM>
 					</td>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalProductImages/addRpi.jsp" >
-				       		<input type="submit" value="新增圖片">
+				       		<input type="submit" value="新增圖片" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 				</tr>	
@@ -111,7 +103,7 @@
 				</ul>
 			</c:if>
 			
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<th>圖片編號</th>
 					<th>類別</th>
@@ -133,7 +125,7 @@
 						<td><img src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showImgByRpino&id=${rpiVO.rpi_no}" width="100px" height="auto"></td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpi/rpi.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="修改">
+						     <input type="submit" value="修改" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rpi_no"  value="${rpiVO.rpi_no}">
 						     <input type="hidden" name="action"	value="getOne_For_Update">
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
@@ -142,7 +134,7 @@
 						</td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpi/rpi.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="刪除">
+						     <input type="submit" value="刪除" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rpi_no"  value="${rpiVO.rpi_no}">
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>">  
@@ -162,5 +154,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>
