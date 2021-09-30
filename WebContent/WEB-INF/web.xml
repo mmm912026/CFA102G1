@@ -10,6 +10,85 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  <resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/CFA102G1</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+  
+  <!--   後臺登入濾器 -->
+
+  <filter>
+  	<filter-name>LoginFilter</filter-name>
+  	<filter-class>com.staff.controller.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>LoginFilter</filter-name>
+  	<url-pattern>/back_end/login/login_success.jsp</url-pattern>
+  	<url-pattern>/back_end/login/select_page.jsp</url-pattern>
+  	<url-pattern>/back_end/login/select_page_member.jsp</url-pattern>
+  	<url-pattern>/back_end/login_out/*</url-pattern>
+  	<url-pattern>/back_end/member/*</url-pattern>
+  	<url-pattern>/back_end/staff/*</url-pattern>
+  	<url-pattern>/back_end/appraisal_case/*</url-pattern>
+  	<url-pattern>/back_end/appraisal_case_images/*</url-pattern>
+  	<url-pattern>/back_end/appraisal_class/*</url-pattern>
+  	<url-pattern>/back_end/authority/*</url-pattern>
+  	<url-pattern>/back_end/consultation/*</url-pattern>
+  	<url-pattern>/back_end/coupon_information/*</url-pattern>
+  	<url-pattern>/back_end/member/*</url-pattern>
+  	<url-pattern>/back_end/productReviews/*</url-pattern>
+  	<url-pattern>/back_end/rentalClass/*</url-pattern>
+  	<url-pattern>/back_end/rentalOrder/*</url-pattern>
+  	<url-pattern>/back_end/rentalProductImages/*</url-pattern>
+  	<url-pattern>/back_end/rentalProductList/*</url-pattern>
+  	<url-pattern>/back_end/reportProductReviews/*</url-pattern>
+  	<url-pattern>/back_end/secOrder/*</url-pattern>
+  	<url-pattern>/back_end/secProductClass/*</url-pattern>
+  	<url-pattern>/back_end/secProductImg/*</url-pattern>
+  	<url-pattern>/back_end/secProductInfo/*</url-pattern>
+  	<url-pattern>/back_end/staff_authority/*</url-pattern>
+  	<url-pattern>/back_end/store_information/*</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+  
+  <!--   前台登入濾器 -->
+
+  <filter>
+  	<filter-name>MemberLoginFilter</filter-name>
+  	<filter-class>com.member.controller.MemberLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>MemberLoginFilter</filter-name>
+  	<url-pattern>/front_end/login/index.jsp</url-pattern>
+  	<url-pattern>/front_end/login/update_member.jsp</url-pattern>
+  	<url-pattern>/front_end/member/*</url-pattern>
+  	<url-pattern>/front_end/login_out/login_out.jsp</url-pattern>
+  	<url-pattern>/front_end/secProductInfo/*</url-pattern>
+  	<url-pattern>/front_end/secOrder/checkOut.jsp</url-pattern>
+    <url-pattern>/front_end/secOrder/creditCardPay.jsp</url-pattern>
+    <url-pattern>/front_end/secOrder/MemberCentreSecOrder.jsp</url-pattern>
+    <url-pattern>/front_end/secOrder/transferPay.jsp</url-pattern>
+    <url-pattern>/front_end/appraisal_case/appraisalCase.jsp</url-pattern>
+    <url-pattern>/front_end/rental/prolongRentalOrderCreate.jsp</url-pattern>
+    <url-pattern>/front_end/rental/rentalOrderCreate.jsp</url-pattern>
+    <url-pattern>/front_end/rental/rentalOrderList.jsp</url-pattern>
+    <url-pattern>/front_end/rental/reportProductReviewsPage.jsp</url-pattern>
+    <url-pattern>/front_end/rental/rentalProductReviewPage.jsp</url-pattern>
+  	<dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+  
+  
+  
   <servlet>
     <servlet-name>SecProductInformServlet</servlet-name>
     <servlet-class>com.sec_product_inform.controller.SecProductInformServlet</servlet-class>
@@ -140,6 +219,14 @@
     <url-pattern>/staff/staff.do</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>Maintence_Case_ImgServlet</servlet-name>
+    <servlet-class>com.maintence_case_img.controller.Maintence_Case_ImgServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Maintence_Case_ImgServlet</servlet-name>
+    <url-pattern>/maintence_case_img/maintence_case_img.do</url-pattern>
+  </servlet-mapping>
   
   <servlet>
     <servlet-name>AuthorityServlet</servlet-name>

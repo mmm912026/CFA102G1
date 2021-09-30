@@ -13,5 +13,6 @@ public interface I_StaffDAO {
 	public StaffVO findByStaff_account(String staff_account, String staff_password);
 	public List<StaffVO> findByStaff_name(String staff_name);
 	public List<StaffVO> findByStaff_phone(String staff_phone);
+	public StaffVO update_One_Staff(StaffVO staffVO);
 	public List<StaffVO> getAll();
 }

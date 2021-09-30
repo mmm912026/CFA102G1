@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  
+
 <!doctype html>
     <html lang="zxx">
     <head>
@@ -11,7 +13,7 @@
          <%@ include file="../front_include_page/Top_head.jsp"%>
       <%@ include file="../front_include_page/CSS_link.jsp"%>
 
-        <title>忘記密碼|YSM3C</title>
+        <title>輸入驗證碼|YSM3C</title>
 
         <link rel="icon" type="image/png" href="../front_CSS_JS/assets/img/favicon.png">
     </head>
@@ -28,7 +30,8 @@
         </div>
         <!-- End Preloader Area -->
 
-      
+     
+     
 
        
         <!-- End Middle Header Area -->
@@ -41,8 +44,8 @@
         <div class="page-title-area">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>尋找你的密碼</h2>
-
+                    <h2>輸入安全驗證碼</h2>
+                   
                     
                 </div>
             </div>
@@ -53,41 +56,51 @@
         <section class="login-area ptb-50">
             <div class="container">
                 <div class="login-form">
-                <form METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
+                <form METHOD="post" ACTION="<%=request.getContextPath()%>/maintence_case_img/maintence_case_img.do">
+                
                     <div class="contact-form">
-                        <h2>尋找你的密碼</h2>
-                        <%-- 錯誤表列 --%>
-            <c:if test="${not empty errorMsgs}">
-	            <font style="color:red">請修正以下錯誤:</font>
-	               <div>
+                        <h2>輸入安全驗證碼</h2>
+                         <%-- 錯誤表列 --%>
+                          <c:if test="${not empty errorMsgs}">
+	                       <font style="color:red">請修正以下錯誤:</font>
+	                        <div>
 	                       <c:forEach var="message" items="${errorMsgs}">
-		                       <div style="color:red">${message}</div>
-	                	</c:forEach>
-	              </div>
-           </c:if>
-                        <p>請輸入你的電子郵件。</p>
-                       
-
+		                    <div style="color:red">${message}</div>
+		                </c:forEach>
+	                   </div>
+                    </c:if>
+                        <p>請查看你的電子郵件信箱中是否有包含驗證碼的信件。你的驗證碼長度為 6 位數。</p>
+                        
                             <div class="form-group">
-                                <input type="text" name="mem_email" class="form-control" placeholder="電子郵件" required data-error="請輸入您的電子郵件"> 
+                                <input type="text" name="mci_before_img" class="form-control" placeholder="輸入驗證碼" required data-error="請輸入驗證碼"> 
                                 <div class="help-block with-errors"></div>
+                            </div>
+
+                            
+
+                         
+                      
+
                             <div class="col-lg-12 col-md-12">
-                            <input type="hidden" name="action" value="forgetPwd">
-                                <button type="submit"   class="default-btn">
-                                    搜尋
+                            <input type="hidden" name="action" value="getOne_For_Display">
+                                <button type="submit" class="default-btn">
+                                    繼續
                                     <span></span>
                                 </button>
                                 <div class="clearfix"></div>
                             </div>
-                        
- 
-                        
+
+                     
+                       
+
+
+             
                     </div>
-                  
+             </form>
                 </div>
-                 </form>
+                 
             </div>
-            </div>
+             
         </section>
         <!-- End Login Area -->
 
@@ -237,6 +250,7 @@
         <!-- End Go Top Area -->
 
         <!-- Jquery Slim JS -->
-       <%@ include file="../front_include_page/JavaScript_Include.jsp"%>
+        <%@ include file="../front_include_page/JavaScript_Include.jsp"%>
     </body>
     </html>
+

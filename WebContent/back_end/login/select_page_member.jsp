@@ -25,15 +25,12 @@
     <link rel="shortcut icon" href="../back_CSS_JS/assets/images/favicon.svg" type="image/x-icon">
 
     <%@ include file="../back_include_page/CSS_link.jsp"%>
-<style>
-#div1{
-  
-  left: -20%;
 
-</style>
+
 </head>
 
 <body>
+<div id="app">
 <!--*******************	
 		Start Include sidebar File  
 		******************* -->
@@ -41,7 +38,7 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* -->  
-		
+		<div id="main">
 		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
@@ -84,7 +81,7 @@
 <br>
 <jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
 <div class="form-group">
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/staff/staff.do" >
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do" >
                       <label for="helpInputTop">選擇會員編號 : </label>
                         <select size="1" name="mem_no" class="btn btn-secondary dropdown-toggle me-1" >
                              <c:forEach var="memberVO" items="${memberSvc.all}" > 
@@ -129,7 +126,8 @@
    
      <script src="../back_CSS_JS/assets/js/perfect-scrollbar.min.js"></script>
     <script src="../back_CSS_JS/assets/js/bootstrap.bundle.min.js"></script>
-    
+    </div>
+    </div>
     <script src="../back_CSS_JS/assets/js/main.js"></script>
 </body>
 

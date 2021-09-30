@@ -260,7 +260,17 @@ public class StaffServlet extends HttpServlet {
 				
 				 /*************2.開始新增資料*************/
 				StaffService staffSvc = new StaffService();
-				staffVO = staffSvc.addStaff(staff_name, staff_gender, staff_phone, staff_email, staff_address, staff_account, staff_password, staff_sta);
+				try {
+					staffVO = staffSvc.addStaff(staff_name, staff_gender, staff_phone, staff_email, staff_address, staff_account, staff_password, staff_sta);
+				}catch (Exception e) {
+					errorMsgs.add("此帳號或個人信箱已註冊過，請重新輸入!!");
+					req.setAttribute("staffVO", staffVO);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back_end/staff/addStaff.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
 				/**************3.新增完成,準備轉交************/
 				String url = "/back_end/staff/listAllStaff.jsp";
 				RequestDispatcher successView = req
@@ -298,7 +308,7 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			failureView.forward(req, res);
 			return;//程式中斷
 		}
-		System.out.println("1");
+		
 		
 		String staff_account = null;
 		try {
@@ -313,7 +323,7 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			failureView.forward(req, res);
 			return;//程式中斷
 		}
-		System.out.println("2");
+	
 		String str1 = req.getParameter("staff_password");
 		System.out.println("staff password : " + str1);
 		if (str1 == null || (str1.trim()).length() == 0) {
@@ -326,7 +336,7 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			failureView.forward(req, res);
 			return;//程式中斷
 		}
-		System.out.println("3");
+		
 		
 		String staff_password = null;
 		try {
@@ -337,42 +347,29 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 		StaffService staffSvc2 = new StaffService();
 		StaffVO staffVO2 = staffSvc2.getOneStaff_account(staff_account, staff_password);
 		
-		System.out.println(staffVO2.getStaff_sta());
-		if (staffVO2 == null) {
-			errorMsgs.add("帳號密碼錯誤,請重新登錄");
+
+		if(staffVO2 != null && staffVO2.getStaff_sta().equals("停權")) {
+			errorMsgs.add("您已被停權");
+		}else if(staffVO2 != null && staffVO2.getStaff_sta().equals("未驗證")) {
+			errorMsgs.add("您尚未驗證");
+		}else if(staffVO2 != null && staffVO2.getStaff_sta() == null) {
+			errorMsgs.add("您尚未驗證");
 		}
-		
-//		if(memberVO.getMemPassword().equals(memPassword)) {
-//			System.out.println(memberVO.getMemstatus());
-		else if (staffVO2.getStaff_sta().equals("未認證")) {
-				errorMsgs.add("您的員工尚未啟動");
-				} else if (staffVO2.getStaff_sta().equals("停權") ) {
-				errorMsgs.add("您的員工已停權");
-				 }
-//		
-		System.out.println("4");
-//		StaffService staffSvc2 = new StaffService();
-//		StaffVO staffVO2 = staffSvc2.getOneStaff_account(staff_account, staff_password);
-//		
-//		if(staffVO2 != null && staffVO2.getStaff_sta() == "1") {
-//			errorMsgs.add("您已被停權");
-//		}
-//		System.out.println("5");
-		// Send the use back to the form, if there were errors
+
 		if (!errorMsgs.isEmpty()) {
 			RequestDispatcher failureView = req
 					.getRequestDispatcher("/back_end/login/login.jsp");
 			failureView.forward(req, res);
 			return;//程式中斷
 		}
-		System.out.println("6");
+		
 		/***************************2.開始(登入)查詢資料*****************************************/
 		StaffService staffSvc = new StaffService();
 		StaffVO staffVO = staffSvc.getOneStaff_account(staff_account, staff_password);
 		if (staffVO == null) {
 			errorMsgs.add("請確認輸入的帳號密碼是否正確");
 		}
-		System.out.println("7");
+		
 		// Send the use back to the form, if there were errors
 		if (!errorMsgs.isEmpty()) {
 			RequestDispatcher failureView = req
@@ -381,31 +378,21 @@ if("login".equals(action)) {//員工登入 來自login的登入請求
 			return;//程式中斷
 		}
 		
-		System.out.println("8");
+		
 		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 		
 		HttpSession session = req.getSession();
 		session.setAttribute("staffVO",staffVO);
-		String location = (String)session.getAttribute("location");
-		if(location != null) {
-			session.removeAttribute("location");
-			res.sendRedirect(location);
-			return;
-		}
-		System.out.println("9");
+	
 		String url = "/back_end/login/login_success.jsp";
 		RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 /front_end/login/indexTest.jsp
 		successView.forward(req, res);
 		
 		
-//		req.setAttribute("MemberVO", MemberVO); // 資料庫取出的member_rankVO物件,存入req
-//		String url = "/front-end/member/success.jsp";
-//		RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 /front_end/login/indexTest.jsp
-//		successView.forward(req, res);
 
 		/***************************其他可能的錯誤處理*************************************/
 	} catch (Exception e) {
-		System.out.println("10");
+		
 		errorMsgs.add("無法取得資料:" + e.getMessage());
 		RequestDispatcher failureView = req
 				.getRequestDispatcher("/back_end/login/login.jsp");
@@ -464,21 +451,20 @@ if ("update_One_Staff".equals(action)) { // 來自update_One_Staff.jsp的請求
 			staffVO.setStaff_account(staff_account);
 			staffVO.setStaff_password(staff_password);
 			
-		System.out.println("check1");
-		System.out.println(staff_no+","+staff_name+","+ staff_gender+","+ staff_phone+","+ staff_email+","+ staff_address+","+ staff_account+","+staff_password);
+	
 		// Send the use back to the form, if there were errors
 		if (!errorMsgs.isEmpty()) {
 			for(String error:errorMsgs) {
 				System.out.println(error);
 			}
-			System.out.println("check2");
+			
 			req.setAttribute("staffVO", staffVO); // 含有輸入格式錯誤的member_rankVO物件,也存入req
 			RequestDispatcher failureView = req
 					.getRequestDispatcher("/back_end/login/select_page.jsp");
 			failureView.forward(req, res);
 			return; //程式中斷
 		}
-		System.out.println("check");
+		
 		/***************************2.開始修改資料*****************************************/
 		StaffService staffSvc = new StaffService();
 		staffVO = staffSvc.update_One_Staff(staff_no,staff_name, staff_gender, staff_phone, staff_email, staff_address, staff_account, staff_password);
@@ -505,7 +491,7 @@ if("login_out".equals(action)) {
 	if(session != null) {
 		session.removeAttribute("StaffVO");
 	}
-	System.out.println("11");
+
 	///****************查詢完成,準備轉交(Send the Success view)***************/
 	String url = req.getContextPath() + "/back_end/login_out/login_out.jsp";
 	res.sendRedirect(url);

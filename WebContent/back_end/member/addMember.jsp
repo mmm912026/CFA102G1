@@ -57,12 +57,7 @@
     padding: 1px;
     margin-left:600px;
   }
-  #div1 {
-   margin-left:850px;
-}
- #div11{
- margin-left:600px;
- }
+
 
   <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
   <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -76,6 +71,7 @@
 </style>												
 </head>
 <body>
+<div id="app">
 	<!--*******************	
 		Start Include sidebar File  
 		******************* -->
@@ -83,6 +79,7 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* -->  
+		<div id="main">
 		<table id="table-1">
 	<tr><td>
 		 <h3>會員資料新增</h3></td><td>
@@ -159,6 +156,8 @@
 <input type="submit" value="送出新增">
 </div>
 </FORM>
+</div>
+    </div>
 
 	<!--*******************	
 		Start Include sidebar File  

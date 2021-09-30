@@ -97,7 +97,12 @@
 	</tr>
 	<tr>
 		<td>性別:</td>
-		<td><input type="TEXT" name="mem_gender" size="45"	value="<%=memberVO.getMem_gender()%>" /></td>
+		<td><select name="mem_gender" >
+                     <option value="${memberVO.mem_gender}"> ${memberVO.mem_gender} </option>
+                      
+                     <option  value="男"> 男 </option>
+                     <option value="女"> 女 </option>
+                   </select></td>
 	</tr>
 	<tr>
 		<td>電話:</td>
@@ -125,13 +130,18 @@
 	</tr>
 	<tr>
 		<td>狀態:</td>
-		<td><input type="TEXT" name="mem_sta" size="45"	value="<%=memberVO.getMem_sta()%>" /></td>
+		<td><select name="mem_sta" >
+                     <option value="${memberVO.mem_sta}"> ${memberVO.mem_sta} </option>
+                      
+                     <option  value="正常"> 正常 </option>
+                     <option value="停權"> 停權 </option>
+                   </select></td>
 	</tr>
 	
 </table>
 <br>
 <div id="div1">
-<input type="hidden" name="action" value="update">
+<input type="hidden" name="action" value="back_update">
 <input type="hidden" name="mem_no" value="<%=memberVO.getMem_no()%>">
 <input type="submit" value="送出修改">
 	</div>	

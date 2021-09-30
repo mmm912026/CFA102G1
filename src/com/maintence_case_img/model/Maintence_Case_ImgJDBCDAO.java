@@ -28,7 +28,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 	private static final String UPDATE_STMT = "UPDATE CFA102G1.MAINTENANCE_CASE_IMAGES SET MCA_NO=?, MCI_BEFORE_IMG=?,"
 			+ "MCI_AFTER_IMG=? WHERE MCI_NO=?";
 	private static final String DELETE_STMT = "DELETE FROM CFA102G1.MAINTENANCE_CASE_IMAGES WHERE MCI_NO=?";
-	private static final String FIND_BY_PK = "SELECT * FROM CFA102G1.MAINTENANCE_CASE_IMAGES WHERE MCI_NO=?";
+	private static final String FIND_BY_PK = "SELECT * FROM CFA102G1.MAINTENANCE_CASE_IMAGES WHERE MCI_BEFORE_IMG=?";
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.MAINTENANCE_CASE_IMAGES";
 	
 	@Override
@@ -43,7 +43,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 			
 			pstmt = con.prepareStatement(INSERT_STMT,Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, maintenceCaseimgvo.getMca_no());
-			pstmt.setBytes(2,maintenceCaseimgvo.getMci_before_img());
+			pstmt.setString(2,maintenceCaseimgvo.getMci_before_img());
 			pstmt.setBytes(3, maintenceCaseimgvo.getMci_after_img());
 			pstmt.executeUpdate();
 			
@@ -78,7 +78,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			pstmt.setInt(1, maintenceCaseimgvo.getMca_no());
-			pstmt.setBytes(2,maintenceCaseimgvo.getMci_before_img());
+			pstmt.setString(2,maintenceCaseimgvo.getMci_before_img());
 			pstmt.setBytes(3, maintenceCaseimgvo.getMci_after_img());
 			pstmt.setInt(4,maintenceCaseimgvo.getMci_no());
 
@@ -125,7 +125,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 	}
 	
 	@Override
-	public Maintence_Case_ImgVO findByPK(Integer mci_no) {
+	public Maintence_Case_ImgVO findByPK(String mci_before_img) {
 		Maintence_Case_ImgVO maintenceCaseimgvo = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -135,14 +135,14 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_PK);
-			pstmt.setInt(1, mci_no);
+			pstmt.setString(1, mci_before_img);
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				maintenceCaseimgvo = new Maintence_Case_ImgVO();
 				maintenceCaseimgvo.setMci_no(rs.getInt("MCI_NO"));
 				maintenceCaseimgvo.setMca_no(rs.getInt("MCA_NO"));
-				maintenceCaseimgvo.setMci_before_img(rs.getBytes("MCI_BEFORE_IMG"));
+				maintenceCaseimgvo.setMci_before_img(rs.getString("MCI_BEFORE_IMG"));
 				maintenceCaseimgvo.setMci_after_img(rs.getBytes("MCI_AFTER_IMG"));
 			}
 		} catch (ClassNotFoundException e) {
@@ -185,7 +185,7 @@ public class Maintence_Case_ImgJDBCDAO implements I_Maintence_Case_ImgDAO {
 				maintenceCaseimgvo = new Maintence_Case_ImgVO();
 				maintenceCaseimgvo.setMci_no(rs.getInt("MCI_NO"));
 				maintenceCaseimgvo.setMca_no(rs.getInt("MCA_NO"));
-				maintenceCaseimgvo.setMci_before_img(rs.getBytes("MCI_BEFORE_IMG"));
+				maintenceCaseimgvo.setMci_before_img(rs.getString("MCI_BEFORE_IMG"));
 				maintenceCaseimgvo.setMci_after_img(rs.getBytes("MCI_AFTER_IMG"));
 				listMaintencecaseimg.add(maintenceCaseimgvo);
 			}

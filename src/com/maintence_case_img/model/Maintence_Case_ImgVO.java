@@ -2,13 +2,13 @@ package com.maintence_case_img.model;
 
 import java.io.Serializable;
 
-//Table Name : MAINTENANCE_CASE_IMAGES(維修案件圖片)
+//Table Name : MAINTENANCE_CASE_IMAGES(驗證碼)
 
 public class Maintence_Case_ImgVO implements Serializable{
 	
 	private Integer mci_no;
 	private Integer mca_no;
-	private byte[] mci_before_img;
+	private String mci_before_img;
 	private byte[] mci_after_img;
 	
 	public Integer getMci_no() {
@@ -23,10 +23,10 @@ public class Maintence_Case_ImgVO implements Serializable{
 	public void setMca_no(Integer mca_no) {
 		this.mca_no = mca_no;
 	}
-	public byte[] getMci_before_img() {
+	public String getMci_before_img() {
 		return mci_before_img;
 	}
-	public void setMci_before_img(byte[] mci_before_img) {
+	public void setMci_before_img(String mci_before_img) {
 		this.mci_before_img = mci_before_img;
 	}
 	public byte[] getMci_after_img() {

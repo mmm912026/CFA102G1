@@ -41,8 +41,9 @@ public class StaffDAO implements I_StaffDAO{
 	private static final String GET_ALL =
 			"SELECT STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA FROM CFA102G1.STAFF";
 	private static final String GET_ONE_LOGIN = 
-			"SELECT STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA FROM MEMBER WHERE STAFF_ACCOUNT = ? AND STAFF_PASSWORD = ?";		
-	
+			"SELECT STAFF_NO,STAFF_NAME,STAFF_GENDER,STAFF_PHONE,STAFF_EMAIL,STAFF_ADDRESS,STAFF_ACCOUNT,STAFF_PASSWORD,STAFF_STA FROM STAFF WHERE STAFF_ACCOUNT = ? AND STAFF_PASSWORD = ?";		
+	private static final String UPDATE_ONE_STAFF = 
+			"UPDATE CFA102G1.STAFF SET STAFF_NAME=?, STAFF_GENDER=?, STAFF_PHONE=?, STAFF_EMAIL=?, STAFF_ADDRESS=?, STAFF_ACCOUNT=?, STAFF_PASSWORD=? WHERE STAFF_NO=?";
 	
 	@Override
 	public StaffVO insert(StaffVO staff) {
@@ -365,7 +366,50 @@ public class StaffDAO implements I_StaffDAO{
 		}
 		
 		return staffVO;
-	}	
+	}
+	@Override
+	public StaffVO update_One_Staff(StaffVO staffVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_ONE_STAFF);
+
+			pstmt.setString(1, staffVO.getStaff_name());
+			pstmt.setString(2, staffVO.getStaff_gender());
+			pstmt.setString(3, staffVO.getStaff_phone());
+			pstmt.setString(4, staffVO.getStaff_email());
+			pstmt.setString(5, staffVO.getStaff_address());
+			pstmt.setString(6, staffVO.getStaff_account());
+			pstmt.setString(7, staffVO.getStaff_password());
+			pstmt.setInt(8, staffVO.getStaff_no());
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+	} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	return staffVO;
+	}
 
 
 }

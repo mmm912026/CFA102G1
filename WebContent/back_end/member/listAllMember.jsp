@@ -52,7 +52,7 @@
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	margin-left:450px;
+/* 	margin-left:450px; */
   }
   table, th, td {
     border: 1px solid black;
@@ -67,6 +67,9 @@
 </style> 																	
 </head>
 <body>
+
+<div id="app">
+
 	<!--*******************	
 		Start Include sidebar File  
 		******************* -->
@@ -74,6 +77,8 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* -->  
+		
+	<div id="main">
 		<table id="table-1">
 	<tr><td>
 		 <h3>所有會員資料</h3>
@@ -143,6 +148,7 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* -->
-
+		</div>
+	</div>
 </body>
 </html>

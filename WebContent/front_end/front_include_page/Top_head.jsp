@@ -28,7 +28,7 @@
             </c:when>
             <c:otherwise>
                              <li>
-                                <span><a href="<%=request.getContextPath()%>/front_end/login/index.jsp">${memberVO.mem_name} </a>您好 
+                                <span><a href="<%=request.getContextPath()%>/front_end/member/memberInfo.jsp">${memberVO.mem_name} </a>您好 
                                
                              </span>
                              </li>
