@@ -171,7 +171,7 @@ table {
 						</div>
 						<div class="modal-body">
 							<!-- =========================================以下為原listOneEmp.jsp的內容========================================== -->
-							<jsp:include page="listOneSi2.jsp" />
+							<jsp:include page="listOneSiModel.jsp" />
 							<!-- =========================================以上為原listOneEmp.jsp的內容========================================== -->
 						</div>
 
