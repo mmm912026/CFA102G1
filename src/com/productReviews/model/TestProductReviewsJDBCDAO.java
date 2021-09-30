@@ -1,45 +1,35 @@
 package com.productReviews.model;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TestProductReviewsJDBCDAO {
 	public static void main(String[] args) throws IOException {
-		I_ProductReviewsDAO dao = new ProductReviewsJDBCDAO();
-		ProductReviewsVO pr1 = new ProductReviewsVO();
+//		I_ProductReviewsDAO dao = new ProductReviewsDAO();
+//		ProductReviewsService prSvc = new ProductReviewsService();
 		
-		//新增
-		pr1.setRc_no(6);
-		pr1.setRo_no(12);
-		pr1.setPr_content("hihi");
-		byte[] pic = getPictureByteArray("C:/images/1.jpg");
-		pr1.setPr_images(pic);
-		pr1.setPr_score(5);
-		pr1.setPr_status("123");
-		pr1 = dao.insert(pr1);
-		System.out.println(pr1.getPr_no());
-		//修改
-//		pr1.setPr_no(5);
-//		pr1.setRc_no(7);
-//		pr1.setRo_no(3);
-//		pr1.setPr_content("update");
-//		byte[] pic = getPictureByteArray("C:/images/1.jpg");
-//		pr1.setPr_images(pic);
-//		pr1.setPr_score(5);
-//		pr1.setPr_status("update");
-//		dao.update(pr1);
+		System.out.println(123);
 		
-		//刪除
-//		dao.delete(7);
 		
-		//查詢
-//		ProductReviewsVO pr1 = dao.findByPK(5);
-//		System.out.println(pr1.getPr_content());
-		//查詢全部
-//		List<ProductReviewsVO> list = dao.getAll();
-//		for(ProductReviewsVO pr1 : list ) 
-//			System.out.println(pr1.getPr_content());
+		
+//		List<ProductReviewsVO> list = dao.getAll().stream()
+//				.filter(e -> e.getRc_no()==(rc_no))
+//				.filter(e -> e.getPr_status().equals("上架"))
+//				.collect(Collectors.toList());
+//		List<ProductReviewsVO> listAll = dao.getAll();
+//		List<ProductReviewsVO> list = new ArrayList<ProductReviewsVO>();
+//		for(ProductReviewsVO prVO:listAll) {
+//			if(prVO.getRc_no().equals(rc_no)&&prVO.getPr_status().equals("上架"))
+//				list.add(prVO);
+//		}
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	public static byte[] getPictureByteArray(String path) throws IOException {

@@ -278,15 +278,4 @@ public class ProductReviewsJDBCDAO implements I_ProductReviewsDAO{
 		return list;
 	}
 
-	@Override
-	public List<ProductReviewsVO> getbyRc(Integer rc_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProductReviewsVO findByRo_no(Integer ro_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
