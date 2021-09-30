@@ -110,7 +110,7 @@ public class Appraisal_ClassServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("appraisalClassVO", appraisalClassVO);
-				String url = "/back_end/appraisal_class/listOneA_Class.jsp";
+				String url = "/back_end/appraisal_class/listAllA_Class.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Class.jsp
 				successView.forward(req, res);
 

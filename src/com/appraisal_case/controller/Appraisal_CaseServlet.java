@@ -264,7 +264,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				if (requestURL.equals("/back_end/appraisal_class/listCase_ByClass.jsp")|| requestURL.equals("/back_end/appraisal_class/listAllA_Class.jsp")) {
 					req.setAttribute("listCase_ByClass", appraisalClassSvc.getA_CaseByA_Class(acl_no));
 				}
-				else if(requestURL.equals("/back_end/appraisal_case/listOneA_Case.jsp")) {
+				else if(requestURL.equals("/back_end/appraisal_case/listOneA_Case.jsp")||requestURL.equals("/back_end/appraisal_case/listAllA_Case.jsp")) {
 					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
 				}
 				else if(requestURL.equals("/back_end/appraisal_case/listA_Case_ByCompositeQuery.jsp")) {
@@ -277,7 +277,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				e.printStackTrace();
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
