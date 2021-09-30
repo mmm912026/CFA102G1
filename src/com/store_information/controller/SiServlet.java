@@ -126,7 +126,6 @@ public class SiServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】
 			
 
 			try {
@@ -146,11 +145,18 @@ public class SiServlet extends HttpServlet {
 					errorMsgs.add("營業時間: 請勿空白");
 				}
 
+//				String si_phone = req.getParameter("si_phone");
+//				if ((si_phone != null || si_phone.trim().length() != 0) && !si_phone.trim().matches(numReg)) {
+//					errorMsgs.add("電話號碼只能為數字");
+//				}
+				
 				String si_phone = req.getParameter("si_phone");
-				if ((si_phone != null || si_phone.trim().length() != 0) && !si_phone.trim().matches(numReg)) {
-					errorMsgs.add("電話號碼只能為數字");
+				if (si_phone == null || si_phone.trim().length() == 0) {
+					errorMsgs.add("門市電話 不能為空");
+				} else if(!si_phone.trim().matches(numReg)){
+					errorMsgs.add("門市電話 格式錯誤");
 				}
-
+				
 				String si_email = req.getParameter("si_email");
 				if (si_email == null || si_email.trim().length() == 0) {
 					errorMsgs.add("Email 不能為空");
@@ -186,8 +192,7 @@ public class SiServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("siVO", siVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/back_end/store_information/listAllSi.jsp";
-				System.out.println("url"+url);
+				String url = "/back_end/store_information/listAllSi.jsp";///back_end/store_information/listAllSi.jsp
  				RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
  				successView.forward(req, res);
 
@@ -231,8 +236,10 @@ public class SiServlet extends HttpServlet {
 				}
 
 				String si_phone = req.getParameter("si_phone");
-				if ((si_phone != null || si_phone.trim().length() != 0) && !si_phone.trim().matches(numReg)) {
-					errorMsgs.add("電話號碼只能為數字");
+				if (si_phone == null || si_phone.trim().length() == 0) {
+					errorMsgs.add("門市電話 不能為空");
+				} else if(!si_phone.trim().matches(numReg)){
+					errorMsgs.add("門市電話 格式錯誤");
 				}
 
 				String si_email = req.getParameter("si_email");

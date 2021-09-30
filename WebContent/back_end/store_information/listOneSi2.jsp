@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>員工資料 - listOneEmp.jsp</title>
+<title>員工資料 - listOneSi.jsp</title>
 <style>
 table#table-1 {
 	background-color: #CCCCFF;

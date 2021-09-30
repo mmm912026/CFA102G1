@@ -82,7 +82,7 @@ table {
 						<div class="position-relative">
 							<div class="position-absolute top-0 end-0">
 								<h3>
-									<a href='addSi.jsp'><button type="button"
+									<a href='<%=request.getContextPath()%>/back_end/store_information/addSi.jsp'><button type="button"
 											class="btn btn-primary ">新增商家資訊</button></a>
 								</h3>
 							</div>
@@ -143,9 +143,6 @@ table {
 							</tbody>
 						</table>
 						<%@ include file="../back_include_page/page2.file"%>
-						<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
 					</div>
 				</div>
 			</section>
