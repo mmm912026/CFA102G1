@@ -53,7 +53,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">3C租賃</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/rental/rentalProductList.jsp" class="nav-link">3C租賃</a>
                                 </li>
 
 
@@ -115,17 +115,12 @@
                                     </ul>
                                 </li>
 
-
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">電腦維修</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/appraisal_case/appraisalCase.jsp" class="nav-link">回收估價</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">回收估價</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">聯絡我們</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/consultation/consult.jsp" class="nav-link">聯絡我們</a>
                                 </li>
                             </ul>
 
