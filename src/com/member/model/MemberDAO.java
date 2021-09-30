@@ -45,7 +45,17 @@ public class MemberDAO implements I_MemberDAO{
 	private static final String GET_ONE_FORGOT = 
 			"SELECT MEM_NO,MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA FROM MEMBER WHERE MEM_ACCOUNT = ? AND MEM_EMAIL = ?";
 	private static final String REGISTER_MEMBER = 
-			"INSERT INTO CFA102G1.MEMBER (MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?,正常)";
+			"INSERT INTO CFA102G1.MEMBER (MEM_NAME,MEM_GENDER,MEM_PHONE,MEM_EMAIL,MEM_ADDRESS,MEM_ACCOUNT,MEM_PASSWORD,MEM_BIRTH,MEM_STA) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?,?)";
+	private static final String FIND_BY_EMAIL = 
+			"SELECT * FROM CFA102G1.MEMBER WHERE MEM_EMAIL=?";
+	private static final String UPDATE_PWD_BY_EMAIL = 
+			"UPDATE CFA102G1.MEMBER SET MEM_PASSWORD=? WHERE MEM_EMAIL=?";
+	private static final String LOGIN_STMT = 
+				"SELECT * FROM CFA102G1.MEMBER WHERE MEM_ACCOUNT=? AND MEM_PASSWORD";
+	private static final String UPDATE_STA = 
+			"UPDATE CFA102G1.MEMBER SET  MEM_STA = ? WHERE MEM_NO = ?";
+	
+	
 	@Override
 	public MemberVO insert(MemberVO memberVO) {
 		Connection con = null;
@@ -426,16 +436,16 @@ public class MemberDAO implements I_MemberDAO{
 	}
 
 	@Override
-	public void register_Member(MemberVO memberVO) {
+	public MemberVO register_Member(MemberVO memberVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs =null ;
 
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(REGISTER_MEMBER);
-
+			pstmt = con.prepareStatement(REGISTER_MEMBER, Statement.RETURN_GENERATED_KEYS);
 			
 			pstmt.setString(1, memberVO.getMem_name());
 			pstmt.setString(2, memberVO.getMem_gender());
@@ -450,19 +460,128 @@ public class MemberDAO implements I_MemberDAO{
 
 			pstmt.executeUpdate();
 
-			// Handle any SQL errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				memberVO.setMem_no(rs.getInt(1));
+			}
+					}catch (SQLException se) {
+						throw new RuntimeException("A database error occured. "
+								+ se.getMessage());}finally {
+			if(con !=null) {
 				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
+					con.close();
+				}catch (SQLException se) {
+					se.printStackTrace();
 				}
 			}
+		}
+		return memberVO;
+	}
+
+	@Override
+	public void updatePwd(String mem_email, String mem_password) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_PWD_BY_EMAIL);
+			
+			pstmt.setString(1, mem_password);
+			pstmt.setString(2, mem_email);
+			
+			pstmt.executeUpdate();
+		}catch (SQLException se) {
+			throw new RuntimeException("A datebase error occured. " + se.getMessage());
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+		
+
+	@Override
+	public MemberVO findByEmail(String mem_email) {
+MemberVO memberVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_EMAIL);
+			 pstmt.setString(1, mem_email);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 while(rs.next()) {
+				 
+				 memberVO = new MemberVO();
+				 memberVO.setMem_no(rs.getInt("MEM_NO"));
+				 memberVO.setMem_name(rs.getString("MEM_NAME"));
+			     memberVO.setMem_gender(rs.getString("MEM_GENDER"));
+				 memberVO.setMem_phone(rs.getString("MEM_PHONE"));
+				 memberVO.setMem_email(rs.getString("MEM_EMAIL"));
+				 memberVO.setMem_address(rs.getString("MEM_ADDRESS"));
+				 memberVO.setMem_account(rs.getString("MEM_ACCOUNT"));
+			     memberVO.setMem_password(rs.getString("MEM_PASSWORD"));
+				 memberVO.setMem_birth(rs.getDate("MEM_BIRTH"));
+				 memberVO.setMem_sta(rs.getString("MEM_STA"));
+			 }
+		
+		}catch (SQLException se) {
+			throw new RuntimeException("A datebase error occured. " + se.getMessage());
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return memberVO;
+		
+	}
+
+	@Override
+	public MemberVO loginCheck(String mem_account) {
+		MemberVO memberVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(LOGIN_STMT);
+			
+			pstmt.setString(1, mem_account);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				 memberVO.setMem_no(rs.getInt("MEM_NO"));
+				 memberVO.setMem_name(rs.getString("MEM_NAME"));
+			     memberVO.setMem_gender(rs.getString("MEM_GENDER"));
+				 memberVO.setMem_phone(rs.getString("MEM_PHONE"));
+				 memberVO.setMem_email(rs.getString("MEM_EMAIL"));
+				 memberVO.setMem_address(rs.getString("MEM_ADDRESS"));
+				 memberVO.setMem_account(rs.getString("MEM_ACCOUNT"));
+			     memberVO.setMem_password(rs.getString("MEM_PASSWORD"));
+				 memberVO.setMem_birth(rs.getDate("MEM_BIRTH"));
+				 memberVO.setMem_sta(rs.getString("MEM_STA"));
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			
 			if (con != null) {
 				try {
 					con.close();
@@ -471,5 +590,41 @@ public class MemberDAO implements I_MemberDAO{
 				}
 			}
 		}
+		return memberVO;
+	}
+
+	@Override
+	public void updateMemberStatus(Integer mem_no, String mem_sta) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STA);
+			
+
+			pstmt.setString(1, mem_sta);
+			pstmt.setInt(2, mem_no);
+			
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+
 	}
 }
