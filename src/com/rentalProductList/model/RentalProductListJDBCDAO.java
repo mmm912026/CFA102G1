@@ -405,10 +405,4 @@ public class RentalProductListJDBCDAO implements I_RentalProductListDAO{
 		}
 		return list;
 	}
-
-	@Override
-	public void changeRpl_status(Integer rpl_no, String rpl_status, String rpl_status2) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 //Table Name : RENTAL_PRODUCT_LIST(租賃商品資訊)
 
-public class RentalProductListVO implements Serializable{
+public class RentalProductListVO implements Serializable,Comparable<RentalProductListVO>{
 	private Integer	rpl_no;
 	private Integer	rc_no;
 	private String rpl_serialnum;
@@ -86,5 +86,14 @@ public class RentalProductListVO implements Serializable{
 
 	public void setRpl_jointtime(Timestamp rpl_jointtime) {
 		this.rpl_jointtime = rpl_jointtime;
+	}
+
+	public int compareTo(RentalProductListVO rplVO) {
+		if(this.getRpl_rentcount()>rplVO.getRpl_rentcount())
+			return 1;
+		else if (this.getRpl_rentcount()==rplVO.getRpl_rentcount())
+			return 0;
+		else 
+			return -1;
 	}
 }
