@@ -1,6 +1,7 @@
 package com.rentalClass.model;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RentalClassService {
 	private I_RentalClassDAO dao;
@@ -57,25 +58,53 @@ public class RentalClassService {
 	public List<RentalClassVO> getAll() {
 		return dao.getAll();
 	}
-	//一個按鍵更改類別狀態
-	public void changeRentalClassStatus(Integer rc_no ,String rc_status) {
-		dao.changeRc_status(rc_no ,rc_status);
+	//一個按鍵更改類別狀態	
+	public void changeRcRentStatus(Integer rc_no) {
+		
+		RentalClassVO rcVO = dao.findByPK(rc_no);
+		if(rcVO.getRc_status().equals("上架")) {
+			rcVO.setRc_status("下架");
+			dao.update(rcVO);
+		}
+		else if(rcVO.getRc_status().equals("下架")) {
+			rcVO.setRc_status("上架");
+			dao.update(rcVO);
+		}	
 	}
-	//回傳全部種類
+	
+	//回傳所有商品種類
 	public List<String> getAllRc_Item() {
 		List<RentalClassVO> list = dao.getAll();
-		
-		return dao.getAllRc_Item();
+		Set<String> set = new HashSet<String>();
+		for(RentalClassVO rcVO: list)
+			set.add(rcVO.getRc_item());
+		List<String> allRc_itemList = new ArrayList<String>(set);	
+		return allRc_itemList;
 	}
 
 	//用種類取回RC list
 	public List<RentalClassVO> getOneRc_item(String rc_item) {
-		return dao.findByRc_item(rc_item);
+		List<RentalClassVO> list = dao.getAll();
+		List<RentalClassVO> Rc_itemlist = list.stream()
+				.filter(e -> e.getRc_item().equals(rc_item))
+				.collect(Collectors.toList());
+		return Rc_itemlist;
 	}
+	
 	//回傳 RC 租賃前幾名 list
 		public List<RentalClassVO> getRcRentHotList(Integer num) {
-			return dao.findByRc_rentcount(num);
+			List<RentalClassVO> listAll = dao.getAll().stream()
+					.filter(e -> e.getRc_status().equals("上架"))
+					.collect(Collectors.toList());	
+			List<RentalClassVO> list = new ArrayList<RentalClassVO>();	
+			Collections.sort(listAll,Collections.reverseOrder());
+			if(num>listAll.size())
+				num = listAll.size();
+			for(int i=0;i<num;i++) {
+				if(listAll.get(i)!=null)
+				list.add(listAll.get(i));
+			}
+			Collections.sort(list,Collections.reverseOrder());
+			return list;
 		}
-	
-	
 }

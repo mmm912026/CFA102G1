@@ -5,7 +5,7 @@ import java.sql.Date;
 
 //Table Name :  RENTAL_ORDER(租賃商品訂單)
 
-public class RentalOrderVO implements Serializable{
+public class RentalOrderVO implements Serializable,Comparable<RentalOrderVO>{
 	private Integer	ro_no;
 	private Integer	mem_no;
 	private Integer	rpl_no;
@@ -258,5 +258,15 @@ public class RentalOrderVO implements Serializable{
 
 	public void setRo_return_deposit(Integer ro_return_deposit) {
 		this.ro_return_deposit = ro_return_deposit;
+	}
+
+	@Override
+	public int compareTo(RentalOrderVO roVO) {
+		if(this.getRo_no()>roVO.getRo_no())
+			return 1;
+		else if (this.getRo_no()==roVO.getRo_no())
+			return 0;
+		else 
+			return -1;
 	}
 }

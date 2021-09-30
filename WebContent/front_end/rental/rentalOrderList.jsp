@@ -4,16 +4,16 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.rentalOrder.model.*"%>
 <%@ page import="java.util.stream.*"%>
-
+<%@ page import="com.member.model.*"%>
 <jsp:useBean id="today" class="java.util.Date" scope="page" />
 <jsp:useBean id="rcSvc" scope="page" class="com.rentalClass.model.RentalClassService" />
 <jsp:useBean id="rplSvc" scope="page" class="com.rentalProductList.model.RentalProductListService" />
 <jsp:useBean id="prSvc" scope="page" class="com.productReviews.model.ProductReviewsService" />
 <% 	
 	//取得會員相關訂單
-	Integer mem_no = 1;
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	RentalOrderService roSvc = new RentalOrderService();
-	List<RentalOrderVO> list = roSvc.getListByMem_no(mem_no);
+	List<RentalOrderVO> list = roSvc.getListByMem_no(memberVO.getMem_no());
 	pageContext.setAttribute("list",list);
 	//取得結束/取消訂單
 	List<RentalOrderVO> listEndRo = list.stream()
@@ -85,7 +85,15 @@
 <div class="container">
 <div class="row">
 <div class="col-lg-12 col-md-12">
-	<div class="products-details-tabs">
+<font style="color:blue;font-weight:bold">訂單規則</font>
+			<ul style="color:blue;font-weight:bold">
+				<li>預約訂單需當天付款，否則隔天將取消</li>
+				<li>訂單每超過1天，需多收2倍租金
+				<li>當第9天沒歸還商品，將直接沒收押金，結束訂單
+			</ul>
+			
+			
+<div class="products-details-tabs">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item"><a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all">全部</a></li>
                         <li class="nav-item"><a class="nav-link" id="unpaid-tab" data-toggle="tab" href="#unpaid" role="tab" aria-controls="unpaid">未付款</a></li>

@@ -2,6 +2,9 @@ package com.rentalProductList.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.rentalClass.model.*;
 
 public class RentalProductListService {
 	private I_RentalProductListDAO dao;
@@ -61,16 +64,31 @@ public class RentalProductListService {
 	}
 	
 	public List<RentalProductListVO> getOneRentalClassList(Integer rc_no) {
-		return dao.findbyRc_no(rc_no);
+		List<RentalProductListVO> list = dao.getAll().stream()
+				.filter(e -> e.getRc_no().equals(rc_no))
+				.collect(Collectors.toList());
+		return list;
 	}
 	
 	public List<RentalProductListVO> getOneRc_itemList(String rc_item) {
-		return dao.findbyRc_item(rc_item);
+		RentalClassService rcSvc = new RentalClassService();
+		List<RentalProductListVO> list = dao.getAll().stream()
+				.filter(e -> rcSvc.getOneRentalClass(e.getRc_no()).getRc_item().equals(rc_item))
+				.collect(Collectors.toList());
+		return list;
 	}
 	
 	//一個按鍵更改商品狀態(整備<->待租)
-		public void changeRplStatus(Integer rpl_no ,String rpl_status,String rpl_status2) {
-			dao.changeRpl_status(rpl_no ,rpl_status,rpl_status2);
+		public void changeRplStatus(Integer rpl_no) {
+			RentalProductListVO rplVO = dao.findByPK(rpl_no);
+			if(rplVO.getRpl_status().equals("整備")) {
+				rplVO.setRpl_status("待租");
+				dao.update(rplVO);
+			}
+			else if(rplVO.getRpl_status().equals("待租")) {
+				rplVO.setRpl_status("整備");
+				dao.update(rplVO);
+			}
 		}
 	
 }

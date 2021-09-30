@@ -1,7 +1,9 @@
 package com.reportProductReviews.model;
 
+import com.productReviews.model.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReportProductReviewsService {
 	private I_ReportProductReviews dao;
@@ -57,5 +59,29 @@ public class ReportProductReviewsService {
 
 	public List<ReportProductReviewsVO> getAll() {
 		return dao.getAll();
+	}
+	//檢舉不通過
+	public void reportNotPass(Integer rep_no) {
+		ReportProductReviewsVO repVO = dao.findByPK(rep_no);
+		repVO.setRep_status("不通過");
+		dao.update(repVO);
+	}
+	//檢舉通過
+	public void reportPass(Integer rep_no) {
+		ReportProductReviewsVO repVO = dao.findByPK(rep_no);
+		repVO.setRep_status("通過");
+		dao.update(repVO);
+		
+		ProductReviewsService prSvc = new ProductReviewsService();
+		ProductReviewsVO prVO = prSvc.getOneProductReviews(repVO.getPr_no());
+		prVO.setPr_status("下架");
+		prSvc.updateProductReviews(prVO);
+	}
+	//依照rep_status傳回List
+	public List<ReportProductReviewsVO> getListbyRepStatus(String rep_status) {
+		List<ReportProductReviewsVO> list = dao.getAll().stream()
+		        .filter(e -> e.getRep_status().equals(rep_status))
+		        .collect(Collectors.toList());
+		return list;
 	}
 }

@@ -24,29 +24,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #CCFFCC;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
- 	color:black;
+ 	background-color: white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -59,21 +55,17 @@
 		******************* -->  
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
-				<tr><td>
-					 <h3>租賃商品類別</h3>
-				</td></tr>
-			</table>
-			
-			<input type="button" class="menu" value="租賃商品類別" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
-			<input type="button" class="menu" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
-			<input type="button" class="menu" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
-			
+
+			<h3>租賃商品</h3>
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp'"  />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品清單" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp'" />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品圖片" onclick="location.href='<%=request.getContextPath()%>/back_end/rentalProductImages/listRpi.jsp'" />
+			<br><br>
 			<table>
 				<tr>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp" >
-				       		<input type="submit" value="顯示全部">
+				       		<input type="submit" value="顯示全部" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 					<td>
@@ -81,7 +73,7 @@
 					       <b>編號:</b>
 						   <input type="text" name="rc_no" size="1">
 					       <input type="hidden" name="action" value="getOne_For_Display">
-					       <input type="submit" value="查詢">
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 					     </FORM>
 					</td>
 					<td>
@@ -93,7 +85,7 @@
 					         </c:forEach>   
 					       </select>
 					       <input type="hidden" name="action" value="getOne_For_Display">
-					       <input type="submit" value="查詢">
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 					     </FORM>
 					</td>		
 					<td>
@@ -101,17 +93,16 @@
 					       <b>種類:</b>
 					       <select size="1" name="rc_item" >
 					         <c:forEach var="rc_itemList" items="${rc_itemList}" >
-			<!-- 		         list.get(0)取一個用來產生selected -->
 					          <option value="${rc_itemList}" ${rc_itemList==list.get(0).rc_item?'selected':''} >${rc_itemList}
 					         </c:forEach>   
 					       </select>
 					       <input type="hidden" name="action" value="getOneRc_item_For_Display">
-					       <input type="submit" value="查詢">
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 					     </FORM>
 					</td>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalClass/addRc.jsp" >
-				       		<input type="submit" value="新增">
+				       		<input type="submit" value="新增" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 				</tr>	
@@ -127,18 +118,18 @@
 				</ul>
 			</c:if>
 			
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<th>下單</th>
-					<th>類別編號</th>
-					<th>類別名稱</th>
+					<th>編號</th>
+					<th width="250px">名稱</th>
 					<th>種類</th>
 					<th>圖片</th>
 					<th>押金</th>
 					<th>價格/天</th>
 					<th>庫存</th>
 					<th>狀態</th>
-					<th>修改狀態</th>	
+					<th>上下架</th>	
 					<th>修改</th>
 				</tr>
 			<%@ include file="page1.file"%> 
@@ -150,7 +141,7 @@
 					>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="下單">
+						     <input type="submit" value="下單" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rc_no"  value="${rcVO.rc_no}">
 						     <input type="hidden" name="action"  value="addRo">
 						  </FORM>
@@ -159,7 +150,6 @@
 						<td><A href=
 						"<%=request.getContextPath()%>/back_end/rpl/rpl.do?action=getOneClass_For_Display&rc_no=${rcVO.rc_no}">
 						${rcVO.rc_name}</A></td>
-<%-- 						<td><A href="${roVO.ro_no})">${rcVO.rc_name}</A></td> --%>
 						<td>${rcVO.rc_item}</td>
 						<td><A href=
 						"<%=request.getContextPath()%>/back_end/rpi/rpi.do?action=getOneClass_For_Display&rc_no=${rcVO.rc_no}">
@@ -170,9 +160,8 @@
 						<td>${rcVO.rc_status}</td>
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" style="margin-bottom: 0px;">
-						     <input type="submit" value=${rcVO.rc_status=="上架"?"下架":"上架"}>
+						     <input type="submit" value=${rcVO.rc_status=="上架"?"下架":"上架"} class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rc_no"  value="${rcVO.rc_no}">
-						     <input type="hidden" name="rc_status"  value=${rcVO.rc_status=="上架"?"下架":"上架"}>
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>"> 
 						     <input type="hidden" name="action"	value="getOne_Change_Status"></FORM>
@@ -180,7 +169,7 @@
 
 						<td>
 						  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" style="margin-bottom: 0px;">
-						     <input type="submit" value="修改">
+						     <input type="submit" value="修改" class="btn btn-sm btn-primary">
 						     <input type="hidden" name="rc_no"  value="${rcVO.rc_no}">   
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 						     <input type="hidden" name="whichPage"	value="<%=whichPage%>"> 
@@ -189,7 +178,7 @@
 					</tr>
 				</c:forEach>
 			</table>
-			<%@ include file="page2.file"%>		
+			<%@ include file="page2.file"%>			
 		</div>	
 	</div>
 	
@@ -200,5 +189,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>

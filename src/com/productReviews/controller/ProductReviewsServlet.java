@@ -59,7 +59,6 @@ public class ProductReviewsServlet extends HttpServlet{
 				Integer rc_no = new Integer(req.getParameter("rc_no").trim());
 				Integer pr_score = new Integer(req.getParameter("pr_score"));
 				String pr_content = req.getParameter("pr_content");
-				String pr_status = "上架";
 				byte[] pr_images = null;
 				Collection<Part> parts = req.getParts(); 	
 				
@@ -78,7 +77,7 @@ public class ProductReviewsServlet extends HttpServlet{
 				
 				/***********************如果i==3 - 代表3個file都沒有上傳圖片*************************/			
 				ProductReviewsService prSvc = new ProductReviewsService();
-				prSvc.insertProductReviews(rc_no, ro_no, pr_content, pr_images, pr_score, pr_status);
+				prSvc.insertProductReviews(rc_no, ro_no, pr_content, pr_images, pr_score);
 				String url = "/front_end/rental/rentalOrderList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);	
@@ -158,12 +157,9 @@ public class ProductReviewsServlet extends HttpServlet{
 			
 			try {
 				Integer pr_no = new Integer(req.getParameter("pr_no"));
-				String pr_status = req.getParameter("pr_status");
 					
 				ProductReviewsService prSvc = new ProductReviewsService();
-				ProductReviewsVO prVO = prSvc.getOneProductReviews(pr_no);
-				prVO.setPr_status(pr_status);
-				prSvc.updateProductReviews(prVO);
+				prSvc.changePrStatus(pr_no);
 					
 				String url = "/back_end/productReviews/listPr.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 

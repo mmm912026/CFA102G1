@@ -19,29 +19,26 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #ffb6c1;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
- 	color:black;
+ 	background-color: white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
   }
-  table, th, td {
-    border: 1px solid black;
-  }
+
   th, td {
     padding: 1px;
     text-align: center;
   }
+  .btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -54,20 +51,18 @@
 		******************* -->  
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
-				<tr><td>
-					 <h3>租賃商品評價</h3>
-				</td></tr>
-			</table>
+
+			<h3>租賃商品評價</h3>
+
 			
-			<input type="button" class="menu" value="租賃評價檢舉" onclick="location.href='<%=request.getContextPath()%>/back_end/reportProductReviews/listRpr.jsp'" />
-			<input type="button" class="menu" value="租賃商品評價" onclick="location.href='<%=request.getContextPath()%>/back_end/productReviews/listPr.jsp'"/>
-			
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃評價檢舉" onclick="location.href='<%=request.getContextPath()%>/back_end/reportProductReviews/listRpr.jsp'" />
+			<input type="button" class="btn btn-sm btn-Secondary" value="租賃商品評價" onclick="location.href='<%=request.getContextPath()%>/back_end/productReviews/listPr.jsp'"/>
+			<br><br>
 			<table>
 				<tr>
 					<td>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/productReviews/listPr.jsp" >
-				       		<input type="submit" value="顯示全部">
+				       		<input type="submit" value="顯示全部" class="btn btn-sm btn-primary">
 			     		</FORM>
 					</td>
 					<td>
@@ -75,7 +70,7 @@
 					       <b>編號:</b>
 						   <input type="text" name="pr_no" size="1">
 					       <input type="hidden" name="action" value="getOne_For_Display">
-					       <input type="submit" value="查詢">
+					       <input type="submit" value="查詢" class="btn btn-sm btn-primary">
 					    </FORM>
 					</td>
 				</tr>	
@@ -91,7 +86,7 @@
 				</ul>
 			</c:if>
 			
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<th>評價編號</th>
 					<th>類別編號</th>
@@ -123,7 +118,7 @@
 						<td>${prVO.pr_status}</td>
 						<td>
 							 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/pr/pr.do" style="margin-bottom: 0px;">
-						     <input type="submit" value=${prVO.pr_status=="上架"?"下架":"上架"}>
+						     <input type="submit" value=${prVO.pr_status=="上架"?"下架":"上架"} class="btn btn-sm btn-primary">
 						     <input type="hidden" name="pr_no"  value="${prVO.pr_no}">
 						     <input type="hidden" name="pr_status"  value=${prVO.pr_status=="上架"?"下架":"上架"}>
 						     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
@@ -144,5 +139,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>

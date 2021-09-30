@@ -5,7 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.rentalClass.model.*"%>
 <%@ page import="com.rentalOrder.model.*"%>
-
+<%@ page import="com.member.model.*"%>
 <% 	
 
 	Integer rc_no = new Integer(request.getParameter("rc_no"));
@@ -13,7 +13,7 @@
 	RentalClassService rcSvc = new RentalClassService();
 	RentalClassVO rcVO = rcSvc.getOneRentalClass(rc_no);
 	pageContext.setAttribute("rcVO",rcVO);
-
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 %>
 
 <!DOCTYPE html>
@@ -64,7 +64,7 @@
 <!-- Start Checkout Area -->
 		<section class="checkout-area ptb-50">
             <div class="container">
-                <form METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do">
+                <form METHOD="post" name="orderCreate" ACTION="<%=request.getContextPath()%>/back_end/ro/ro.do">
                     <div class="row">
                         <c:if test="${not empty errorMsgs}">
 	                        <div class="col-lg-12 col-md-12">
@@ -84,7 +84,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>會員編號</label>
-                                            <input type="text" class="form-control" name="mem_no">
+                                            <label style="font-size:24px">${memberVO.mem_no}</label>
+                                            <input type="hidden" name="mem_no" value="${memberVO.mem_no}">
                                         </div>
                                     </div>
 
@@ -239,7 +240,7 @@ $(function(){
 	 
   	 var today = new Date();
      var somedate1 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+3);	 
-     var somedate2 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+9);
+     var somedate2 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+7);
      $('#start_date').datetimepicker({
          beforeShowDay: function(date) {
        	  if (  date.getYear() <  somedate1.getYear() || 
@@ -255,27 +256,41 @@ $(function(){
              }
              return [true, ""];
      }});    
-      
+     
+
+	var somedate3 = new Date(today.getFullYear(),today.getMonth(),today.getDate()+9);
 	 $('#end_date').datetimepicker({
 	  format:'Y-m-d',
-	  onShow:function(){
-	   this.setOptions({
-	    	minDate:$('#start_date').val()?(new Date($('#start_date').val())).Format():false
-	   })
-	  },
-	  timepicker:false
+	  timepicker:false,
+	  beforeShowDay: function(date) {
+       	  if (  date.getYear() <  somedate3.getYear() || 
+		           (date.getYear() == somedate3.getYear() && date.getMonth() <  somedate3.getMonth()) || 
+		           (date.getYear() == somedate3.getYear() && date.getMonth() == somedate3.getMonth() && date.getDate() < somedate3.getDate())
+             ) {
+                  return [false, ""]
+             }
+             return [true, ""];
+     }
+	  
 	 });
 });
-
-Date.prototype.Format = function() {
-	var mm = this.getMonth() + 1; // getMonth() is zero-based
-	var dd = this.getDate()+6;
-
-	return [this.getFullYear(),
-	         (mm>9 ? '' : '0') + mm,
-	         (dd>9 ? '' : '0') + dd
-	       ].join('-');
-	};
+$('#start_date').on('change',function(){
+	var somedate3 = new Date($('#start_date').val().substring(0,4),parseInt($('#start_date').val().substring(5,7))-1,parseInt($('#start_date').val().substring(8,10))+6);
+	$('#end_date').datetimepicker({
+		  format:'Y-m-d',
+		  timepicker:false,
+		  beforeShowDay: function(date) {
+	       	  if (  date.getYear() <  somedate3.getYear() || 
+			           (date.getYear() == somedate3.getYear() && date.getMonth() <  somedate3.getMonth()) || 
+			           (date.getYear() == somedate3.getYear() && date.getMonth() == somedate3.getMonth() && date.getDate() < somedate3.getDate())
+	             ) {
+	                  return [false, ""]
+	             }
+	             return [true, ""];
+	     }
+		  
+		 });
+});
 
 // 當選定租賃日期,計算租賃天數
 $('#start_date').on('change',function(){
@@ -308,6 +323,9 @@ $('#end_date').on('change',function(){
 	}
 });
 
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
 </script>		
 		
 </body>

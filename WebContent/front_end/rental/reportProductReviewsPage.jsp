@@ -3,7 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.productReviews.model.*"%>
+<%@ page import="com.member.model.*"%>
 <% 	
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	ProductReviewsVO prVO = (ProductReviewsVO) request.getAttribute("prVO");
 %>
 
@@ -43,9 +45,16 @@
                         
                             </div>	
                             <form id="contactForm" METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rep/rep.do">
-                                <input type="hidden" name="action" value="insert"> 
+                                <input type="hidden" name="action" value="insert">
+                                <input type="hidden" name="mem_no" value="${memberVO.mem_no}">  
                                 <input type="hidden" name="pr_no" value="<%=prVO.getPr_no()%>"> 
                                 <div class="row">
+                                	<div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>檢舉會員編號:#${memberVO.mem_no}</label>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 	<div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label>檢舉原因:</label>
@@ -79,6 +88,9 @@
         <!-- End Contact Area -->
 <script src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/js/jquery.min.js"></script>
 <script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
 	$('#rep_contentnum').on('change',function(){
 		console.log($('#rep_contentnum').val())
 		if($('#rep_contentnum').val()==3){

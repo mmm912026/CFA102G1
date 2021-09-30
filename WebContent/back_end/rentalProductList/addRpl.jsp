@@ -12,32 +12,25 @@
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #66b3ff;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
   table {
- 	color:black;
+ 	background-color:white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
-  }
-  table, th, td {
-    border: 1px solid black;
   }
   th, td {
     padding: 1px;
     text-align: center;
   }
-  button#control{
-  	margin: 5px;
-  }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -50,15 +43,14 @@
 		******************* --> 
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
+
 			   <tr><td><h3>新增租賃商品</h3>
 			   <h6><a href="<%=request.getContextPath()%>/back_end/rentalProductList/listRpl.jsp">回首頁</a></h6>
-			   </td></tr>
-			</table>
+
 			
 			<p>
 			
-			<h3>資料新增:</h3>
+			<h5>資料新增:</h5>
 			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
@@ -73,7 +65,7 @@
 			<jsp:useBean id="rcSvc" scope="page" class="com.rentalClass.model.RentalClassService" />
 				
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do" name="form1">
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<td>商品類別:</td>
 					<td>
@@ -97,7 +89,7 @@
 			</table>
 			<br>
 			<input type="hidden" name="action" value="insert">
-			<input type="submit" value="送出新增"></FORM>	
+			<input type="submit" value="新增" class="btn btn-sm btn-primary"></FORM>	
 		
 		</div>
 	
@@ -109,5 +101,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* --> 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>

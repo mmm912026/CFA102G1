@@ -20,6 +20,7 @@
 	
 	pageContext.setAttribute("roVO",roVO);
 	pageContext.setAttribute("rcVO",rcVO);
+	
 
 %>
 
@@ -205,7 +206,9 @@
 <script src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/css/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/css/datetimepicker/jquery.datetimepicker.full.js"></script>
 <script>
-
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
 
 $.datetimepicker.setLocale('zh'); // kr ko ja en
 

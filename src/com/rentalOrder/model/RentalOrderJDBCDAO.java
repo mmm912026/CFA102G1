@@ -288,10 +288,7 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setMem_no(rs.getInt("mem_no"));
 				rentalOrderVO.setRpl_no(rs.getInt("rpl_no"));
 				rentalOrderVO.setRo_status(rs.getString("ro_status"));
-				rentalOrderVO.setRo_pay_status(rs.getString("ro_pay_status"));
-				rentalOrderVO.setRo_pay_method(rs.getString("ro_pay_method"));
 				rentalOrderVO.setRo_ship_method(rs.getString("ro_ship_method"));
-				rentalOrderVO.setRo_ship_status(rs.getString("ro_ship_status"));
 				rentalOrderVO.setRo_ship_addrs(rs.getString("ro_ship_addrs"));
 				rentalOrderVO.setRo_starttime(rs.getDate("ro_starttime"));
 				rentalOrderVO.setRo_endtime(rs.getDate("ro_endtime"));				
@@ -302,8 +299,7 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 				rentalOrderVO.setRo_totalprice(rs.getInt("ro_totalprice"));				
 				rentalOrderVO.setRo_deposit(rs.getInt("ro_deposit"));				
 				rentalOrderVO.setRo_deposit_status(rs.getString("ro_deposit_status"));				
-				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));				
-				rentalOrderVO.setRo_return_method(rs.getString("ro_return_method"));				
+				rentalOrderVO.setRo_return_status(rs.getString("ro_return_status"));							
 				rentalOrderVO.setRo_product_status(rs.getString("ro_product_status"));				
 				rentalOrderVO.setRo_repaircost(rs.getInt("ro_repaircost"));				
 				rentalOrderVO.setRo_delay_days(rs.getInt("ro_delay_days"));				
@@ -515,22 +511,26 @@ public class RentalOrderJDBCDAO implements I_RentalOrderDAO{
 	}
 
 	@Override
-	public List<RentalOrderVO> findByRoStatus(String ro_status) {
+	public void Cancelunpaidorder() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public List<RentalOrderVO> findByMem_no(Integer mem_no) {
+	public void ProlongRoOnTime() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public List<RentalOrderVO> findByRpl_noAndRoStatus (Integer rpl_no, String ro_status) {
+	public void DelayChangeRoByDay() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
-	
-	
+
+	@Override
+	public void DeadlineChangeRplandRo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -224,7 +224,7 @@
 <script>
 		<c:if test="${closewindow!=null}">
 		window.onload=function (){
-			 window.opener.location.reload();
+			 window.opener.location="<%=request.getContextPath()%>/back_end/rentalOrder/listRo.jsp";
 			 window.close();
 			 }    
 		</c:if>
@@ -332,6 +332,8 @@
         	}	
         });
         
-
+        	$(document).ready(function(){
+        		$('input').attr('autocomplete', 'off');
+        	});
 </script>
 </html>

@@ -126,13 +126,21 @@
 	</tr>
 </table>
 <br>
+<%if(!(roVO.getRo_status().equals("取消")||roVO.getRo_status().equals("結束")||roVO.getRo_status().equals("結束-商品毀損")||roVO.getRo_status().equals("結束-商品遺失"))){ %>
 <input type="hidden" name="action" value="getOne_For_Update">
 <input type="hidden" name="ro_no" value="<%=roVO.getRo_no()%>">
 <input type="submit" value="修改">
+<%} %>
 </FORM>
 <FORM>
 <input onclick="window.close();" value="關閉視窗" type="button">
 </FORM>
 <font style="color:red">(非必要請勿隨意修改)</font>
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>

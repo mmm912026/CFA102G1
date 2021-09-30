@@ -7,33 +7,30 @@
 %>
 <html>
 <head>
-<title>新增租賃商品類別</title>
+<title>新增租賃商品</title>
 <%@ include file="../back_include_page/CSS_link.jsp"%>
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <style>
-  form { display: inline; }
-  table#table-1 {
-	background-color: #CCFFCC;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
-  table {
+form { display: inline; }
+table {
+	background-color: white;
 	width: 900px;
 	margin: 5px;
-	border: 1px solid black;
   }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
+th, td {
     padding: 1px;
     text-align: center;
   }
+.btn-primary {
+  color: #fff;
+  background-color: #15407f;
+  border-color: #15407f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #000;
+  background-color: #fff;
+  border-color: #15407f;
+}
 </style>
 </head>
 <body>
@@ -47,15 +44,12 @@
 		
 	<div id="app">
 		<div id="main">
-			<table id="table-1">
-			   <tr><td><h3>新增租賃商品類別</h3>
-			   <h6><a href="<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp">回首頁</a></h6>
-			   </td></tr>
-			</table>
+
+<h3>新增租賃商品</h3>
+<h6><a href="<%=request.getContextPath()%>/back_end/rentalClass/listRc.jsp">回首頁</a></h6>
+<p>
 			
-			<p>
-			
-			<h3>資料新增:</h3>
+			<h5>資料新增:</h5>
 			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
@@ -68,7 +62,7 @@
 			</c:if>	
 				
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" name="form1">
-			<table>
+			<table class="table table-striped">
 				<tr>
 					<td>商品類別名稱:</td>
 					<td><input type="TEXT" name="rc_name" size="45" 
@@ -98,7 +92,7 @@
 			</table>
 			<br>
 			<input type="hidden" name="action" value="insert">
-			<input type="submit" value="送出新增"></FORM>		
+			<input type="submit" value="新增" class="btn btn-sm btn-primary"></FORM>		
 		
 		
 		</div>
@@ -110,5 +104,11 @@
 	<!--*******************	
 		End Include sidebar File  
 		******************* -->
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 </body>
 </html>

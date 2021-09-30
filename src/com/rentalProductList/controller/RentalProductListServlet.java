@@ -32,7 +32,7 @@ public class RentalProductListServlet  extends HttpServlet{
 				
 				RentalProductListService rplSvc = new RentalProductListService();
 				Integer rc_no = rplSvc.getOneRentalProductList(rpl_no).getRc_no();
-				rplSvc.changeRplStatus(rpl_no, rpl_status,rpl_status2);
+				rplSvc.changeRplStatus(rpl_no);
 				
 				String requestURL = req.getParameter("requestURL");
 				if(requestURL.equals("/back_end/rentalProductList/listRplbyRC.jsp"))

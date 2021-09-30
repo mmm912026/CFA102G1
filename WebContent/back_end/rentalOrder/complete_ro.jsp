@@ -174,7 +174,7 @@
         $('#form2').on('change',function(){
 			if ($('#ro_repaircost').val()>=0){
 				$('#send').removeAttr("disabled");
-				if($('#returndays').val()<=0){
+				if($('#return').val()=="提前"){
 	        		var money = <%=roVO.getRo_deposit()%>-$('#ro_repaircost').val();
 	        		$('#returndays').val(Math.abs($('#returndays').val()));
 	        	}
@@ -272,11 +272,14 @@
          
          <c:if test="${closewindow!=null}">
 	         window.onload=function (){
-	        	 window.opener.location.reload();
+	        	 window.opener.location="<%=request.getContextPath()%>/back_end/rentalOrder/listRo.jsp";
 	        	 window.close();
 	        	 }    
          </c:if>
-        
+
+         	$(document).ready(function(){
+         		$('input').attr('autocomplete', 'off');
+         	});
 </script>
 </body>
 </html>

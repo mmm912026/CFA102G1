@@ -151,10 +151,9 @@ public class RentalClassServlet extends HttpServlet {
 								
 			try {
 				Integer rc_no = new Integer(req.getParameter("rc_no"));
-				String rc_status = req.getParameter("rc_status");
 				
 				RentalClassService rcSvc = new RentalClassService();
-				rcSvc.changeRentalClassStatus(rc_no,rc_status);
+				rcSvc.changeRcRentStatus(rc_no);
 				
 				String rc_item = rcSvc.getOneRentalClass(rc_no).getRc_item();
 				

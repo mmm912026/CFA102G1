@@ -11,7 +11,9 @@ import com.rentalOrder.model.*;
 import com.rentalProductList.model.*;
 
 public class RentalOrderServlet extends HttpServlet{
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	Timer timer = new Timer();
+	int timercount =0 ;
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -41,9 +43,7 @@ private static final long serialVersionUID = 1L;
 				failureView.forward(req, res);
 			}
 		}				
-		
-		
-		
+			
 		if ("insertProlongOrder".equals(action)) { 
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -73,6 +73,9 @@ private static final long serialVersionUID = 1L;
 					errorMsgs.add("請選擇續租日期");
 				}else {
 					ro_endtime = Date.valueOf(endtime);
+					long startRentDaytoEndRentDay = (formatter.parse(endtime).getTime()-formatter.parse(starttime).getTime())/(1000*24*60*60);
+					if((startRentDaytoEndRentDay)<1)
+						errorMsgs.add("租賃時間錯誤");
 				}		
 				
 				String url;
@@ -293,48 +296,8 @@ private static final long serialVersionUID = 1L;
 				
 				RentalOrderService roSvc = new RentalOrderService();
 				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
-				
-				Integer mem_no = roVO.getMem_no();
-				Integer rpl_no = roVO.getRpl_no();
-				String ro_status ="取消";
-				String ro_ship_method = roVO.getRo_ship_method();
-				String ro_ship_addrs = roVO.getRo_ship_addrs();
-				Date ro_starttime = roVO.getRo_starttime();
-				Date ro_endtime = roVO.getRo_endtime();
-				Date ro_oncerentendtime = Date.valueOf("1970-01-01");
-				Date ro_return_date = Date.valueOf("1970-01-01");
-				Integer ro_day = roVO.getRo_day();
-				Integer ro_price = roVO.getRo_price();
-				Integer ro_totalprice = roVO.getRo_totalprice();
-				Integer ro_deposit = roVO.getRo_deposit();
-				String ro_deposit_status = "";
-				String ro_return_status = "";
-				String ro_product_status = "";
-				Integer ro_repaircost = 0;
-				Integer ro_delay_days = 0;	
-				Integer ro_return_deposit = 0;
-				
-				roVO = roSvc.updateRentalOrder(ro_no, mem_no, rpl_no, ro_status, 
-						ro_ship_method, ro_ship_addrs, ro_starttime, ro_endtime,
-						ro_oncerentendtime, ro_return_date, ro_day, ro_price,
-						ro_totalprice, ro_deposit, ro_deposit_status, ro_return_status,
-						ro_product_status, ro_repaircost, ro_delay_days, ro_return_deposit);
-				
-				RentalProductListService rplSvc = new RentalProductListService();
-				RentalProductListVO rplVO = rplSvc.getOneRentalProductList(rpl_no);
-				
-				if("預約".equals(rplVO.getRpl_status())) {
-					rplVO.setRpl_status("待租");		
-					rplSvc.updateRentalProductListByVO(rplVO);
-				}
-				
-				if("租賃中".equals(rplVO.getRpl_status())) {
-					List<RentalOrderVO> list = roSvc.getListByRplandRo_status(rpl_no, "租賃中");
-					RentalOrderVO roVO_old = list.get(0);
-					roVO_old.setRo_oncerentendtime(Date.valueOf("1970-01-01"));		
-					roSvc.updateRentalOrder(roVO_old);
-				}
-							
+				roSvc.cancelOrder(ro_no);
+											
 				req.setAttribute("roVO", roVO);
 				req.setAttribute("closewindow",true);
 				
@@ -359,24 +322,21 @@ private static final long serialVersionUID = 1L;
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
 				
+				Integer ro_no = new Integer(req.getParameter("ro_no"));
+				RentalOrderService roSvc = new RentalOrderService();
+				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
+				
 				String ro_product_status = req.getParameter("ro_product_status");
 				String return_date = req.getParameter("ro_return_date");
 				if(return_date.trim().length() == 0) {
-					if("遺失".equals(ro_product_status))
-						System.out.println("商品遺失");
-					else
+					if(!"遺失".equals(ro_product_status))
 						errorMsgs.add("請輸入日期");
 				}
 				
 				Integer ro_repaircost = new Integer(req.getParameter("ro_repaircost"));
 				if(ro_repaircost==0&&"毀損".equals(ro_product_status)) {
 					errorMsgs.add("請輸入毀損扣除額");
-				}
-				
-				Integer ro_no = new Integer(req.getParameter("ro_no"));
-
-				RentalOrderService roSvc = new RentalOrderService();
-				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
+				}	
 				
 				roVO.setRo_product_status(ro_product_status);	//防呆,避免按太快
 	
@@ -416,10 +376,10 @@ private static final long serialVersionUID = 1L;
 				Integer ro_deposit = roVO.getRo_deposit();
 				Integer ro_return_deposit = new Integer(req.getParameter("ro_return_deposit"));
 				String ro_deposit_status = null;
-				if (ro_return_deposit<ro_deposit)
-					ro_deposit_status = "部分退回";
-				else if (ro_return_deposit==0)
+				if (ro_return_deposit==0)
 					ro_deposit_status = "沒收";
+				else if (ro_return_deposit<ro_deposit)
+					ro_deposit_status = "部分退回";
 				else
 					ro_deposit_status = "全額退回";
 								
@@ -487,8 +447,6 @@ private static final long serialVersionUID = 1L;
 			}catch(Exception e) {
 				throw new ServletException(e);
 			}
-			
-			
 		}
 		
 		if ("getOne_For_DisplayDetail".equals(action)) {
@@ -715,8 +673,16 @@ private static final long serialVersionUID = 1L;
 				}else {
 					ro_starttime = Date.valueOf(starttime);
 					ro_endtime = Date.valueOf(endtime);
+					
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					long todayToStartRentDay = (formatter.parse(starttime).getTime()-new java.util.Date().getTime())/(1000*24*60*60);
+					long startRentDaytoEndRentDay = (formatter.parse(endtime).getTime()-formatter.parse(starttime).getTime())/(1000*24*60*60);
+					if(todayToStartRentDay<2||todayToStartRentDay>6) 
+						errorMsgs.add("租賃開始日期錯誤，僅提供預約未來3-7天");
+					if((startRentDaytoEndRentDay+1)<7)
+						errorMsgs.add("租賃時間錯誤，最短租賃天數7天");
 				}		
-				
+						
 				String url;
 				if (!errorMsgs.isEmpty()) {
 					
@@ -760,7 +726,22 @@ private static final long serialVersionUID = 1L;
 				}
 				/***************************2.開始新增資料***************************************/
 				RentalOrderService roSvc = new RentalOrderService();				
-				Integer rpl_no = roSvc.findOneProductForRent(rc_no);
+				Integer rpl_no = roSvc.findOneRplForRent(rc_no);
+				
+				if(rpl_no.equals(0)) {
+					errorMsgs.add("此商品目前無庫存");
+					
+					url = "/back_end/rentalOrder/addRo.jsp";
+					
+					if("true".equals(fromfront))
+						url = "/front_end/rental/errorPage.jsp";
+									
+					req.setAttribute("roVO", roVO); 
+					RequestDispatcher failureView = req
+							.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;
+				}
 				
 				roVO.setRpl_no(rpl_no);
 				
@@ -819,15 +800,11 @@ private static final long serialVersionUID = 1L;
 				RentalOrderService roSvc = new RentalOrderService();
 				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
 				if(roVO.getRo_status().equals("續租-未付款")) {
-					List<RentalOrderVO> list = roSvc.getListByRplandRo_status(roVO.getRpl_no(), "租賃中");
-					RentalOrderVO roVO_old = list.get(0);
-					roVO_old.setRo_oncerentendtime(roVO.getRo_starttime());		
-					roSvc.updateRentalOrder(roVO_old);
-					
-					roVO.setRo_status("續租-付款完成");
-					roSvc.updateRentalOrder(roVO);		
+					roSvc.payforProlongOrder(ro_no);	
+				} else if(roVO.getRo_status().equals("未付款")) {
+					roSvc.payForOrder(ro_no);
 				} else {
-					roSvc.changeOneRoStatusToWaitDeliver(ro_no);
+					errorMsgs.add("付款失敗，訂單無法付款!");			
 				}
 				
 				String fromfront = req.getParameter("fromfront");
@@ -840,7 +817,7 @@ private static final long serialVersionUID = 1L;
 				successView.forward(req, res);			
 				
 			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
+				errorMsgs.add("查無此訂單");
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/rentalOrder/listRo.jsp");
 				failureView.forward(req, res);
@@ -853,8 +830,7 @@ private static final long serialVersionUID = 1L;
 				Integer ro_no = new Integer(req.getParameter("ro_no"));
 				
 				RentalOrderService roSvc = new RentalOrderService();
-				RentalOrderVO roVO = roSvc.getOneRentalOrder(ro_no);
-				roSvc.changeOneRoStatusToOnRent(ro_no, roVO.getRpl_no());
+				roSvc.changeOneRoStatusToOnRent(ro_no);
 				
 				RequestDispatcher successView = 
 						req.getRequestDispatcher("/back_end/rentalOrder/listRo.jsp");
@@ -867,5 +843,35 @@ private static final long serialVersionUID = 1L;
 				failureView.forward(req, res);
 			}	
 		}
+		
+		if ("startTimer".equals(action)) {
+
+				RentalOrderService roSvc = new RentalOrderService();
+				System.out.println("計時器開始");
+				TimerTask task = new TimerTask() {
+					public void run() {
+						timercount ++;
+						System.out.println("第 " + timercount + " 次執行計時器");
+						roSvc.executeTimerTask();
+					}					
+				};
+				Calendar cal = Calendar.getInstance();
+				timer = new Timer();
+				timer.scheduleAtFixedRate(task, cal.getTime(), 30000);
+		
+		}
+		
+		if ("stopTimer".equals(action)) {
+			System.out.println("計時器關閉");
+			timer.cancel();
+		}
+				
 	}	
+	
+	public void destroy() {                                            
+		if(timer!=null)
+			timer.cancel();
+	}    
+	
+	
 }

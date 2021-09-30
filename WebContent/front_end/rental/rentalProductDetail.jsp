@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
+<%@ page import="java.util.stream.*"%>
 <%@ page import="com.rentalClass.model.*"%>
 <%@ page import="com.rentalProductImages.model.*"%>
 <%@ page import="com.productReviews.model.*"%>
@@ -19,7 +20,7 @@
 	pageContext.setAttribute("list",list);
 	//取得rc_no所有評價
 	ProductReviewsService prSvc = new ProductReviewsService();
-	List<ProductReviewsVO> prlist = prSvc.getListbyRc(rc_no); 
+	List<ProductReviewsVO> prlist = prSvc.getListbyRc(rc_no);
 	//計算rc_no 評價平均分數到小數點1位
 	Double total_score = (double) rcVO.getRc_total_score();
 	Double pr_num = (double) prlist.size();
@@ -29,8 +30,9 @@
 	else
 		score_avg = Math.round(total_score*10.0/pr_num)/10.0;
 	//取得相關種類商品資訊
-	List<RentalClassVO> rc_related_List = rcSvc.getOneRc_item(rcVO.getRc_item());
-	
+	List<RentalClassVO> rc_related_List = rcSvc.getOneRc_item(rcVO.getRc_item()).stream()
+				.filter(e -> e.getRc_status().equals("上架"))
+				.collect(Collectors.toList());
 %>
 
 <jsp:useBean id="roSvc" scope="page" class="com.rentalOrder.model.RentalOrderService" />
@@ -99,7 +101,8 @@ div .review-item {
                                 </div>
                                 <div class="slider slider-for">
                                 	<c:forEach var="rpiVO" items="${list}">
-                                	 	<div><img src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showImgByRpino&id=${rpiVO.rpi_no}" alt="image"></div>	
+                                	 	<div><img src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showImgByRpino&id=${rpiVO.rpi_no}" 
+                                	 	style="width:600px;height:500px" alt="image"></div>	
                                 	</c:forEach>                                    
                                 </div>
                             </div>
@@ -206,7 +209,7 @@ div .review-item {
                                         <a href="javascript:showRepPage(<%=prVO.getPr_no()%>)">檢舉</a></div>            
                                         </div>
                                         <h3><%=prVO.getPr_content() %></h3>
-                                        <span><strong><%=roSvc.getOneRentalOrder(prVO.getRo_no()).getRo_endtime() %></strong></span>
+                                        <span><strong><%=roSvc.getOneRentalOrder(prVO.getRo_no()).getRo_return_date() %></strong></span>
                                     
                                     </div>                       
                                 </div>
@@ -226,9 +229,14 @@ div .review-item {
                 <div class="section-title">
                     <h2>相關商品</h2>
                 </div>
+                
                 <div class="row">
-                	<%for(int i=0;i<=3;i++){%>
+                	<%if(rc_related_List.size()==1){ %>
+                		&nbsp;&nbsp;&nbsp;&nbsp;目前無相關商品
+                	<%} else {%>
+                	<%for(int i=0;i<rc_related_List.size();i++){%>
                 	<%RentalClassVO rc_related_ListVO = rc_related_List.get(i);%>
+                	<%if(!rc_related_ListVO.getRc_no().equals(rc_no)){ %>
                     <div class="col-lg-3 col-sm-6">
                         <div class="single-arrivals-products">
                             <div class="arrivals-products-image">
@@ -261,6 +269,8 @@ div .review-item {
                         </div>
                     </div>
                     <%}%>
+                    <%}%>     	
+                 <%}%>    
                 </div>
             </div>
         </section>
@@ -290,6 +300,12 @@ div .review-item {
 	<!--*******************	
 		End Include JS File  
 		******************* -->	
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 <script>
     function showRepPage(data){
     	document.open('<%=request.getContextPath()%>/back_end/rep/rep.do?pr_no='+data+'&action=showRepPage', '' ,'height=400,width=650,left=700,top=200,resizable=yes,scrollbars=yes');

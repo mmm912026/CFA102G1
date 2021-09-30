@@ -228,6 +228,12 @@
 	<!--*******************	
 		End Include JS File  
 		******************* -->
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+</script>
 <script>
 img1input.onchange = evt => {
 	  const [file] = img1input.files
