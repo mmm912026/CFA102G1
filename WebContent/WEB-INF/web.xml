@@ -35,7 +35,12 @@
   	<url-pattern>/back_end/appraisal_case_images/*</url-pattern>
   	<url-pattern>/back_end/appraisal_class/*</url-pattern>
   	<url-pattern>/back_end/authority/*</url-pattern>
-  	<url-pattern>/back_end/consultation/*</url-pattern>
+  	<url-pattern>/back_end/consultation/addConsult.jsp</url-pattern>
+  	<url-pattern>/back_end/consultation/listAllConsult.jsp</url-pattern>
+  	<url-pattern>/back_end/consultation/listOneConsult.jsp</url-pattern>
+  	<url-pattern>/back_end/consultation/listOneConsultModel.jsp</url-pattern>
+  	<url-pattern>/back_end/consultation/select_page.jsp</url-pattern>
+  	<url-pattern>/back_end/consultation/update_consult_input.jsp</url-pattern>
   	<url-pattern>/back_end/coupon_information/*</url-pattern>
   	<url-pattern>/back_end/member/*</url-pattern>
   	<url-pattern>/back_end/productReviews/*</url-pattern>
