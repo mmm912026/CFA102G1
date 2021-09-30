@@ -67,4 +67,22 @@ public List<StaffVO> getAll(){
 public StaffVO getOneStaff_account(String staff_account, String staff_password) {
 	return dao.findByStaff_account(staff_account,staff_password);
 }
+public StaffVO update_One_Staff(Integer staff_no,String staff_name,String staff_gender,String staff_phone,String staff_email,String staff_address,String staff_account,String staff_password) {
+	
+	StaffVO staffVO = new StaffVO();
+	 staffVO.setStaff_no(staff_no);
+     staffVO.setStaff_name(staff_name);
+     staffVO.setStaff_gender(staff_gender);
+	 staffVO.setStaff_phone(staff_phone);
+	 staffVO.setStaff_email(staff_email);
+	 staffVO.setStaff_address(staff_address);
+	 staffVO.setStaff_account(staff_account);
+	 staffVO.setStaff_password(staff_password);
+	
+	
+	dao.update_One_Staff(staffVO);
+	
+	return staffVO;
+}
+
 }
