@@ -59,10 +59,10 @@
                         <h2 style="text-align:center;">探索更多</h2>
                         <ul class="footer-contact-info" style="text-align:center;">
                                 <li>
-                                    <a href="#">3C 租賃</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/rental/rentalProductList.jsp">3C 租賃</a>
                                 </li>
                                 <li>
-                                    <a href="#">回收估價</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/appraisal_case/appraisalCase.jsp">回收估價</a>
                                 </li>
                                  <li>
                                     <a href="<%=request.getContextPath()%>/front_end/consultation/consult.jsp">聯絡我們</a>

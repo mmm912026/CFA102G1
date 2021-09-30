@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.rentalClass.model.*"%>
+<%@ page import="com.productReviews.model.*"%>
+<%
+
+	RentalClassService rcSvc = new RentalClassService(); 
+	List<RentalClassVO> list = rcSvc.getRcRentHotList(8);
+	pageContext.setAttribute("list",list);
+			
+	ProductReviewsService prSvc = new ProductReviewsService();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -77,8 +89,10 @@
 						<h1>二手電腦專賣店</h1>
 						<p>桌上型電腦/筆記型電腦/電腦零件</p>
 						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
-								class="flaticon-shopping-cart"></i> 來去逛逛!! <span></span>
+							<a
+								href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=0"
+								class="default-btn"> <i class="flaticon-shopping-cart"></i>
+								來去逛逛!! <span></span>
 							</a>
 						</div>
 					</div>
@@ -169,143 +183,51 @@
 			</div>
 
 			<div class="row">
+				<%if(list.size()==0) {%>
+				目前無租賃商品
+				<%} else { %>
+				<%for(RentalClassVO rcVO:list){%>
+
 				<div class="col-lg-3 col-sm-6">
 					<div class="single-arrivals-products">
 						<div class="arrivals-products-image">
-							<a href="products-details.html"><img
-								src="front_CSS_JS/assets/img/arrivals-products/arrivals-products-1.jpg"
-								alt="image"></a>
-							<div class="tag">New</div>
+							<a
+								href="<%=request.getContextPath()%>/back_end/rc/rc.do?action=showRcDetail&rc_no=<%=rcVO.getRc_no()%>">
+								<img
+								src="<%=request.getContextPath()%>/rpi/DBGifReader?action=showRcFirstImg&id=<%=rcVO.getRc_no()%>"
+								alt="image" width="450px" height="450px">
+							</a>
+							<div class="tag">HOT</div>
 							<ul class="arrivals-action">
-								<li><a href="cart.html"> <i
-										class="flaticon-shopping-cart"></i>
+								<li><a
+									href="<%=request.getContextPath()%>/back_end/ro/ro.do?action=showRoCreatePage&rc_no=<%=rcVO.getRc_no()%>">
+										<i class="flaticon-shopping-cart"></i>
 								</a></li>
-								<li><a href="wishlist.html"><i class="flaticon-heart"></i></a>
-								</li>
-								<li><a href="#" data-toggle="modal"
-									data-target="#productsQuickView"><i class="flaticon-view"></i></a>
-								</li>
-							</ul>
-						</div>
-						<div class="arrivals-products-content">
-							<h3>
-								<a href="products-details.html">Smart Watch</a>
-							</h3>
-							<ul class="rating">
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-							</ul>
-							<span>$99.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="single-arrivals-products">
-						<div class="arrivals-products-image">
-							<a href="products-details.html"><img
-								src="front_CSS_JS/assets/img/arrivals-products/arrivals-products-2.jpg"
-								alt="image"></a>
-							<div class="tag">New</div>
-							<ul class="arrivals-action">
-								<li><a href="cart.html"> <i
-										class="flaticon-shopping-cart"></i>
-								</a></li>
-								<li><a href="wishlist.html"><i class="flaticon-heart"></i></a>
-								</li>
-								<li><a href="#" data-toggle="modal"
-									data-target="#productsQuickView"><i class="flaticon-view"></i></a>
-								</li>
 							</ul>
 						</div>
 
 						<div class="arrivals-products-content">
 							<h3>
-								<a href="products-details.html">Digital Camera</a>
+								<a
+									href="<%=request.getContextPath()%>/back_end/rc/rc.do?action=showRcDetail&rc_no=<%=rcVO.getRc_no()%>">
+									<%=rcVO.getRc_name()%></a>
 							</h3>
+							<span>NT$<%=rcVO.getRc_price()%>/天
+							</span><br> <span>租賃次數: <%=rcVO.getRc_total_count()%> 次
+							</span>
+							<%if(rcVO.getRc_total_score()!=0){ %>
+							<%Integer pr_num = prSvc.getListbyRc(rcVO.getRc_no()).size();%>
 							<ul class="rating">
+								<%for(int i=1;i<=Math.round(rcVO.getRc_total_score()/pr_num);i++){ %>
 								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
+								<%}%>
 							</ul>
-							<span>$125.00</span>
+							<%}%>
 						</div>
 					</div>
 				</div>
-
-				<div class="col-lg-3 col-sm-6">
-					<div class="single-arrivals-products">
-						<div class="arrivals-products-image">
-							<a href="products-details.html"><img
-								src="front_CSS_JS/assets/img/arrivals-products/arrivals-products-3.jpg"
-								alt="image"></a>
-							<div class="tag">Sale</div>
-							<ul class="arrivals-action">
-								<li><a href="cart.html"> <i
-										class="flaticon-shopping-cart"></i>
-								</a></li>
-								<li><a href="wishlist.html"><i class="flaticon-heart"></i></a>
-								</li>
-								<li><a href="#" data-toggle="modal"
-									data-target="#productsQuickView"><i class="flaticon-view"></i></a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="arrivals-products-content">
-							<h3>
-								<a href="products-details.html">Wireless Headphone</a>
-							</h3>
-							<ul class="rating">
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-							</ul>
-							<span>$175.00</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-3 col-sm-6">
-					<div class="single-arrivals-products">
-						<div class="arrivals-products-image">
-							<a href="products-details.html"><img
-								src="front_CSS_JS/assets/img/arrivals-products/arrivals-products-4.jpg"
-								alt="image"></a>
-							<div class="tag">New</div>
-							<ul class="arrivals-action">
-								<li><a href="cart.html"> <i
-										class="flaticon-shopping-cart"></i>
-								</a></li>
-								<li><a href="wishlist.html"><i class="flaticon-heart"></i></a>
-								</li>
-								<li><a href="#" data-toggle="modal"
-									data-target="#productsQuickView"><i class="flaticon-view"></i></a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="arrivals-products-content">
-							<h3>
-								<a href="products-details.html">Bluetooth Speaker</a>
-							</h3>
-							<ul class="rating">
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-								<li><i class='bx bxs-star'></i></li>
-							</ul>
-							<span>$75.00</span>
-						</div>
-					</div>
-				</div>
+				<%}%>
+				<%}%>
 			</div>
 		</div>
 	</section>
