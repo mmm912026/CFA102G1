@@ -445,10 +445,4 @@ public class RentalClassJDBCDAO implements I_RentalClassDAO{
 		}
 		return list;
 	}
-
-	@Override
-	public List<RentalClassVO> findByRc_rentcount(Integer get_rc_num) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

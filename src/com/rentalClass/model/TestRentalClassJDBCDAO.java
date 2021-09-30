@@ -1,35 +1,33 @@
 package com.rentalClass.model;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TestRentalClassJDBCDAO {
 	public static void main(String[] args) {
 		I_RentalClassDAO dao = new RentalClassJDBCDAO();
 		
-		//更改狀態
-		dao.changeRc_status(1, "下架");
-		//新增
-		RentalClassVO rc1 = new RentalClassVO("Apple Mac Mini 2022","MINIPC","",15000,150);
-		rc1 = dao.insert(rc1);
-		System.out.println(rc1.getRc_no());
+		//查詢全部				
+		List<RentalClassVO> listAll = dao.getAll().stream()
+				.filter(e -> e.getRc_status().equals("上架"))
+				.collect(Collectors.toList());
+		Collections.sort(listAll);
+		List<RentalClassVO> list = new ArrayList<RentalClassVO>();	
+		int num =4;
+		
+		for(RentalClassVO rcVO:listAll) {
+			for(int i=0;i<num;i++) {
+				if(list.get(i)!=null)
+				list.add(list.get(i));
+			}
+		}
+			
+//		System.out.println("名稱:" + rcVO.getRc_name() + "\t租賃次數: " + rcVO.getRc_total_count());
+//		
+//		Collections.sort(listAll);
 
-
-		//修改
-//		RentalClassVO rc1 = new RentalClassVO("Apple Mac Mini 2015","MINIPC","GOOD",15000,150,0,0,10,"上架");
-//		rc1.setRc_no(1);
-//		dao.update(rc1);
+//		Collections.sort(list);
+//		return list;
 		
-		//刪除
-//		dao.delete(4);
-		
-		//查詢
-//		RentalClassVO rc1 = dao.findByPK(1);
-//		System.out.println(rc1.getRc_name());
-//		System.out.println(rc1.getRc_deposit());
-		
-		//查詢全部
-//		List<RentalClassVO> list = dao.getAll();
-//		for(RentalClassVO item:list)
-//			System.out.println(item.getRc_name());
 	}
 }

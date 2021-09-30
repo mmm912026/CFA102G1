@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 //Table Name : RENTAL_CLASS(租賃商品類別)
 
-public class RentalClassVO implements Serializable{
+public class RentalClassVO implements Serializable,Comparable<RentalClassVO>{
 	private Integer rc_no;
 	private String rc_name;
 	private String rc_item;	
@@ -109,5 +109,16 @@ public class RentalClassVO implements Serializable{
 	public void setRc_status(String rc_status) {
 		this.rc_status = rc_status;
 	}
+
+	@Override
+	public int compareTo(RentalClassVO addRcVO) {
+		if(this.rc_total_count>addRcVO.rc_total_count)
+			return 1;
+		else if (this.rc_total_count == addRcVO.rc_total_count)
+				return 0;
+		else
+			return -1;
+	}
+
 
 }
