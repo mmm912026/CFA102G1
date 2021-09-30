@@ -31,45 +31,28 @@
                                     </a>
                                     
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                                                                                                       訂單管理 
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="index.html" class="nav-link">查看購物訂單</a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="index-2.html" class="nav-link">查看租賃訂單</a>
-                                        </li>
-                                        
-                                        <li class="nav-item">
-                                            <a href="index-3.html" class="nav-link">查看估價案件</a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="index-4.html" class="nav-link">查看維修案件</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item megamenu">
-                                    <a href="#" class="nav-link ">
-                                                                                                                               優惠券管理 
-                                       
-                                    </a>
-                                  
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                                                                                                                訊息總攬
-                                        
-                                    </a>
+                                
+                                   
                                     
-                                </li>
+                                        <li class="nav-item">
+                                            <a href="<%=request.getContextPath()%>/front_end/secOrder/MemberCentreSecOrder.jsp" class="nav-link">查看購物訂單</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="<%=request.getContextPath()%>/front_end/rental/rentalOrderList.jsp" class="nav-link">查看租賃訂單</a>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <a href="<%=request.getContextPath()%>/front_end/appraisal_case/memListA_Case.jsp" class="nav-link">查看估價案件</a>
+                                        </li>
+
+                                        
+                                    
+                                
+
+                                
+
+                              
 
                                 <li class="nav-item">
                                     <a href="<%=request.getContextPath()%>/front_end/member/memberInfo.jsp" class="nav-link">
@@ -106,10 +89,7 @@
                         <div class="option-inner">
                             <div class="others-option d-flex align-items-center">
                                 <div class="option-item">
-                                    <span>
-                                        Hotline:
-                                        <a href="">(+1) 654 567 – 6789</a>
-                                    </span>
+                                    
                                 </div>
                             </div>
                         </div>
