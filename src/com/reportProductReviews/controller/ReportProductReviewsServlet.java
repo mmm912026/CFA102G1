@@ -24,7 +24,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 		String action = req.getParameter("action");
 		
 		
-		//«e¥x·s¼Wµû»ùÀËÁ|
+		//å‰å°æ–°å¢è©•åƒ¹æª¢èˆ‰
 		if ("insert".equals(action)) {
 					
 			res.setContentType("text/html; charset=UTF-8");
@@ -32,23 +32,24 @@ public class ReportProductReviewsServlet extends HttpServlet{
 			
 			try {
 				Integer pr_no = new Integer(req.getParameter("pr_no"));
+				Integer mem_no = new Integer(req.getParameter("mem_no"));			
 				Integer rep_contentnum = new Integer(req.getParameter("rep_contentnum"));
 				String rep_content = null;
 				
 				if(rep_contentnum==1)
-					rep_content = "¤£¹êµû»ù";
+					rep_content = "ä¸å¯¦è©•åƒ¹";
 				else if (rep_contentnum==2)
-					rep_content = "¤£¾A·í¤º®e";
+					rep_content = "ä¸é©ç•¶å…§å®¹";
 				else if (rep_contentnum==3) {
 					rep_content = req.getParameter("message");
 				}
 				
 				ReportProductReviewsService repSvc = new ReportProductReviewsService();
-				repSvc.insertReportProductReviews(pr_no, 1 , rep_content);
+				repSvc.insertReportProductReviews(pr_no, mem_no , rep_content);
 				
 				out.println("<div style=\"text-align:center;vertical-align:middle;line-height: 150px;\" >");
-				out.println("<h3>§Ú­Ì¤w¦¬¨ìÀËÁ|¡A±N·|ºÉ³t³B²z¡AÁÂÁÂ!</h3>");
-				out.println("<button onclick=\"window.close();\">Ãö³¬µøµ¡</button>");
+				out.println("<h3>æˆ‘å€‘å·²æ”¶åˆ°æª¢èˆ‰ï¼Œå°‡æœƒç›¡é€Ÿè™•ç†ï¼Œè¬è¬!</h3>");
+				out.println("<button onclick=\"window.close();\">é—œé–‰è¦–çª—</button>");
 				out.println("</div>");
 			} catch (Exception e) {
 				throw new ServletException(e);
@@ -56,7 +57,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 		}
 		
 		
-		//«e¥xÅã¥Üµû»ùÀËÁ|­¶­±
+		//å‰å°é¡¯ç¤ºè©•åƒ¹æª¢èˆ‰é é¢
 		if ("showRepPage".equals(action)) {
 			try {
 				Integer pr_no = new Integer(req.getParameter("pr_no"));
@@ -72,7 +73,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 			}
 		}
 		
-		//«á¥xÂsÄıµû»ù
+		//å¾Œå°ç€è¦½è©•åƒ¹
 		if ("getOnePr_For_DisplayDetail".equals(action)) {
 			
 			try {
@@ -98,7 +99,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 			}
 		}
 		
-		//«á¥x¨Ì¿z¿ï­q³æª¬ºAÅã¥Ü
+		//å¾Œå°ä¾ç¯©é¸è¨‚å–®ç‹€æ…‹é¡¯ç¤º
 		if("getOneRepStatus_For_Display".equals(action)) {
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -106,14 +107,9 @@ public class ReportProductReviewsServlet extends HttpServlet{
 			
 			try {
 				
-				ReportProductReviewsService repSvc = new ReportProductReviewsService();
-				List<ReportProductReviewsVO> listAll = repSvc.getAll();
-				
 				String rep_status = req.getParameter("rep_status");
-				List<ReportProductReviewsVO> list = listAll.stream()
-				        .filter(e -> e.getRep_status().equals(rep_status))
-				        .collect(Collectors.toList());
-				
+				ReportProductReviewsService repSvc = new ReportProductReviewsService();
+				List<ReportProductReviewsVO> list = repSvc.getListbyRepStatus(rep_status);
 				req.setAttribute("list", list);
 				
 				String url = "/back_end/reportProductReviews/listRprbyStatus.jsp";
@@ -122,7 +118,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				
 				
 			} catch (Exception e){
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/reportProductReviews/listRpr.jsp");
 				failureView.forward(req, res);
@@ -130,7 +126,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 		}
 		
 		
-		//µû»ùÀËÁ|³q¹L,¤U¬[µû»ù
+		//è©•åƒ¹æª¢èˆ‰é€šé,ä¸‹æ¶è©•åƒ¹
 		if("passReport".equals(action)) {
 					
 			List<String> errorMsgs = new LinkedList<String>();
@@ -140,28 +136,14 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				Integer rep_no = new Integer(req.getParameter("rep_no"));
 					
 				ReportProductReviewsService repSvc = new ReportProductReviewsService();
-				ReportProductReviewsVO repVO = repSvc.getOneReportProductReviews(rep_no);
-				repVO.setRep_status("³q¹L");
-				repSvc.updateReportProductReviews(repVO);
-						
-				ProductReviewsService prSvc = new ProductReviewsService();
-				ProductReviewsVO prVO = prSvc.getOneProductReviews(repVO.getPr_no());
-				prVO.setPr_status("¤U¬[");
-				prSvc.updateProductReviews(prVO);
-				
-				req.setAttribute("repVO", repVO);
-				req.setAttribute("prVO", prVO);
+				repSvc.reportPass(rep_no);
 						
 				String url = "/back_end/reportProductReviews/listRpr.jsp";
 				String requestURL = req.getParameter("requestURL");
 				
 				if(requestURL.equals("/back_end/reportProductReviews/listRprbyStatus.jsp")){
-					url = "/back_end/reportProductReviews/listRprbyStatus.jsp";
-					List<ReportProductReviewsVO> listAll = repSvc.getAll();
-					List<ReportProductReviewsVO> list = listAll.stream()
-					        .filter(e -> e.getRep_status().equals("¥¼³B²z"))
-					        .collect(Collectors.toList());							
-					req.setAttribute("list", list);
+					url = "/back_end/reportProductReviews/listRprbyStatus.jsp";							
+					req.setAttribute("list", repSvc.getListbyRepStatus("æœªè™•ç†"));
 				}
 				
 				String fromListOnePrDetail = req.getParameter("fromListOnePrDetail");
@@ -174,7 +156,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				successView.forward(req, res);
 						
 			} catch (Exception e){
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/reportProductReviews/listRpr.jsp");
 				failureView.forward(req, res);
@@ -182,7 +164,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 		}
 		
 		
-		//µû»ùÀËÁ|¤£³q¹L
+		//è©•åƒ¹æª¢èˆ‰ä¸é€šé
 		if("notPassReport".equals(action)) {
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -192,25 +174,14 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				Integer rep_no = new Integer(req.getParameter("rep_no"));
 				
 				ReportProductReviewsService repSvc = new ReportProductReviewsService();
-				ReportProductReviewsVO repVO = repSvc.getOneReportProductReviews(rep_no);
-				repVO.setRep_status("¤£³q¹L");
-				repSvc.updateReportProductReviews(repVO);
-				ProductReviewsService prSvc = new ProductReviewsService();
-				ProductReviewsVO prVO = prSvc.getOneProductReviews(repVO.getPr_no());
-				
-				req.setAttribute("repVO", repVO);
-				req.setAttribute("prVO", prVO);
+				repSvc.reportNotPass(rep_no);
 				
 				String url = "/back_end/reportProductReviews/listRpr.jsp";
 				String requestURL = req.getParameter("requestURL");
 				
 				if(requestURL.equals("/back_end/reportProductReviews/listRprbyStatus.jsp")) {
-					url = "/back_end/reportProductReviews/listRprbyStatus.jsp";
-					List<ReportProductReviewsVO> listAll = repSvc.getAll();
-					List<ReportProductReviewsVO> list = listAll.stream()
-					        .filter(e -> e.getRep_status().equals("¥¼³B²z"))
-					        .collect(Collectors.toList());							
-					req.setAttribute("list", list);
+					url = "/back_end/reportProductReviews/listRprbyStatus.jsp";						
+					req.setAttribute("list", repSvc.getListbyRepStatus("æœªè™•ç†"));
 				}
 						
 				String fromListOnePrDetail = req.getParameter("fromListOnePrDetail");
@@ -223,14 +194,14 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				successView.forward(req, res);
 				
 			}catch (Exception e){
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/reportProductReviews/listRpr.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
-		//«á¥xÅã¥Ü¤@­Óµû»ùÀËÁ|
+		//å¾Œå°é¡¯ç¤ºä¸€å€‹è©•åƒ¹æª¢èˆ‰
 		if("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -238,7 +209,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 			try {
 				String str = req.getParameter("rep_no");
 				if(str==null||(str.trim()).length()==0) {
-					errorMsgs.add("½Ğ¿é¤Jµû»ù½s¸¹");
+					errorMsgs.add("è«‹è¼¸å…¥è©•åƒ¹ç·¨è™Ÿ");
 				}
 				if(!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = 
@@ -251,7 +222,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				try {
 					rep_no = new Integer(str);
 				} catch(Exception e) {
-					errorMsgs.add("½s¸¹¤£¬°¼Æ¦r");
+					errorMsgs.add("ç·¨è™Ÿä¸ç‚ºæ•¸å­—");
 				}
 						
 				if(!errorMsgs.isEmpty()) {
@@ -264,7 +235,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				ReportProductReviewsService repSvc = new ReportProductReviewsService();
 				ReportProductReviewsVO repVO = repSvc.getOneReportProductReviews(rep_no);
 				if (repVO == null) {
-					errorMsgs.add("¬dµL¸ê®Æ");
+					errorMsgs.add("æŸ¥ç„¡è³‡æ–™");
 				}
 				
 				if(!errorMsgs.isEmpty()) {
@@ -283,7 +254,7 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				successView.forward(req, res);
 					
 			}catch (Exception e){
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/reportProductReviews/listRpr.jsp");
 				failureView.forward(req, res);
