@@ -278,7 +278,7 @@ public class ConsultServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("consultVO", consultVO); // 含有輸入格式錯誤的consultVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/consultation/addConsult.jsp");
+							.getRequestDispatcher("/front_end/consultation/consult.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -297,8 +297,9 @@ public class ConsultServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/consultation/addConsult.jsp");
+						.getRequestDispatcher("/front_end/consultation/consult.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 		
