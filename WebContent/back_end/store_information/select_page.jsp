@@ -40,7 +40,7 @@ h1 {
 						<table id="table-1">
 						</table>
 						<hr>
-						<h1>STORE_INFOFMATION 商家資訊</h1>
+						<h1 >STORE_INFOFMATION 商家資訊</h1>
 						<hr>
 						<%-- 錯誤表列 --%>
 						<c:if test="${not empty errorMsgs}">
@@ -66,8 +66,8 @@ h1 {
 											type="hidden" name="action" value="getOne_For_Display">
 										<input type="submit" class="btn btn-outline-secondary btn-sm"
 											value="送出">
-									</FORM>
-								<br></li>
+									</FORM> <br>
+								</li>
 
 								<jsp:useBean id="siSvc" scope="page"
 									class="com.store_information.model.SiService" />
@@ -81,8 +81,8 @@ h1 {
 										</select> <input type="hidden" name="action" value="getOne_For_Display">
 										<input type="submit" class="btn btn-outline-secondary btn-sm"
 											value="送出">
-									</FORM>
-								<br></li>
+									</FORM> <br>
+								</li>
 								<li>
 									<FORM METHOD="post"
 										ACTION="<%=request.getContextPath()%>/back_end/store_information/si.do">
@@ -99,19 +99,21 @@ h1 {
 							<h3>商家資訊管理</h3>
 							<br>
 							<ul>
-								<li><a href='addSi.jsp'>新增</a> 商家資訊.</li>
-							<br></ul>
+								<li><a href='<%=request.getContextPath()%>/back_end/store_information/addSi.jsp'>新增</a> 商家資訊.</li>
+								<br>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</section>
-			<!--*******************	
+		</div>
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-			<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
-			<!--*******************	
+		<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
 		******************* -->
-		</div>
+	</div>
 </body>
 </html>

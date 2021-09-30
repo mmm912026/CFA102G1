@@ -96,11 +96,6 @@ th, td {
 							諮詢表單列表><a
 								href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">諮詢表單管理</a>
 						</h3>
-						<div class="position-relative"	>
-						 <div class="position-absolute top-0 end-0">
-						<h3><a href='addConsult.jsp'><button type="button" class="btn btn-primary ">新增諮詢表單</button></a></h3>
-						</div>
-						</div>				
 					</div>
 					<div class="card-body">
 						<table class="table table-striped" id="table1">
@@ -152,9 +147,6 @@ th, td {
 							</tbody>
 						</table>
 						<%@ include file="../back_include_page/page2.file"%>
-						<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
 					</div>
 				</div>
 			</section>
@@ -183,7 +175,7 @@ th, td {
 						</div>
 						<div class="modal-body">
 							<!-- =========================================以下為原listOneEmp.jsp的內容========================================== -->
-							<jsp:include page="listOneConsult3.jsp" />
+							<jsp:include page="listOneConsultModel.jsp" />
 							<!-- =========================================以上為原listOneEmp.jsp的內容========================================== -->
 						</div>
 

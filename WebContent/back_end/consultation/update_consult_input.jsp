@@ -68,7 +68,7 @@ th, td {
 						</h3>
 					</div>
 					<div class="card-body">
-						<FORM METHOD="post" ACTION="consult.do" name="form1">
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" name="form1">
 							<div class="mb-3 row">
 								<label for="staticConsult_no" class="col-sm-2 col-form-label">諮詢單編號:</label>
 								<div class="col-sm-10">
@@ -79,7 +79,7 @@ th, td {
 							<div class="mb-3 row">
 								<label for="inputConsultant" class="col-sm-2 col-form-label">諮詢人姓名:</label>
 								<div class="col-sm-10">
-									<input type="TEXT" class="form-control" id="inputConsultant"
+									<input type="TEXT" readonly class="form-control-plaintext" id="inputConsultant"
 										name="consultant" value="<%=consultVO.getConsultant()%>">
 								</div>
 							</div>
@@ -87,7 +87,7 @@ th, td {
 							<div class="mb-3 row">
 								<label for="inputConsult_phone" class="col-sm-2 col-form-label">諮詢人手機:</label>
 								<div class="col-sm-10">
-									<input type="TEXT" class="form-control" id="inputConsult_phone"
+									<input type="TEXT" readonly class="form-control-plaintext" id="inputConsult_phone"
 										name="consult_phone" value="<%=consultVO.getConsult_phone()%>">
 								</div>
 							</div>
@@ -95,7 +95,7 @@ th, td {
 							<div class="mb-3 row">
 								<label for="inputConsult_email" class="col-sm-2 col-form-label">諮詢人EMAIL:</label>
 								<div class="col-sm-10">
-									<input type="TEXT" class="form-control" id="inputConsult_email"
+									<input type="TEXT" readonly class="form-control-plaintext" id="inputConsult_email"
 										name="consult_email" value="<%=consultVO.getConsult_email()%>">
 								</div>
 							</div>
@@ -104,7 +104,7 @@ th, td {
 								<label for="inputConsult_content"
 									class="col-sm-2 col-form-label">諮詢內容:</label>
 								<div class="col-sm-10">
-									<input type="TEXT" class="form-control"
+									<input type="TEXT" readonly class="form-control-plaintext"
 										id="inputConsult_content" name="consult_content"
 										value="<%=consultVO.getConsult_content()%>">
 								</div>
@@ -147,10 +147,6 @@ th, td {
 								</div>
 							</div>
 						</FORM>
-						<br>送出修改的來源網頁路徑:<br> <b> <font color=blue>request.getParameter("requestURL"):</font>
-							<%=request.getParameter("requestURL")%><br> <font color=blue>request.getParameter("whichPage"):
-						</font> <%=request.getParameter("whichPage")%> (此範例目前只用於:istAllEmp.jsp))
-						</b>
 					</div>
 				</div>
 			</section>

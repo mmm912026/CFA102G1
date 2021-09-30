@@ -128,7 +128,6 @@ public class ConsultServlet extends HttpServlet{
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】
 			
 		
 			try {
@@ -143,10 +142,18 @@ public class ConsultServlet extends HttpServlet{
 					errorMsgs.add("諮詢人姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 	            }
 				
+//				String consult_phone = req.getParameter("consult_phone");
+//				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
+//					errorMsgs.add("手機號碼只能為數字");
+//				}
+				
 				String consult_phone = req.getParameter("consult_phone");
-				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
-					errorMsgs.add("手機號碼只能為數字");
+				if (consult_phone == null || consult_phone.trim().length() == 0) {
+					errorMsgs.add("諮詢人手機 請勿空白");
+				} else if(!consult_phone.trim().matches(numReg)){
+					errorMsgs.add("諮詢人手機 格式錯誤");
 				}
+				
 				
 				String consult_email = req.getParameter("consult_email");
 				if (consult_email == null || consult_email.trim().length() == 0) {
@@ -163,7 +170,6 @@ public class ConsultServlet extends HttpServlet{
 				Integer staff_no = null;
 				try {
 					staff_no = new Integer(req.getParameter("staff_no").trim());
-					System.out.println(staff_no);
 				} catch (NumberFormatException e) {
 					staff_no = 0;
 					errorMsgs.add("員工編號: 請勿空白");
@@ -199,7 +205,6 @@ public class ConsultServlet extends HttpServlet{
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("consultVO", consultVO); // 資料庫update成功後,正確的的consultVO物件,存入req
 				String url = "/back_end/consultation/listAllConsult.jsp";
-				 System.out.println("url"+url);
 				 				RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
 				 				successView.forward(req, res);
 
@@ -230,8 +235,10 @@ public class ConsultServlet extends HttpServlet{
 	            }
 				
 				String consult_phone = req.getParameter("consult_phone");
-				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
-					errorMsgs.add("手機號碼只能為數字");
+				if (consult_phone == null || consult_phone.trim().length() == 0) {
+					errorMsgs.add("諮詢人手機 請勿空白");
+				} else if(!consult_phone.trim().matches(numReg)){
+					errorMsgs.add("諮詢人手機 格式錯誤");
 				}
 				
 				String consult_email = req.getParameter("consult_email");
@@ -249,7 +256,6 @@ public class ConsultServlet extends HttpServlet{
 				Integer staff_no = null;
 				try {
 					staff_no = new Integer(req.getParameter("staff_no").trim());
-					System.out.println(staff_no);
 				} catch (NumberFormatException e) {
 					staff_no = 0;
 					errorMsgs.add("員工編號: 請勿空白");
@@ -283,7 +289,7 @@ public class ConsultServlet extends HttpServlet{
 						staff_no,consult_sta);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/consultation/listAllConsult.jsp";
+				String url = "/front_end/consultation/consultsuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllConsult.jsp
 				successView.forward(req, res);				
 				

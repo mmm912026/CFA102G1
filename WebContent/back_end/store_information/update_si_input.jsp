@@ -92,7 +92,7 @@ th, td {
 
 
 
-						<FORM METHOD="post" ACTION="si.do" name="form1">
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/store_information/si.do" name="form1">
 
 							<div class="mb-3 row">
 								<label for="staticSi_no" class="col-sm-2 col-form-label">商家編號:</label>
@@ -144,7 +144,7 @@ th, td {
 							<!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 							<input type="hidden" name="whichPage"
 								value="<%=request.getParameter("whichPage")%>">
-							<!--只用於:istAllEmp.jsp-->
+							<!--只用於:istAllSi.jsp-->
 							<div class="position-relative">
 								<!-- 調整位置 -->
 								<div class="position-absolute top-50 start-50 translate-middle">

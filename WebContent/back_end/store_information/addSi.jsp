@@ -70,7 +70,7 @@ th, td {
 					<div class="card-body">
 
 
-						<FORM METHOD="post" ACTION="si.do" name="form1">
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/store_information/si.do" name="form1">
 							<div class="mb-3 row">
 								<label for="inputSi_no" class="col-sm-2 col-form-label">商家編號:</label>
 								<div class="col-sm-10">

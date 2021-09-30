@@ -55,7 +55,10 @@ th, td {
 			<section class="section">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">諮詢表單資料><a href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">諮詢表單管理</a></h3>
+						<h3 class="card-title">
+							諮詢表單資料><a
+								href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp">諮詢表單管理</a>
+						</h3>
 					</div>
 					<div class="card-body">
 						<table class="table table-striped" id="table1">
@@ -64,7 +67,7 @@ th, td {
 									<th>諮詢單編號</th>
 									<th>諮詢人姓名</th>
 									<th>諮詢人手機</th>
-									<th>諮詢人EMAIL</th>	
+									<th>諮詢人EMAIL</th>
 									<th>諮詢內容</th>
 									<th>員工編號</th>
 									<th>回覆狀態</th>
@@ -85,13 +88,14 @@ th, td {
 					</div>
 				</div>
 			</section>
-			<!--*******************	
+		</div>
+		<!--*******************	
 		Start Include sidebar File  
 		******************* -->
-			<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
-			<!--*******************	
+		<%@ include file="../back_include_page/JavaScript_Include.jsp"%>
+		<!--*******************	
 		End Include sidebar File  
 		******************* -->
-		</div>
+	</div>
 </body>
 </html>
