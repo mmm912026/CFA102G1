@@ -1,6 +1,7 @@
 package com.rentalProductImages.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RentalProductImagesService {
 	private I_RentalProductImagesDAO dao;
@@ -46,6 +47,9 @@ public class RentalProductImagesService {
 	}
 	
 	public List<RentalProductImagesVO> getOneRentalClassImages(Integer rc_no) {
-		return dao.findbyRc_no(rc_no);
+		List<RentalProductImagesVO> list = dao.getAll().stream()
+				.filter(e -> e.getRc_no().equals(rc_no))
+				.collect(Collectors.toList());
+		return list;
 	}
 }

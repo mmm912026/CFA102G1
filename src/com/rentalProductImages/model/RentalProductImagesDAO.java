@@ -30,8 +30,6 @@ public class RentalProductImagesDAO implements I_RentalProductImagesDAO{
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES WHERE rpi_no = ?";
 	private static final String GET_ALL = 
 			"SELECT * FROM RENTAL_PRODUCT_IMAGES";
-	private static final String FIND_BY_RC_NO = 
-			"SELECT * FROM RENTAL_PRODUCT_IMAGES where RC_no=?";
 	
 	public RentalProductImagesVO insert(RentalProductImagesVO rentalProductImagesVO) {
 		
@@ -197,42 +195,4 @@ public class RentalProductImagesDAO implements I_RentalProductImagesDAO{
 		}
 		return list;
 	}
-
-	public List<RentalProductImagesVO> findbyRc_no(Integer rc_no) {
-		List<RentalProductImagesVO> list = new ArrayList<RentalProductImagesVO>();
-		RentalProductImagesVO rentalProductImagesVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(FIND_BY_RC_NO);
-			
-			pstmt.setInt(1, rc_no);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				rentalProductImagesVO = new RentalProductImagesVO();		
-				rentalProductImagesVO.setRpi_no(rs.getInt("rpi_no"));
-				rentalProductImagesVO.setRc_no(rs.getInt("rc_no"));
-				list.add(rentalProductImagesVO);
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return list;
-	}	
 }
