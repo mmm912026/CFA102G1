@@ -13,27 +13,13 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>租賃商品評價</title>
-
+<%@ include file="../back_include_page/CSS_link.jsp"%>
 <style>
   form { display: inline; }
-  table#table-1 {
-	background-color: #ffb6c1;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h3 {
-    color: black;
-    display: block;
-    margin: 5px;
-  }
-</style>
-
-<style>
   table {
 	width: 500px;
 	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin: 10px;
   }
   table, th, td {
     border: 1px solid #CCCCFF;
@@ -49,13 +35,6 @@
 </style>
 </head>
 <body bgcolor='white'>
-
-<table id="table-1">
-	<tr><td>
-		 <h3>租賃商品評價</h3>
-	</td></tr>
-</table>
-
 
 <table id="prtable">
 	<tr>
@@ -87,18 +66,17 @@
 		</td>
 	</tr>	
 </table>
-<br>
 <c:if test="${repVO.rep_status=='未處理'}">
-<b>檢舉</b>
+&nbsp;&nbsp;<b>檢舉</b>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rep/rep.do" >
-<input type="submit" value="通過">
+<input type="submit" value="通過" class="btn btn-sm btn-danger">
 <input type="hidden" name="rep_no" value="${repVO.rep_no}"> 
 <input type="hidden" name="action" value="passReport">
 <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 <input type="hidden" name="fromListOnePrDetail" value="true">                  
 </FORM>
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rep/rep.do" >
-<input type="submit" value="不通過">
+<input type="submit" value="不通過" class="btn btn-sm btn-success">
 <input type="hidden" name="rep_no" value="${repVO.rep_no}">
 <input type="hidden" name="action" value="notPassReport">
 <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
@@ -106,6 +84,7 @@
 </FORM>	
 </c:if>
 
+<script src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/vendors/jquery/jquery.min.js"></script>
 <script>
 <c:if test="${closewindow!=null}">
 window.onload=function (){
@@ -113,6 +92,10 @@ window.onload=function (){
 	 window.close();
 	 }    
 </c:if>
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+
 </script>
 </body>
 </html>
