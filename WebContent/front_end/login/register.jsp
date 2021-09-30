@@ -18,6 +18,13 @@
         <title>會員註冊|YSM3C</title>
 
         <link rel="icon" type="image/png" href="../front_CSS_JS/assets/img/favicon.png">
+        <script>
+function reloadImage(){
+	//使用GET方式，把當下的時間轉為UNIX時間作為參數，所以參數不會重覆到
+	document.getElementById('identity').src = 'identityservlet?ts=' 
+			+ new Date().getTime();
+}
+</script>
     </head>
 
     <body>
@@ -117,24 +124,8 @@
                                  value="<%= (memberVO==null)? "" : memberVO.getMem_password()%>"> 
                                 <div class="help-block with-errors"></div>
                             </div>
-                            
-<!--                             <p>目前狀態：</p> -->
-<!--                             <div class="form-group"> -->
-<!--                                   <input type="text" class="form-control" name="mem_sta" value="未驗證" readonly="readonly"/> -->
-<!--                                 <div class="help-block with-errors"></div> -->
-<!--                             </div> -->
-
-                                                                                      
-                            
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkme">
-                                        <label class="form-check-label" for="checkme">Show password?</label>
-                                    </div>
-                                </div>
-                            </div>
-
+                                                                          
+             
                             <div class="form-group">
                             <button type="submit">現在註冊</button>
                             <input type="hidden" name="action" value="register">

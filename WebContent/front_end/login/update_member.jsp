@@ -165,7 +165,7 @@
                             </div>
                             <p>帳號：</p>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="mem_account" value="<%=memberVO.getMem_account()%>" /> 
+                                <input type="text" class="form-control" name="mem_account" value="<%=memberVO.getMem_account()%>" readonly="readonly" /> 
                                 <div class="help-block with-errors"></div>
                             </div>
                             <p>密碼：</p>

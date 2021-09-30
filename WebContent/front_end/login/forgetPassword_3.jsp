@@ -7,6 +7,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS --> 
+         <%@ include file="../front_include_page/Top_head.jsp"%>
       <%@ include file="../front_include_page/CSS_link.jsp"%>
 
         <title>更改完畢 |YSM3C</title>
@@ -80,63 +81,6 @@
         </section>
         <!-- End Login Area -->
 
-        <!-- Start Support Area -->
-        <section class="support-area">
-            <div class="container">
-                <div class="support-inner-box">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-free-shipping"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>Free Shipping Worldwide</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-return"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>30 Days Money Returns</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-security"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>100% Secure Payment</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-support"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>24/7 Customer Support</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Support Area -->
 
         <!-- Start Footer Area -->
         <section class="footer-area pt-50 pb-20">

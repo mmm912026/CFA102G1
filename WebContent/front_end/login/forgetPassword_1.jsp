@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
     <html lang="zxx">
     <head>
@@ -27,7 +28,7 @@
         </div>
         <!-- End Preloader Area -->
 
-     
+      
 
        
         <!-- End Middle Header Area -->
@@ -40,7 +41,7 @@
         <div class="page-title-area">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>尋找你的帳號</h2>
+                    <h2>尋找你的密碼</h2>
 
                     
                 </div>
@@ -52,87 +53,45 @@
         <section class="login-area ptb-50">
             <div class="container">
                 <div class="login-form">
+                <form METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
                     <div class="contact-form">
-                        <h2>尋找你的帳號</h2>
+                        <h2>尋找你的密碼</h2>
+                        <%-- 錯誤表列 --%>
+            <c:if test="${not empty errorMsgs}">
+	            <font style="color:red">請修正以下錯誤:</font>
+	               <div>
+	                       <c:forEach var="message" items="${errorMsgs}">
+		                       <div style="color:red">${message}</div>
+	                	</c:forEach>
+	              </div>
+           </c:if>
                         <p>請輸入你的電子郵件。</p>
-                        <form id="contactForm">
+                       
 
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="電子郵件" required data-error="請輸入您的電子郵件"> 
+                                <input type="text" name="mem_email" class="form-control" placeholder="電子郵件" required data-error="請輸入您的電子郵件"> 
                                 <div class="help-block with-errors"></div>
                             <div class="col-lg-12 col-md-12">
-                                <button type="submit" class="default-btn">
+                            <input type="hidden" name="action" value="forgetPwd">
+                                <button type="submit"   class="default-btn">
                                     搜尋
                                     <span></span>
                                 </button>
                                 <div class="clearfix"></div>
                             </div>
-                        </form>
-
+                        
+ 
                         
                     </div>
+                  
                 </div>
+                 </form>
+            </div>
             </div>
         </section>
         <!-- End Login Area -->
 
-        <!-- Start Support Area -->
-        <section class="support-area">
-            <div class="container">
-                <div class="support-inner-box">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-free-shipping"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>Free Shipping Worldwide</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-return"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>30 Days Money Returns</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-security"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>100% Secure Payment</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-support">
-                                <div class="icon">
-                                    <i class="flaticon-support"></i>
-                                </div>
-
-                                <div class="support-content">
-                                    <h3>24/7 Customer Support</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Support Area -->
+     
 
         <!-- Start Footer Area -->
         <section class="footer-area pt-50 pb-20">
