@@ -30,61 +30,7 @@
 		
 <!-- ************************下面開始塞你自己的頁面資訊************************ -->		
 <!-- ************************下面開始塞你自己的頁面資訊************************ -->		
-        <!-- Start Main Slider Area 旋轉木馬-->
-<div class="main-slider-area">
-	<div class="container">
-    	<div class="home-slides-two owl-carousel owl-theme">
-         	<div class="main-slider-item-box">
-            	<div class="main-slider-content">
-                	<b>Big Sale Offer</b>
-                    <h1>Get the Best Deals on Headphone</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					
-					<div class="slider-btn">
-                        <a href="#" class="default-btn">
-                        	<i class="flaticon-shopping-cart"></i>
-                            	Shop Now
-                            <span></span>
-                        </a>
-                	</div>
-            	</div>
-			</div>
 
-			<div class="main-slider-item-box item-two">
-				<div class="main-slider-content">
-				<b>Popular in 2020</b>
-				<h1>New Arrivals CCTV Camera</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-			
-					<div class="slider-btn">
-						<a href="#" class="default-btn">
-							<i class="flaticon-shopping-cart"></i>
-							Shop Now
-							<span></span>
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="main-slider-item-box item-three">
-				<div class="main-slider-content">
-				<b>Big Sale Offer</b>
-				<h1>High-Quality Product Camera</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-			
-					<div class="slider-btn">
-						<a href="#" class="default-btn">
-							<i class="flaticon-shopping-cart"></i>
-							Shop Now
-							<span></span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- End Main Slider Area 旋轉木馬-->
 
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>

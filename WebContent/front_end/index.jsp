@@ -103,7 +103,7 @@
 						<h1>專業●創新●國際化</h1>
 						<br>
 						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
+							<a href="<%=request.getContextPath()%>/front_end/rental/rentalProductList.jsp" class="default-btn"> <i
 								class="flaticon-shopping-cart"></i> 馬上租賃!! <span></span>
 							</a>
 						</div>
@@ -115,10 +115,11 @@
 						<h1>高價●快速●安全</h1>
 						<br>
 						<div class="slider-btn">
-							<a href="#" class="default-btn"> <i
+							<a href="<%=request.getContextPath()%>/front_end/appraisal_case/appraisalCase.jsp" class="default-btn"> <i
 								class="flaticon-shopping-cart"></i> 馬上估價!! <span></span>
 							</a>
 						</div>
+
 					</div>
 				</div>
 			</div>

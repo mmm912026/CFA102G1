@@ -31,8 +31,8 @@
                 <div class="container">
                     <div class="main-responsive-menu">
                         <div class="logo">
-                            <a href="#">
-                                <img src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/logo-2.png" alt="logo">
+                            <a href="<%=request.getContextPath()%>/front_end/index.jsp">
+                                <img src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/logo.png" style="height:35px;width:92px;" alt="logo">
                             </a>
                         </div>
                     </div>
@@ -42,14 +42,14 @@
             <div class="main-navbar">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="index.html">
-                            <img src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/logo-2.png" alt="image">
+                        <a class="navbar-brand" href="<%=request.getContextPath()%>/front_end/index.jsp">
+                            <img src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/logo.png" style="height:35px;width:92px;" alt="image">
                         </a>
 
                         <div class="collapse navbar-collapse mean-menu">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">首頁</a>
+                                    <a href="<%=request.getContextPath()%>/front_end/index.jsp" class="nav-link active">首頁</a>
                                 </li>
 
                                 <li class="nav-item">

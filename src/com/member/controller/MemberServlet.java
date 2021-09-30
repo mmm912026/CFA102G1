@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import com.maintence_case_img.model.Maintence_Case_ImgService;
 import com.maintence_case_img.model.Maintence_Case_ImgVO;
-import com.member.model.JedisHandler;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.member.model.MemberDAO;

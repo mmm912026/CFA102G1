@@ -41,7 +41,6 @@
                         </div>
                         <div class="ms-3 name">
                             <h5 class="font-bold">${sessionScope.staffVO.staff_name}</h5>
-                            <h6 class="text-muted mb-0">這行不知道要衝三小</h6>
                         </div>
                     </div>
                 </div>

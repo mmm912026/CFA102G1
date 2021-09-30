@@ -5,8 +5,8 @@
                 <div class="container">
                     <div class="main-responsive-menu">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="../front_CSS_JS/assets/img/logo-2.png" alt="logo">
+                            <a href="<%=request.getContextPath()%>/front_end/index.jsp">
+                            <img src="<%=request.getContextPath()%>/front_end/front_CSS_JS/assets/img/logo.png" style="height:35px;width:92px;" alt="image">
                             </a>
                         </div>
                     </div>
