@@ -42,8 +42,8 @@
 				<div class="card-header">
 					<h3 class="card-title"><a href="<%=request.getContextPath()%>/back_end/appraisal_case/select_page.jsp">返回管理估價案件</a></h3>
 				<div class="card-body">
-					<table class="table table-striped" id="table1">
-					<thead>
+	<table class="table table-striped" id="table1">
+		<thead>
 		<tr>
 			<th>估價類別編號</th>
 			<th>估價類別名稱</th>
@@ -55,13 +55,14 @@
 		<%@ include file="pages/page1.file" %>
 		<c:forEach var="appraisalClassVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 
-			<tr>
+			<tr ${(appraisalClassVO.acl_no==param.acl_no) ? 'bgcolor=#69acd8':'' }>
 				<td>${appraisalClassVO.acl_no }</td>
 				<td>${appraisalClassVO.acl_id }</td>
 				<td>
 					<FORM METHOD="post"ACTION="<%= request.getContextPath()%>/back_end/appraisal_class/appraisal_class.do"style="margin-bottom: 0px;">
 						<input type="submit" class="btn btn-outline-secondary" value="修改"> 
 						<input type="hidden"name="acl_no" value="${appraisalClassVO.acl_no}">
+						<input type="hidden" name="whichPage"	value="<%=whichPage%>">
 						<input type="hidden" name="action" value="getOne_For_Update">
 					</FORM>
 				</td>

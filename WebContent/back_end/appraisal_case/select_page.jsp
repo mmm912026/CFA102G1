@@ -47,7 +47,7 @@
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
 				<b>輸入估價案件編號：</b>
 				<input type="text" name="aca_no">
-				<input type="submit" value="送出">
+				<input type="submit" class="btn btn-outline-secondary" value="送出">
 				<input type="hidden" name="action" value="getOne_For_Display">
 			</FORM>
 		</li>
@@ -59,7 +59,7 @@
 						<option value="${appraisalCaseVO.aca_no}">${appraisalCaseVO.aca_no}
 					</c:forEach>
 				</select> 
-				<input type="submit" value="送出">
+				<input type="submit" class="btn btn-outline-secondary" value="送出">
 				<input type="hidden" name="action" value="getOne_For_Display">
 			</FORM>
 		</li>
@@ -73,7 +73,7 @@
 					<option value="${appraisalClassVo.acl_no }">${appraisalClassVo.acl_id }
 				</c:forEach>
 				</select>
-				<input type="submit" value="查詢">
+				<input type="submit" class="btn btn-outline-secondary" value="查詢">
 				<input type="hidden"name="action" value="listCaseByClass_A">
 			</FORM>
 		</li>
@@ -101,7 +101,7 @@
 					<option value="轉帳">轉帳
 				</select><br>
 				
-				<input type="submit" value="查詢">
+				<input type="submit" class="btn btn-outline-secondary" value="查詢">
 				<input type="hidden" name="action" value="listA_Case_ByCompositeQuery">
 			</FORM>
 		</li>

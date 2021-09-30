@@ -42,15 +42,14 @@
 	</c:if>
 
         <div class="card-body">
+	 	<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
 		<table class="table table-striped" id="table1">
             <tr>
-                <td>估價案件編號:<font color=red><b>*</b></font>
-                </td>
+                <td>估價案件編號:<font color=red><b>*</b></font></td>
                 <td><%=appraisalCaseVO.getAca_no()%></td>
             </tr>
             <tr>
-                <td>會員編號:<font color=red><b>*</b></font>
-                </td>
+                <td>會員編號:<font color=red><b>*</b></font></td>
                 <td><input type="hidden" name="mem_no"value="<%=appraisalCaseVO.getMem_no()%>"><%=appraisalCaseVO.getMem_no()%></td>
             </tr>
             <tr>
@@ -136,7 +135,6 @@
             </tr>
         </table>
         <br>
-	 	<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
 	        <input type="hidden" name="action" value="update">
 	        <input type="hidden" name="aca_no" value="<%=appraisalCaseVO.getAca_no()%>">
 	        <input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"><!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
