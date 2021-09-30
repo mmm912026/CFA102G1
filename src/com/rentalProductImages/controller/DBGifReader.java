@@ -103,7 +103,7 @@ public class DBGifReader extends HttpServlet {
 	public void init() throws ServletException {
 	  	try {
 			Context ctx = new javax.naming.InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
 			con = ds.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();

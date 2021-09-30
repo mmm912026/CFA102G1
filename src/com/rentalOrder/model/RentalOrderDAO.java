@@ -15,7 +15,7 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA102G1");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
