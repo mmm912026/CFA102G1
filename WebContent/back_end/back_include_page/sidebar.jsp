@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
     
 	<!-- ****Start 漢堡選單**** -->
 	<header class="mb-3">
@@ -7,6 +8,14 @@
 			<i class="bi bi-justify fs-3"></i>
 		</a>
 	</header>
+	
+	<style>
+	#div1{
+	 float: right;
+     left: -40%;
+     position: relative;
+     }
+	</style>
 	<!-- ****End 漢堡選單**** -->
 	
 	<!-- ****Start sidebar排版**** -->
@@ -31,7 +40,7 @@
                             <img src="<%=request.getContextPath()%>/back_end/back_CSS_JS/assets/images/faces/1.jpg" alt="Face 1">
                         </div>
                         <div class="ms-3 name">
-                            <h5 class="font-bold">管理員ID</h5>
+                            <h5 class="font-bold">${sessionScope.staffVO.staff_name}</h5>
                             <h6 class="text-muted mb-0">這行不知道要衝三小</h6>
                         </div>
                     </div>
@@ -44,14 +53,14 @@
                 <ul class="menu">
 
                     <li class="sidebar-item  ">
-                        <a href="application-email.html" class='sidebar-link'>
+                        <a href="<%=request.getContextPath()%>/back_end/login/select_page.jsp" class='sidebar-link'>
                             <i class="bi bi-envelope-fill"></i>
                             <span>員工管理</span>
                         </a>
                     </li>
                     
-                    <li class="sidebar-item  ">
-                        <a href="application-email.html" class='sidebar-link'>
+                   <li class="sidebar-item  ">
+                        <a href="<%=request.getContextPath()%>/back_end/login/select_page_member.jsp" class='sidebar-link'>
                             <i class="bi bi-envelope-fill"></i>
                             <span>會員資料</span>
                         </a>
@@ -143,11 +152,19 @@
                         </a>
                     </li> 
                 </ul>
-            </div>
+                <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/staff/staff.do" >
+                <div id="div1">
+              
+             
+               <input type="hidden" name="action" value="login_out">
+               <input type="submit" value="員工登出" class="btn btn-primary">
+            
+                </div>
+                </form>
             <!--****End sidebar-menu**** -->
 
             <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-
+         </div>
         </div>
     </div>
     <!-- ****End sidebar排版**** -->
