@@ -142,10 +142,18 @@ public class ConsultServlet extends HttpServlet{
 					errorMsgs.add("諮詢人姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 	            }
 				
+//				String consult_phone = req.getParameter("consult_phone");
+//				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
+//					errorMsgs.add("手機號碼只能為數字");
+//				}
+				
 				String consult_phone = req.getParameter("consult_phone");
-				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
-					errorMsgs.add("手機號碼只能為數字");
+				if (consult_phone == null || consult_phone.trim().length() == 0) {
+					errorMsgs.add("諮詢人手機 請勿空白");
+				} else if(!consult_phone.trim().matches(numReg)){
+					errorMsgs.add("諮詢人手機 格式錯誤");
 				}
+				
 				
 				String consult_email = req.getParameter("consult_email");
 				if (consult_email == null || consult_email.trim().length() == 0) {
@@ -227,8 +235,10 @@ public class ConsultServlet extends HttpServlet{
 	            }
 				
 				String consult_phone = req.getParameter("consult_phone");
-				if ((consult_phone != null || consult_phone.trim().length() != 0) && !consult_phone.trim().matches(numReg)) {
-					errorMsgs.add("手機號碼只能為數字");
+				if (consult_phone == null || consult_phone.trim().length() == 0) {
+					errorMsgs.add("諮詢人手機 請勿空白");
+				} else if(!consult_phone.trim().matches(numReg)){
+					errorMsgs.add("諮詢人手機 格式錯誤");
 				}
 				
 				String consult_email = req.getParameter("consult_email");
@@ -279,7 +289,7 @@ public class ConsultServlet extends HttpServlet{
 						staff_no,consult_sta);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/consultation/listAllConsult.jsp";
+				String url = "/front_end/consultation/consultsuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllConsult.jsp
 				successView.forward(req, res);				
 				
