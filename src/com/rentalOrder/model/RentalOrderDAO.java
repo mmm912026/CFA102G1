@@ -211,11 +211,9 @@ public class RentalOrderDAO implements I_RentalOrderDAO{
 		ResultSet rs = null;
 		
 		try {
-
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
-
 			while (rs.next()) {
 				rentalOrderVO = new RentalOrderVO();		
 				rentalOrderVO.setRo_no(rs.getInt("ro_no"));

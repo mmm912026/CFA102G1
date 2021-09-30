@@ -4,9 +4,10 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.rentalProductList.model.*"%>
 <%@ page import="com.rentalClass.model.*"%>
+<jsp:useBean id="rcSvc" scope="page" class="com.rentalClass.model.RentalClassService" />
 
 <% 	
-	RentalClassService rcSvc = new RentalClassService();
+
 	List<RentalClassVO> rcVOlist = rcSvc.getAll();
 	pageContext.setAttribute("rcVOlist",rcVOlist);
 	
@@ -17,6 +18,7 @@
 	pageContext.setAttribute("rcVOselect",rcVOselect);
 	
 %>
+
 
 <html>
 <head>
@@ -114,9 +116,9 @@
 			<table class="table table-striped">
 				<tr>
 					<th>商品編號</th>
-					<th width="80">商品類別</th>
-					<th width="90">種類</th>
-					<th width="200">產品序號</th>
+					<th width="200">商品類別</th>
+					<th width="200">種類</th>
+					<th width="250">產品序號</th>
 					<th>租賃次數</th>
 					<th>狀態</th>
 					<th>修改狀態</th>
@@ -130,8 +132,8 @@
 					</c:if>	
 					>
 						<td>${rplVO.rpl_no}</td>
-						<td>${rcSvc.oneRentalClass(rplVO.rc_no).rc_no}</td>
-						<td>${rcSvc.oneRentalClass(rplVO.rc_no).rc_item}</td>
+						<td>${(rcSvc.getOneRentalClass(rplVO.rc_no)).rc_no}</td>
+						<td>${(rcSvc.getOneRentalClass(rplVO.rc_no)).rc_item}</td>
 						<td>${rplVO.rpl_serialnum}</td>
 						<td>${rplVO.rpl_rentcount}</td>
 						<td>${rplVO.rpl_status}</td>

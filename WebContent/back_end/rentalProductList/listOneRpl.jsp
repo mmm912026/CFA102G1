@@ -112,9 +112,9 @@
 			<table class="table table-striped">
 				<tr>
 					<th>商品編號</th>
-					<th width="80">商品類別</th>
-					<th width="90">種類</th>
-					<th width="200">產品序號</th>
+					<th width="200">商品類別</th>
+					<th width="200">種類</th>
+					<th width="250">產品序號</th>
 					<th>租賃次數</th>
 					<th>狀態</th>
 					<th>修改狀態</th>
