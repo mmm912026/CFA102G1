@@ -109,6 +109,9 @@
 
                             <div class="widget widget_best-seller-products">
                                 <h3 class="widget-title">排行榜</h3>
+                              <%if(TopRclist.size()==0){ %>
+                              	 目前無租賃商品
+                              <%} else { %>
                               <%for(RentalClassVO topRc :TopRclist) {%>							
                                 <article class="item">
                                     <a href="<%=request.getContextPath()%>/back_end/rc/rc.do?action=showRcDetail&rc_no=<%=topRc.getRc_no()%>" class="thumb">                             
@@ -130,6 +133,7 @@
                                         <%}%>                     
                                     </div>
                                 </article>
+                                <%} %> 
                                 <%} %>             
                             </div>
                         </aside>
@@ -153,7 +157,7 @@
                         
                         <%for(RentalClassVO rcVO: list){%>
 							<%if(rcVO.getRc_status().equals("上架")){ %>                                             
-                            <div class="col-lg-4 col-sm-6" id="product" data-title="<%=rcVO.getRc_name()%>">
+                            <div class="col-lg-4 col-sm-6" id="product" data-title="<%=rcVO.getRc_name().toLowerCase()%>">
                                 <div class="single-shop-products">
                                     <div class="shop-products-image">
                                         <a href="<%=request.getContextPath()%>/back_end/rc/rc.do?action=showRcDetail&rc_no=<%=rcVO.getRc_no()%>">
@@ -222,8 +226,9 @@
 <script>
 	
 	$('input#searchbar').on('change paste keyup',function(){
-	    var value = $(this).val();
+	    var value = $(this).val().toLowerCase();
 	    console.log(value);
+	    console.log(!value);
 	    if(!value){
 	      $('.list-search-style').html('');
 	    }
