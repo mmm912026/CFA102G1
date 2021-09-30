@@ -6,16 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import com.appraisal_case.model.Appraisal_CaseVO;
 
 public class Appraisal_Case_ImagesDAO implements I_Appraisal_Case_ImagesDAO {
 //	建立連線池

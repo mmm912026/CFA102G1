@@ -37,7 +37,6 @@ public class Appraisal_CaseDAO implements I_Appraisal_CaseDAO {
 	private static final String DELETE_STMT = "DELETE FROM CFA102G1.APPRAISAL_CASE WHERE ACA_NO = ?";
 	private static final String FIND_BY_PK = "SELECT * FROM CFA102G1.APPRAISAL_CASE WHERE ACA_NO = ?";
 	private static final String GET_ALL = "SELECT * FROM CFA102G1.APPRAISAL_CASE";
-	private static final String GET_IMAGES="SELECT * FROM CFA102G1.APPRAISAL_CASE_IMAGES where ACA_NO=? order by ACI_NO;";
 	
 	@Override
 	public Appraisal_CaseVO insert(Appraisal_CaseVO appraisal_CaseVO) {
@@ -256,42 +255,6 @@ public class Appraisal_CaseDAO implements I_Appraisal_CaseDAO {
 		}
 		return appraisal_caseList;
 	}
-	
-	@Override
-	public Set<Appraisal_Case_ImagesVO> getImages_Case(Integer aca_no) {
-		Set<Appraisal_Case_ImagesVO> set = new LinkedHashSet<Appraisal_Case_ImagesVO>();
-		Appraisal_Case_ImagesVO appraisalCaseImagesVO = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_IMAGES);
-			pstmt.setInt(1, aca_no);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				appraisalCaseImagesVO = new Appraisal_Case_ImagesVO();
-				appraisalCaseImagesVO.setAci_no(rs.getInt("ACI_NO"));
-				appraisalCaseImagesVO.setAca_no(rs.getInt("ACA_NO"));
-				appraisalCaseImagesVO.setAci_img(rs.getBytes("ACI_IMG"));
-				set.add(appraisalCaseImagesVO);
-			}
-				
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. "
-						+ se.getMessage());
-			}finally {
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
-			}
-			return set;
-		}
 
 	@Override
 	public List<Appraisal_CaseVO> getAll(Map<String, String[]> map) {

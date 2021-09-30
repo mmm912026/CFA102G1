@@ -84,8 +84,4 @@ public class Appraisal_CaseService {
 	public List<Appraisal_CaseVO> getAll(Map<String, String[]> map) {
 		return dao.getAll(map);
 	}
-	
-	public Set<Appraisal_Case_ImagesVO> getImages_Case(Integer aca_no){
-		return dao.getImages_Case(aca_no);
-	}
 }

@@ -1,21 +1,24 @@
 package com.appraisal_case.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.appraisal_case.model.Appraisal_CaseService;
 import com.appraisal_case.model.Appraisal_CaseVO;
+import com.appraisal_case_images.model.Appraisal_Case_ImagesService;
+import com.appraisal_case_images.model.Appraisal_Case_ImagesVO;
 import com.appraisal_class.model.Appraisal_ClassService;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
@@ -67,6 +70,11 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
 				Appraisal_CaseVO appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
+				
+				Integer aca_no1 = new Integer(req.getParameter("aca_no"));
+				Appraisal_Case_ImagesService appraisalCaseImagesSvc = new Appraisal_Case_ImagesService();
+				List<Appraisal_Case_ImagesVO> appraisalCaseImagesVO = appraisalCaseImagesSvc.getAll().stream().filter(i -> i.getAca_no().intValue() == aca_no1.intValue()).collect(Collectors.toList());
+				
 				if (appraisalCaseVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -80,6 +88,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+				req.setAttribute("appraisalCaseImagesVO", appraisalCaseImagesVO);
 				String url = "/back_end/appraisal_case/listOneA_Case.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
 				successView.forward(req, res);
@@ -138,7 +147,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 
 				// 估價商品內容(規格)
 				String aca_itm_spec = req.getParameter("aca_itm_spec");
-
 				// 案件日期
 				Timestamp aca_date = null;
 				try {
@@ -180,7 +188,11 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				try {
 					aca_shipment_date = Timestamp.valueOf(req.getParameter("aca_shipment_date").trim());
 				} catch (IllegalArgumentException e) {
-					aca_shipment_date = null;
+					if("商品退回".equals(aca_itm_mode)||"取消案件".equals(aca_itm_mode)) {
+						errorMsgs.add("出貨日期：請輸入日期");
+					}else {
+						aca_shipment_date = null;
+					}
 				}
 
 				// 取貨日期，可先不給值
@@ -188,7 +200,11 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				try {
 					aca_pickup_date = Timestamp.valueOf(req.getParameter("aca_pickup_date").trim());
 				} catch (IllegalArgumentException e) {
-					aca_pickup_date = null;
+					if("取消案件".equals(aca_itm_mode)) {
+						errorMsgs.add("取貨日期：請輸入日期");
+					}else {
+						aca_pickup_date = null;
+					}
 				}
 
 				// 付款方式
@@ -199,7 +215,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				try {
 					aca_comp_date = Timestamp.valueOf(req.getParameter("aca_comp_date").trim());
 				} catch (IllegalArgumentException e) {
-					aca_comp_date = null;
+						aca_comp_date = null;
 				}
 
 				// 運送方式
@@ -248,17 +264,19 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				if (requestURL.equals("/back_end/appraisal_class/listCase_ByClass.jsp")|| requestURL.equals("/back_end/appraisal_class/listAllA_Class.jsp")) {
 					req.setAttribute("listCase_ByClass", appraisalClassSvc.getA_CaseByA_Class(acl_no));
 				}
-				else if(requestURL.equals("/back_end/appraisal_case/listOneA_Case.jsp")||requestURL.equals("/back_end/appraisal_case/A_CaseInformation.jsp")) {
+				else if(requestURL.equals("/back_end/appraisal_case/listOneA_Case.jsp")||requestURL.equals("/back_end/appraisal_case/listAllA_Case.jsp")) {
 					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
 				}
+				else if(requestURL.equals("/back_end/appraisal_case/listA_Case_ByCompositeQuery.jsp")) {
+					List<Appraisal_CaseVO> list = appraisalCaseSvc.getAll().stream().filter(i -> i.getAca_no().intValue() ==aca_no.intValue()).collect(Collectors.toList());
+					req.setAttribute("listA_Case_ByCompositeQuery", list);
+				}
 				String url = requestURL;
-				System.out.println(url);
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				e.printStackTrace();
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
@@ -395,21 +413,6 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			}
 		}
 
-		if ("information".equals(action)) {
-			try {
-				Integer aca_no = new Integer(req.getParameter("aca_no"));
-				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
-				Appraisal_CaseVO appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
-				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
-
-				String url = "/back_end/appraisal_case/A_CaseInformation.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
-				successView.forward(req, res);
-
-			} catch (Exception e) {
-				throw new ServletException(e);
-			}
-		}
 		if ("listA_Case_ByCompositeQuery".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -433,6 +436,23 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
 				failureView.forward(req, res);
+			}
+		}
+		
+		if ("information".equals(action)) {
+			try {
+				Integer aca_no = new Integer(req.getParameter("aca_no"));
+				
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				Appraisal_CaseVO appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
+				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+				
+				String url = "/back_end/appraisal_case/A_CaseInformation.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				throw new ServletException(e);
 			}
 		}
 		

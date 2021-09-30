@@ -40,6 +40,14 @@
 			<input type="submit" value="送出">
 			</FORM>
 		</li>
+		<li>
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do">
+			<b>輸入估價案件編號(查詢圖片)：</b>
+			<input type="text" name="aca_no">
+			<input type="hidden" name="action" value="imagesInformation">
+			<input type="submit" value="送出">
+			</FORM>
+		</li>
 	</ul>
 	
 	<h3>估價案件圖片管理</h3>

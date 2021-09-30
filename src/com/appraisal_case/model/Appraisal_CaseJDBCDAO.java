@@ -269,12 +269,6 @@ public class Appraisal_CaseJDBCDAO implements I_Appraisal_CaseDAO {
 		return null;
 	}
 
-	@Override
-	public Set<Appraisal_Case_ImagesVO> getImages_Case(Integer aca_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 //	public static void main(String[] args) {
 
 //		測試insert

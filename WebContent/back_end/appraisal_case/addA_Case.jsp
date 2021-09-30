@@ -35,8 +35,7 @@
 		</ul>
 	</c:if>
 
-	<FORM METHOD="post"
-		ACTION="<%= request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
+	<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
 		<table>
 			<tr>
 				<td>會員編號:<font color=red><b>*</b></font></td>
@@ -44,8 +43,7 @@
 			</tr>
 			<tr>
 				<td>估價商品名稱:<font color=red><b>*</b></font></td>
-				<td><input type="text" name="aca_itm_id" size="45"
-					value="<%=(appraisalCaseVO == null) ? "電腦" : appraisalCaseVO.getAca_itm_id()%>"></td>
+				<td><input type="text" name="aca_itm_id" size="45"value="<%=(appraisalCaseVO == null) ? "電腦" : appraisalCaseVO.getAca_itm_id()%>"></td>
 			</tr>
 			<jsp:useBean id="appraisalClassSvc" scope="page" class="com.appraisal_class.model.Appraisal_ClassService" />
 			<tr>
@@ -63,7 +61,7 @@
 			</tr>
 			<tr>
 				<td>案件日期:</td>
-				<td><input type="text" name="aca_date" id="aca_date"></td>
+				<td><input type="text" name="aca_date" class="aca_date"></td>
 			</tr>
 			<tr>
 				<td>案見狀態:</td>
@@ -85,7 +83,7 @@
 			</tr>
 			<tr>
 				<td>門市收貨日期:</td>
-				<td><input type="text" name="aca_recpt_date" id="aca_recpt_date"></td>
+				<td><input type="text" name="aca_recpt_date" class="aca_recpt_date"></td>
 			</tr>
 			<tr>
 				<td>成交價:</td>
@@ -104,13 +102,12 @@
 				<td>付款方式:</td>
 				<td><select size="1" name="aca_pay">
 					<option value="現金" selected>現金
-					<option value="信用卡">信用卡
 					<option value="轉帳">轉帳
 				</select></td>
 			</tr>
 			<tr>
 				<td>完成日期:</td>
-				<td><input type="text" name="aca_comp_date" id="aca_comp_date"></td>
+				<td><input type="text" name="aca_comp_date" class="aca_comp_date"></td>
 			</tr>
 			<tr>
 				<td>運送方式:</td>
@@ -122,8 +119,7 @@
 			</tr>
 			<tr>
 				<td>配送地址:</td>
-				<td><input type="text" name="aca_adrs"
-					value="<%=(appraisalCaseVO == null) ? "桃園市中壢區復興路46號8樓之805" : appraisalCaseVO.getAca_adrs()%>"></td>
+				<td><input type="text" name="aca_adrs"value="<%=(appraisalCaseVO == null) ? "桃園市中壢區復興路46號8樓之805" : appraisalCaseVO.getAca_adrs()%>"></td>
 			</tr>
 
 		</table>
@@ -132,9 +128,9 @@
 	</FORM>
 
 </body>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/appraisal_case/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/back_end/appraisal_case/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/back_end/appraisal_case/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
   .xdsoft_datetimepicker .xdsoft_datepicker {
@@ -148,35 +144,35 @@
 $.datetimepicker.setLocale('zh'); // kr ko ja en
 $(function(){
 //案件日期
-	 $('#aca_date').datetimepicker({
+	 $('.aca_date').datetimepicker({
 	  format:'Y-m-d H:i:s',
 	  value:new Date(),
 	  onShow:function(){
 	   this.setOptions({
-	    maxDate:$('#aca_comp_date').val()?$('#aca_comp_date').val():false
+	    maxDate:$('.aca_comp_date').val()?$('.aca_comp_date').val():false
 	   })
 	  },
 	  timepicker:true,
 	  step: 1
 	 });
 //門市收貨日期
-	 $('#aca_recpt_date').datetimepicker({
+	 $('.aca_recpt_date').datetimepicker({
 	  format:'Y-m-d H:i:s',
 	  value:new Date(),
 	  onShow:function(){
 	   this.setOptions({
-		minDate:$('#aca_date').val()?$('#aca_date').val():false
+		minDate:$('.aca_date').val()?$('.aca_date').val():false
 	   })
 	  },
 	  timepicker:true,
 	  step: 1
 	 });
 //完成日期
-	 $('#aca_comp_date').datetimepicker({
+	 $('.aca_comp_date').datetimepicker({
 	  format:'Y-m-d H:i:s',
 	  onShow:function(){
 	   this.setOptions({
-	    minDate:$('#aca_recpt_date').val()?$('#aca_recpt_date').val():false
+	    minDate:$('.aca_recpt_date').val()?$('.aca_recpt_date').val():false
 	   })
 	  },
 	  timepicker:true,
