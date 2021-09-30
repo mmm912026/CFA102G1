@@ -179,7 +179,7 @@
 	<!--*******************	
 		Start Footer Area  
 		******************* -->			
-		<%@ include file="../front_include_page/footer2.jsp"%>
+		<%@ include file="../front_include_page/footer.jsp"%>
 	<!--*******************	
 		End Footer Area  
 		******************* -->	
