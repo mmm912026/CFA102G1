@@ -106,6 +106,8 @@
 								style="margin-bottom: 0px;">
 								<input type="submit" class="btn btn-secondary" value="修改"> 
 								<input type="hidden" name="ci_no" value="${couponInformaionVO.ci_no}">
+								<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
 								<input type="hidden" name="action" value="getOne_For_Update">
 							</FORM>
 						</td>
@@ -115,6 +117,8 @@
 								style="margin-bottom: 0px;">
 								<input type="submit" class="btn btn-secondary" value="刪除"> 
 								<input type="hidden" name="ci_no" value="${couponInformaionVO.ci_no}">
+								<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
 								<input type="hidden" name="action" value="delete">
 							</FORM>
 						</td>
