@@ -530,11 +530,23 @@ public class MemberServlet extends HttpServlet {
 				
 				HttpSession session = req.getSession();
 				session.setAttribute("memberVO",memberVO);
-		
 				
-				String url = "/front_end/member/memberInfo.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 /front_end/login/indexTest.jsp
-				successView.forward(req, res);
+				try {
+					String location = (String) session.getAttribute("location");
+					if (location != null) {					
+						session.removeAttribute("location");
+						System.out.println("LOC : " + location);
+						res.sendRedirect(location);
+					}else {
+						res.sendRedirect(req.getContextPath() + "/front_end/index.jsp");
+					}
+				} catch (Exception ignored) {	
+					System.out.println("Enter Exception");
+					res.sendRedirect(req.getContextPath() + "/front_end/index.jsp");
+				}
+			
+				
+
 				
 				
 				/***************************其他可能的錯誤處理*************************************/
