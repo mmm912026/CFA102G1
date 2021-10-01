@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import=" java.text.DecimalFormat"%>
+<%@ page import="com.sec_product_class.model.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
 	Map<Integer, Integer> Quamap2 = (Map<Integer, Integer>) session.getAttribute("Quamap"); 
@@ -9,6 +11,10 @@
 	if(Quamap2 != null && Quamap2.size() > 0){
 		flag = true;
 	}
+	
+	ProductClassService productClassSvc = new ProductClassService();
+	List<ProductClassVO> classList = productClassSvc.getAll();
+	request.setAttribute("classList", classList);
 %>
 
 
@@ -57,7 +63,6 @@
                                     <a href="<%=request.getContextPath()%>/front_end/rental/rentalProductList.jsp" class="nav-link">3C租賃</a>
                                 </li>
 
-
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                     	二手商城
@@ -68,51 +73,14 @@
                                         <li class="nav-item">
                                             <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=0" class="nav-link">所有商品</a>
                                         </li>
-
-                                        <li class="nav-item">
-                                            <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=1" class="nav-link">桌上型電腦</a>
-                                        </li>
                                         
-                                        <li class="nav-item">
-                                            <a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=2" class="nav-link">筆記型電腦</a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                            	電腦零件
-                                            	<i class='bx bx-chevron-down'></i>
-                                            </a>
-                                            
-                                            <ul class="dropdown-menu">
-                                            	<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=3" class="nav-link">CPU-處理器</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=4" class="nav-link">RAM-記憶體</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=5" class="nav-link">HDD-傳統硬碟</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=6" class="nav-link">SSD-固態硬碟</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=7" class="nav-link">電源供應器</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=8" class="nav-link">顯示卡</a>
-                                       			</li>
-                                       			
-                                       			<li class="nav-item">
-                                            		<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=9" class="nav-link">其他</a>
-                                       			</li>
-                                            </ul>
-                                        </li>
+                                        <c:forEach var="classList" items="${classList}">
+                                        	<li class="nav-item">
+                                            	<a href="<%=request.getContextPath()%>/secProductInfo/ProductInfo.do?action=showAllProduct&spc_no=${classList.spc_no}" class="nav-link">
+                                            		${classList.spc_name}
+                                            	</a>
+                                        	</li>
+                                        </c:forEach>
                                     </ul>
                                 </li>
 

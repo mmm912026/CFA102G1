@@ -7,6 +7,7 @@
 <%@ page import="com.productReviews.model.*"%>
 <%@ page import="com.sec_product_inform.model.*"%>
 <%@ page import=" java.text.DecimalFormat"%>
+<%@ page import=" java.util.stream.Collectors"%>
 
 <%
 
@@ -18,7 +19,11 @@
 	
 // 	二手商品顯示>>>>
 	ProductInformService productInformSvc = new ProductInformService();
-	List<ProductInformVO> productInformVOs = productInformSvc.getAll();
+	List<ProductInformVO> productInformVOs = productInformSvc.getAll()
+															 .stream()
+															 .filter(i -> i.getSpi_stock().intValue() > 0)
+															 .filter(i -> i.getSpi_sta().equals("上架"))
+															 .collect(Collectors.toList());
 	
 	
 //  <<<<二手商品顯示
