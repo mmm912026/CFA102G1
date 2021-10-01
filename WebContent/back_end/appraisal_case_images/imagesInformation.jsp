@@ -14,6 +14,9 @@
 <title>估價案件圖片</title>
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+
 </head>
 <body>
 <section class="section">
@@ -36,7 +39,7 @@
 			<th><img width="120" height="120" src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}&action=showIMG"></th>
 			<th>
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do" style="margin-bottom: 0px;">
-					<input type="submit" value="刪除">
+					<input type="submit" class="btn btn-outline-secondary" value="刪除">
 					<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 					<input type="hidden" name="aci_no" value="${appraisalCaseImagesVO.aci_no}">
 					<input type="hidden" name="aca_no" value="${appraisalCaseImagesVO.aca_no}">
@@ -48,12 +51,15 @@
 		<tr>
 			<td colspan="5">
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do" style="margin-bottom: 0px;" enctype="multipart/form-data">
+   				<div class="mb-3">
+                <label for="formFile" class="form-label">新增估價圖片</label>
+                <input class="form-control" type="file" name="aci_img" accept="image/*" id="progressbarTWInput" multiple>
    				<div id="preview_progressbarTW_imgs"></div>
-				<input type="file" name="aci_img" accept="image/*" id="progressbarTWInput" multiple >
+              	</div>
 				<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 				<input type="hidden" name="aca_no" value="${aca_no}">
 				<input type="hidden" name="action" value="insert"> 
-				<input type="submit" value="新增圖片">
+				<input type="submit" class="btn btn-outline-secondary" value="新增圖片">
 			</FORM>
 			</td>
 		</tr>
