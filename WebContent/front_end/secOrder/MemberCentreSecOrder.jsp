@@ -23,6 +23,7 @@
 	List<SecOrderVO> list = secOrderService.getAll()
 										   .stream()
 										   .filter(m -> m.getMem_no().equals(memberVO.getMem_no()))
+										   .sorted(Comparator.comparing(SecOrderVO::getSo_no).reversed())
 										   .collect(Collectors.toList());
 
 	request.setAttribute("list", list);

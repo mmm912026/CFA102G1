@@ -97,10 +97,6 @@
 											</tr>
 											
 											<tr>
-												<th><a href="<%=request.getContextPath()%>/back_end/secProductInfo/listAllSecProductInfo.jsp" class="btn btn-secondary"> 顯示所有二手商品 </a></th>
-											</tr>
-											
-											<tr>
 												<th><a href="<%=request.getContextPath()%>/back_end/secProductInfo/addSecProductInfo.jsp" class="btn btn-secondary"> 新增二手商品 </a></th>
 											</tr>	
 																						

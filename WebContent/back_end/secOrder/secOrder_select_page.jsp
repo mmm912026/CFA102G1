@@ -106,10 +106,6 @@
 													<!-- <<<<複合查詢  -->
 												</th>
 											</tr>
-											
-											<tr>
-												<th><a href="<%=request.getContextPath()%>/back_end/secOrder/listAllSecOrder.jsp" class="btn btn-secondary"> 顯示所有訂單 </a></th>
-											</tr>
 																							
 										</thead>
 									</table>
