@@ -96,13 +96,6 @@
 									<img src="<%=request.getContextPath()%>/secProductImg/ProductImg.do?spi_no=${productList.spi_no}&action=showShopImage" alt="image" 
 										style="width:250px;height:250px;">
                                 </a>
-                                <ul class="shop-action">
-                                    <li>
-                                        <a href="cart.html">
-                                            <i class="flaticon-shopping-cart"></i>
-                                        </a>
-                                    </li>          
-                                </ul>
                             </div>
 
                             <div class="shop-products-content">

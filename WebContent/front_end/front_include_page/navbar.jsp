@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import=" java.text.DecimalFormat"%>
 
 <%
 	Map<Integer, Integer> Quamap2 = (Map<Integer, Integer>) session.getAttribute("Quamap"); 
@@ -133,7 +134,7 @@
                                         	<span><%=flag?Quamap2.get(998):0%></span>
                                         </a>
                                     </li>
-                                    <li>$<%=flag?Quamap2.get(999):0%></li>
+                                    <li>$<%=new DecimalFormat(",###").format(flag?Quamap2.get(999):0)%></li>
                                 </ul>
                             </div>
                         </div>
