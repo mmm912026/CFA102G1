@@ -9,10 +9,12 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="top-header-content">
+                           <a href="<%=request.getContextPath()%>/front_end/coupon_information/coupon_information.jsp">
                             <span>
                                 <i class="flaticon-check"></i>
-                                Free shipping on all orders over $50
+                               		優惠卷好康看這裡~
                             </span>
+                           </a> 
                         </div>
                     </div>
 
