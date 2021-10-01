@@ -125,7 +125,6 @@
                 <td>運送方式:</td>
                 <td><select size="1" name="aca_cod">
                         <option value="自取、親送" ${(appraisalCaseVO.aca_cod=="自取、親送" )?'selected':'' }>自取、親送
-                        <option value="超商取貨" ${(appraisalCaseVO.aca_cod=="超商取貨" )?'selected':'' }>超商取貨
                         <option value="宅配" ${(appraisalCaseVO.aca_cod=="宅配" )?'selected':'' }>宅配
                     </select></td>
             </tr>

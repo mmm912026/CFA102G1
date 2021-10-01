@@ -106,11 +106,6 @@
 			</FORM>
 		</li>
 	</ul>	
-	<h3>估價案件管理</h3>
-
-<ul>
-  <li><a href='<%= request.getContextPath()%>/back_end/appraisal_case/addA_Case.jsp'>Add</a></li>
-</ul>
 
 	<h3>類別查詢</h3>
 	<ul>
