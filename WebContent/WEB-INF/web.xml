@@ -72,8 +72,7 @@
   	<filter-name>MemberLoginFilter</filter-name>
   	<url-pattern>/front_end/login/index.jsp</url-pattern>
   	<url-pattern>/front_end/login/update_member.jsp</url-pattern>
-  	<url-pattern>/front_end/member/*</url-pattern>
-  	<url-pattern>/front_end/login_out/login_out.jsp</url-pattern>
+  	<url-pattern>/front_end/member/memberInfo.jsp</url-pattern>
   	<url-pattern>/front_end/secOrder/checkOut.jsp</url-pattern>
     <url-pattern>/front_end/secOrder/creditCardPay.jsp</url-pattern>
     <url-pattern>/front_end/secOrder/MemberCentreSecOrder.jsp</url-pattern>
