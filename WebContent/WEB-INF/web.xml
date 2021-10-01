@@ -78,6 +78,7 @@
     <url-pattern>/front_end/secOrder/MemberCentreSecOrder.jsp</url-pattern>
     <url-pattern>/front_end/secOrder/transferPay.jsp</url-pattern>
     <url-pattern>/front_end/appraisal_case/appraisalCase.jsp</url-pattern>
+    <url-pattern>/front_end/appraisal_case/memListA_Case.jsp</url-pattern>
     <url-pattern>/front_end/rental/prolongRentalOrderCreate.jsp</url-pattern>
     <url-pattern>/front_end/rental/rentalOrderCreate.jsp</url-pattern>
     <url-pattern>/front_end/rental/rentalOrderList.jsp</url-pattern>
