@@ -85,8 +85,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -255,8 +254,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -286,8 +284,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -428,13 +425,13 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			try {
 				/*************************** 1.將輸入資料轉為Map **********************************/
 				Map<String ,String[]>map = req.getParameterMap();
-				
+
 				/*************************** 2.開始複合查詢 ***************************************/
 				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
 				List<Appraisal_CaseVO> list = appraisalCaseSvc.getAll(map);
-			
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("listA_Case_ByCompositeQuery", list);
+				
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				String url = "/back_end/appraisal_case/listA_Case_ByCompositeQuery.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
