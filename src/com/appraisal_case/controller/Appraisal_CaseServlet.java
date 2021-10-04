@@ -190,12 +190,12 @@ public class Appraisal_CaseServlet extends HttpServlet {
 					aca_final_p = 0;
 				}
 
-				// 出貨日期，可先不給值
+				// 出貨日期
 				Timestamp aca_shipment_date = null;
 				try {
 					aca_shipment_date = Timestamp.valueOf(req.getParameter("aca_shipment_date").trim());
 				} catch (IllegalArgumentException e) {
-					if("商品退回".equals(aca_itm_mode)||"取消案件".equals(aca_itm_mode)) {
+					if("商品退回".equals(aca_itm_mode)) {
 						errorMsgs.add("出貨日期：請輸入日期");
 					}else {
 						aca_shipment_date = null;
@@ -207,11 +207,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				try {
 					aca_pickup_date = Timestamp.valueOf(req.getParameter("aca_pickup_date").trim());
 				} catch (IllegalArgumentException e) {
-					if("取消案件".equals(aca_itm_mode)) {
-						errorMsgs.add("出貨日期：請輸入日期");
-					}else {
 						aca_pickup_date = null;
-					}
 				}
 
 				// 付款方式
