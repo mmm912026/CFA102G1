@@ -27,7 +27,7 @@
             </div>
         </div>
        
-       <%@ include file="../front_include_page/member_head.jsp"%>
+       <%@ include file="../front_include_page/navbar.jsp"%>
     
         <div class="page-title-area">
             <div class="container">
