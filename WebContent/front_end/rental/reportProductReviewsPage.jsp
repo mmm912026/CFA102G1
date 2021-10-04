@@ -6,7 +6,7 @@
 <%@ page import="com.member.model.*"%>
 <% 	
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-	ProductReviewsVO prVO = (ProductReviewsVO) request.getAttribute("prVO");
+	ProductReviewsVO prVO = (ProductReviewsVO) session.getAttribute("prVO");
 %>
 
 <!DOCTYPE html>

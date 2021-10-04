@@ -8,7 +8,7 @@
 <%@ page import="com.member.model.*"%>
 <% 	
 
-	Integer rc_no = new Integer(request.getParameter("rc_no"));
+	Integer rc_no = (Integer) session.getAttribute("rc_no");
 	
 	RentalClassService rcSvc = new RentalClassService();
 	RentalClassVO rcVO = rcSvc.getOneRentalClass(rc_no);
