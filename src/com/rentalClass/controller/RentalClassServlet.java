@@ -1,12 +1,18 @@
 package com.rentalClass.controller;
 
 import com.rentalClass.model.*;
+import com.rentalProductImages.model.*;
 
 import javax.servlet.http.*;
 import javax.servlet.*;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+
 import java.io.*;
 import java.util.*;
 
+@WebServlet("/rentalClass.do")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class RentalClassServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -458,11 +464,28 @@ public class RentalClassServlet extends HttpServlet {
 				RentalClassService rcSvc = new RentalClassService();
 				rcVO = rcSvc.insertRentalClass(rc_name,rc_item,rc_detail,rc_deposit,rc_price);
 				
+				Collection<Part> parts = req.getParts();
+				RentalProductImagesService rpiSvc = new RentalProductImagesService();
+				RentalProductImagesVO rpiVO = new RentalProductImagesVO();
+				
+				for (Part part : parts) {
+					String filename = getFileNameFromPart(part);
+										
+					if (filename!= null && part.getContentType()!=null) {
+						InputStream in = part.getInputStream();
+						byte[] buf = new byte[in.available()];
+						in.read(buf);
+						
+						rpiVO = rpiSvc.insertRentalProductImages(rcVO.getRc_no(), buf);
+						in.close();
+					}
+				}	
+					
 				List<RentalClassVO> list = new ArrayList<RentalClassVO>();
 				list.add(rcVO);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				req.setAttribute("list", list);
-				String url = "/back_end/rentalClass/listRc.jsp";
+				String url = "/back_end/rentalClass/listOneRc.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);				
 				
@@ -474,5 +497,15 @@ public class RentalClassServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}		
 		}
-	}	
+	}
+	
+	public String getFileNameFromPart(Part part) {
+		String header = part.getHeader("content-disposition");
+		String filename = new File(header.substring(header.lastIndexOf("=") + 2, header.length() - 1)).getName();
+		if (filename.length() == 0) {
+			return null;
+		}
+		return filename;
+	}		
+	
 }

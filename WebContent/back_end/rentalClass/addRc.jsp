@@ -61,22 +61,22 @@ th, td {
 				</ul>
 			</c:if>	
 				
-			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" name="form1">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rc/rc.do" name="form1" enctype="multipart/form-data">
 			<table class="table table-striped">
 				<tr>
 					<td>商品類別名稱:</td>
 					<td><input type="TEXT" name="rc_name" size="45" 
-					value="<%= (rcVO==null)? "MacBook Pro 16吋" : rcVO.getRc_name()%>" /></td>
+					value="<%= (rcVO==null)? "Apple Mac Pro" : rcVO.getRc_name()%>" /></td>
 				</tr>
 				<tr>
 					<td>種類:</td>
 					<td><input type="TEXT" name="rc_item" size="45"	
-					value="<%= (rcVO==null)? "NB" : rcVO.getRc_item()%>"  /></td>
+					value="<%= (rcVO==null)? "Desktop" : rcVO.getRc_item()%>"  /></td>
 				</tr>
 				<tr>
 					<td>詳細資訊:</td>
 					<td><input type="TEXT" name="rc_detail" size="45"	
-					value="<%= (rcVO==null)? "" : rcVO.getRc_detail()%>"  /></td>
+					value="<%= (rcVO==null)? "3.5GHz 8 核心 Intel Xeon W<br>32GB<br>1TB<SSD>" : rcVO.getRc_detail()%>"  /></td>
 				</tr>
 				<tr>
 					<td>押金:</td>
@@ -86,11 +86,25 @@ th, td {
 				<tr>
 					<td>價格/天:</td>
 					<td><input type="TEXT" name="rc_price" size="45" 
-					value="<%= (rcVO==null)? "1000" : rcVO.getRc_price()%>"  /></td>
+					value="<%= (rcVO==null)? "5000" : rcVO.getRc_price()%>"  /></td>
 				</tr>
 			
 			</table>
 			<br>
+			       <input type="file" accept="image/*" name="img1" id="img1input" >
+			       <br><br>
+			       <img id="img1show" src="" />       
+			       <p>
+			       <input type="file" accept="image/*" name="img2" id="img2input">
+			       <br><br>
+			       <img id="img2show" src="" />  
+			       <p>
+			       <input type="file" accept="image/*" name="img3" id="img3input">
+			       <br><br>
+			       <img id="img3show" src="" />  
+			       <p>
+			
+			
 			<input type="hidden" name="action" value="insert">
 			<input type="submit" value="新增" class="btn btn-sm btn-primary"></FORM>		
 		
@@ -109,6 +123,39 @@ th, td {
 	$(document).ready(function(){
 		$('input').attr('autocomplete', 'off');
 	});
+</script>
+<script>
+img1input.onchange = evt => {
+	  const [file] = img1input.files
+	  if (file) {
+		  img1show.src = URL.createObjectURL(file)
+	  }
+	  var img = document.getElementById("img1show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
+	}
+img2input.onchange = evt => {
+	  const [file] = img2input.files
+	  if (file) {
+		  img2show.src = URL.createObjectURL(file)
+	  }
+	  var img = document.getElementById("img2show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
+	}
+img3input.onchange = evt => {
+	  const [file] = img3input.files
+	  if (file) {
+		  img3show.src = URL.createObjectURL(file)
+	  }
+	  var img = document.getElementById("img3show");
+	  img.setAttribute("width", "100px");
+	  img.setAttribute("height", "auto");
+	}
+	$(document).ready(function(){
+		$('input').attr('autocomplete', 'off');
+	});
+	
 </script>
 </body>
 </html>

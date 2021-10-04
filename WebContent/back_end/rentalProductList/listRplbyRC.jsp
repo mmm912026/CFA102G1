@@ -96,8 +96,9 @@
 					     </FORM>
 					</td>
 					<td>
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rentalProductList/addRpl.jsp" >
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/rpl/rpl.do?action=addRpl" >
 				 	 		<input type="submit" value="新增商品" class="btn btn-sm btn-primary">
+				 	 		<input type="hidden" name="rcVOselect" value="${rcVOselect}">
 			     		</FORM>
 					</td>
 				</tr>	

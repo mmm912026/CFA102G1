@@ -191,7 +191,8 @@ public class RentalOrderServlet extends HttpServlet{
 			try {
 				
 				Integer rc_no = new Integer(req.getParameter("rc_no"));
-				req.setAttribute("rc_no", rc_no);	
+				HttpSession session = req.getSession();
+				session.setAttribute("rc_no", rc_no);
 				
 				String url = "/front_end/rental/rentalOrderCreate.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);

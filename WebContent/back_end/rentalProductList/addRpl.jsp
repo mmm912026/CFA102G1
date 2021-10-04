@@ -4,6 +4,10 @@
 
 <%
 	RentalProductListVO rplVO = (RentalProductListVO) request.getAttribute("rplVO");
+
+	Integer rcVOselect = (Integer) request.getAttribute("rcVOselect");
+	pageContext.setAttribute("rcVOselect",rcVOselect); 
+
 %>
 <html>
 <head>
@@ -71,7 +75,7 @@
 					<td>
 						<select size="1" name="rc_no">
 			         	<c:forEach var="rcVO" items="${rcSvc.all}" > 
-			         	<option value="${rcVO.rc_no}">${rcVO.rc_no}.${rcVO.rc_name}
+			         	<option value="${rcVO.rc_no}" ${(rcVO.rc_no==rcVOselect)?'selected':''}  >${rcVO.rc_no}.${rcVO.rc_name}
 			         	</c:forEach>
 			         	</select>
 					</td>
