@@ -63,7 +63,10 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				Integer pr_no = new Integer(req.getParameter("pr_no"));
 				ProductReviewsService prSvc = new ProductReviewsService();
 				ProductReviewsVO prVO = prSvc.getOneProductReviews(pr_no);
-				req.setAttribute("prVO", prVO);
+				
+				HttpSession session = req.getSession();
+				session.setAttribute("prVO", prVO);
+				
 				RequestDispatcher successView = req
 						.getRequestDispatcher("/front_end/rental/reportProductReviewsPage.jsp");
 				successView.forward(req, res);
@@ -149,6 +152,9 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				String fromListOnePrDetail = req.getParameter("fromListOnePrDetail");
 				if("true".equals(fromListOnePrDetail)) {
 					url = "/back_end/reportProductReviews/listOnePrDetail.jsp";
+					ProductReviewsService prSvc = new ProductReviewsService();
+					ProductReviewsVO prVO = prSvc.getOneProductReviews(repSvc.getOneReportProductReviews(rep_no).getPr_no());
+					req.setAttribute("prVO", prVO);
 					req.setAttribute("closewindow", true);
 				}
 				
@@ -187,6 +193,9 @@ public class ReportProductReviewsServlet extends HttpServlet{
 				String fromListOnePrDetail = req.getParameter("fromListOnePrDetail");
 				if("true".equals(fromListOnePrDetail)) {
 					url = "/back_end/reportProductReviews/listOnePrDetail.jsp";
+					ProductReviewsService prSvc = new ProductReviewsService();
+					ProductReviewsVO prVO = prSvc.getOneProductReviews(repSvc.getOneReportProductReviews(rep_no).getPr_no());
+					req.setAttribute("prVO", prVO);
 					req.setAttribute("closewindow", true);
 				}
 				

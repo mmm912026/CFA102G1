@@ -360,6 +360,13 @@ public class RentalProductListServlet  extends HttpServlet{
 			}
 		}
 		
+		if ("addRpl".equals(action)) {
+			Integer rcVOselect = new Integer(req.getParameter("rcVOselect"));
+			req.setAttribute("rcVOselect", rcVOselect);
+			String url = "/back_end/rentalProductList/addRpl.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); 
+			successView.forward(req, res);
+		}
 			
 		if ("insert".equals(action)) { 
 			
@@ -402,7 +409,7 @@ public class RentalProductListServlet  extends HttpServlet{
 				list.add(rplVO);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				req.setAttribute("list", list);
-				String url = "/back_end/rentalProductList/listRpl.jsp";
+				String url = "/back_end/rentalProductList/listOneRpl.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);				
 				
