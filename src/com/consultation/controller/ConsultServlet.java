@@ -157,14 +157,14 @@ public class ConsultServlet extends HttpServlet{
 				
 				String consult_email = req.getParameter("consult_email");
 				if (consult_email == null || consult_email.trim().length() == 0) {
-					errorMsgs.add("Email 不能為空");
+					errorMsgs.add("Email: 請勿空白");
 				} else if(!consult_email.trim().matches(emailReg)){
 					errorMsgs.add("Email 格式須為 example@example.com");
 				}
 				
 				String consult_content = req.getParameter("consult_content").trim();
 				if (consult_content == null || consult_content.trim().length() == 0) {
-					errorMsgs.add("諮詢內容請勿空白");
+					errorMsgs.add("諮詢內容: 請勿空白");
 				}
 
 				Integer staff_no = null;
@@ -176,7 +176,7 @@ public class ConsultServlet extends HttpServlet{
 				}
 				String consult_sta = req.getParameter("consult_sta").trim();
 				if (consult_sta == null || consult_sta.trim().length() == 0) {
-					errorMsgs.add("回覆狀態請勿空白");
+					errorMsgs.add("回覆狀態: 請勿空白");
 				}
 				
 				ConsultVO consultVO = new ConsultVO();
@@ -243,14 +243,14 @@ public class ConsultServlet extends HttpServlet{
 				
 				String consult_email = req.getParameter("consult_email");
 				if (consult_email == null || consult_email.trim().length() == 0) {
-					errorMsgs.add("Email 不能為空");
+					errorMsgs.add("Email: 請勿空白");
 				} else if(!consult_email.trim().matches(emailReg)){
 					errorMsgs.add("Email 格式須為 example@example.com");
 				}
 				
 				String consult_content = req.getParameter("consult_content").trim();
 				if (consult_content == null || consult_content.trim().length() == 0) {
-					errorMsgs.add("諮詢內容請勿空白");
+					errorMsgs.add("諮詢內容: 請勿空白");
 				}
 
 				Integer staff_no = null;
@@ -263,7 +263,7 @@ public class ConsultServlet extends HttpServlet{
 				
 				String consult_sta = req.getParameter("consult_sta").trim();
 				if (consult_sta == null || consult_sta.trim().length() == 0) {
-					errorMsgs.add("回覆狀態請勿空白");
+					errorMsgs.add("回覆狀態: 請勿空白");
 				}
 
 				ConsultVO consultVO = new ConsultVO();
@@ -304,7 +304,7 @@ public class ConsultServlet extends HttpServlet{
 		}
 		
 		
-		if ("delete".equals(action)) { // 來自listAllEmp.jsp
+		if ("delete".equals(action)) { // 來自listAllConsult.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to

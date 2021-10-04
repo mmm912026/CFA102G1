@@ -109,12 +109,11 @@ th, td {
 									<th>員工編號</th>
 									<th>回覆狀態</th>
 									<th>修改</th>
+<!-- 									<th>刪除</th> -->
 								</tr>
 							</thead>
 							<tbody>
-								<%@ include file="../back_include_page/page1.file"%>
-								<c:forEach var="consultVO" items="${list}"
-									begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+								<c:forEach var="consultVO" items="${consultDAO.all}" varStatus="s">
 
 									<tr
 										${(consultVO.consult_no==param.consult_no) ? 'bgcolor=#cfe9d3':''}>
@@ -133,20 +132,23 @@ th, td {
 												style="margin-bottom: 0px;">
 												<input type="submit" value="修改"> <input
 													type="hidden" name="consult_no"
-													value="${consultVO.consult_no}"> <input
-													type="hidden" name="requestURL"
-													value="<%=request.getServletPath()%>">
-												<!--送出本網頁的路徑給Controller-->
-												<input type="hidden" name="whichPage" value="<%=whichPage%>">
-												<!--送出當前是第幾頁給Controller-->
+													value="${consultVO.consult_no}"> 
 												<input type="hidden" name="action" value="getOne_For_Update">
 											</FORM>
 										</td>
+<!-- 										<td> -->
+<!-- 											<FORM METHOD="post" -->
+<%-- 												ACTION="<%=request.getContextPath()%>/back_end/consultation/consult.do" --%>
+<!-- 												style="margin-bottom: 0px;"> -->
+<!-- 												<input type="submit" value="刪除"> <input -->
+<%-- 													type="hidden" name="consult_no" value="${consultVO.consult_no}"> <input --%>
+<!-- 													type="hidden" name="action" value="delete"> -->
+<!-- 											</FORM> -->
+<!-- 										</td> -->
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
-						<%@ include file="../back_include_page/page2.file"%>
 					</div>
 				</div>
 			</section>
