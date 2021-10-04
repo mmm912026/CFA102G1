@@ -81,6 +81,8 @@
 	<ul>
 		<li>
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
+					<b>輸入會員編號:</b>
+					<input type="text" name="mem_no"><br>
 				<b>選擇估價案件狀態:</b> 
 				<select size="1" name="aca_itm_mode">
 						<option value=" "selected>
@@ -106,11 +108,6 @@
 			</FORM>
 		</li>
 	</ul>	
-	<h3>估價案件管理</h3>
-
-<ul>
-  <li><a href='<%= request.getContextPath()%>/back_end/appraisal_case/addA_Case.jsp'>Add</a></li>
-</ul>
 
 	<h3>類別查詢</h3>
 	<ul>

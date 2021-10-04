@@ -2,7 +2,9 @@ package com.appraisal_case.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.appraisal_case.model.Appraisal_CaseService;
 import com.appraisal_case.model.Appraisal_CaseVO;
@@ -23,6 +27,7 @@ import com.appraisal_class.model.Appraisal_ClassService;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
+@javax.servlet.annotation.MultipartConfig
 public class Appraisal_CaseServlet extends HttpServlet {
 
 	@Override
@@ -80,8 +85,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -172,8 +176,11 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				try {
 					aca_recpt_date = Timestamp.valueOf(req.getParameter("aca_recpt_date").trim());
 				} catch (IllegalArgumentException e) {
-					aca_recpt_date = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("門市收貨日期：請輸入日期");
+					if("已收取商品".equals(aca_itm_mode)) {
+						errorMsgs.add("門市收貨日期：請輸入日期");
+					}else {
+						aca_recpt_date = null;
+					}
 				}
 				// 成交價，可先不給值
 				Integer aca_final_p = null;
@@ -201,7 +208,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 					aca_pickup_date = Timestamp.valueOf(req.getParameter("aca_pickup_date").trim());
 				} catch (IllegalArgumentException e) {
 					if("取消案件".equals(aca_itm_mode)) {
-						errorMsgs.add("取貨日期：請輸入日期");
+						errorMsgs.add("出貨日期：請輸入日期");
 					}else {
 						aca_pickup_date = null;
 					}
@@ -247,8 +254,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -278,8 +284,7 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/update_a_case_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -420,13 +425,13 @@ public class Appraisal_CaseServlet extends HttpServlet {
 			try {
 				/*************************** 1.將輸入資料轉為Map **********************************/
 				Map<String ,String[]>map = req.getParameterMap();
-				
+
 				/*************************** 2.開始複合查詢 ***************************************/
 				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
 				List<Appraisal_CaseVO> list = appraisalCaseSvc.getAll(map);
-			
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("listA_Case_ByCompositeQuery", list);
+				
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				String url = "/back_end/appraisal_case/listA_Case_ByCompositeQuery.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -478,6 +483,140 @@ public class Appraisal_CaseServlet extends HttpServlet {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/appraisal_case/listAllA_Case.jsp");
 				failureView.forward(req, res);
+			}
+		}
+		//前端新增估價案件
+		if("addCase".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				HttpSession session = req.getSession();
+				// 查詢有無此會員 若無會員無法新增估價單
+				MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+				Integer mem_no = new Integer(memberVO.getMem_no());
+				// 估價商品名稱
+				String aca_itm_id = req.getParameter("aca_itm_id");
+				if (aca_itm_id == null || aca_itm_id.trim().length() == 0) {
+					errorMsgs.add("估價商品名稱請勿空白");
+				}
+				// 商品類別編號
+				Integer acl_no = new Integer(req.getParameter("acl_no").trim());
+
+				// 估價商品內容(規格)
+				String aca_itm_spec = req.getParameter("aca_itm_spec");
+
+				// 案件日期，前端新增時設定當前時間
+				Timestamp aca_date = new Timestamp(System.currentTimeMillis());
+				// 案件狀態
+				String aca_itm_mode = "審核評估中";
+
+				// 報價，可先不給值
+				Integer aca_first_p = 0;
+
+				// 門市收貨日期
+				Timestamp aca_recpt_date = null;
+
+				// 成交價，可先不給值
+				Integer aca_final_p = 0;
+
+				// 出貨日期，可先不給值
+				Timestamp aca_shipment_date = null;
+
+				// 取貨日期，可先不給值
+				Timestamp aca_pickup_date = null;
+
+				// 付款方式
+				String aca_pay = req.getParameter("aca_pay");
+
+				// 完成日期，可先不給值
+				Timestamp aca_comp_date = null;
+
+				// 運送方式
+				String aca_cod = req.getParameter("aca_cod");
+
+				// 配送地址
+				String aca_adrs = req.getParameter("aca_adrs");
+				if (aca_adrs == null || aca_adrs.trim().length() == 0) {
+					errorMsgs.add("請輸入配送地址");
+				}
+
+				Appraisal_CaseVO appraisalCaseVO = new Appraisal_CaseVO();
+				appraisalCaseVO.setMem_no(mem_no);
+				appraisalCaseVO.setAca_itm_id(aca_itm_id);
+				appraisalCaseVO.setAcl_no(acl_no);
+				appraisalCaseVO.setAca_itm_spec(aca_itm_spec);
+				appraisalCaseVO.setAca_date(aca_date);
+				appraisalCaseVO.setAca_itm_mode(aca_itm_mode);
+				appraisalCaseVO.setAca_first_p(aca_first_p);
+				appraisalCaseVO.setAca_recpt_date(aca_recpt_date);
+				appraisalCaseVO.setAca_final_p(aca_final_p);
+				appraisalCaseVO.setAca_shipment_date(aca_shipment_date);
+				appraisalCaseVO.setAca_pickup_date(aca_pickup_date);
+				appraisalCaseVO.setAca_pay(aca_pay);
+				appraisalCaseVO.setAca_comp_date(aca_comp_date);
+				appraisalCaseVO.setAca_cod(aca_cod);
+				appraisalCaseVO.setAca_adrs(aca_adrs);
+				
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/front_end/appraisal_case/appraisalCase.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				/*************************** 2.開始新增資料 ***************************************/
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				appraisalCaseVO = appraisalCaseSvc.addA_Case(mem_no, aca_itm_id, acl_no, aca_itm_spec, aca_date,
+						aca_itm_mode, aca_first_p, aca_recpt_date, aca_final_p, aca_shipment_date, aca_pickup_date,
+						aca_pay, aca_comp_date, aca_cod, aca_adrs);
+				
+				Appraisal_Case_ImagesService appraisalCaseImagesSvc = new Appraisal_Case_ImagesService();
+				byte[] aci_img = null;
+				Collection<Part> parts = req.getParts();
+				for (Part part : parts) {
+					InputStream is = part.getInputStream();
+					if (part.getContentType() != null && part.getSize() != 0&& is.available()!=0) {
+						aci_img = new byte[is.available()];
+						is.read(aci_img);
+						is.close();
+						/*************************** 新增照片 ***************************************/
+						appraisalCaseImagesSvc.addA_Case_Image(appraisalCaseVO.getAca_no(), aci_img);//純筆記放在迴圈裡才可以上傳多張圖片
+					}
+				}
+				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				String url = "/front_end/appraisal_case/addCaseSuccess.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/appraisal_case/appraisalCase.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		//前端查看詳情
+		if("caseInformation".equals(action)){
+			try {
+				Integer aca_no = new Integer(req.getParameter("aca_no"));
+				
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				Appraisal_CaseVO appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
+				req.setAttribute("appraisalCaseVO", appraisalCaseVO);
+				
+				Appraisal_Case_ImagesService appraisalCaseImagesSvc = new Appraisal_Case_ImagesService();
+				List<Appraisal_Case_ImagesVO> appraisalCaseImagesVO = appraisalCaseImagesSvc.getAll().stream().filter(i -> i.getAca_no().intValue() == aca_no.intValue()).collect(Collectors.toList());
+				req.setAttribute("appraisalCaseImagesVO", appraisalCaseImagesVO);
+
+				
+				String url = "/front_end/appraisal_case/caseInformation.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneA_Case.jsp
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				throw new ServletException(e);
 			}
 		}
 	}

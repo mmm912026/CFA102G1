@@ -119,12 +119,13 @@
 			</tr>
 			<tr>
 				<td>配送地址:</td>
-				<td><input type="text" name="aca_adrs"value="<%=(appraisalCaseVO == null) ? "桃園市中壢區復興路46號8樓之805" : appraisalCaseVO.getAca_adrs()%>"></td>
+				<td><input type="text" name="aca_adrs" value="<%=(appraisalCaseVO == null) ? "桃園市中壢區復興路46號8樓之805" : appraisalCaseVO.getAca_adrs()%>"></td>
 			</tr>
 
 		</table>
-		<br> <input type="hidden" name="action" value="insert"> <input
-			type="submit" value="送出新增">
+		<br> 
+		<input type="hidden" name="action" value="insert"> 
+		<input type="submit" value="送出新增">
 	</FORM>
 
 </body>

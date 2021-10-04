@@ -28,7 +28,6 @@
   	<url-pattern>/back_end/login/login_success.jsp</url-pattern>
   	<url-pattern>/back_end/login/select_page.jsp</url-pattern>
   	<url-pattern>/back_end/login/select_page_member.jsp</url-pattern>
-  	<url-pattern>/back_end/login_out/*</url-pattern>
   	<url-pattern>/back_end/member/*</url-pattern>
   	<url-pattern>/back_end/staff/*</url-pattern>
   	<url-pattern>/back_end/appraisal_case/*</url-pattern>
@@ -78,6 +77,7 @@
     <url-pattern>/front_end/secOrder/MemberCentreSecOrder.jsp</url-pattern>
     <url-pattern>/front_end/secOrder/transferPay.jsp</url-pattern>
     <url-pattern>/front_end/appraisal_case/appraisalCase.jsp</url-pattern>
+    <url-pattern>/front_end/appraisal_case/memListA_Case.jsp</url-pattern>
     <url-pattern>/front_end/rental/prolongRentalOrderCreate.jsp</url-pattern>
     <url-pattern>/front_end/rental/rentalOrderCreate.jsp</url-pattern>
     <url-pattern>/front_end/rental/rentalOrderList.jsp</url-pattern>
