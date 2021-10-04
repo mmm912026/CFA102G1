@@ -39,7 +39,7 @@ public class LoginFilter implements Filter{
 		StaffVO staffVO = (StaffVO) session.getAttribute("staffVO");
 		
 		if(staffVO == null) {
-			session.setAttribute("location", req.getRequestURI());
+			//session.setAttribute("location", req.getRequestURI());
 			res.sendRedirect(req.getContextPath() + "/back_end/login/login.jsp");
 			
 		}
