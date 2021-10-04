@@ -756,9 +756,9 @@ public class MemberServlet extends HttpServlet {
 			String subject = "YSM3C會員帳號驗證通知信";
 			String messageText = mem_name + "您好 : \n\n"
 					+"感謝您使用本平臺，為了確認您的資料正確性，平臺需要驗證後才能啟用您你帳號。\n\n"
-					+ "您的驗證碼 : " + abc + "\n\n" + "http://localhost:8080/CFA102G1_01_0928/front_end/login/register_2.jsp"
+					+ "您的驗證碼 : " + abc + "\n\n" + req.getScheme()+"://"+req.getServerName() + ":" + req.getServerPort()+ req.getContextPath() +"/front_end/login/register_2.jsp"
 					+  "\n\n" + "YSM3C 敬上。";
-			
+			                                     
 			System.out.println(to);
 			System.out.println("................................");
 			System.out.println(subject);
