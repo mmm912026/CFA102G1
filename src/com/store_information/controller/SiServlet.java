@@ -2,12 +2,17 @@ package com.store_information.controller;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.consultation.model.ConsultDAO;
 import com.consultation.model.ConsultVO;
+import com.sec_product_images.model.SecProductImagesService;
+import com.sec_product_images.model.SecProductImagesVO;
+import com.sec_product_inform.model.ProductInformService;
+import com.sec_product_inform.model.ProductInformVO;
 import com.store_information.model.*;
 
 public class SiServlet extends HttpServlet {
@@ -152,14 +157,14 @@ public class SiServlet extends HttpServlet {
 				
 				String si_phone = req.getParameter("si_phone");
 				if (si_phone == null || si_phone.trim().length() == 0) {
-					errorMsgs.add("門市電話 不能為空");
+					errorMsgs.add("門市電話: 請勿空白");
 				} else if(!si_phone.trim().matches(numReg)){
 					errorMsgs.add("門市電話 格式錯誤");
 				}
 				
 				String si_email = req.getParameter("si_email");
 				if (si_email == null || si_email.trim().length() == 0) {
-					errorMsgs.add("Email 不能為空");
+					errorMsgs.add("Email: 請勿空白");
 				} else if (!si_email.trim().matches(emailReg)) {
 					errorMsgs.add("Email 格式須為 example@example.com");
 				}
@@ -237,14 +242,14 @@ public class SiServlet extends HttpServlet {
 
 				String si_phone = req.getParameter("si_phone");
 				if (si_phone == null || si_phone.trim().length() == 0) {
-					errorMsgs.add("門市電話 不能為空");
+					errorMsgs.add("門市電話: 請勿空白");
 				} else if(!si_phone.trim().matches(numReg)){
 					errorMsgs.add("門市電話 格式錯誤");
 				}
 
 				String si_email = req.getParameter("si_email");
 				if (si_email == null || si_email.trim().length() == 0) {
-					errorMsgs.add("Email 不能為空");
+					errorMsgs.add("Email: 請勿空白");
 				} else if (!si_email.trim().matches(emailReg)) {
 					errorMsgs.add("Email 格式須為 example@example.com");
 				}

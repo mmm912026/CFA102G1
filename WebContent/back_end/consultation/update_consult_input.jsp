@@ -113,7 +113,7 @@ th, td {
 							<div class="mb-3 row">
 								<label for="inputStaff_no" class="col-sm-2 col-form-label">員工編號:</label>
 								<div class="col-sm-10">
-									<input type="TEXT" class="form-control" id="inputStaff_no"
+									<input type="TEXT" readonly class="form-control-plaintext" id="inputStaff_no"
 										name="staff_no" value="<%=consultVO.getStaff_no()%>">
 								</div>
 							</div>

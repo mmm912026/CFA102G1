@@ -79,14 +79,14 @@ table {
 							商家資訊列表><a
 								href="<%=request.getContextPath()%>//back_end/store_information/select_page.jsp">商家資訊管理</a>
 						</h3>
-						<div class="position-relative">
-							<div class="position-absolute top-0 end-0">
-								<h3>
-									<a href='<%=request.getContextPath()%>/back_end/store_information/addSi.jsp'><button type="button"
-											class="btn btn-primary ">新增商家資訊</button></a>
-								</h3>
-							</div>
-						</div>
+<!-- 						<div class="position-relative"> -->
+<!-- 							<div class="position-absolute top-0 end-0"> -->
+<!-- 								<h3> -->
+<%-- 									<a href='<%=request.getContextPath()%>/back_end/store_information/addSi.jsp'><button type="button" --%>
+<!-- 											class="btn btn-primary ">新增商家資訊</button></a> -->
+<!-- 								</h3> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 					</div>
 					<div class="card-body">
 						<table class="table table-striped" id="table1">
