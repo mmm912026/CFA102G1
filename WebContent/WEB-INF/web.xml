@@ -28,7 +28,6 @@
   	<url-pattern>/back_end/login/login_success.jsp</url-pattern>
   	<url-pattern>/back_end/login/select_page.jsp</url-pattern>
   	<url-pattern>/back_end/login/select_page_member.jsp</url-pattern>
-  	<url-pattern>/back_end/login_out/*</url-pattern>
   	<url-pattern>/back_end/member/*</url-pattern>
   	<url-pattern>/back_end/staff/*</url-pattern>
   	<url-pattern>/back_end/appraisal_case/*</url-pattern>
