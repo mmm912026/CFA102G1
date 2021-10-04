@@ -39,7 +39,7 @@
      
 
         <!-- Start Navbar Area -->
-       <%@ include file="../front_include_page/member_head.jsp"%>
+       <%@ include file="../front_include_page/navbar.jsp"%>
         <!-- End Navbar Area -->
 
         <!-- Start Page Banner -->

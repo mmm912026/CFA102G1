@@ -123,12 +123,7 @@
                         </ul>
                     </li>                    
                     
-                    <li class="sidebar-item  ">
-                        <a href="application-email.html" class='sidebar-link'>
-                            <i class="bi bi-envelope-fill"></i>
-                            <span>維修案件管理</span>
-                        </a>
-                    </li>
+                    
                     
                     <li class="sidebar-item  ">
                         <a href="<%=request.getContextPath()%>/back_end/consultation/select_page.jsp" class='sidebar-link'>
