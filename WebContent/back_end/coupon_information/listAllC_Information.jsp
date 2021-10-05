@@ -92,7 +92,7 @@
 				<%@ include file="../back_include_page/page1.file" %> 
 				<c:forEach var="couponInformaionVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
-					<tr>
+					<tr ${(couponInformaionVO.ci_no==param.ci_no) ? 'bgcolor=#CCCCFF':'' }>
 						<td>${couponInformaionVO.ci_no }</td>
 						<td>${couponInformaionVO.ci_name }</td>
 						<td>${couponInformaionVO.ci_code }</td>

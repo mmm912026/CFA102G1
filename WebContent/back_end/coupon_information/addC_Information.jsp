@@ -4,7 +4,7 @@
 <%@ page import="com.coupon_information.model.*"%>
 
 <%
-	Coupon_InformationVO couponInformaionVO = (Coupon_InformationVO) request.getAttribute("couponInformaionVO");
+	Coupon_InformationVO couponInformationVO = (Coupon_InformationVO) request.getAttribute("couponInformationVO");
 %>
 <!DOCTYPE html>
 <html>
@@ -55,18 +55,15 @@
 				</ul>
 			</c:if>
 		
-			<FORM METHOD="post"
-				ACTION="<%= request.getContextPath()%>/back_end/coupon_information/coupon_information.do">
+			<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/coupon_information/coupon_information.do">
 				<table>
 					<tr>
 						<td>優惠券名稱:<font color=red><b>*</b></font></td>
-						<td><input type="text" name="ci_name" size="45"
-							value="<%=(couponInformaionVO == null) ? " " : couponInformaionVO.getCi_name()%>"></td>
+						<td><input type="text" name="ci_name" size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_name()%>"></td>
 					</tr>
 					<tr>
 						<td>編碼:<font color=red><b>*</b></font></td>
-						<td><input type="text" name="ci_code" size="45"
-							value="<%=(couponInformaionVO == null) ? " " : couponInformaionVO.getCi_code()%>"></td>
+						<td><input type="text" name="ci_code" size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_code()%>"></td>
 					</tr>
 					<tr>
 						<td>優惠券開始時間:<font color=red><b>*</b></font></td>
@@ -78,11 +75,11 @@
 					</tr>
 					<tr>
 						<td>優惠券促銷折扣:<font color=red><b>*</b></font></td>
-						<td><input type="text" name="discount"size="45"></td>
+						<td><input type="text" name="discount"size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getDiscount()%>"></td>
 					</tr>
 					<tr>
 						<td>優惠券內容:<font color=red><b>*</b></font></td>
-						<td><textarea rows="5" name="ci_content"></textarea></td>
+						<td><textarea rows="5" name="ci_content"><%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_content()%></textarea></td>
 					</tr>
 		
 				</table>

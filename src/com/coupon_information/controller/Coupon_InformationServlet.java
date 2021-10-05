@@ -246,6 +246,7 @@ public class Coupon_InformationServlet extends HttpServlet {
 				couponInformationVO.setCi_content(ci_content);
 				
 				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("couponInformationVO", couponInformationVO); 
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/back_end/coupon_information/addC_Information.jsp");
 					failureView.forward(req, res);
