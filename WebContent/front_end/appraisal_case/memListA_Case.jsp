@@ -25,7 +25,7 @@
 <%@ include file="../front_include_page/CSS_link.jsp"%>
 <!--*******************	End Include CSS File ******************* -->
 <meta charset="UTF-8">
-<title>YSM-3C 後台管理</title>
+<title>YSM3C - 二手租賃商城</title>
 <link rel="icon" type="image/png" href="../back_CSS_JS/assets/imgaes/logo/favicon.png">
 
 </head>
