@@ -115,6 +115,16 @@
 								<td>配送地址:</td>
 								<td><input type="text" name="aca_adrs" value="<%=appraisalCaseVO.getAca_adrs()%>" disabled></td>
 							</tr>
+							<tr>
+								<td>查看圖片</td>
+								<td>
+									<FORM METHOD="post"	ACTION="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do">
+										<input type="hidden"name="aca_no" value="${appraisalCaseVO.aca_no}">
+										<input type="hidden" name="action" value="imagesInformation">
+										<input type="button" value="查看圖片" class="btn btn-outline-secondary"onclick="pressesImg(${appraisalCaseVO.aca_no})">
+									</FORM>
+								</td>						
+							</tr>
 						</table>
 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do">
 							<button type="submit" value="修改" class="btn btn-outline-secondary" id="update">修改</button>
@@ -144,6 +154,9 @@
 			update.innerText = txt;
 			update.disabled = true;
 		}
+	}
+	function pressesImg(data){
+		window.open("<%= request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aca_no=" + data + "&action=imagesInformation","","height=600,width=900,left=65,top=157,resizable=yes,scrollbars=yes");
 	}
 </script>
 </html>
