@@ -12,7 +12,7 @@
                            <a href="<%=request.getContextPath()%>/front_end/coupon_information/coupon_information.jsp">
                             <span>
                                 <i class="flaticon-check"></i>
-                               		優惠卷好康看這裡~
+                               		優惠劵好康看這裡~
                             </span>
                            </a> 
                         </div>
