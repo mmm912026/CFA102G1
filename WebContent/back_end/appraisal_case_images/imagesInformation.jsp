@@ -4,6 +4,10 @@
 <%@ page import="com.appraisal_case_images.model.*" %>
 <%@ page import="com.appraisal_case.model.*" %>
 
+<%
+	Appraisal_CaseVO appraisalCaseVO = (Appraisal_CaseVO) request.getAttribute("appraisalCaseVO");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +22,7 @@
 
 
 </head>
-<body>
+<body onload="hiddenUpdate()">
 <section class="section">
 	<div class="card">
 		<div class="card-body">
@@ -35,6 +39,16 @@
 	<c:forEach var="appraisalCaseImagesVO" items="${appraisalCaseImagesVO}">
 		<tr>
 			<th>圖片編號:${appraisalCaseImagesVO.aci_no}</th>
+			<th><select size="1" name="aca_itm_mode" id="selectMode" hidden>
+					<option value="審核評估中" ${(appraisalCaseVO.aca_itm_mode=="審核評估中")?'selected':'' }>審核評估中
+					<option value="提供報價" ${(appraisalCaseVO.aca_itm_mode=="提供報價")?'selected':'' }>提供報價
+					<option value="提供成交價" ${(appraisalCaseVO.aca_itm_mode=="提供成交價")?'selected':'' }>提供成交價
+					<option value="已收取商品" ${(appraisalCaseVO.aca_itm_mode=="已收取商品")?'selected':'' }>已收取商品
+					<option value="確認付款" ${(appraisalCaseVO.aca_itm_mode=="確認付款")?'selected':'' }>確認付款
+					<option value="商品退回" ${(appraisalCaseVO.aca_itm_mode=="商品退回")?'selected':'' }>商品退回
+					<option value="完成案件" ${(appraisalCaseVO.aca_itm_mode=="完成案件")?'selected':'' }>完成案件
+					<option value="取消案件" ${(appraisalCaseVO.aca_itm_mode=="取消案件")?'selected':'' }>取消案件
+				</select></th>
 			<th>估價圖片</th>
 			<th><img width="120" height="120" src="<%=request.getContextPath()%>/back_end/appraisal_case_images/appraisal_case_images.do?aci_no=${appraisalCaseImagesVO.aci_no}&action=showIMG"></th>
 			<th>
@@ -88,6 +102,17 @@ function readURL(input){
       reader.readAsDataURL(input.files[i]);
     }
   }
+}
+</script>
+<script>
+function hiddenUpdate() {
+	var selectMode = document.getElementById("selectMode");
+	var input = document.getElementsByTagName("input");
+	for(var i = 0; i < input.length; i++){
+		if (selectMode[6].selected == true) {
+			input[i].disabled = true;
+		}
+	}
 }
 </script>
 </html>

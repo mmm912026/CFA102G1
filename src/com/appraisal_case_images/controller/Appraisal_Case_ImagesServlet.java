@@ -168,6 +168,11 @@ public class Appraisal_Case_ImagesServlet extends HttpServlet {
 				
 				req.setAttribute("appraisalCaseImagesVO", appraisalCaseImagesVO);
 				req.setAttribute("aca_no", aca_no);
+				
+				Appraisal_CaseService appraisalCaseSvc = new Appraisal_CaseService();
+				Appraisal_CaseVO  appraisalCaseVO = appraisalCaseSvc.getOneA_Case(aca_no);
+				req.setAttribute("appraisalCaseVO",appraisalCaseVO);
+				
 				String url = "/back_end/appraisal_case_images/imagesInformation.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
