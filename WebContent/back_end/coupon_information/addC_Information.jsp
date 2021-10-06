@@ -70,6 +70,10 @@
 						<td>優惠券促銷折扣:<font color=red><b>*</b></font></td>
 						<td><input type="text" name="discount"size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getDiscount()%>"></td>
 					</tr>
+					<tr>
+						<td>優惠券內容:<font color=red><b>*</b></font></td>
+						<td><textarea rows="5" name="ci_content"><%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_content()%></textarea></td>
+					</tr>
 				</table>
 				<br> 
 				<input type="hidden" name="action" value="insert"> 

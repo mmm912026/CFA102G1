@@ -75,7 +75,7 @@
 					</tr>
 					<tr>
 						<td>Àu´f¨é¤º®e:<font color=red><b>*</b></font></td>
-						<td><textarea rows="5" name="ci_content"><%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_content()%></textarea></td>
+						<td><textarea rows="5" name="ci_content"><%=couponInformationVO.getCi_content()%></textarea></td>
 					</tr>
 				</table>
 				<br> <input type="hidden" name="action" value="update"> 
