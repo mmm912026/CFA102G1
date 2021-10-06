@@ -6,8 +6,6 @@
 
 <%
 	Appraisal_CaseVO appraisalCaseVO = (Appraisal_CaseVO) request.getAttribute("appraisalCaseVO");
-	
-	Map<Integer, Integer> Quamap = (Map<Integer, Integer>) session.getAttribute("Quamap");
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 %>
 <!DOCTYPE html>
@@ -58,12 +56,12 @@
 							<h3>請填寫估價表單</h3>
 							<h5>打<font color=red><b>*</b></font>為必填</h5>
 <c:if test="${not empty errorMsgs}">
-	<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-			<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
 </c:if>
         <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back_end/appraisal_case/appraisal_case.do" enctype="multipart/form-data">
             <div class="mb-3">
@@ -115,9 +113,9 @@
                 </div>
             </div>
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg " id="submitButton" disabled>開始估價</button>
+	            <input type="hidden" name="action" value="addCase">
+	            <input type="submit" name="action" value="開始估價" class="btn btn-primary btn-lg" id="submitButton" disabled>
             </div>
-            <input type="hidden" name="action" value="addCase">
     </FORM>
 			</div>
 		</div>

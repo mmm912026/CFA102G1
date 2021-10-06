@@ -243,6 +243,10 @@ $(function(){
            for (var i = 0; i < cancelDate.length; i++) {
                 cancelDate[i].style.display = 'table-row';
            }
+           //select選項都變隱藏 限Chrome瀏覽器使用
+           for(var i = 0; i<option.length;i++){
+           	option[i].style.display = 'none';
+           }
                	selectMode[7].selected = true;
                 alert("估價案件已取消~");
             } else {
@@ -302,6 +306,10 @@ $(function(){
         	for (var i = 0; i < cancelDate.length; i++) {
             	cancelDate[i].style.display = 'table-row';
         	}
+            //select選項都變隱藏 限Chrome瀏覽器使用
+            for(var i = 0; i<option.length;i++){
+            	option[i].style.display = 'none';
+            }
     	}else if(selectMode[5].selected == true){
     		var cancelDate = document.querySelectorAll("#cancelDate");
             for (var i = 0; i < cancelDate.length; i++) {

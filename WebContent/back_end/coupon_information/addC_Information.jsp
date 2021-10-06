@@ -33,18 +33,11 @@
 		End Include sidebar File
 		******************* -->
 		<div id="main">
-
-
-			<table>
-				<tr>
-					<td><h3>優惠券資訊資料新增</h3></td>
-					<td><h4>
-							<a href="<%=request.getContextPath()%>/back_end/coupon_information/select_page.jsp">回首頁</a>
-						</h4></td>
-				</tr>
-			</table>
-		
-			<h3>資料新增:</h3>
+		<h3>優惠券資訊資料新增</h3>
+<section class="section">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title"><a href="<%=request.getContextPath()%>/back_end/coupon_information/select_page.jsp">回首頁</a></h3>
 		
 			<c:if test="${not empty errorMsgs}">
 				<font style="color: red">請修正以下錯誤:</font>
@@ -54,9 +47,9 @@
 					</c:forEach>
 				</ul>
 			</c:if>
-		
+			<div class="card-body">
 			<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/back_end/coupon_information/coupon_information.do">
-				<table>
+				<table class="table table-striped" id="table1">
 					<tr>
 						<td>優惠券名稱:<font color=red><b>*</b></font></td>
 						<td><input type="text" name="ci_name" size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_name()%>"></td>
@@ -77,17 +70,15 @@
 						<td>優惠券促銷折扣:<font color=red><b>*</b></font></td>
 						<td><input type="text" name="discount"size="45" value="<%=(couponInformationVO == null) ? "" : couponInformationVO.getDiscount()%>"></td>
 					</tr>
-					<tr>
-						<td>優惠券內容:<font color=red><b>*</b></font></td>
-						<td><textarea rows="5" name="ci_content"><%=(couponInformationVO == null) ? "" : couponInformationVO.getCi_content()%></textarea></td>
-					</tr>
-		
 				</table>
 				<br> 
 				<input type="hidden" name="action" value="insert"> 
 				<input type="submit" class="btn btn-secondary" value="送出新增">
 			</FORM>
-	
+					</div>
+					</div>
+					</div>
+					</section>
 			</div> <!--id="main"-->
 	</div> <!--id="app"-->
 	
