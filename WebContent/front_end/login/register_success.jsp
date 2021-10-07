@@ -40,7 +40,7 @@
      
 
         <!-- Start Navbar Area -->
-       <%@ include file="../front_include_page/member_head.jsp"%>
+       <%@ include file="../front_include_page/navbar.jsp"%>
         <!-- End Navbar Area -->
 
         <!-- Start Page Banner -->
@@ -67,9 +67,9 @@
 <div class="container">
 	<div class="row">
 		<div class="modalbox success col-sm-8 col-md-6 col-lg-5 center animate">
-			<div class="icon">
-				<span class="glyphicon glyphicon-ok"></span>
-			</div>
+<!-- 			<div class="icon"> -->
+<!-- 				<span class="glyphicon glyphicon-ok"></span> -->
+<!-- 			</div> -->
 			<!--/.icon-->
 			<h1>註冊成功!</h1>
 			<p>點擊下方按鈕立即轉跳
@@ -113,6 +113,12 @@
        <%@ include file="../front_include_page/JavaScript_Include.jsp"%>
    
     </body>
-    
+    <script>
+    $(document).ready(function() {
+		$('.redo').click(function() {
+			$('.success, .error').toggle();
+		});
+});
+    </script>
 
 </html>
