@@ -125,7 +125,16 @@
 		<td>密碼:</td>
 		<td><input type="TEXT" name="staff_password" size="45"	value="<%=staffVO.getStaff_password()%>" /></td>
 	</tr>
-    
+    <tr>
+		<td>狀態:</td>
+		<td><select name="staff_sta" >
+                     <option value="${staffVO.staff_sta}"> ${staffVO.staff_sta} </option>
+                      
+                     <option  value="停權">停權</option>
+                     <option value="正常">正常</option>
+                   </select></td>
+	
+	</tr>
 	
 	
 </table>>
