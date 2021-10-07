@@ -17,7 +17,8 @@
 	pageContext.setAttribute("list",list);
 	//取得結束/取消訂單
 	List<RentalOrderVO> listEndRo = list.stream()
-			.filter(e -> e.getRo_status().equals("結束")||e.getRo_status().equals("取消")||e.getRo_status().equals("結束-逾期未還"))
+			.filter(e -> e.getRo_status().equals("結束")||e.getRo_status().equals("取消")||e.getRo_status().equals("結束-逾期未還")
+			||e.getRo_status().equals("結束-商品毀損")||e.getRo_status().equals("結束-商品遺失"))
 			.collect(Collectors.toList());
 	pageContext.setAttribute("listEndRo",listEndRo);
 	//取得未付款訂單
